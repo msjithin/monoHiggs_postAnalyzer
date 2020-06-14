@@ -1,0 +1,21 @@
+x509userproxy = /tmp/x509up_u4548
+universe = vanilla
+Executable = Out_04-06-2020_17-05/Job_DYJetsToLL_M-10to50_TuneCP5_04.sh
+Notification         = never
+WhenToTransferOutput = On_Exit
+ShouldTransferFiles  = yes
+Requirements = (TARGET.UidDomain == "hep.wisc.edu" && TARGET.HAS_CMS_HDFS && OpSysAndVer == "CENTOS7" && TARGET.Arch == "X86_64" && (MY.RequiresSharedFS=!=true || TARGET.HasAFS_OSG) && (TARGET.OSG_major =!= undefined || TARGET.IS_GLIDEIN=?=true) && IsSlowSlot=!=true)
+on_exit_remove       = (ExitBySignal == FALSE && (ExitCode == 0 || ExitCode == 42 || NumJobStarts>3))
++IsFastQueueJob      = True
+getenv               = True
+request_memory       = 1992
+request_disk         = 2048000
+
+#OutputDestination = 
+#Initialdir = Out_DYJetsToLL_M-10to50_TuneCP5_04         
+Transfer_Input_Files = /nfs_scratch/jmadhusu/CMSSW_10_2_10/src/2017_skimm/mutau/analyzer/analyze_mutau , /nfs_scratch/jmadhusu/CMSSW_10_2_10/src/2017_skimm/mutau/analyzer/sf_files
+
+output               = Out_04-06-2020_17-05/$(Cluster)_$(Process)_DYJetsToLL_M-10to50_TuneCP5_04.out
+error                = Out_04-06-2020_17-05/$(Cluster)_$(Process)_DYJetsToLL_M-10to50_TuneCP5_04.err
+Log                  = Out_04-06-2020_17-05/$(Cluster)_$(Process)_DYJetsToLL_M-10to50_TuneCP5_04.log
+Queue

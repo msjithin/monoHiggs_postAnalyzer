@@ -1,0 +1,21 @@
+x509userproxy = /tmp/x509up_u4548
+universe = vanilla
+Executable = Out_08-06-2020_10-06/Job_WJetsToLNu_2J_Incl_04.sh
+Notification         = never
+WhenToTransferOutput = On_Exit
+ShouldTransferFiles  = yes
+Requirements = (TARGET.UidDomain == "hep.wisc.edu" && TARGET.HAS_CMS_HDFS && OpSysAndVer == "CENTOS7" && TARGET.Arch == "X86_64" && (MY.RequiresSharedFS=!=true || TARGET.HasAFS_OSG) && (TARGET.OSG_major =!= undefined || TARGET.IS_GLIDEIN=?=true) && IsSlowSlot=!=true)
+on_exit_remove       = (ExitBySignal == FALSE && (ExitCode == 0 || ExitCode == 42 || NumJobStarts>3))
++IsFastQueueJob      = True
+getenv               = True
+request_memory       = 1992
+request_disk         = 2048000
+
+#OutputDestination = 
+#Initialdir = Out_WJetsToLNu_2J_Incl_04         
+Transfer_Input_Files = /nfs_scratch/jmadhusu/CMSSW_10_2_10/src/2018_skim/mutau/analyzer/analyze_mutau, /nfs_scratch/jmadhusu/CMSSW_10_2_10/src/2018_skim/mutau/analyzer/sf_files
+
+output               = Out_08-06-2020_10-06/$(Cluster)_$(Process)_WJetsToLNu_2J_Incl_04.out
+error                = Out_08-06-2020_10-06/$(Cluster)_$(Process)_WJetsToLNu_2J_Incl_04.err
+Log                  = Out_08-06-2020_10-06/$(Cluster)_$(Process)_WJetsToLNu_2J_Incl_04.log
+Queue
