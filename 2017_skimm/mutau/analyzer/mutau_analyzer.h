@@ -64,7 +64,9 @@ public :
 
    double nMETFiltersPassed_fr, nPassedSkimmed_fr , nSingleTrgPassed_fr, nGoodMuonPassed_fr, nGoodTauPassed_fr, nGoodMuTauPassed_fr, nPassedThirdLepVeto_fr, nPassedBjetVeto_fr, nDeltaRPassed_fr;
    double nMETFiltersPassed, nPassedSkimmed, nSingleTrgPassed, nGoodMuonPassed, nGoodTauPassed, nGoodMuTauPassed, nPassedThirdLepVeto, nPassedBjetVeto, nDeltaRPassed;
-  
+   
+   double nMETFiltersPassed_dyll_fr, nPassedSkimmed_dyll_fr , nSingleTrgPassed_dyll_fr, nGoodMuonPassed_dyll_fr, nGoodTauPassed_dyll_fr, nGoodMuTauPassed_dyll_fr, nPassedThirdLepVeto_dyll_fr, nPassedBjetVeto_dyll_fr, nDeltaRPassed_dyll_fr;
+   double nMETFiltersPassed_dyll, nPassedSkimmed_dyll, nSingleTrgPassed_dyll, nGoodMuonPassed_dyll, nGoodTauPassed_dyll, nGoodMuTauPassed_dyll, nPassedThirdLepVeto_dyll, nPassedBjetVeto_dyll, nDeltaRPassed_dyll;
   //TFile *f_tauFR=new TFile("sf_files/tauFR_data.root");
   TFile *f_tauFR=new TFile("sf_files/tauFF_vvl_m.root");
   TGraph *h_tauFR_0=(TGraph*) f_tauFR->Get("hpt_dm0_tight_hpt_dm0_veryloose");
@@ -108,7 +110,8 @@ public :
   TGraph *h_taufesSF = (TGraph*) f_taufesSF->Get("fes");
   //if(debug)cout<<" sf files opened successfully..."<<endl;
   // Fixed size dimensions of array or collections stored in the TTree if any.
-
+  
+  
    // Declaration of leaf types
    Int_t           run;
    Long64_t        event;
@@ -426,6 +429,8 @@ public :
    vector<float>   *tau_byLooseDeepTau2017v2p1VSmu;
    vector<float>   *tau_byMediumDeepTau2017v2p1VSmu;
    vector<float>   *tau_byTightDeepTau2017v2p1VSmu;
+   vector<ULong64_t> *tauFiredTrgs;
+   vector<ULong64_t> *tauFiredL1Trgs;
    Float_t         genMET;
    Float_t         genMETPhi;
    UShort_t        metFilters;
@@ -800,6 +805,8 @@ public :
    TBranch        *b_tau_byLooseDeepTau2017v2p1VSmu;   //!
    TBranch        *b_tau_byMediumDeepTau2017v2p1VSmu;   //!
    TBranch        *b_tau_byTightDeepTau2017v2p1VSmu;   //!
+   TBranch        *b_tauFiredTrgs;   //!
+   TBranch        *b_tauFiredL1Trgs;   //!
    TBranch        *b_genMET;   //!
    TBranch        *b_genMETPhi;   //!
    TBranch        *b_metFilters;   //!
@@ -875,6 +882,7 @@ public :
    virtual vector<int> getMuCand(double pt, double eta);
    virtual vector<int> getTauCand(double pt, double eta);
    virtual vector<int> getAISRTauCand(double pt, double eta);
+   virtual vector<int> getMu2Cand(double muPtCut, double muEtaCut, int mu1Index);
    virtual vector<int> getJetCand();
    virtual int gen_matching();
    virtual int thirdLeptonVeto();
@@ -889,6 +897,7 @@ public :
    virtual bool passBjetVeto();
    virtual void fillHist( string histNumber, int muIndex, int tauIndex, float event_weight);
    virtual void fillHist( string histNumber, TLorentzVector muonP4, TLorentzVector tauP4, int muIndex, int tauIndex, float event_weight);
+   virtual void fillHist_dyll( string histNumber, int mu1Index, int mu2Index, int tauIndex, float event_weight);
    virtual vector<int> getGenMu();
    virtual float exponential(float x,float a,float b,float c);
    virtual double getFR(int tauIndex);
@@ -968,6 +977,9 @@ void mutau_analyzer::Init(TChain *tree, string _isMC_)
    // (once per file to be processed).
   nMETFiltersPassed_fr = nPassedSkimmed_fr = nSingleTrgPassed_fr = nGoodMuonPassed_fr = nGoodTauPassed_fr = nGoodMuTauPassed_fr = nPassedThirdLepVeto_fr = nPassedBjetVeto_fr = nDeltaRPassed_fr=0;
   nMETFiltersPassed= nPassedSkimmed= nSingleTrgPassed= nGoodMuonPassed= nGoodTauPassed= nGoodMuTauPassed= nPassedThirdLepVeto= nPassedBjetVeto= nDeltaRPassed=0;
+
+  nMETFiltersPassed_dyll_fr = nPassedSkimmed_dyll_fr = nSingleTrgPassed_dyll_fr = nGoodMuonPassed_dyll_fr = nGoodTauPassed_dyll_fr = nGoodMuTauPassed_dyll_fr = nPassedThirdLepVeto_dyll_fr = nPassedBjetVeto_dyll_fr = nDeltaRPassed_dyll_fr=0;
+  nMETFiltersPassed_dyll= nPassedSkimmed_dyll= nSingleTrgPassed_dyll= nGoodMuonPassed_dyll= nGoodTauPassed_dyll= nGoodMuTauPassed_dyll= nPassedThirdLepVeto_dyll= nPassedBjetVeto_dyll= nDeltaRPassed_dyll=0;
    
 
   TString isMC = TString(_isMC_);
@@ -1250,6 +1262,8 @@ void mutau_analyzer::Init(TChain *tree, string _isMC_)
    tau_byLooseDeepTau2017v2p1VSmu = 0;
    tau_byMediumDeepTau2017v2p1VSmu = 0;
    tau_byTightDeepTau2017v2p1VSmu = 0;
+   tauFiredTrgs = 0;
+   tauFiredL1Trgs = 0;
    pdf = 0;
    pdfSystWeight = 0;
    nPU = 0;
@@ -1637,6 +1651,9 @@ void mutau_analyzer::Init(TChain *tree, string _isMC_)
    fChain->SetBranchAddress("tau_byLooseDeepTau2017v2p1VSmu", &tau_byLooseDeepTau2017v2p1VSmu, &b_tau_byLooseDeepTau2017v2p1VSmu);
    fChain->SetBranchAddress("tau_byMediumDeepTau2017v2p1VSmu", &tau_byMediumDeepTau2017v2p1VSmu, &b_tau_byMediumDeepTau2017v2p1VSmu);
    fChain->SetBranchAddress("tau_byTightDeepTau2017v2p1VSmu", &tau_byTightDeepTau2017v2p1VSmu, &b_tau_byTightDeepTau2017v2p1VSmu);
+   fChain->SetBranchAddress("tauFiredTrgs", &tauFiredTrgs, &b_tauFiredTrgs);
+   fChain->SetBranchAddress("tauFiredL1Trgs", &tauFiredL1Trgs, &b_tauFiredL1Trgs);
+
    fChain->SetBranchAddress("metFilters", &metFilters, &b_metFilters);
    fChain->SetBranchAddress("caloMET", &caloMET, &b_caloMET);
    fChain->SetBranchAddress("caloMETPhi", &caloMETPhi, &b_caloMETPhi);

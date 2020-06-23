@@ -24,12 +24,12 @@ done
 
 outFile="outSkimmed_mt_dy.root"
 echo "dy sample analysis....."
-./analyze_mutau_updated /hdfs/store/user/jmadhusu/MC2018_Autumn18_monoHiggs_24Apr2020/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/crab_job_DY1JetsToLL/200424_080942/0000/ $outFile $nEvents 1000 2018_test MC
+./analyze_mutau_updated /hdfs/store/user/jmadhusu/MC2018_Autumn18_monoHiggs_09Jun2020/DY1JetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/crab_job_DY1JetsToLL/200610_213927/0000/ $outFile $nEvents 1000 2018_test MC
 
 echo "out put written to $outFile"
 outFile="outSkimmed_mt_data.root"
 echo "data sample analysis....."
-./analyze_mutau_updated /hdfs/store/user/jmadhusu/data2018_27Mar2020/SingleMuon/crab_job_SingleMuonA/200327_200147/0000/ $outFile $nEvents 1000 2018_test DATA
+./analyze_mutau_updated /hdfs/store/user/jmadhusu/data2018_09Jun2020/SingleMuon/crab_job_SingleMuonA/200609_122536/0000/ $outFile $nEvents 1000 2018_test DATA
 echo "out put written to $outFile"
 
 

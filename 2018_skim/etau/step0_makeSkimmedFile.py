@@ -1,7 +1,7 @@
 import os
 import re
 
-os.popen('ls -d /hdfs/store/user/jmadhusu/MC2018_Autumn18_monoHiggs_24Apr2020/*/*/*/* > mc_dir_list')
+os.popen('ls -d /hdfs/store/user/jmadhusu/MC2018_Autumn18_monoHiggs_09Jun2020/*/*/*/* > mc_dir_list')
 inputFile=open("mc_dir_list", "r")
 outFile = open("do_skim_et_mc.sh", "w")
 outFile.write("""
@@ -20,7 +20,7 @@ def replaceEnd(line):
     searchExp=line[-6:]
     sample = re.search('/crab_job_(.*)/20', line)
     sampleName = sample.group(1)
-    replaceExp = searchExp+"/ "+sampleName+"_"+searchExp[-2:]+".root -1 1000 2018_test MC "+sampleName+"_"+searchExp[-2:]+" $outDir"+" \n"
+    replaceExp = searchExp+"/ "+sampleName+"_"+searchExp[-2:]+".root -1 1000 2018 MC "+sampleName+"_"+searchExp[-2:]+" $outDir"+" \n"
     line = line.replace(searchExp,replaceExp)
     return line
 
@@ -41,7 +41,7 @@ in /nfs_scratch/ directory with required files
 """
 
 
-os.popen('ls -d /hdfs/store/user/jmadhusu/data2018_*/EGamma/*/*/* > data_dir_list')
+os.popen('ls -d /hdfs/store/user/jmadhusu/data2018_09Jun2020/EGamma/*/*/* > data_dir_list')
 inputFile=open("data_dir_list", "r")
 outFile = open("do_skim_et_data.sh", "w")
 outFile.write("""
@@ -60,7 +60,7 @@ def replaceEnd(line):
     searchExp=line[-6:]
     sample = re.search('/crab_job_(.*)/20', line)
     sampleName = sample.group(1)
-    replaceExp = searchExp+"/ "+sampleName+"_"+searchExp[-2:]+".root -1 1000 2018_test DATA "+sampleName+"_"+searchExp[-2:]+" $outDir"+" \n"
+    replaceExp = searchExp+"/ "+sampleName+"_"+searchExp[-2:]+".root -1 1000 2018 DATA "+sampleName+"_"+searchExp[-2:]+" $outDir"+" \n"
     line = line.replace(searchExp,replaceExp)
     return line
 

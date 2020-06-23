@@ -50,6 +50,10 @@ mkdir $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/TTToHadronic_TuneCP5_02.root TTToHadronic_TuneCP5_02.root -1 1000 2017 MC TTToHadronic_TuneCP5_02 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/TTToHadronic_TuneCP5_03.root TTToHadronic_TuneCP5_03.root -1 1000 2017 MC TTToHadronic_TuneCP5_03 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/TTToHadronic_TuneCP5_04.root TTToHadronic_TuneCP5_04.root -1 1000 2017 MC TTToHadronic_TuneCP5_04 $outDir
+./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/TTToHadronic_TuneCP5_05.root TTToHadronic_TuneCP5_05.root -1 1000 2017 MC TTToHadronic_TuneCP5_05 $outDir
+./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/TTToHadronic_TuneCP5_06.root TTToHadronic_TuneCP5_06.root -1 1000 2017 MC TTToHadronic_TuneCP5_06 $outDir
+./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/TTToHadronic_TuneCP5_07.root TTToHadronic_TuneCP5_07.root -1 1000 2017 MC TTToHadronic_TuneCP5_07 $outDir
+./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/TTToHadronic_TuneCP5_08.root TTToHadronic_TuneCP5_08.root -1 1000 2017 MC TTToHadronic_TuneCP5_08 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/TTToSemiLeptonic_TuneCP5_00.root TTToSemiLeptonic_TuneCP5_00.root -1 1000 2017 MC TTToSemiLeptonic_TuneCP5_00 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/TTToSemiLeptonic_TuneCP5_01.root TTToSemiLeptonic_TuneCP5_01.root -1 1000 2017 MC TTToSemiLeptonic_TuneCP5_01 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/TTToSemiLeptonic_TuneCP5_02.root TTToSemiLeptonic_TuneCP5_02.root -1 1000 2017 MC TTToSemiLeptonic_TuneCP5_02 $outDir
@@ -106,11 +110,13 @@ mkdir $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/ZZTo4L_TuneCP5_02.root ZZTo4L_TuneCP5_02.root -1 1000 2017 MC ZZTo4L_TuneCP5_02 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/ZZZ_TuneCP5_00.root ZZZ_TuneCP5_00.root -1 1000 2017 MC ZZZ_TuneCP5_00 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/ZZ_TuneCP5_00.root ZZ_TuneCP5_00.root -1 1000 2017 MC ZZ_TuneCP5_00 $outDir
-#./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/ggZH_HToTauTau_ZToLL_M125_00.root ggZH_HToTauTau_ZToLL_M125_00.root -1 1000 2017 MC ggZH_HToTauTau_ZToLL_M125_00 $outDir
+# ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/ggZH_HToTauTau_ZToLL_M125_00.root ggZH_HToTauTau_ZToLL_M125_00.root -1 1000 2017 MC ggZH_HToTauTau_ZToLL_M125_00 $outDir
 # ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/ggZH_HToTauTau_ZToNuNu_M125_00.root ggZH_HToTauTau_ZToNuNu_M125_00.root -1 1000 2017 MC ggZH_HToTauTau_ZToNuNu_M125_00 $outDir
 # ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/ttHToTauTau_M125_TuneCP5_00.root ttHToTauTau_M125_TuneCP5_00.root -1 1000 2017 MC ttHToTauTau_M125_TuneCP5_00 $outDir
 # ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/ttHToTauTau_M125_TuneCP5_01.root ttHToTauTau_M125_TuneCP5_01.root -1 1000 2017 MC ttHToTauTau_M125_TuneCP5_01 $outDir
 # ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/ttHToTauTau_M125_TuneCP5_02.root ttHToTauTau_M125_TuneCP5_02.root -1 1000 2017 MC ttHToTauTau_M125_TuneCP5_02 $outDir
+# ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/ttHToTauTau_M125_TuneCP5_03.root ttHToTauTau_M125_TuneCP5_03.root -1 1000 2017 MC ttHToTauTau_M125_TuneCP5_03 $outDir
+# ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/ttHToTauTau_M125_TuneCP5_04.root ttHToTauTau_M125_TuneCP5_04.root -1 1000 2017 MC ttHToTauTau_M125_TuneCP5_04 $outDir
 
 
 ###########################  DATA #########################
@@ -120,10 +126,14 @@ mkdir $outDir
 
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/SingleMuon_EraB_00.root SingleMuon_EraB_00.root -1 1000 2017 DATA SingleMuon_EraB_00 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/SingleMuon_EraB_01.root SingleMuon_EraB_01.root -1 1000 2017 DATA SingleMuon_EraB_01 $outDir
+./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/SingleMuon_EraB_02.root SingleMuon_EraB_02.root -1 1000 2017 DATA SingleMuon_EraB_02 $outDir
+./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/SingleMuon_EraB_03.root SingleMuon_EraB_03.root -1 1000 2017 DATA SingleMuon_EraB_03 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/SingleMuon_EraC_00.root SingleMuon_EraC_00.root -1 1000 2017 DATA SingleMuon_EraC_00 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/SingleMuon_EraC_01.root SingleMuon_EraC_01.root -1 1000 2017 DATA SingleMuon_EraC_01 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/SingleMuon_EraC_02.root SingleMuon_EraC_02.root -1 1000 2017 DATA SingleMuon_EraC_02 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/SingleMuon_EraC_03.root SingleMuon_EraC_03.root -1 1000 2017 DATA SingleMuon_EraC_03 $outDir
+./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/SingleMuon_EraC_04.root SingleMuon_EraC_04.root -1 1000 2017 DATA SingleMuon_EraC_04 $outDir
+./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/SingleMuon_EraC_05.root SingleMuon_EraC_05.root -1 1000 2017 DATA SingleMuon_EraC_05 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/SingleMuon_EraD_00.root SingleMuon_EraD_00.root -1 1000 2017 DATA SingleMuon_EraD_00 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/SingleMuon_EraD_01.root SingleMuon_EraD_01.root -1 1000 2017 DATA SingleMuon_EraD_01 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/SingleMuon_EraD_02.root SingleMuon_EraD_02.root -1 1000 2017 DATA SingleMuon_EraD_02 $outDir
@@ -131,8 +141,17 @@ mkdir $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/SingleMuon_EraE_01.root SingleMuon_EraE_01.root -1 1000 2017 DATA SingleMuon_EraE_01 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/SingleMuon_EraE_02.root SingleMuon_EraE_02.root -1 1000 2017 DATA SingleMuon_EraE_02 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/SingleMuon_EraE_03.root SingleMuon_EraE_03.root -1 1000 2017 DATA SingleMuon_EraE_03 $outDir
+./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/SingleMuon_EraE_04.root SingleMuon_EraE_04.root -1 1000 2017 DATA SingleMuon_EraE_04 $outDir
+./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/SingleMuon_EraE_05.root SingleMuon_EraE_05.root -1 1000 2017 DATA SingleMuon_EraE_05 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/SingleMuon_EraF_00.root SingleMuon_EraF_00.root -1 1000 2017 DATA SingleMuon_EraF_00 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/SingleMuon_EraF_01.root SingleMuon_EraF_01.root -1 1000 2017 DATA SingleMuon_EraF_01 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/SingleMuon_EraF_02.root SingleMuon_EraF_02.root -1 1000 2017 DATA SingleMuon_EraF_02 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/SingleMuon_EraF_03.root SingleMuon_EraF_03.root -1 1000 2017 DATA SingleMuon_EraF_03 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/SingleMuon_EraF_04.root SingleMuon_EraF_04.root -1 1000 2017 DATA SingleMuon_EraF_04 $outDir
+./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/SingleMuon_EraF_05.root SingleMuon_EraF_05.root -1 1000 2017 DATA SingleMuon_EraF_05 $outDir
+./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/SingleMuon_EraF_06.root SingleMuon_EraF_06.root -1 1000 2017 DATA SingleMuon_EraF_06 $outDir
+./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/SingleMuon_EraF_07.root SingleMuon_EraF_07.root -1 1000 2017 DATA SingleMuon_EraF_07 $outDir
+./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/SingleMuon_EraF_08.root SingleMuon_EraF_08.root -1 1000 2017 DATA SingleMuon_EraF_08 $outDir
+
+
+condor_q

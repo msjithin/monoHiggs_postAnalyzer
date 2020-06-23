@@ -130,8 +130,22 @@ void skimm_mt_2017::Loop(Long64_t maxEvents, int reportEvery, string SampleName,
 	   //fillOutTree();
 	   newtree->Fill();
 	 }
-
-
+       
+       // if(HLTEleMuX>>21&1==1 )
+       // 	 {
+       // 	   cout<<" "<<endl;
+       // 	   cout<<"HLT_IsoMu27_v"<<"  event:"<<jentry<<endl;
+       // 	   for(int imu=0; imu<nMu; imu++)
+       // 	     {
+       // 	       cout<<"  muon:"<<imu<<endl;
+       // 	       for(int i=0; i<56; i++)
+       // 		 {
+       // 		   if(muFiredTrgs->at(imu)>>i&1==1)
+       // 		     cout<<"  filter: "<<i<<" ";
+       // 		 }
+       // 	     }
+       // 	 }
+       cout<<"run"<<run<<endl;
        report_test = nentriesToCheck/20;
        while (report_test>10)
 	 {

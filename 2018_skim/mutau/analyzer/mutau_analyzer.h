@@ -414,6 +414,8 @@ public :
    vector<float>   *tau_byLooseDeepTau2017v2p1VSmu;
    vector<float>   *tau_byMediumDeepTau2017v2p1VSmu;
    vector<float>   *tau_byTightDeepTau2017v2p1VSmu;
+   vector<ULong64_t> *tauFiredTrgs;
+   vector<ULong64_t> *tauFiredL1Trgs;
    Float_t         genMET;
    Float_t         genMETPhi;
    UShort_t        metFilters;
@@ -787,6 +789,8 @@ public :
    TBranch        *b_tau_byLooseDeepTau2017v2p1VSmu;   //!
    TBranch        *b_tau_byMediumDeepTau2017v2p1VSmu;   //!
    TBranch        *b_tau_byTightDeepTau2017v2p1VSmu;   //!
+   TBranch        *b_tauFiredTrgs;   //!
+   TBranch        *b_tauFiredL1Trgs;   //!
    TBranch        *b_genMET;   //!
    TBranch        *b_genMETPhi;   //!
    TBranch        *b_metFilters;   //!
@@ -1244,6 +1248,8 @@ void mutau_analyzer::Init(TChain *tree, string _isMC_)
    tau_byLooseDeepTau2017v2p1VSmu = 0;
    tau_byMediumDeepTau2017v2p1VSmu = 0;
    tau_byTightDeepTau2017v2p1VSmu = 0;
+   tauFiredTrgs = 0;
+   tauFiredL1Trgs = 0;
    pdf = 0;
    pdfSystWeight = 0;
    nPU = 0;
@@ -1595,6 +1601,8 @@ void mutau_analyzer::Init(TChain *tree, string _isMC_)
    fChain->SetBranchAddress("tau_byLooseDeepTau2017v2p1VSmu", &tau_byLooseDeepTau2017v2p1VSmu, &b_tau_byLooseDeepTau2017v2p1VSmu);
    fChain->SetBranchAddress("tau_byMediumDeepTau2017v2p1VSmu", &tau_byMediumDeepTau2017v2p1VSmu, &b_tau_byMediumDeepTau2017v2p1VSmu);
    fChain->SetBranchAddress("tau_byTightDeepTau2017v2p1VSmu", &tau_byTightDeepTau2017v2p1VSmu, &b_tau_byTightDeepTau2017v2p1VSmu);
+   fChain->SetBranchAddress("tauFiredTrgs", &tauFiredTrgs, &b_tauFiredTrgs);
+   fChain->SetBranchAddress("tauFiredL1Trgs", &tauFiredL1Trgs, &b_tauFiredL1Trgs);
    if(isMC=="MC"){ 
    fChain->SetBranchAddress("genMET", &genMET, &b_genMET);
    fChain->SetBranchAddress("genMETPhi", &genMETPhi, &b_genMETPhi);

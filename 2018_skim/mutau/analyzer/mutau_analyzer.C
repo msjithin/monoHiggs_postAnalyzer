@@ -339,6 +339,12 @@ void mutau_analyzer::Loop(Long64_t maxEvents, int reportEvery, string SampleName
        else event_weight=1.0;
        int leading_muon = -1; float leading_mPt=0;
        int leading_tau = -1;  float leading_tPt=0;
+       
+
+       if(HLTEleMuX>>21&1 == 1) cout<<"HLT_IsoMu27_v passed"<< endl;
+       if(HLTTau>>13&1==1)cout<<"HLTTau>>13&1"<<endl;
+       if(HLTTau>>15&1==1)cout<<"HLTTau>>15&1"<<endl;
+
        ////// reco selection begin
        if(sample.Contains("DYJetsToLL_Incl_HT_") || sample.Contains("WJetsToLNu_Incl_HT_"))
 	 {

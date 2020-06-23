@@ -44,7 +44,7 @@
 #include "TRandom3.h"
 #include <TLorentzVector.h>
 #include "makeHisto.h" 
-#include "/afs/hep.wisc.edu/home/ms/monoHiggs_2018_wDnn/CMSSW_10_2_18/src/post_analysis/mutau/skimm_submit/skimmed/sf_files/roCorr_Run2_v3/RoccoR.cc"
+#include "sf_files/roCorr_Run2_v3/RoccoR.cc"
 
 using namespace std;
 using std::vector;

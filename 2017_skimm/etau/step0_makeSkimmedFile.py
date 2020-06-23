@@ -1,7 +1,7 @@
 import os
 import re
 
-os.popen('ls -d /hdfs/store/user/jmadhusu/MC2017_12Apr2018_monoHiggs_26April2020/*/*/*/* > mc_dir_list')
+os.popen('ls -d /hdfs/store/user/jmadhusu/MC2017_12Apr2018_monoHiggs_09Jun2020/*/*/*/* > mc_dir_list')
 inputFile=open("mc_dir_list", "r")
 outFile = open("do_skim_et_mc.sh", "w")
 outFile.write("""
@@ -41,7 +41,7 @@ in /nfs_scratch/ directory with required files
 """
 
 
-os.popen('ls -d /hdfs/store/user/jmadhusu/data2017_31Mar2018_26April2020/SingleElectron/*/*/* > data_dir_list')
+os.popen('ls -d /hdfs/store/user/jmadhusu/data2017_31Mar2018_09Jun2020/SingleElectron/*/*/* > data_dir_list')
 inputFile=open("data_dir_list", "r")
 outFile = open("do_skim_et_data.sh", "w")
 outFile.write("""

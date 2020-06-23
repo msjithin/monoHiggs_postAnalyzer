@@ -191,10 +191,9 @@ bool skimm_et_2018::skimming_Htt(){
 
     if(fabs(eleDz->at(iEle)) < 0.2 && 
        fabs(eleD0->at(iEle))<0.045 && 
-       elePt->at(iEle) > 24      &&
+       elePt->at(iEle) > 19.5      &&
        fabs(eleEta->at(iEle))< 2.5 &&
-       relMuIso < 0.1            &&
-       eleIDbit->at(iEle)>>8&1==1  
+       ( eleIDbit->at(iEle)>>0&1==1  || eleIDbit->at(iEle)>>6&1==1  || eleIDbit->at(iEle)>>9&1==1  || relMuIso<0.30 )   
        ) {
       eleFound=true;
       tmpEleCand.push_back(iEle);

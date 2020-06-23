@@ -186,11 +186,13 @@ bool skimm_mt_2018::skimming_Htt(){
   std::vector<int> tmpTauCand;    tmpTauCand.clear();
 
   for(int iMu=0; iMu<nMu;iMu++){
+    float relMuIso = ( muPFChIso->at(iMu) + max( muPFNeuIso->at(iMu) + muPFPhoIso->at(iMu) - 0.5 *muPFPUIso->at(iMu) , 0.0 )) / (muPt->at(iMu));
+    
     if(fabs(muDz->at(iMu)) < 0.2 && 
        fabs(muD0->at(iMu))<0.045 && 
        muPt->at(iMu) > 19.5      &&
        fabs(muEta->at(iMu))< 2.4 &&
-       muIDbit->at(iMu)>>8&1==1  
+       ( relMuIso < 0.3 ||  muIDbit->at(iMu)>>0&1==1 || muIDbit->at(iMu)>>6&1==1 || muIDbit->at(iMu)>>16&1==1  )  
        ) {
       muFound=true;
       tmpMuCand.push_back(iMu);
