@@ -50,6 +50,10 @@ mkdir $outDir
 ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/TTToHadronic_TuneCP5_02.root TTToHadronic_TuneCP5_02.root -1 1000 2017 MC TTToHadronic_TuneCP5_02 $outDir
 ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/TTToHadronic_TuneCP5_03.root TTToHadronic_TuneCP5_03.root -1 1000 2017 MC TTToHadronic_TuneCP5_03 $outDir
 ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/TTToHadronic_TuneCP5_04.root TTToHadronic_TuneCP5_04.root -1 1000 2017 MC TTToHadronic_TuneCP5_04 $outDir
+./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/TTToHadronic_TuneCP5_05.root TTToHadronic_TuneCP5_05.root -1 1000 2017 MC TTToHadronic_TuneCP5_05 $outDir
+./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/TTToHadronic_TuneCP5_06.root TTToHadronic_TuneCP5_06.root -1 1000 2017 MC TTToHadronic_TuneCP5_06 $outDir
+./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/TTToHadronic_TuneCP5_07.root TTToHadronic_TuneCP5_07.root -1 1000 2017 MC TTToHadronic_TuneCP5_07 $outDir
+./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/TTToHadronic_TuneCP5_08.root TTToHadronic_TuneCP5_08.root -1 1000 2017 MC TTToHadronic_TuneCP5_08 $outDir
 ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/TTToSemiLeptonic_TuneCP5_00.root TTToSemiLeptonic_TuneCP5_00.root -1 1000 2017 MC TTToSemiLeptonic_TuneCP5_00 $outDir
 ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/TTToSemiLeptonic_TuneCP5_01.root TTToSemiLeptonic_TuneCP5_01.root -1 1000 2017 MC TTToSemiLeptonic_TuneCP5_01 $outDir
 ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/TTToSemiLeptonic_TuneCP5_02.root TTToSemiLeptonic_TuneCP5_02.root -1 1000 2017 MC TTToSemiLeptonic_TuneCP5_02 $outDir
@@ -111,6 +115,8 @@ mkdir $outDir
 # ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/ttHToTauTau_M125_TuneCP5_00.root ttHToTauTau_M125_TuneCP5_00.root -1 1000 2017 MC ttHToTauTau_M125_TuneCP5_00 $outDir
 # ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/ttHToTauTau_M125_TuneCP5_01.root ttHToTauTau_M125_TuneCP5_01.root -1 1000 2017 MC ttHToTauTau_M125_TuneCP5_01 $outDir
 # ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/ttHToTauTau_M125_TuneCP5_02.root ttHToTauTau_M125_TuneCP5_02.root -1 1000 2017 MC ttHToTauTau_M125_TuneCP5_02 $outDir
+# ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/ttHToTauTau_M125_TuneCP5_03.root ttHToTauTau_M125_TuneCP5_03.root -1 1000 2017 MC ttHToTauTau_M125_TuneCP5_03 $outDir
+# ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/ttHToTauTau_M125_TuneCP5_04.root ttHToTauTau_M125_TuneCP5_04.root -1 1000 2017 MC ttHToTauTau_M125_TuneCP5_04 $outDir
 
 
 ###########################  DATA #########################
@@ -124,6 +130,7 @@ mkdir $outDir
 ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/SingleElectron_EraC_01.root SingleElectron_EraC_01.root -1 1000 2017 DATA SingleElectron_EraC_01 $outDir
 ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/SingleElectron_EraC_02.root SingleElectron_EraC_02.root -1 1000 2017 DATA SingleElectron_EraC_02 $outDir
 ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/SingleElectron_EraC_03.root SingleElectron_EraC_03.root -1 1000 2017 DATA SingleElectron_EraC_03 $outDir
+./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/SingleElectron_EraC_04.root SingleElectron_EraC_04.root -1 1000 2017 DATA SingleElectron_EraC_04 $outDir
 ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/SingleElectron_EraD_00.root SingleElectron_EraD_00.root -1 1000 2017 DATA SingleElectron_EraD_00 $outDir
 ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/SingleElectron_EraD_01.root SingleElectron_EraD_01.root -1 1000 2017 DATA SingleElectron_EraD_01 $outDir
 ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/SingleElectron_EraD_02.root SingleElectron_EraD_02.root -1 1000 2017 DATA SingleElectron_EraD_02 $outDir
@@ -131,8 +138,10 @@ mkdir $outDir
 ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/SingleElectron_EraE_01.root SingleElectron_EraE_01.root -1 1000 2017 DATA SingleElectron_EraE_01 $outDir
 ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/SingleElectron_EraE_02.root SingleElectron_EraE_02.root -1 1000 2017 DATA SingleElectron_EraE_02 $outDir
 ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/SingleElectron_EraE_03.root SingleElectron_EraE_03.root -1 1000 2017 DATA SingleElectron_EraE_03 $outDir
+./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/SingleElectron_EraE_04.root SingleElectron_EraE_04.root -1 1000 2017 DATA SingleElectron_EraE_04 $outDir
 ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/SingleElectron_EraF_00.root SingleElectron_EraF_00.root -1 1000 2017 DATA SingleElectron_EraF_00 $outDir
 ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/SingleElectron_EraF_01.root SingleElectron_EraF_01.root -1 1000 2017 DATA SingleElectron_EraF_01 $outDir
 ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/SingleElectron_EraF_02.root SingleElectron_EraF_02.root -1 1000 2017 DATA SingleElectron_EraF_02 $outDir
 ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/SingleElectron_EraF_03.root SingleElectron_EraF_03.root -1 1000 2017 DATA SingleElectron_EraF_03 $outDir
 ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/SingleElectron_EraF_04.root SingleElectron_EraF_04.root -1 1000 2017 DATA SingleElectron_EraF_04 $outDir
+./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/SingleElectron_EraF_05.root SingleElectron_EraF_05.root -1 1000 2017 DATA SingleElectron_EraF_05 $outDir

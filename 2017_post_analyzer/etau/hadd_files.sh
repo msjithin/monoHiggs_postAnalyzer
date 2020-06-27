@@ -15,11 +15,8 @@ else
  mkdir $outDIR
 fi
 hadd $outDIR/DY1JetsToLL_M-50_TuneCP5_final.root rootFiles/DY1JetsToLL_M-50_TuneCP5_00.root rootFiles/DY1JetsToLL_M-50_TuneCP5_01.root rootFiles/DY1JetsToLL_M-50_TuneCP5_02.root rootFiles/DY1JetsToLL_M-50_TuneCP5_03.root rootFiles/DY1JetsToLL_M-50_TuneCP5_04.root 
-
 hadd $outDIR/DY2JetsToLL_M-50_TuneCP5_final.root rootFiles/DY2JetsToLL_M-50_TuneCP5_00.root rootFiles/DY2JetsToLL_M-50_TuneCP5_01.root 
-
 hadd $outDIR/DY3JetsToLL_M-50_TuneCP5_ext1_final.root rootFiles/DY3JetsToLL_M-50_TuneCP5_ext1_00.root rootFiles/DY3JetsToLL_M-50_TuneCP5_v1_00.root 
-
 hadd $outDIR/DY4JetsToLL_M-50_TuneCP5_final.root rootFiles/DY4JetsToLL_M-50_TuneCP5_00.root 
 
 hadd $outDIR/DYJetsToLL_M-10to50_TuneCP5_final.root rootFiles/DYJetsToLL_M-10to50_TuneCP5_00.root rootFiles/DYJetsToLL_M-10to50_TuneCP5_01.root rootFiles/DYJetsToLL_M-10to50_TuneCP5_02.root rootFiles/DYJetsToLL_M-10to50_TuneCP5_03.root rootFiles/DYJetsToLL_M-10to50_TuneCP5_04.root 
@@ -35,16 +32,13 @@ hadd $outDIR/ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_final.root rootFile
 hadd $outDIR/ST_t-channel_top_4f_inclusiveDecays_TuneCP5_final.root rootFiles/ST_t-channel_top_4f_inclusiveDecays_TuneCP5_00.root 
 hadd $outDIR/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_final.root rootFiles/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_00.root 
 hadd $outDIR/ST_tW_top_5f_inclusiveDecays_TuneCP5_final.root rootFiles/ST_tW_top_5f_inclusiveDecays_TuneCP5_00.root 
-
-
 hadd $outDIR/SingleElectron_EraB_final.root rootFiles/SingleElectron_EraB_00.root rootFiles/SingleElectron_EraB_01.root 
-hadd $outDIR/SingleElectron_EraC_final.root rootFiles/SingleElectron_EraC_00.root rootFiles/SingleElectron_EraC_01.root rootFiles/SingleElectron_EraC_02.root rootFiles/SingleElectron_EraC_03.root 
+hadd $outDIR/SingleElectron_EraC_final.root rootFiles/SingleElectron_EraC_00.root rootFiles/SingleElectron_EraC_01.root rootFiles/SingleElectron_EraC_02.root rootFiles/SingleElectron_EraC_03.root rootFiles/SingleElectron_EraC_04.root 
 hadd $outDIR/SingleElectron_EraD_final.root rootFiles/SingleElectron_EraD_00.root rootFiles/SingleElectron_EraD_01.root rootFiles/SingleElectron_EraD_02.root 
-hadd $outDIR/SingleElectron_EraE_final.root rootFiles/SingleElectron_EraE_00.root rootFiles/SingleElectron_EraE_01.root rootFiles/SingleElectron_EraE_02.root rootFiles/SingleElectron_EraE_03.root 
-hadd $outDIR/SingleElectron_EraF_final.root rootFiles/SingleElectron_EraF_00.root rootFiles/SingleElectron_EraF_01.root rootFiles/SingleElectron_EraF_02.root rootFiles/SingleElectron_EraF_03.root rootFiles/SingleElectron_EraF_04.root 
-
+hadd $outDIR/SingleElectron_EraE_final.root rootFiles/SingleElectron_EraE_00.root rootFiles/SingleElectron_EraE_01.root rootFiles/SingleElectron_EraE_02.root rootFiles/SingleElectron_EraE_03.root rootFiles/SingleElectron_EraE_04.root 
+hadd $outDIR/SingleElectron_EraF_final.root rootFiles/SingleElectron_EraF_00.root rootFiles/SingleElectron_EraF_01.root rootFiles/SingleElectron_EraF_02.root rootFiles/SingleElectron_EraF_03.root rootFiles/SingleElectron_EraF_04.root rootFiles/SingleElectron_EraF_05.root 
 hadd $outDIR/TTTo2L2Nu_TuneCP5_final.root rootFiles/TTTo2L2Nu_TuneCP5_00.root 
-hadd $outDIR/TTToHadronic_TuneCP5_final.root rootFiles/TTToHadronic_TuneCP5_00.root rootFiles/TTToHadronic_TuneCP5_01.root rootFiles/TTToHadronic_TuneCP5_02.root rootFiles/TTToHadronic_TuneCP5_03.root rootFiles/TTToHadronic_TuneCP5_04.root 
+hadd $outDIR/TTToHadronic_TuneCP5_final.root rootFiles/TTToHadronic_TuneCP5_00.root rootFiles/TTToHadronic_TuneCP5_01.root rootFiles/TTToHadronic_TuneCP5_02.root rootFiles/TTToHadronic_TuneCP5_03.root rootFiles/TTToHadronic_TuneCP5_04.root rootFiles/TTToHadronic_TuneCP5_05.root rootFiles/TTToHadronic_TuneCP5_06.root rootFiles/TTToHadronic_TuneCP5_07.root rootFiles/TTToHadronic_TuneCP5_08.root 
 hadd $outDIR/TTToSemiLeptonic_TuneCP5_final.root rootFiles/TTToSemiLeptonic_TuneCP5_00.root rootFiles/TTToSemiLeptonic_TuneCP5_01.root rootFiles/TTToSemiLeptonic_TuneCP5_02.root rootFiles/TTToSemiLeptonic_TuneCP5_03.root rootFiles/TTToSemiLeptonic_TuneCP5_04.root 
 hadd $outDIR/VBFHToTauTau_M125_final.root rootFiles/VBFHToTauTau_M125_00.root 
 hadd $outDIR/VBFHToWWTo2L2Nu_M125_final.root rootFiles/VBFHToWWTo2L2Nu_M125_00.root 

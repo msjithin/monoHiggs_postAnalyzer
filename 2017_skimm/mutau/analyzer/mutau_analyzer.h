@@ -68,11 +68,11 @@ public :
    double nMETFiltersPassed_dyll_fr, nPassedSkimmed_dyll_fr , nSingleTrgPassed_dyll_fr, nGoodMuonPassed_dyll_fr, nGoodTauPassed_dyll_fr, nGoodMuTauPassed_dyll_fr, nPassedThirdLepVeto_dyll_fr, nPassedBjetVeto_dyll_fr, nDeltaRPassed_dyll_fr;
    double nMETFiltersPassed_dyll, nPassedSkimmed_dyll, nSingleTrgPassed_dyll, nGoodMuonPassed_dyll, nGoodTauPassed_dyll, nGoodMuTauPassed_dyll, nPassedThirdLepVeto_dyll, nPassedBjetVeto_dyll, nDeltaRPassed_dyll;
   //TFile *f_tauFR=new TFile("sf_files/tauFR_data.root");
-  TFile *f_tauFR=new TFile("sf_files/tauFF_vvl_m.root");
-  TGraph *h_tauFR_0=(TGraph*) f_tauFR->Get("hpt_dm0_tight_hpt_dm0_veryloose");
-  TGraph *h_tauFR_1=(TGraph*) f_tauFR->Get("hpt_dm1_tight_hpt_dm1_veryloose");
-  TGraph *h_tauFR_10=(TGraph*) f_tauFR->Get("hpt_dm10_tight_hpt_dm10_veryloose");
-  TGraph *h_tauFR_11=(TGraph*) f_tauFR->Get("hpt_dm11_tight_hpt_dm11_veryloose");
+   TFile *f_tauFR=new TFile("sf_files/tauFF_vvvl_m.root");
+   TGraph *h_tauFR_0=(TGraph*) f_tauFR->Get("hpt_dm0_tight_hpt_dm0_veryloose");
+   TGraph *h_tauFR_1=(TGraph*) f_tauFR->Get("hpt_dm1_tight_hpt_dm1_veryloose");
+   TGraph *h_tauFR_10=(TGraph*) f_tauFR->Get("hpt_dm10_tight_hpt_dm10_veryloose");
+   TGraph *h_tauFR_11=(TGraph*) f_tauFR->Get("hpt_dm11_tight_hpt_dm11_veryloose");
  
   //if(debug)cout<<" setting up other files ..."<<endl;
   TFile *f_pileup = new TFile("sf_files/RootFiles/pileup/PU_Central.root");
@@ -91,7 +91,7 @@ public :
   
   TFile *f_tauidSF = new TFile("sf_files/TauIDSFs/data/TauID_SF_dm_DeepTau2017v2p1VSjet_2017ReReco.root");
   TH1F *h_tauidSF_m = (TH1F*)f_tauidSF->Get("Medium");
-  TH1F *h_tauidSF_vvvl = (TH1F*)f_tauidSF->Get("VVLoose");
+  TH1F *h_tauidSF_vvvl = (TH1F*)f_tauidSF->Get("VVVLoose");
   
   /* TFile *f_tauidSF = new TFile("sf_files/TauIDSFs/data/TauID_SF_pt_DeepTau2017v2p1VSjet_2017ReReco.root"); */
   /* TF1 *fn_tauIDSF_m = (TF1*) f_tauidSF->Get("Medium_cent"); */
@@ -883,7 +883,7 @@ public :
    virtual vector<int> getTauCand(double pt, double eta);
    virtual vector<int> getAISRTauCand(double pt, double eta);
    virtual vector<int> getMu2Cand(double muPtCut, double muEtaCut, int mu1Index);
-   virtual vector<int> getJetCand();
+   virtual vector<int> getJetCand(int muIndex, int tauIndex);
    virtual int gen_matching();
    virtual int thirdLeptonVeto();
    virtual double dR(int mu_index, int tau_index);
@@ -892,6 +892,7 @@ public :
    virtual float TotTMass_F(TLorentzVector a, TLorentzVector b, TLorentzVector met);   
    virtual float VisMass_F(TLorentzVector a, TLorentzVector b);
    virtual float pTvecsum_F(float pt1, float pt2, float phi1, float phi2);
+   virtual float pTvecsum_F(TLorentzVector a, TLorentzVector b, TLorentzVector met);
    //   virtual bool electron_pass(int pho_index, float elePtCut);
    //virtual bool relIso(int ele_index);
    virtual bool passBjetVeto();
@@ -899,11 +900,12 @@ public :
    virtual void fillHist( string histNumber, TLorentzVector muonP4, TLorentzVector tauP4, int muIndex, int tauIndex, float event_weight);
    virtual void fillHist_dyll( string histNumber, int mu1Index, int mu2Index, int tauIndex, float event_weight);
    virtual vector<int> getGenMu();
+   virtual bool hasGenTau();
    virtual float exponential(float x,float a,float b,float c);
    virtual double getFR(int tauIndex);
    virtual double getScaleFactors( int muIndex , int tauIndex,  bool fakeBkg , bool isMC, bool debug);
    virtual bool noisyJet2017();
-
+   virtual bool MatchTriggerFilter(int muIndex, int tauIndex);
 
 };
 
@@ -981,7 +983,7 @@ void mutau_analyzer::Init(TChain *tree, string _isMC_)
   nMETFiltersPassed_dyll_fr = nPassedSkimmed_dyll_fr = nSingleTrgPassed_dyll_fr = nGoodMuonPassed_dyll_fr = nGoodTauPassed_dyll_fr = nGoodMuTauPassed_dyll_fr = nPassedThirdLepVeto_dyll_fr = nPassedBjetVeto_dyll_fr = nDeltaRPassed_dyll_fr=0;
   nMETFiltersPassed_dyll= nPassedSkimmed_dyll= nSingleTrgPassed_dyll= nGoodMuonPassed_dyll= nGoodTauPassed_dyll= nGoodMuTauPassed_dyll= nPassedThirdLepVeto_dyll= nPassedBjetVeto_dyll= nDeltaRPassed_dyll=0;
    
-
+  
   TString isMC = TString(_isMC_);
   //cout<<"from Init "<<isMC<<endl;
    // Set object pointer

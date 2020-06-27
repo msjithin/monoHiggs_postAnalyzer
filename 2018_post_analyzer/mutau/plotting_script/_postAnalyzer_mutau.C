@@ -47,14 +47,21 @@ Double_t Luminosity = 59700.0;//Lumi for inclusive
 bool debugOn=false;
 
 /////        add the name of histograms to be created     
-std::vector<string>  plotList = {  "cutflow_n","cutflow_n_fr",
-  "muPt_5", "muEta_5", "muPhi_5", "muDz_5", "muD0_5", "muonID_5", "relMuIso_5", "muCharge_5", "tauPt_5", "tauEta_5", "tauPhi_5", "tauIso_5", "tauDecayMode_5", "tauCharge_5", "tauAntiEle_5", "tauAntiMu_5" , "deltaR_5", "higgsPt_5", "nJet_5",  "visMass_5", "mT_muMet_5",  "met_5",  "tot_TMass_5", 
-  "muPt_0", "muEta_0", "muPhi_0", "muDz_0", "muD0_0", "muonID_0", "relMuIso_0", "muCharge_0", "tauPt_0", "tauEta_0", "tauPhi_0", "tauIso_0", "tauDecayMode_0", "tauCharge_0", "tauAntiEle_0", "tauAntiMu_0" , 
-  "muPt_5_fr", "muEta_5_fr", "muPhi_5_fr", "muDz_5_fr", "muD0_5_fr", "muonID_5_fr", "relMuIso_5_fr", "muCharge_5_fr", "tauPt_5_fr", "tauEta_5_fr", "tauPhi_5_fr", "tauIso_5_fr", "tauDecayMode_5_fr", "tauCharge_5_fr", "tauAntiEle_5_fr", "tauAntiMu_5_fr" ,  "deltaR_5_fr", "higgsPt_5_fr", "nJet_5_fr", "visMass_5_fr", "mT_muMet_5_fr", "met_5_fr", "tot_TMass_5_fr", 
+std::vector<string>  plotList = {  
+  "cutflow_n","cutflow_n_fr", "cutflow_n_dyll",
+  "muPt_5", "muEta_5", "muPhi_5", "muDz_5", "muD0_5", "muonID_5", "relMuIso_5", "muCharge_5", "tauPt_5", "tauEta_5", "tauPhi_5", "tauIso_5", "tauDecayMode_5", "tauCharge_5", "tauAntiEle_5", "tauAntiMu_5" , "deltaR_5", "higgsPt_5", "nJet_5",  "visMass_5", "mT_muMet_5",  "met_5",  "tot_TMass_5", "trigger_5",
+  
+  "muPt_5_fr", "muEta_5_fr", "muPhi_5_fr", "muDz_5_fr", "muD0_5_fr", "muonID_5_fr", "relMuIso_5_fr", "muCharge_5_fr", "tauPt_5_fr", "tauEta_5_fr", "tauPhi_5_fr", "tauIso_5_fr", "tauDecayMode_5_fr", "tauCharge_5_fr", "tauAntiEle_5_fr", "tauAntiMu_5_fr" ,  "deltaR_5_fr", "higgsPt_5_fr", "nJet_5_fr", "visMass_5_fr", "mT_muMet_5_fr", "met_5_fr", "tot_TMass_5_fr", "trigger_5_fr",
 
-  "muPt_6", "muEta_6", "muPhi_6", "muDz_6", "muD0_6", "muonID_6", "relMuIso_6", "muCharge_6", "tauPt_6", "tauEta_6", "tauPhi_6", "tauIso_6", "tauDecayMode_6", "tauCharge_6", "tauAntiEle_6", "tauAntiMu_6" , "deltaR_6", "higgsPt_6", "nJet_6",  "visMass_6", "mT_muMet_6",  "met_6",  "tot_TMass_6",
+  "muPt_6", "muEta_6", "muPhi_6", "muDz_6", "muD0_6", "muonID_6", "relMuIso_6", "muCharge_6", "tauPt_6", "tauEta_6", "tauPhi_6", "tauIso_6", "tauDecayMode_6", "tauCharge_6", "tauAntiEle_6", "tauAntiMu_6" , "deltaR_6", "higgsPt_6", "nJet_6",  "visMass_6", "mT_muMet_6",  "met_6",  "tot_TMass_6", "trigger_6",
 
-  "muPt_6_fr", "muEta_6_fr", "muPhi_6_fr", "muDz_6_fr", "muD0_6_fr", "muonID_6_fr", "relMuIso_6_fr", "muCharge_6_fr", "tauPt_6_fr", "tauEta_6_fr", "tauPhi_6_fr", "tauIso_6_fr", "tauDecayMode_6_fr", "tauCharge_6_fr", "tauAntiEle_6_fr", "tauAntiMu_6_fr" ,  "deltaR_6_fr", "higgsPt_6_fr", "nJet_6_fr", "visMass_6_fr", "mT_muMet_6_fr", "met_6_fr", "tot_TMass_6_fr"
+  "muPt_6_fr", "muEta_6_fr", "muPhi_6_fr", "muDz_6_fr", "muD0_6_fr", "muonID_6_fr", "relMuIso_6_fr", "muCharge_6_fr", "tauPt_6_fr", "tauEta_6_fr", "tauPhi_6_fr", "tauIso_6_fr", "tauDecayMode_6_fr", "tauCharge_6_fr", "tauAntiEle_6_fr", "tauAntiMu_6_fr" ,  "deltaR_6_fr", "higgsPt_6_fr", "nJet_6_fr", "visMass_6_fr", "mT_muMet_6_fr", "met_6_fr", "tot_TMass_6_fr", "trigger_6_fr",
+
+  "muPt_5_dyll", "muEta_5_dyll", "muPhi_5_dyll", "muDz_5_dyll", "muD0_5_dyll", "muonID_5_dyll", "relMuIso_5_dyll", "muCharge_5_dyll", "tauPt_5_dyll", "tauEta_5_dyll", "tauPhi_5_dyll", "tauIso_5_dyll", "tauDecayMode_5_dyll", "tauCharge_5_dyll", "tauAntiEle_5_dyll", "tauAntiMu_5_dyll" ,  "deltaR_5_dyll", "higgsPt_5_dyll", "nJet_5_dyll", "visMass_5_dyll", "mT_muMet_5_dyll", "met_5_dyll", "tot_TMass_5_dyll", "trigger_5_dyll",
+  "muPt_6_dyll", "muEta_6_dyll", "muPhi_6_dyll", "muDz_6_dyll", "muD0_6_dyll", "muonID_6_dyll", "relMuIso_6_dyll", "muCharge_6_dyll", "tauPt_6_dyll", "tauEta_6_dyll", "tauPhi_6_dyll", "tauIso_6_dyll", "tauDecayMode_6_dyll", "tauCharge_6_dyll", "tauAntiEle_6_dyll", "tauAntiMu_6_dyll" ,  "deltaR_6_dyll", "higgsPt_6_dyll", "nJet_6_dyll", "visMass_6_dyll", "mT_muMet_6_dyll", "met_6_dyll", "tot_TMass_6_dyll", "trigger_6_dyll",
+
+  "muPt_5_dyll_fr", "muEta_5_dyll_fr", "muPhi_5_dyll_fr", "muDz_5_dyll_fr", "muD0_5_dyll_fr", "muonID_5_dyll_fr", "relMuIso_5_dyll_fr", "muCharge_5_dyll_fr", "tauPt_5_dyll_fr", "tauEta_5_dyll_fr", "tauPhi_5_dyll_fr", "tauIso_5_dyll_fr", "tauDecayMode_5_dyll_fr", "tauCharge_5_dyll_fr", "tauAntiEle_5_dyll_fr", "tauAntiMu_5_dyll_fr" ,  "deltaR_5_dyll_fr", "higgsPt_5_dyll_fr", "nJet_5_dyll_fr", "visMass_5_dyll_fr", "mT_muMet_5_dyll_fr",  "met_5_dyll_fr", "tot_TMass_5_dyll_fr", "trigger_5_dyll_fr",
+  "muPt_6_dyll_fr", "muEta_6_dyll_fr", "muPhi_6_dyll_fr", "muDz_6_dyll_fr", "muD0_6_dyll_fr", "muonID_6_dyll_fr", "relMuIso_6_dyll_fr", "muCharge_6_dyll_fr", "tauPt_6_dyll_fr", "tauEta_6_dyll_fr", "tauPhi_6_dyll_fr", "tauIso_6_dyll_fr", "tauDecayMode_6_dyll_fr", "tauCharge_6_dyll_fr", "tauAntiEle_6_dyll_fr", "tauAntiMu_6_dyll_fr" ,  "deltaR_6_dyll_fr", "higgsPt_6_dyll_fr", "nJet_6_dyll_fr", "visMass_6_dyll_fr", "mT_muMet_6_dyll_fr",   "met_6_dyll_fr", "tot_TMass_6_dyll_fr", "trigger_6_dyll_fr"
 
 }; 
 
@@ -147,11 +154,11 @@ int main(int argc, char** argv)
   else if (sample=="TTToHadronic" ) {xs=377.96; weight=luminosity*xs/ngen;}
   else if (sample=="TTToSemiLeptonic" ) {xs=365.35; weight=luminosity*xs/ngen;}
 
-  else if (sample=="ZTTjet_inc"){ xs=LOtoNNLO_DY*4954.0; weight=3.4525;}
-  else if (sample=="ZTT1jet"){ xs=LOtoNNLO_DY*1012.5; weight=0.79104;}
-  else if (sample=="ZTT2jet"){ xs=LOtoNNLO_DY*332.8; weight=0.854767;}
-  else if (sample=="ZTT3jet"){ xs=LOtoNNLO_DY*101.8; weight=0.92182;}
-  else if (sample=="ZTT4jet"){ xs=LOtoNNLO_DY*54,8; weight=0.97595;}
+  else if (sample=="ZTTjet_inc"){ xs=LOtoNNLO_DY*4954.0; weight=3.621053408;}
+  else if (sample=="ZTT1jet"){ xs=LOtoNNLO_DY*1012.5; weight=0.6992308;}
+  else if (sample=="ZTT2jet"){ xs=LOtoNNLO_DY*332.8; weight=0.796501057;}
+  else if (sample=="ZTT3jet"){ xs=LOtoNNLO_DY*101.8; weight=0.982524791;}
+  else if (sample=="ZTT4jet"){ xs=LOtoNNLO_DY*54,8; weight=0.819765054;}
   
   else if (sample=="WJetsToLNu_inc") {xs=LOtoNNLO_Wjets*50380.0;    weight=luminosity*xs/ngen;}
   else if (sample=="WJetsToLNu")     {xs=LOtoNNLO_Wjets*50380.0;    weight=luminosity*xs/ngen;}

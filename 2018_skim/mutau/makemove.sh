@@ -1,6 +1,6 @@
 
 
-for (( i=0; i<14; i++)); do
+for (( i=0; i<20; i++)); do
 
     date
     echo -n """

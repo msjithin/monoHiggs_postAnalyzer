@@ -90,6 +90,8 @@ void skimm_mt_2017::Loop(Long64_t maxEvents, int reportEvery, string SampleName,
   int nInspected;
   nInspected = 0;
   float nPassedSkimmed=0;
+  float triggerPassed=0;
+  float trgFilterPass=0;
   double nInspected_genWeighted;  
   nInspected_genWeighted = 0.0; 
   bool debug=false;  double netWeight = 1.0;
@@ -130,22 +132,54 @@ void skimm_mt_2017::Loop(Long64_t maxEvents, int reportEvery, string SampleName,
 	   //fillOutTree();
 	   newtree->Fill();
 	 }
-       
-       // if(HLTEleMuX>>21&1==1 )
+       // for(int itrg=0; itrg<13; itrg++)
        // 	 {
-       // 	   cout<<" "<<endl;
-       // 	   cout<<"HLT_IsoMu27_v"<<"  event:"<<jentry<<endl;
-       // 	   for(int imu=0; imu<nMu; imu++)
+       // 	   if(HLTTau>>itrg&1==1 )
        // 	     {
-       // 	       cout<<"  muon:"<<imu<<endl;
-       // 	       for(int i=0; i<56; i++)
+       // 	       cout<<" "<<endl;
+       // 	       cout<<"HLTTau "<<itrg<<"  event:"<<jentry<<endl;
+       // 	       for(int imu=0; imu<nMu; imu++)
        // 		 {
-       // 		   if(muFiredTrgs->at(imu)>>i&1==1)
-       // 		     cout<<"  filter: "<<i<<" ";
+       // 		   cout<<" "<<endl;
+       // 		   cout<<"  muon:"<<imu<<endl;
+       // 		   for(int i=0; i<56; i++)
+       // 		     {
+       // 		       if(muFiredTrgs->at(imu)>>i&1==1)
+       // 			 cout<<"  filter: "<<i<<" ";
+       // 		     }
        // 		 }
+       // 	       for(int itau=0; itau<nTau; itau++)
+       //           {
+       //             cout<<" "<<endl;
+       //             cout<<"  tau:"<<itau<<endl;
+       //             for(int i=0; i<18; i++)
+       //               {
+       //                 if(tauFiredTrgs->at(itau)>>i&1==1)
+       //                   cout<<"  filter: "<<i<<" ";
+       //               }
+       //           }
        // 	     }
        // 	 }
-       cout<<"run"<<run<<endl;
+       //if(HLTTau>>0&1==1 )
+       if(HLTEleMuX>>60&1==1)
+	 {
+	   //cout<<" "<<endl;
+	   triggerPassed++;
+	   for(int imu=0; imu<nMu; imu++)
+	     {
+	       //cout<<" "<<endl;
+	       //cout<<"  muon:"<<imu<<endl;
+	       for(int i=33; i<56; i++)
+		 {
+		   if(muFiredTrgs->at(imu)>>i&1==1)
+		     {
+		       trgFilterPass++;
+		       //cout<<"  filter: "<<i<<" ";
+		     }
+		 }
+	     }
+	 }
+       
        report_test = nentriesToCheck/20;
        while (report_test>10)
 	 {
@@ -160,7 +194,9 @@ void skimm_mt_2017::Loop(Long64_t maxEvents, int reportEvery, string SampleName,
      }
    h_nEvents->SetBinContent(1, nInspected);
    cout<<"nPassedSkimmed = "<<nPassedSkimmed<<endl;
- 
+   cout<<"triggerPassed  = "<<triggerPassed<<endl;
+   cout<<"trgFilterPass  = "<<trgFilterPass<<endl;
+   cout<<"triggerPassed*23  = "<<triggerPassed*23<<endl;
 }
 
 void skimm_mt_2017::BookHistos(const char* file2)

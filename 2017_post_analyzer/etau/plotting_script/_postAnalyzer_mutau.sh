@@ -15,21 +15,15 @@ fi
 
 ./_postAnalyzer_mutau.exe ../files_initial/DY1JetsToLL_M-50_TuneCP5_final.root files_nominal/DY1JetsToLL_M-50_TuneCP5_final.root DY1JetsToLL ZTT 0 
 ./_postAnalyzer_mutau.exe ../files_initial/DY1JetsToLL_M-50_TuneCP5_final.root files_nominal/DY1JetsToLL_M-50_TuneCP5_stitch_final.root ZTT1jet ZTTjet 0 
-
 ./_postAnalyzer_mutau.exe ../files_initial/DY2JetsToLL_M-50_TuneCP5_final.root files_nominal/DY2JetsToLL_M-50_TuneCP5_final.root DY2JetsToLL ZTT 0 
 ./_postAnalyzer_mutau.exe ../files_initial/DY2JetsToLL_M-50_TuneCP5_final.root files_nominal/DY2JetsToLL_M-50_TuneCP5_stitch_final.root ZTT2jet ZTTjet 0 
-
 ./_postAnalyzer_mutau.exe ../files_initial/DY3JetsToLL_M-50_TuneCP5_ext1_final.root files_nominal/DY3JetsToLL_M-50_TuneCP5_ext1_final.root DY3JetsToLL ZTT 0 
 ./_postAnalyzer_mutau.exe ../files_initial/DY3JetsToLL_M-50_TuneCP5_ext1_final.root files_nominal/DY3JetsToLL_M-50_TuneCP5_ext1_stitch_final.root ZTT3jet ZTTjet 0 
-
 ./_postAnalyzer_mutau.exe ../files_initial/DY4JetsToLL_M-50_TuneCP5_final.root files_nominal/DY4JetsToLL_M-50_TuneCP5_final.root DY4JetsToLL ZTT 0 
 ./_postAnalyzer_mutau.exe ../files_initial/DY4JetsToLL_M-50_TuneCP5_final.root files_nominal/DY4JetsToLL_M-50_TuneCP5_stitch_final.root ZTT4jet ZTTjet 0 
-
 ./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_M-10to50_TuneCP5_final.root files_nominal/DYJetsToLL_M-10to50_TuneCP5_final.root DYJetsToLL ZTT 0 
-
 ./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_M-50_TuneCP5_ext1_v1_final.root files_nominal/DYJetsToLL_M-50_TuneCP5_ext1_v1_final.root DYJetsToLL ZTT 0 
 ./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_M-50_TuneCP5_ext1_v1_final.root files_nominal/DYJetsToLL_M-50_TuneCP5_ext1_v1_stitch_final.root ZTTjet_inc ZTTjet 0 
-
 ./_postAnalyzer_mutau.exe ../files_initial/EWKWMinus2Jets_WToLNu_M-50_TuneCP5_final.root files_nominal/EWKWMinus2Jets_WToLNu_M-50_TuneCP5_final.root EWKWMinus2Jets EWKWMinus 0 
 ./_postAnalyzer_mutau.exe ../files_initial/EWKWPlus2Jets_WToLNu_M-50_TuneCP5_final.root files_nominal/EWKWPlus2Jets_WToLNu_M-50_TuneCP5_final.root EWKWPlus2Jets EWKWPlus 0 
 ./_postAnalyzer_mutau.exe ../files_initial/EWKZ2Jets_ZToLL_M-50_TuneCP5_final.root files_nominal/EWKZ2Jets_ZToLL_M-50_TuneCP5_final.root EWKZ2Jets_ZToLL EWKZ2Jets 0 
@@ -40,16 +34,11 @@ fi
 ./_postAnalyzer_mutau.exe ../files_initial/ST_t-channel_top_4f_inclusiveDecays_TuneCP5_final.root files_nominal/ST_t-channel_top_4f_inclusiveDecays_TuneCP5_final.root ST_t-channel_top ST_t 0 
 ./_postAnalyzer_mutau.exe ../files_initial/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_final.root files_nominal/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_final.root ST_tW_antitop ST_t 0 
 ./_postAnalyzer_mutau.exe ../files_initial/ST_tW_top_5f_inclusiveDecays_TuneCP5_final.root files_nominal/ST_tW_top_5f_inclusiveDecays_TuneCP5_final.root ST_tW_top ST_t 0 
-
-
-
-./_postAnalyzer_mutau.exe ../files_initial/SingleElectron_EraB_final.root files_nominal/SingleElectron_EraB_final.root data_obs data_obs 0
-./_postAnalyzer_mutau.exe ../files_initial/SingleElectron_EraC_final.root files_nominal/SingleElectron_EraC_final.root data_obs data_obs 0
-./_postAnalyzer_mutau.exe ../files_initial/SingleElectron_EraD_final.root files_nominal/SingleElectron_EraD_final.root data_obs data_obs 0
-./_postAnalyzer_mutau.exe ../files_initial/SingleElectron_EraE_final.root files_nominal/SingleElectron_EraE_final.root data_obs data_obs 0
-./_postAnalyzer_mutau.exe ../files_initial/SingleElectron_EraF_final.root files_nominal/SingleElectron_EraF_final.root data_obs data_obs 0
-
-
+./_postAnalyzer_mutau.exe ../files_initial/SingleElectron_EraB_final.root files_nominal/SingleElectron_EraB_final.root data_obs data_obs 0 
+./_postAnalyzer_mutau.exe ../files_initial/SingleElectron_EraC_final.root files_nominal/SingleElectron_EraC_final.root data_obs data_obs 0 
+./_postAnalyzer_mutau.exe ../files_initial/SingleElectron_EraD_final.root files_nominal/SingleElectron_EraD_final.root data_obs data_obs 0 
+./_postAnalyzer_mutau.exe ../files_initial/SingleElectron_EraE_final.root files_nominal/SingleElectron_EraE_final.root data_obs data_obs 0 
+./_postAnalyzer_mutau.exe ../files_initial/SingleElectron_EraF_final.root files_nominal/SingleElectron_EraF_final.root data_obs data_obs 0 
 ./_postAnalyzer_mutau.exe ../files_initial/TTTo2L2Nu_TuneCP5_final.root files_nominal/TTTo2L2Nu_TuneCP5_final.root TTTo2L2Nu TT 0 
 ./_postAnalyzer_mutau.exe ../files_initial/TTToHadronic_TuneCP5_final.root files_nominal/TTToHadronic_TuneCP5_final.root TTToHadronic TT 0 
 ./_postAnalyzer_mutau.exe ../files_initial/TTToSemiLeptonic_TuneCP5_final.root files_nominal/TTToSemiLeptonic_TuneCP5_final.root TTToSemiLeptonic TT 0 
@@ -70,7 +59,7 @@ fi
 ./_postAnalyzer_mutau.exe ../files_initial/WWToLNuQQ_NNPDF31_TuneCP5_final.root files_nominal/WWToLNuQQ_NNPDF31_TuneCP5_final.root WWToLNuQQ VV 0 
 ./_postAnalyzer_mutau.exe ../files_initial/WWW_4F_TuneCP5_final.root files_nominal/WWW_4F_TuneCP5_final.root WWW VVV 0 
 ./_postAnalyzer_mutau.exe ../files_initial/WWZ_4F_TuneCP5_final.root files_nominal/WWZ_4F_TuneCP5_final.root WWZ VVV 0 
-#./_postAnalyzer_mutau.exe ../files_initial/WW_TuneCP5_final.root files_nominal/WW_TuneCP5_final.root WW VV 0 
+./_postAnalyzer_mutau.exe ../files_initial/WW_TuneCP5_final.root files_nominal/WW_TuneCP5_final.root WW VV 0 
 ./_postAnalyzer_mutau.exe ../files_initial/WZTo3LNu_TuneCP5_final.root files_nominal/WZTo3LNu_TuneCP5_final.root WZTo3LNu VV 0 
 ./_postAnalyzer_mutau.exe ../files_initial/WZZ_TuneCP5_final.root files_nominal/WZZ_TuneCP5_final.root WZZ VVV 0 
 ./_postAnalyzer_mutau.exe ../files_initial/WZ_TuneCP5_final.root files_nominal/WZ_TuneCP5_final.root WZ VV 0 
@@ -87,7 +76,7 @@ fi
 ./_postAnalyzer_mutau.exe ../files_initial/ZZTo2L2Q_final.root files_nominal/ZZTo2L2Q_final.root ZZTo2L2Q VV 0 
 ./_postAnalyzer_mutau.exe ../files_initial/ZZTo4L_TuneCP5_final.root files_nominal/ZZTo4L_TuneCP5_final.root ZZTo4L VV 0 
 ./_postAnalyzer_mutau.exe ../files_initial/ZZZ_TuneCP5_final.root files_nominal/ZZZ_TuneCP5_final.root ZZZ VVV 0 
-#./_postAnalyzer_mutau.exe ../files_initial/ZZ_TuneCP5_final.root files_nominal/ZZ_TuneCP5_final.root ZZ VV 0 
+./_postAnalyzer_mutau.exe ../files_initial/ZZ_TuneCP5_final.root files_nominal/ZZ_TuneCP5_final.root ZZ VV 0 
 
 hadd -f f_mutau_initial.root files_nominal/*.root 
 echo "*************** root file made ***************" 
