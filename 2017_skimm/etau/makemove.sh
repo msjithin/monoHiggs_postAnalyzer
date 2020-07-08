@@ -1,6 +1,6 @@
 
 
-for (( i=0; i<10; i++)); do
+for (( i=0; i<40; i++)); do
 
     date
     echo -n """
@@ -18,9 +18,9 @@ for (( i=0; i<10; i++)); do
     done   
     
     
-    echo "Sleep for 30 min"
+    echo "Sleep for 15 min"
     
-    sleep 1800
+    sleep 900
     
 done
 

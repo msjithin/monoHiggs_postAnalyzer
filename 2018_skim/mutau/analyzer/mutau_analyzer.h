@@ -75,20 +75,25 @@ public :
    TGraph *h_tauFR_11=(TGraph*) f_tauFR->Get("hpt_dm11_tight_hpt_dm11_veryloose");
  
   //if(debug)cout<<" setting up other files ..."<<endl;
-  TFile *f_pileup = new TFile("sf_files/RootFiles/pileup/PU_Central.root");
+  TFile *f_pileup = new TFile("sf_files/PU_Central.root");
   TH1F* h_pileup = (TH1F*)f_pileup->Get("pileup");
   
-  TFile *f_muIDSF= TFile::Open("sf_files/RunBCDEF_SF_ID.root", "READ");
+  TFile *f_muIDSF= TFile::Open("sf_files/muon/2018_RunABCD_SF_ID.root", "READ");
   //TFile *f_muIDSF= new TFile("sf_files/RootFiles/muon/2017_RunBCDEF_SF_ID.root");
-  TH2F *h_muIDSF=(TH2F*) f_muIDSF->Get("NUM_MediumID_DEN_genTracks_pt_abseta");
+  TH2F *h_muIDSF=(TH2F*) f_muIDSF->Get("NUM_MediumID_DEN_TrackerMuons_pt_abseta");
   
-  TFile *f_muIsoSF= TFile::Open("sf_files/RunBCDEF_SF_ISO.root", "READ");
+  TFile *f_muIsoSF= TFile::Open("sf_files/muon/2018_RunABCD_SF_ISO.root", "READ");
   //TFile *f_muIsoSF= new TFile("sf_files/RootFiles/muon/2017_RunBCDEF_SF_ISO.root");
   TH2F *h_muIsoSF=(TH2F*) f_muIsoSF->Get("NUM_TightRelIso_DEN_MediumID_pt_abseta");
 
-  TFile *f_muTrgSF= new TFile("sf_files/EfficienciesAndSF_RunBtoF_Nov17Nov2017.root");
-  TH2F *h_muTrgSF=(TH2F*) f_muTrgSF->Get("IsoMu27_PtEtaBins/pt_abseta_ratio");
-  
+  /* TFile *f_muTrgSF= new TFile("sf_files/EfficienciesAndSF_RunBtoF_Nov17Nov2017.root"); */
+  /* TH2F *h_muTrgSF=(TH2F*) f_muTrgSF->Get("IsoMu27_PtEtaBins/pt_abseta_ratio"); */
+
+  TFile* f_trigger_sf_1 = TFile::Open("sf_files/trigger/EfficienciesAndSF_2018Data_BeforeMuonHLTUpdate.root", "READ");
+  TFile* f_trigger_sf_2 = TFile::Open("sf_files/trigger/EfficienciesAndSF_2018Data_AfterMuonHLTUpdate.root", "READ");
+  TH2F* h_muon_trg_1  = (TH2F*)((TH2F*)f_trigger_sf_1->Get("IsoMu24_PtEtaBins/pt_abseta_ratio"))->Clone(TString("pt_abseta_ratio"));
+  TH2F* h_muon_trg_2  = (TH2F*)((TH2F*)f_trigger_sf_2->Get("IsoMu24_PtEtaBins/pt_abseta_ratio"))->Clone(TString("pt_abseta_ratio"));
+
   TFile *f_tauidSF = new TFile("sf_files/TauIDSFs/data/TauID_SF_dm_DeepTau2017v2p1VSjet_2017ReReco.root");
   TH1F *h_tauidSF_m = (TH1F*)f_tauidSF->Get("Medium");
   TH1F *h_tauidSF_vvvl = (TH1F*)f_tauidSF->Get("VVVLoose");
@@ -884,7 +889,9 @@ public :
    virtual vector<int> getAISRTauCand(double pt, double eta);
    virtual vector<int> getMu2Cand(double muPtCut, double muEtaCut, int mu1Index);
    virtual vector<int> getJetCand(int muIndex, int tauIndex);
-   virtual int gen_matching();
+   virtual vector<int> gen_matching();
+   virtual bool found_GenMatch(int genTau);
+   //virtual vector<UShort_t> gen_matching();
    virtual int thirdLeptonVeto();
    virtual double dR(int mu_index, int tau_index);
    virtual double delta_R(float phi1, float eta1, float phi2, float eta2);
@@ -906,7 +913,9 @@ public :
    virtual double getScaleFactors( int muIndex , int tauIndex,  bool fakeBkg , bool isMC, bool debug);
    virtual bool noisyJet2017();
    virtual bool MatchTriggerFilter(int muIndex, int tauIndex);
-
+   virtual void setbit(UShort_t& x, UShort_t bit);
+   virtual void setbit(UInt_t& x, UInt_t bit);
+   virtual void setbit(ULong64_t& x, UShort_t bit);
 };
 
 #endif
@@ -941,7 +950,9 @@ mutau_analyzer::~mutau_analyzer()
    f_pileup->Close();
    f_muIDSF->Close();
    f_muIsoSF->Close();
-   f_muTrgSF->Close();
+   //f_muTrgSF->Close();
+   f_trigger_sf_1->Close();
+   f_trigger_sf_2->Close();
    f_tauidSF->Close();
    f_tauesSF->Close();
    f_tauFakeMuSF->Close();

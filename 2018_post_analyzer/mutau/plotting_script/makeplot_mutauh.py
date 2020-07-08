@@ -325,9 +325,9 @@ Data_hist.GetYaxis().SetTitleOffset(1.22)
 Data_hist.SetTitle("")
 Data_hist.GetYaxis().SetTitle("")
 
-with open('eventYield.csv', mode='w') as yield_file:
-  yield_write = csv.writer(yield_file, delimiter=',', quotechar='"')
-  yield_write.writerow(['Name', 'Yield' ])
+# with open('eventYield.csv', mode='w') as yield_file:
+#   yield_write = csv.writer(yield_file, delimiter=',', quotechar='"')
+#   yield_write.writerow(['Name', 'Yield' ])
 
 if histoname=='cutflow_n' :
   with open('eventYield.csv', mode='a') as yield_file:

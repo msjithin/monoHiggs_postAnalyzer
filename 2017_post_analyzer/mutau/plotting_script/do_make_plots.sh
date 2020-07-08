@@ -8,7 +8,9 @@ declare -a plotList=("muPt_5" "muEta_5" "muPhi_5" "muDz_5" "muD0_5" "muonID_5" "
 for i in "${plotList[@]}"
 do 
     echo "$i"
-    python makeplot_mutauh.py -in $inFile -name $i -cat 0 -ch mutau -xaxis $i
+    #python makeplot_mutauh.py -in $inFile -name $i -cat 0 -ch mutau -xaxis $i
+    python ~/monoHiggs_2018_wDnn/CMSSW_10_2_18/src/analysis/MacrosAndScripts/makeplot.py -in $inFile -name $i -cat 0 -ch mutau -xaxis $i -year 2017
 done
 
-python makeplot_mutauh.py -in $inFile -name cutflow_n -cat 0 -ch mutau -xaxis "cutflow" -lY
+#python makeplot_mutauh.py -in $inFile -name cutflow_n -cat 0 -ch mutau -xaxis "cutflow" -lY
+python ~/monoHiggs_2018_wDnn/CMSSW_10_2_18/src/analysis/MacrosAndScripts/makeplot.py -in $inFile -name cutflow_n -cat 0 -ch mutau -xaxis "cutflow" -lY  -year 2017

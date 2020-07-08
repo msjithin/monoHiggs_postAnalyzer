@@ -48,14 +48,14 @@ bool debugOn=false;
 
 /////        add the name of histograms to be created     
 std::vector<string>  plotList = {
-  "cutflow_n","cutflow_n_fr",
+  "cutflow_n","cutflow_n_fr", "cutflow_n_dyll", "cutflow_n_dyll_fr",
   "elePt_5", "eleEta_5", "elePhi_5", "eleDz_5", "eleD0_5", "electronID_5", "relEleIso_5", "eleCharge_5", "tauPt_5", "tauEta_5", "tauPhi_5", "tauIso_5", "tauDecayMode_5", "tauCharge_5", "tauAntiEle_5", "tauAntiMu_5","deltaR_5", "higgsPt_5", "nJet_5",  "visMass_5", "mT_muMet_5",  "met_5",  "tot_TMass_5", "trigger_5",
 				 
   "elePt_5_fr", "eleEta_5_fr", "elePhi_5_fr", "eleDz_5_fr", "eleD0_5_fr", "electronID_5_fr", "relEleIso_5_fr", "eleCharge_5_fr", "tauPt_5_fr", "tauEta_5_fr", "tauPhi_5_fr", "tauIso_5_fr", "tauDecayMode_5_fr", "tauCharge_5_fr", "tauAntiEle_5_fr", "tauAntiMu_5_fr", "deltaR_5_fr", "higgsPt_5_fr", "nJet_5_fr", "visMass_5_fr", "mT_muMet_5_fr", "met_5_fr", "tot_TMass_5_fr", "trigger_5_fr",
 				 
   "elePt_6", "eleEta_6", "elePhi_6", "eleDz_6", "eleD0_6", "electronID_6", "relEleIso_6", "eleCharge_6", "tauPt_6", "tauEta_6", "tauPhi_6", "tauIso_6", "tauDecayMode_6", "tauCharge_6", "tauAntiEle_6", "tauAntiMu_6","deltaR_6", "higgsPt_6", "nJet_6",  "visMass_6", "mT_muMet_6",  "met_6",  "tot_TMass_6",  "trigger_6",
 				 
-  "elePt_6_fr", "eleEta_6_fr", "elePhi_6_fr", "eleDz_6_fr", "eleD0_6_fr", "electronID_6_fr", "relEleIso_6_fr", "eleCharge_6_fr", "tauPt_6_fr", "tauEta_6_fr", "tauPhi_6_fr", "tauIso_6_fr", "tauDecayMode_6_fr", "tauCharge_6_fr", "tauAntiEle_6_fr", "tauAntiMu_6_fr", "deltaR_6_fr", "higgsPt_6_fr", "nJet_6_fr", "visMass_6_fr", "mT_muMet_6_fr", "met_6_fr", "tot_TMass_6_fr"  "trigger_6_fr",
+  "elePt_6_fr", "eleEta_6_fr", "elePhi_6_fr", "eleDz_6_fr", "eleD0_6_fr", "electronID_6_fr", "relEleIso_6_fr", "eleCharge_6_fr", "tauPt_6_fr", "tauEta_6_fr", "tauPhi_6_fr", "tauIso_6_fr", "tauDecayMode_6_fr", "tauCharge_6_fr", "tauAntiEle_6_fr", "tauAntiMu_6_fr", "deltaR_6_fr", "higgsPt_6_fr", "nJet_6_fr", "visMass_6_fr", "mT_muMet_6_fr", "met_6_fr", "tot_TMass_6_fr",  "trigger_6_fr",
 
   "elePt_5_dyll", "eleEta_5_dyll", "elePhi_5_dyll", "eleDz_5_dyll", "eleD0_5_dyll", "electronID_5_dyll", "relEleIso_5_dyll", "eleCharge_5_dyll", "tauPt_5_dyll", "tauEta_5_dyll", "tauPhi_5_dyll", "tauIso_5_dyll", "tauDecayMode_5_dyll", "tauCharge_5_dyll", "tauAntiEle_5_dyll", "tauAntiMu_5_dyll","deltaR_5_dyll", "higgsPt_5_dyll", "nJet_5_dyll",  "visMass_5_dyll", "mT_muMet_5_dyll",  "met_5_dyll",  "tot_TMass_5_dyll", "trigger_5_dyll",
 				 
@@ -159,15 +159,9 @@ int main(int argc, char** argv)
 
   else if (sample=="ZTTjet_inc"){ xs=LOtoNNLO_DY*4954.0; weight=2.447677534;}
   else if (sample=="ZTT1jet"){ xs=LOtoNNLO_DY*1012.5; weight=0.785055866;}
-  else if (sample=="ZTT2jet"){ xs=LOtoNNLO_DY*332.8; weight=0.968954563;}
+  else if (sample=="ZTT2jet"){ xs=LOtoNNLO_DY*332.8; weight=0.968954563;}//0.968954563
   else if (sample=="ZTT3jet"){ xs=LOtoNNLO_DY*101.8; weight=0.552080344;}
   else if (sample=="ZTT4jet"){ xs=LOtoNNLO_DY*54,8; weight=0.48914453;}
-
-  // else if (sample=="ZTTjet_inc"){ xs=LOtoNNLO_DY*4954.0; weight=1.9176;}
-  // else if (sample=="ZTT1jet"){ xs=LOtoNNLO_DY*1012.5; weight=0.615;}
-  // else if (sample=="ZTT2jet"){ xs=LOtoNNLO_DY*332.8; weight=0.759;}
-  // else if (sample=="ZTT3jet"){ xs=LOtoNNLO_DY*101.8; weight=0.4325;}
-  // else if (sample=="ZTT4jet"){ xs=LOtoNNLO_DY*54,8; weight=0.3832;}
   
   else if (sample=="WJetsToLNu_inc") {xs=LOtoNNLO_Wjets*50380.0;    weight=luminosity*xs/ngen;}
   else if (sample=="WJetsToLNu")     {xs=LOtoNNLO_Wjets*50380.0;    weight=luminosity*xs/ngen;}

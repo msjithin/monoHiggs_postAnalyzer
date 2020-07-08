@@ -81,9 +81,13 @@ public :
    TFile *f_eleReconstrucSF_highpt=new TFile("sf_files/egammaEffi.txt_EGM2D_runBCDEF_passingRECO.root");
    TFile *f_eleIDeffSF=new TFile("sf_files/egammaEffi.txt_EGM2D_runBCDEF_passingTight94X.root");
    TFile *f_eleIsoSF=new TFile("sf_files/2017_ElectronMVA90noiso.root");
+   TFile *f_eleTrgSF_1=new TFile("sf_files/trigger/electron_trigger_sf_2017.root");
+   TFile *f_eleTrgSF_2=new TFile("sf_files/trigger/EleTriggSF.root");
    TH2F *h_eleRecoSF_highpt=(TH2F*) f_eleReconstrucSF_highpt->Get("EGamma_SF2D");
    TH2F *h_eleIDSF=(TH2F*) f_eleIDeffSF->Get("EGamma_SF2D");
    TH2F *h_eleIsoSF=(TH2F*) f_eleIsoSF->Get("EGamma_SF2D");
+   TH2F *h_eleTrgSF_1=(TH2F*) f_eleTrgSF_1->Get("EGamma_SF2D");
+   TH2F *h_eleTrgSF_2=(TH2F*) f_eleTrgSF_2->Get("EGamma_SF2D");
 
    TFile *f_tauidSF = new TFile("sf_files/TauIDSFs/data/TauID_SF_dm_DeepTau2017v2p1VSjet_2017ReReco.root");
   TH1F *h_tauidSF_m = (TH1F*)f_tauidSF->Get("Medium");
@@ -879,14 +883,8 @@ public :
    virtual vector<int> getTauCand(double pt, double eta);
    virtual vector<int> getAISRTauCand(double pt, double eta);
    virtual vector<int> getJetCand(int eleIndex, int tauIndex);
-   virtual vector<int> found_higgs();
-   virtual vector<int> found_muon();
-   virtual vector<int> found_electron();
-   virtual vector<int> found_tau();
-   virtual vector<int> found_tauh();
-   virtual vector<int> found_tauNeu();
-   virtual bool skimming_Htt();
-   virtual int gen_matching();
+   virtual vector<int> gen_matching();
+   virtual bool found_GenMatch(int genTau);
    virtual int thirdLeptonVeto();
    virtual double dR(int mu_index, int tau_index);
    virtual double delta_R(float phi1, float eta1, float phi2, float eta2);
@@ -906,9 +904,9 @@ public :
    virtual float exponential(float x,float a,float b,float c);
    virtual double getFR(int tauIndex);
    virtual float EletriggerSF(float pt, float eta);
-   virtual double getScaleFactors( int muIndex , int tauIndex,  bool fakeBkg , bool isMC, bool debug);
+   virtual double getScaleFactors( int eleIndex , int tauIndex,  bool fakeBkg , bool isMC, bool debug);
    virtual bool noisyJet2017();
-   virtual bool MatchTriggerFilter(int muIndex, int tauIndex);
+   virtual bool MatchTriggerFilter(int eleIndex, int tauIndex);
 };
 
 #endif
@@ -947,7 +945,8 @@ etau_analyzer::~etau_analyzer()
    f_kfactors->Close();
    f_eleReconstrucSF_highpt->Close();
    f_eleIDeffSF->Close();
-
+   f_eleTrgSF_1->Close();
+   f_eleTrgSF_2->Close();
 }
 
 Int_t etau_analyzer::GetEntry(Long64_t entry)

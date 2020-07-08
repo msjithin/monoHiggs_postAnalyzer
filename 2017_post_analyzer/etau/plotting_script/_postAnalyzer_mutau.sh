@@ -17,13 +17,22 @@ fi
 ./_postAnalyzer_mutau.exe ../files_initial/DY1JetsToLL_M-50_TuneCP5_final.root files_nominal/DY1JetsToLL_M-50_TuneCP5_stitch_final.root ZTT1jet ZTTjet 0 
 ./_postAnalyzer_mutau.exe ../files_initial/DY2JetsToLL_M-50_TuneCP5_final.root files_nominal/DY2JetsToLL_M-50_TuneCP5_final.root DY2JetsToLL ZTT 0 
 ./_postAnalyzer_mutau.exe ../files_initial/DY2JetsToLL_M-50_TuneCP5_final.root files_nominal/DY2JetsToLL_M-50_TuneCP5_stitch_final.root ZTT2jet ZTTjet 0 
+
 ./_postAnalyzer_mutau.exe ../files_initial/DY3JetsToLL_M-50_TuneCP5_ext1_final.root files_nominal/DY3JetsToLL_M-50_TuneCP5_ext1_final.root DY3JetsToLL ZTT 0 
 ./_postAnalyzer_mutau.exe ../files_initial/DY3JetsToLL_M-50_TuneCP5_ext1_final.root files_nominal/DY3JetsToLL_M-50_TuneCP5_ext1_stitch_final.root ZTT3jet ZTTjet 0 
+
+
+
+
+
+
 ./_postAnalyzer_mutau.exe ../files_initial/DY4JetsToLL_M-50_TuneCP5_final.root files_nominal/DY4JetsToLL_M-50_TuneCP5_final.root DY4JetsToLL ZTT 0 
 ./_postAnalyzer_mutau.exe ../files_initial/DY4JetsToLL_M-50_TuneCP5_final.root files_nominal/DY4JetsToLL_M-50_TuneCP5_stitch_final.root ZTT4jet ZTTjet 0 
-./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_M-10to50_TuneCP5_final.root files_nominal/DYJetsToLL_M-10to50_TuneCP5_final.root DYJetsToLL ZTT 0 
+#./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_M-10to50_TuneCP5_final.root files_nominal/DYJetsToLL_M-10to50_TuneCP5_final.root DYJetsToLL ZTT 0 
+
 ./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_M-50_TuneCP5_ext1_v1_final.root files_nominal/DYJetsToLL_M-50_TuneCP5_ext1_v1_final.root DYJetsToLL ZTT 0 
 ./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_M-50_TuneCP5_ext1_v1_final.root files_nominal/DYJetsToLL_M-50_TuneCP5_ext1_v1_stitch_final.root ZTTjet_inc ZTTjet 0 
+
 ./_postAnalyzer_mutau.exe ../files_initial/EWKWMinus2Jets_WToLNu_M-50_TuneCP5_final.root files_nominal/EWKWMinus2Jets_WToLNu_M-50_TuneCP5_final.root EWKWMinus2Jets EWKWMinus 0 
 ./_postAnalyzer_mutau.exe ../files_initial/EWKWPlus2Jets_WToLNu_M-50_TuneCP5_final.root files_nominal/EWKWPlus2Jets_WToLNu_M-50_TuneCP5_final.root EWKWPlus2Jets EWKWPlus 0 
 ./_postAnalyzer_mutau.exe ../files_initial/EWKZ2Jets_ZToLL_M-50_TuneCP5_final.root files_nominal/EWKZ2Jets_ZToLL_M-50_TuneCP5_final.root EWKZ2Jets_ZToLL EWKZ2Jets 0 

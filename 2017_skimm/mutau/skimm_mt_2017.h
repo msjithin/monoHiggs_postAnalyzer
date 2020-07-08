@@ -861,7 +861,7 @@ skimm_mt_2017::skimm_mt_2017(const char* file1, const char* file2, string isMC)
     {
       //if(fileNumber > 1)
 	{
-	  TString dataset = "Ntuple_";
+  	  TString dataset = "Ntuple_";
 	  TString  FullPathInputFile = (path+filename->GetName());
 	  TString name = filename->GetName();
 

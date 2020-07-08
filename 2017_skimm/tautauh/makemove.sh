@@ -1,11 +1,16 @@
 
 
-for (( i=0; i<10; i++)); do
+
+echo "Sleep for 1 hr..."
+sleep 3600
+
+
+for (( i=0; i<40; i++)); do
 
     date
     echo -n """
     ${i}
-    moving files to /hdfs/store/user/jmadhusu/2017_skimmed/tautau/
+    moving files to /hdfs/store/user/jmadhusu/2017_skimmed/tautau_new/
     """
     mv *.root output/
     for jobFile in `ls output`; do  
@@ -13,14 +18,14 @@ for (( i=0; i<10; i++)); do
         ******************************
          moving  ${jobFile}
         """   
-	mv output/${jobFile} /hdfs/store/user/jmadhusu/2017_skimmed/tautau/
+	mv output/${jobFile} /hdfs/store/user/jmadhusu/2017_skimmed/tautau_new/
 	
     done   
     
     
-    echo "Sleep for 30 min"
+    echo "Sleep for 15 min"
     
-    sleep 1800
+    sleep 900
     
 done
 

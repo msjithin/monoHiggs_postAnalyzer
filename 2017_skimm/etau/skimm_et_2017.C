@@ -130,8 +130,75 @@ void skimm_et_2017::Loop(Long64_t maxEvents, int reportEvery, string SampleName,
 	   //fillOutTree();
 	   newtree->Fill();
 	 }
-
-
+       //1 or 9 and 5, 61
+       if(HLTTau>>1&1==1 || HLTTau>>9&1==1)
+       cout<<"************************************************************** "<<endl;
+       if(HLTTau>>1&1==1 )
+       	 {
+       	   cout<<" "<<endl;
+       	   cout<<"HLTTau 1"<<"  event:"<<jentry<<endl;
+       	   for(int iele=0; iele<nEle; iele++)
+       	     {
+       	       cout<<" "<<endl;
+       	       cout<<"  ele:"<<iele<<endl;
+       	       for(int i=0; i<56; i++)
+       		 {
+       		   if(eleFiredSingleTrgs->at(iele)>>i&1==1)
+       		     cout<<"  filter: "<<i<<" ";
+       		 }
+       	     }
+       	 }
+       if(HLTTau>>9&1==1 )
+       	 {
+       	   cout<<" "<<endl;
+       	   cout<<"HLTTau 9"<<"  event:"<<jentry<<endl;
+       	   for(int iele=0; iele<nEle; iele++)
+       	     {
+       	       cout<<" "<<endl;
+       	       cout<<"  ele:"<<iele<<endl;
+       	       for(int i=0; i<56; i++)
+       		 {
+       		   if(eleFiredSingleTrgs->at(iele)>>i&1==1)
+       		     cout<<"  filter: "<<i<<" ";
+       		 }
+       	     }
+       	 }
+       
+       // if(HLTEleMuX>>61&1==1)
+       // 	 {
+       // 	   //cout<<" "<<endl;
+       // 	   cout<<"HLTEleMuX>>61&1  "<<"  event:"<<jentry<<endl;
+       // 	   for(int iele=0; iele<nEle; iele++)
+       //       { 
+       // 	       cout<<" "<<endl;
+       // 	       cout<<"  ele:"<<iele<<endl;
+       // 	       for(int i=0; i<56; i++)
+       // 		 {
+       // 		   if(eleFiredSingleTrgs->at(iele)>>i&1==1)
+       // 		     {
+       // 		       cout<<"  filter: "<<i<<" ";
+       // 		     }
+       // 		 }
+       // 	     }
+       // 	 }
+       // if(HLTEleMuX>>5&1==1)
+       //   {
+       //     //cout<<" "<<endl;
+       //     cout<<"HLTEleMuX>>5&1  "<<"  event:"<<jentry<<endl;
+       //     for(int iele=0; iele<nEle; iele++)
+       //       {
+       //         cout<<" "<<endl;
+       //         cout<<"  ele:"<<iele<<endl;
+       //         for(int i=0; i<56; i++)
+       //           {
+       //             if(eleFiredSingleTrgs->at(iele)>>i&1==1)
+       //               {
+       //                 cout<<"  filter: "<<i<<" ";
+       //               }
+       //           }
+       //       }
+       //   }
+       // cout<<"  "<<endl;
        report_test = nentriesToCheck/20;
        while (report_test>10)
 	 {
@@ -184,15 +251,15 @@ bool skimm_et_2017::skimming_Htt(){
   bool eleFound=false; bool tauFound=false; bool drCutPassed=false;
   std::vector<int> tmpEleCand;    tmpEleCand.clear();
   std::vector<int> tmpTauCand;    tmpTauCand.clear();
-  float relMuIso = 0;
   
   for(int iEle=0; iEle<nEle;iEle++){
+    float relMuIso = 0;
     relMuIso = ( elePFChIso->at(iEle) + max( elePFNeuIso->at(iEle) + elePFPhoIso->at(iEle) - 0.5 *elePFPUIso->at(iEle) , 0.0 )) / (elePt->at(iEle));
     if(fabs(eleDz->at(iEle)) < 0.2 && 
        fabs(eleD0->at(iEle))<0.045 && 
        elePt->at(iEle) > 19.5      &&
        fabs(eleEta->at(iEle))< 2.5 &&
-       ( eleIDbit->at(iEle)>>0&1==1  || eleIDbit->at(iEle)>>6&1==1  || eleIDbit->at(iEle)>>9&1==1  || relMuIso<0.30 ) 
+       relMuIso<0.30 
        ) {
       eleFound=true;
       tmpEleCand.push_back(iEle);

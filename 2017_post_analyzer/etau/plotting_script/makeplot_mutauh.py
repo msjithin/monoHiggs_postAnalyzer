@@ -290,10 +290,10 @@ errorBand=sampleList[1].Clone()
 for i in range(2, len(sampleList)):
   errorBand.Add(sampleList[i])
 
-errorBand.SetMarkerSize(0)
+#errorBand.SetMarkerSize(0)
 errorBand.SetFillColor(1)
-errorBand.SetFillStyle(3001)
-errorBand.SetLineWidth(1)
+errorBand.SetFillStyle(3002)
+#errorBand.SetLineWidth(1)
 
 Data_hist.GetXaxis().SetTitle("")
 Data_hist.GetXaxis().SetTitleSize(0)
@@ -322,9 +322,9 @@ Data_hist.GetYaxis().SetTitleOffset(1.22)
 Data_hist.SetTitle("")
 Data_hist.GetYaxis().SetTitle("")
 
-with open('eventYield.csv', mode='w') as yield_file:
-  yield_write = csv.writer(yield_file, delimiter=',', quotechar='"')
-  yield_write.writerow(['Name', 'Yield' ])
+# with open('eventYield.csv', mode='w') as yield_file:
+#   yield_write = csv.writer(yield_file, delimiter=',', quotechar='"')
+#   yield_write.writerow(['Name', 'Yield' ])
 
 if histoname=='cutflow_n' :
   with open('eventYield.csv', mode='a') as yield_file:

@@ -101,7 +101,8 @@ void mutau_analyzer::Loop(Long64_t maxEvents, int reportEvery, string SampleName
   double afterSF4=0;     
 
   if (fChain == 0) return;
-  int genMatching=0; 
+  //vector<UShort_t> genMatching; genMatching.clear();
+  int genMatching=0;
   int thirdLeptonIndex=-1;
   std::vector<int> muonGen;       muonGen.clear();
   std::vector<int> muCand;        muCand.clear();
@@ -244,9 +245,7 @@ void mutau_analyzer::Loop(Long64_t maxEvents, int reportEvery, string SampleName
        bool muMu_selector=false;
        numberOfEvents+=weight;
        weight=inspected_event_weight;
-       if (isMC) genMatching = gen_matching();
-       else genMatching = 0;
-       //cout<<"genMatch = "<<genMatching<<endl;
+       
        if(debug)cout<<"this worked Line 314"<<endl;
        
        if(isMC) weight=inspected_event_weight;
@@ -259,9 +258,7 @@ void mutau_analyzer::Loop(Long64_t maxEvents, int reportEvery, string SampleName
        weight = weight*pileup_sf;
        if( isGoodVtx==false ) continue;
        //if( noisyJet2017()==true ) continue;
-       //if( found_DYjet_sample && !(genMatching<5))
-       //	 continue;
-
+       
        if( found_DYjet_sample && hasGenTau())
 	 muTau_selector=true;
        else if( found_DYjet_sample && !hasGenTau() )
@@ -269,11 +266,13 @@ void mutau_analyzer::Loop(Long64_t maxEvents, int reportEvery, string SampleName
        else if ( !found_DYjet_sample )
 	 muTau_selector=true;
 
-       if( found_DYjet_sample && genMatching<5 )
+       if( found_DYjet_sample && 
+	   (!found_GenMatch(5) && !found_GenMatch(6))
+	   )
 	 muMu_selector=true;
        else
 	 muMu_selector=false;
-
+       
        /////Trigger bit selection
        if(HLTEleMuX>>21&1 == 1 || HLTEleMuX>>60&1 == 1 )
 	 passSingleTriggerPaths=true;
@@ -659,8 +658,8 @@ void mutau_analyzer::Loop(Long64_t maxEvents, int reportEvery, string SampleName
 	 {
 	   std::cout<<"Finished entry "<<jentry<<"/"<<(nentriesToCheck-1)<<std::endl;
 	 }
+	   
      }
-   
    
 
    std::cout.setf( std::ios::fixed, std:: ios::floatfield );
@@ -1068,21 +1067,23 @@ bool mutau_analyzer::passBjetVeto()
   }
   if(tmpJetCand.size() >=1 ){
     // atleast one jet ==> events pass medium 
-    if( (jetDeepCSVTags_b->at(tmpJetCand[0]) + jetDeepCSVTags_bb->at(tmpJetCand[0])) > 0.4941  )
+    if( (jetDeepCSVTags_b->at(tmpJetCand[0]) + jetDeepCSVTags_bb->at(tmpJetCand[0])) > 0.4184  )
       return veto = false;
   }
   else if(tmpJetCand.size() >= 2){
     // atleast 2 jets ==> events pass loose
-    if( (jetDeepCSVTags_b->at(tmpJetCand[0]) + jetDeepCSVTags_bb->at(tmpJetCand[0])) > 0.1522   )
+    if( (jetDeepCSVTags_b->at(tmpJetCand[0]) + jetDeepCSVTags_bb->at(tmpJetCand[0])) > 0.1241   )
       return veto = false;
   }
   return veto;
 }
-int mutau_analyzer::gen_matching(){
+std::vector<int> mutau_analyzer::gen_matching(){
   int tmpCand=-1;
   std::vector<int> tmpGenMatch;
   tmpGenMatch.clear();
-  
+  // std::vector<UShort_t> tmpGenMatch;
+  // tmpGenMatch.clear();
+  // ULong64_t tmpGenbit = 0;   
   for(int imc=0; imc<nMC; imc++){
     if( genMatch2->at(imc)>>1&1==1 ) tmpGenMatch.push_back(1);
     if( genMatch2->at(imc)>>2&1==1 ) tmpGenMatch.push_back(2);
@@ -1090,11 +1091,29 @@ int mutau_analyzer::gen_matching(){
     if( genMatch2->at(imc)>>4&1==1 ) tmpGenMatch.push_back(4);
     if( genMatch2->at(imc)>>5&1==1 ) tmpGenMatch.push_back(5);
     if( genMatch2->at(imc)>>6&1==1 ) tmpGenMatch.push_back(6);
+    // if( genMatch2->at(imc)>>1&1==1 ) setbit(tmpGenbit,  1);
+    // if( genMatch2->at(imc)>>2&1==1 ) setbit(tmpGenbit,  2);
+    // if( genMatch2->at(imc)>>3&1==1 ) setbit(tmpGenbit,  3);
+    // if( genMatch2->at(imc)>>4&1==1 ) setbit(tmpGenbit,  4);
+    // if( genMatch2->at(imc)>>5&1==1 ) setbit(tmpGenbit,  5);
+    // if( genMatch2->at(imc)>>6&1==1 ) setbit(tmpGenbit,  6);
   }
   
-  if(tmpGenMatch.size() >0 )
-    tmpCand=tmpGenMatch[0];
-  return tmpCand; 
+  // if(tmpGenMatch.size() >0 )
+  //   tmpCand=tmpGenMatch[0];
+  // return tmpCand; 
+  return tmpGenMatch;
+  //tmpGenMatch.push_back(tmpGenbit);
+  //return tmpGenMatch;
+
+}
+bool  mutau_analyzer::found_GenMatch(int genTau)
+{
+  std::vector<int> v = gen_matching();
+  if (std::find(v.begin(), v.end(), genTau) != v.end())
+    return true;
+  
+  return false;
 }
 std::vector<int> mutau_analyzer::getGenMu(){
   std::vector<int> tmpCand;
@@ -1128,8 +1147,7 @@ double mutau_analyzer::getScaleFactors( int muIndex , int tauIndex, bool fakeBkg
   double sf_tauesSF = 1.0;
   double sf_fakeEle = 1.0; double sf_fakeMu = 1.0;
   double sf_taufesSF = 1.0;
-  int genMatchTau = 0;
-  if(isMC) genMatchTau = gen_matching();
+  double dm11_sf=1.2;
   double recoMuonPt=0.0;
   if (muPt->at(muIndex) < 120)
     recoMuonPt=muPt->at(muIndex);
@@ -1137,46 +1155,51 @@ double mutau_analyzer::getScaleFactors( int muIndex , int tauIndex, bool fakeBkg
     recoMuonPt = 119;
   sf_muID = h_muIDSF->GetBinContent(h_muIDSF->GetXaxis()->FindBin(recoMuonPt),h_muIDSF->GetYaxis()->FindBin(abs(muEta->at(muIndex))));
   sf_IsoEff = h_muIsoSF->GetBinContent(h_muIDSF->GetXaxis()->FindBin(recoMuonPt),h_muIDSF->GetYaxis()->FindBin(abs(muEta->at(muIndex))));  
-  sf_muTrg = h_muTrgSF->GetBinContent(h_muIDSF->GetXaxis()->FindBin(muPt->at(muIndex)),h_muIDSF->GetYaxis()->FindBin(abs(muEta->at(muIndex))));
+  if (run < 316361)
+    sf_muTrg = h_muon_trg_1->GetBinContent(h_muIDSF->GetXaxis()->FindBin(muPt->at(muIndex)),h_muIDSF->GetYaxis()->FindBin(abs(muEta->at(muIndex))));
+  else if (run >= 316361)
+    sf_muTrg = h_muon_trg_2->GetBinContent(h_muIDSF->GetXaxis()->FindBin(muPt->at(muIndex)),h_muIDSF->GetYaxis()->FindBin(abs(muEta->at(muIndex))));
 
-  sf_tauidSF_m = h_tauidSF_m->GetBinContent(h_tauidSF_m->GetXaxis()->FindBin(tau_DecayMode->at(tauIndex)));
-  //sf_tauidSF_m = fn_tauIDSF_m->Eval(tau_Pt->at(reco_tau[0]));
-  sf_tauidSF_vvvl = h_tauidSF_vvvl->GetBinContent(h_tauidSF_vvvl->GetXaxis()->FindBin(tau_DecayMode->at(tauIndex)));
-  //sf_tauidSF_vvvl = fn_tauIDSF_vvl->Eval(tau_Pt->at(reco_tau[0]));
-  sf_tauesSF = h_tauesSF->GetBinContent(h_tauesSF->GetXaxis()->FindBin(tau_DecayMode->at(tauIndex)));
-
+  if( found_GenMatch(5))
+    {
+      sf_tauidSF_m = h_tauidSF_m->GetBinContent(h_tauidSF_m->GetXaxis()->FindBin(tau_DecayMode->at(tauIndex)));
+      //sf_tauidSF_m = fn_tauIDSF_m->Eval(tau_Pt->at(reco_tau[0]));
+      sf_tauidSF_vvvl = h_tauidSF_vvvl->GetBinContent(h_tauidSF_vvvl->GetXaxis()->FindBin(tau_DecayMode->at(tauIndex)));
+      //sf_tauidSF_vvvl = fn_tauIDSF_vvl->Eval(tau_Pt->at(reco_tau[0]));
+      sf_tauesSF = h_tauesSF->GetBinContent(h_tauesSF->GetXaxis()->FindBin(tau_DecayMode->at(tauIndex)));
+    }
   //if(genMatchTau==1 || genMatchTau==3)
   //sf_fakeEle = h_tauFakeEleSF->GetBinContent(h_tauFakeEleSF->GetXaxis()->FindBin(abs(tau_Eta->at(tauIndex))));
   //if(genMatchTau==2 || genMatchTau==4)
   //sf_fakeMu = h_tauFakeMuSF->GetBinContent(h_tauFakeMuSF->GetXaxis()->FindBin(abs(tau_Eta->at(tauIndex))));
-  if(genMatchTau==2 || genMatchTau==4){
+  if(found_GenMatch(2) || found_GenMatch(4)){
     if(tau_DecayMode->at(tauIndex)==0)
       {
-	if(abs(tau_Eta->at(tauIndex)) < 0.4 ) sf_fakeMu=1.14;
-	if(abs(tau_Eta->at(tauIndex)) > 0.4 
-	   && abs(tau_Eta->at(tauIndex)) < 0.8 ) sf_fakeMu=1.0;
-	if(abs(tau_Eta->at(tauIndex)) > 0.8
+  	if(abs(tau_Eta->at(tauIndex)) < 0.4 ) sf_fakeMu=1.14;
+  	if(abs(tau_Eta->at(tauIndex)) > 0.4 
+  	   && abs(tau_Eta->at(tauIndex)) < 0.8 ) sf_fakeMu=1.0;
+  	if(abs(tau_Eta->at(tauIndex)) > 0.8
            && abs(tau_Eta->at(tauIndex)) < 1.2 ) sf_fakeMu=0.87;
-	if(abs(tau_Eta->at(tauIndex)) > 1.2
+  	if(abs(tau_Eta->at(tauIndex)) > 1.2
            && abs(tau_Eta->at(tauIndex)) < 1.7 ) sf_fakeMu=0.52;
-	if(abs(tau_Eta->at(tauIndex)) > 1.7
+  	if(abs(tau_Eta->at(tauIndex)) > 1.7
            && abs(tau_Eta->at(tauIndex)) < 2.3 ) sf_fakeMu=1.47;
       }
     if(tau_DecayMode->at(tauIndex)==1)
       {
-	if(abs(tau_Eta->at(tauIndex)) > 0.0
+  	if(abs(tau_Eta->at(tauIndex)) > 0.0
            && abs(tau_Eta->at(tauIndex)) < 0.4 ) sf_fakeMu=0.69;
       }
   }
-  if(genMatchTau==1 || genMatchTau==3){
+  if(found_GenMatch(1) || found_GenMatch(3)){
     if(tau_DecayMode->at(tauIndex)==0)
       {
-	if(abs(tau_Eta->at(tauIndex)) < 1.479 ) sf_fakeEle=0.98;
-	if(abs(tau_Eta->at(tauIndex)) > 1.479 ) sf_fakeEle=0.80;
+  	if(abs(tau_Eta->at(tauIndex)) < 1.479 ) sf_fakeEle=0.98;
+  	if(abs(tau_Eta->at(tauIndex)) > 1.479 ) sf_fakeEle=0.80;
       }
     if(tau_DecayMode->at(tauIndex)==1)
       {
-	if(abs(tau_Eta->at(tauIndex)) < 1.479 ) sf_fakeEle=1.07;
+  	if(abs(tau_Eta->at(tauIndex)) < 1.479 ) sf_fakeEle=1.07;
         if(abs(tau_Eta->at(tauIndex)) > 1.479 ) sf_fakeEle=0.64;
       }
   }
@@ -1227,7 +1250,8 @@ bool mutau_analyzer::MatchTriggerFilter(int muIndex, int tauIndex)
     }
   if( (HLTEleMuX>>21&1 == 1 && nMuTriggerFilterMatch==23 )
       || (HLTEleMuX>>60&1 == 1 && nMuTriggerFilterMatch==23 ) 
-      || (HLTTau>>0&1 ==1  && nMuTriggerFilterMatch==23 )
+      || (HLTTau>>13&1 ==1  && nMuTriggerFilterMatch==23 )
+      || (HLTTau>>14&1 ==1  && nMuTriggerFilterMatch==23 )
       )
     passFilter=true;
     
@@ -1320,9 +1344,10 @@ void mutau_analyzer::fillHist( string histNumber , int muIndex, int tauIndex, fl
   plotFill("tot_TMass_"+hNumber, tot_tr_mass , 20, 0, 200,  event_weight);
   
   int triggerBin=0;
-  if( HLTEleMuX>>21&1 == 1 ) triggerBin=1;
-  if( HLTEleMuX>>60&1 == 1 ) triggerBin=2;
-  if( HLTTau>>0&1 == 1 )     triggerBin=3;
+  if( HLTEleMuX>>21&1 == 1 ) triggerBin=0;
+  if( HLTEleMuX>>60&1 == 1 ) triggerBin=1;
+  if( HLTTau>>13&1 == 1 )     triggerBin=2;
+  if( HLTTau>>14&1 == 1 )     triggerBin=3;
   plotFill("trigger_"+hNumber, triggerBin , 4, 0, 4,  event_weight);
   //if(debug)cout <<"plots filled for "<<hNumber<<endl;
   
@@ -1375,9 +1400,10 @@ void mutau_analyzer::fillHist( string histNumber , TLorentzVector muonP4, TLoren
   plotFill("tot_TMass_"+hNumber, tot_tr_mass , 20, 0, 200,  event_weight);
   
   int triggerBin=0;
-  if( HLTEleMuX>>21&1 == 1 ) triggerBin=1;
-  if( HLTEleMuX>>60&1 == 1 ) triggerBin=2;
-  if( HLTTau>>0&1 == 1 )     triggerBin=3;
+  if( HLTEleMuX>>21&1 == 1 ) triggerBin=0;
+  if( HLTEleMuX>>60&1 == 1 ) triggerBin=1;
+  if( HLTTau>>13&1 == 1 )     triggerBin=2;
+  if( HLTTau>>14&1 == 1 )     triggerBin=3;
   plotFill("trigger_"+hNumber, triggerBin , 4, 0, 4,  event_weight);
   //if(debug)cout <<"plots filled for "<<hNumber<<endl;
    
@@ -1436,10 +1462,26 @@ void mutau_analyzer::fillHist_dyll( string histNumber , int mu1Index, int mu2Ind
   plotFill("tot_TMass_"+hNumber, tot_tr_mass , 20, 0, 200,  event_weight);
   
   int triggerBin=0;
-  if( HLTEleMuX>>21&1 == 1 ) triggerBin=1;
-  if( HLTEleMuX>>60&1 == 1 ) triggerBin=2;
-  if( HLTTau>>13&1 == 1 || HLTTau>>14&1 == 1 )     triggerBin=3;
+  if( HLTEleMuX>>21&1 == 1 ) triggerBin=0;
+  if( HLTEleMuX>>60&1 == 1 ) triggerBin=1;
+  if( HLTTau>>13&1 == 1 )     triggerBin=2;
+  if( HLTTau>>14&1 == 1 )     triggerBin=3;
   plotFill("trigger_"+hNumber, triggerBin , 4, 0, 4,  event_weight);
   //if(debug)cout <<"plots filled for "<<hNumber<<endl;
   
+}
+
+void mutau_analyzer::setbit(UShort_t& x, UShort_t bit){
+  UShort_t a = 1;
+  x |= (a << bit);
+}
+
+void mutau_analyzer::setbit(UInt_t& x, UInt_t bit){
+  Int_t a = 1;
+  x |= (a << bit);
+}
+
+void mutau_analyzer::setbit(ULong64_t& x, UShort_t bit){
+  ULong64_t a = 1;
+  x |= (a << bit);
 }

@@ -8,7 +8,7 @@ declare -a plotList=("elePt_5" "eleEta_5" "elePhi_5" "eleDz_5" "eleD0_5" "electr
 for i in "${plotList[@]}"
 do 
     echo "$i"
-    python makeplot_mutauh.py -in $inFile -name $i -cat 0 -ch etau -xaxis $i
+    python ~/monoHiggs_2018_wDnn/CMSSW_10_2_18/src/analysis/MacrosAndScripts/makeplot.py -in $inFile -name $i -cat 0 -ch etau -xaxis $i -year 2017
 done
 
 
@@ -18,6 +18,4 @@ done
 #    python makeplot_mutauh.py -in $inFile -name $i -cat 0 -ch etau -xaxis $i
 #done
 
-python makeplot_mutauh.py -in $inFile -name cutflow_n -cat 0 -ch etau -xaxis "cutflow" -lY
-#python makeplot_mutauh.py -in $inFile -name cutflow_Htt -cat 0 -ch etau -xaxis "cutflow" -lY
-#python makeplot_mutauh.py -in $inFile -lY -name Higgs_pt -cat 0 -ch mutau
+python ~/monoHiggs_2018_wDnn/CMSSW_10_2_18/src/analysis/MacrosAndScripts/makeplot.py -in $inFile -name cutflow_n -cat 0 -ch etau -xaxis "cutflow" -lY  -year 2017

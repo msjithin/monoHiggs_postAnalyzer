@@ -110,13 +110,6 @@ mkdir $outDir
 ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/ZZTo4L_TuneCP5_02.root ZZTo4L_TuneCP5_02.root -1 1000 2017 MC ZZTo4L_TuneCP5_02 $outDir
 ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/ZZZ_TuneCP5_00.root ZZZ_TuneCP5_00.root -1 1000 2017 MC ZZZ_TuneCP5_00 $outDir
 ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/ZZ_TuneCP5_00.root ZZ_TuneCP5_00.root -1 1000 2017 MC ZZ_TuneCP5_00 $outDir
-# ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/ggZH_HToTauTau_ZToLL_M125_00.root ggZH_HToTauTau_ZToLL_M125_00.root -1 1000 2017 MC ggZH_HToTauTau_ZToLL_M125_00 $outDir
-# ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/ggZH_HToTauTau_ZToNuNu_M125_00.root ggZH_HToTauTau_ZToNuNu_M125_00.root -1 1000 2017 MC ggZH_HToTauTau_ZToNuNu_M125_00 $outDir
-# ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/ttHToTauTau_M125_TuneCP5_00.root ttHToTauTau_M125_TuneCP5_00.root -1 1000 2017 MC ttHToTauTau_M125_TuneCP5_00 $outDir
-# ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/ttHToTauTau_M125_TuneCP5_01.root ttHToTauTau_M125_TuneCP5_01.root -1 1000 2017 MC ttHToTauTau_M125_TuneCP5_01 $outDir
-# ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/ttHToTauTau_M125_TuneCP5_02.root ttHToTauTau_M125_TuneCP5_02.root -1 1000 2017 MC ttHToTauTau_M125_TuneCP5_02 $outDir
-# ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/ttHToTauTau_M125_TuneCP5_03.root ttHToTauTau_M125_TuneCP5_03.root -1 1000 2017 MC ttHToTauTau_M125_TuneCP5_03 $outDir
-# ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/ttHToTauTau_M125_TuneCP5_04.root ttHToTauTau_M125_TuneCP5_04.root -1 1000 2017 MC ttHToTauTau_M125_TuneCP5_04 $outDir
 
 
 ###########################  DATA #########################

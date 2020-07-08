@@ -25,14 +25,14 @@ done
 
 outFile="study_mutau_dy.root"
 echo "dy sample analysis....."
-./analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DY1JetsToLL_00.root DY1JetsToLL_00.root $nEvents 1000 2018_test MC DY1JetsToLL_00
+./analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DY1JetsToLL_00.root DY1JetsToLL_00_test.root $nEvents 1000 2018_test MC DY1JetsToLL_00
 
 outFile="study_mutau_wj.root"
 echo "wjets sample analysis....."
-./analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/WJetsToLNu_Incl_00.root WJetsToLNu_00.root $nEvents 1000 2018_test MC WJetsToLNu_00
+./analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/WJetsToLNu_Incl_00.root WJetsToLNu_00_test.root $nEvents 1000 2018_test MC WJetsToLNu_00
 outFile="study_mutau_data.root"
 echo "data sample analysis....."
-./analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/SingleMuonA_00.root SingleMuonA_00.root $nEvents 1000 2018_test DATA SingleMuonA_00
+./analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/SingleMuonA_00.root SingleMuonA_00_test.root $nEvents 1000 2018_test DATA SingleMuonA_00
 
 
 end=`date +%s`

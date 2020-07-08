@@ -44,13 +44,15 @@ category_=args.category
 xaxis_label=args.xaxis[:-2]
 channel_=args.channel
 eventsPerBin=""
-if (histoname=="muPt_5" or histoname=="tauPtPt_5"):
+if ("muPt" in histoname or "tauPt" in histoname):
   eventsPerBin=" /2GeV"
-if (histoname=="higgsPt_5"):
+if ("higgsPt" in histoname):
   eventsPerBin=" /10GeV"
-if (histoname=="visMass_5"):
+if ("visMass" in  histoname):
   eventsPerBin=" /5GeV"
-if (histoname=="met_5"):
+if ("met" in histoname):
+  eventsPerBin=" /10GeV"
+if ("mT_" in histoname):
   eventsPerBin=" /10GeV"
 #print "Item / histogram name = ", histoname
 
@@ -58,7 +60,7 @@ if (args.piAxis):
   piAxis = 1
 else :
   piAxis = 0
-if histoname=="muPhi_5" or histoname=="tauPhi_5":
+if ( "Phi" in histoname) :
   piAxis = 1
 
 yaxisLog = 0
@@ -72,8 +74,8 @@ if (args.noLegend):
 
 
 def add_lumi():
-  lowX=0.50
-  lowY=0.835
+  lowX=0.40
+  lowY=0.825
   lumi  = ROOT.TPaveText(lowX, lowY+0.06, lowX+0.50, lowY+0.16, "NDC")
   lumi.SetBorderSize(   0 )
   lumi.SetFillStyle(    0 )
@@ -81,7 +83,7 @@ def add_lumi():
   lumi.SetTextColor(    1 )
   lumi.SetTextSize(0.05)
   lumi.SetTextFont (   42 )
-  lumiProcessed="60"
+  lumiProcessed="59.7"
   if channel_=="combined":
     lumi.AddText("4 channels combined 2018, "+lumiProcessed+" fb^{-1} (13 TeV)")
   if channel_=="mutau":
@@ -95,20 +97,20 @@ def add_lumi():
   return lumi
 
 def add_CMS():
-    lowX=0.21
-    lowY=0.70
+    lowX=0.65 #0.21
+    lowY=0.68
     lumi  = ROOT.TPaveText(lowX, lowY+0.06, lowX+0.15, lowY+0.16, "NDC")
     lumi.SetTextFont(61)
     lumi.SetTextSize(0.08)
     lumi.SetBorderSize(   0 )
     lumi.SetFillStyle(    0 )
-    lumi.SetTextAlign(   12 )
+    lumi.SetTextAlign(   31 )#12
     lumi.SetTextColor(    1 )
     lumi.AddText("CMS")
     return lumi
 
 def add_Preliminary():
-    lowX=0.21
+    lowX=0.65 # 0.21
     lowY=0.63
     lumi  = ROOT.TPaveText(lowX, lowY+0.06, lowX+0.15, lowY+0.16, "NDC")
     lumi.SetTextFont(61)
@@ -116,13 +118,13 @@ def add_Preliminary():
     lumi.SetTextSize(0.06)
     lumi.SetBorderSize(   0 )
     lumi.SetFillStyle(    0 )
-    lumi.SetTextAlign(   12 )
+    lumi.SetTextAlign(   31 )#12
     lumi.SetTextColor(    1 )
     lumi.AddText("Preliminary")
     return lumi
 
 def make_legend():
-  output = ROOT.TLegend(0.85, 0.75, 1.0, 0.94, "", "brNDC")
+  output = ROOT.TLegend(0.85, 0.45, 1.0, 0.75, "", "brNDC")
   #output = ROOT.TLegend(0.2, 0.1, 0.47, 0.65, "", "brNDC")
   output.SetLineWidth(1)
   output.SetLineStyle(1)
@@ -136,7 +138,7 @@ ROOT.gStyle.SetFrameLineWidth(1)
 ROOT.gStyle.SetLineWidth(2)
 ROOT.gStyle.SetOptStat(0)
 
-c=ROOT.TCanvas("canvas","",0,0,1200,1200)
+c=ROOT.TCanvas("canvas","",0,0,1300,1200)
 c.cd()
 
 if channel_=="mutau":
@@ -153,7 +155,7 @@ if channel_=="combined":
 adapt=ROOT.gROOT.GetColor(12)
 new_idx=ROOT.gROOT.GetListOfColors().GetSize() + 1
 trans=ROOT.TColor(new_idx, adapt.GetRed(), adapt.GetGreen(),adapt.GetBlue(), "",0.5)
-dirname = [histoname+"/",histoname, histoname+"_fr/"]
+dirname = [histoname+"/",histoname, histoname+"_fr/", histoname+"_dyll/", histoname+"_dyll_fr/"]
 
 #if (OutFile.GetListOfKeys().Contains(histoname)):
 #  print(histoname+' histogram found')
@@ -173,6 +175,7 @@ WJetselect="WJets_jets"
 OutFile.cd()
 Data_hist    =OutFile.Get(dirname[0]+"data_obs_"+histoname)
 ZTT_hist     = OutFile.Get(dirname[0]+ZTTselect+"_"+histoname)
+ZLL_hist     = OutFile.Get(dirname[3]+ZTTselect+"_"+histoname+"_dyll")
 EWKWMinus_hist = OutFile.Get(dirname[0]+"EWKWMinus_"+histoname)
 EWKWPlus_hist = OutFile.Get(dirname[0]+"EWKWPlus_"+histoname)
 EWKZ2Jets_hist = OutFile.Get(dirname[0]+"EWKZ2Jets_"+histoname)
@@ -188,11 +191,8 @@ ZH_hist      = OutFile.Get(dirname[0]+"ZH_"+histoname)
 VVV_hist     = OutFile.Get(dirname[0]+"VVV_"+histoname)
 ZJetsToNuNu_hist = OutFile.Get(dirname[0]+"ZJetsToNuNu_"+histoname)
 
-#ZTT_hist.Add(EWKWMinus_hist)
-#ZTT_hist.Add(EWKWPlus_hist)
-#ZTT_hist.Add(EWKZ2Jets_hist)
-#Wjets_hist.Add(WminusH_hist)
-#Wjets_hist.Add(WplusH_hist)
+#if( OutFile.Get(dirname[3]+ZTTselect+"_"+histoname+"_dyll") ):
+#  ZTT_hist.Add(ZLL_hist, -1)
 if( OutFile.Get(dirname[0]+"EWKWMinus_"+histoname) ) :
   GluGluH_hist.Add(EWKWMinus_hist)
 if( OutFile.Get(dirname[0]+"EWKWPlus_"+histoname) ):
@@ -215,6 +215,7 @@ if( OutFile.Get(dirname[0]+"VVV_"+histoname) ):
 
 F_bkg=OutFile.Get(dirname[2]+"data_obs_"+histoname+"_fr")
 ZTT_bkg     = OutFile.Get(dirname[2]+ZTTselect+"_"+histoname+"_fr")
+ZLL_bkg     = OutFile.Get(dirname[4]+ZTTselect+"_"+histoname+"_dyll_fr")
 EWKWMinus_bkg = OutFile.Get(dirname[2]+"EWKWMinus_"+histoname+"_fr")
 EWKWPlus_bkg = OutFile.Get(dirname[2]+"EWKWPlus_"+histoname+"_fr")
 EWKZ2Jets_bkg = OutFile.Get(dirname[2]+"EWKZ2Jets_"+histoname+"_fr")
@@ -231,6 +232,8 @@ VVV_bkg     = OutFile.Get(dirname[2]+"VVV_"+histoname+"_fr")
 #ZJetsToNuNu_bkg = OutFile.Get(dirname[2]+"ZJetsToNuNu_"+histoname+"_fr")
 
 F_bkg.Add(ZTT_bkg, -1)
+#if(OutFile.Get(dirname[4]+ZTTselect+"_"+histoname+"_dyll_fr")):
+#  F_bkg.Add(ZLL_bkg, -1)
 if(OutFile.Get(dirname[2]+"EWKWMinus_"+histoname+"_fr")):
   F_bkg.Add(EWKWMinus_bkg, -1)
 if( OutFile.Get(dirname[2]+"EWKWPlus_"+histoname+"_fr")):
@@ -247,9 +250,9 @@ if(OutFile.Get(dirname[2]+"VV_"+histoname+"_fr")):
   F_bkg.Add(VV_bkg, -1)
 if(OutFile.Get(dirname[2]+"WminusH_"+histoname+"_fr")):
   F_bkg.Add(WminusH_bkg, -1)
-if(OutFile.Get(dirname[2]+"WplusH_"+histoname+"_fr")  ):
+if( OutFile.Get(dirname[2]+"WplusH_"+histoname+"_fr")):
   F_bkg.Add(WplusH_bkg, -1)
-if(OutFile.Get(dirname[2]+"ZH_"+histoname+"_fr") ):
+if( OutFile.Get(dirname[2]+"ZH_"+histoname+"_fr")):
   F_bkg.Add(ZH_bkg, -1)
 if(OutFile.Get(dirname[2]+"VVV_"+histoname+"_fr")):
   F_bkg.Add(VVV_bkg, -1)
@@ -257,16 +260,25 @@ if(OutFile.Get(dirname[2]+"VVV_"+histoname+"_fr")):
 
 #sampleList    = [Data_hist,    ZTT_hist,   Wjets_hist,   TT_hist,   GluGluH_hist,   VV_hist, ZJetsToNuNu_hist]
 #sampleListRef = ['Data_hist', 'ZTT_hist', 'Wjets_hist', 'TT_hist', 'GluGluH_hist', 'VV_hist', 'ZJetsToNuNu_hist']
-sampleList    = [Data_hist,    ZTT_hist,  F_bkg,  TT_hist,   GluGluH_hist,   VV_hist ]
-sampleListRef = ['Data_hist', 'ZTT_hist', 'F_bkg', 'TT_hist', 'GluGluH_hist', 'VV_hist']
+sampleList    = [Data_hist,    ZTT_hist,  ZLL_hist, TT_hist,   GluGluH_hist,   VV_hist, F_bkg ]
+sampleListRef = ['Data_hist', 'ZTT_hist', 'ZLL_hist', 'TT_hist', 'GluGluH_hist', 'VV_hist', 'F_bkg']
 # sampleList    = [Data_hist,    ZTT_hist,   Wjets_hist,   TT_hist,   GluGluH_hist,   VV_hist ]
 # sampleListRef = ['Data_hist', 'ZTT_hist', 'Wjets_hist', 'TT_hist', 'GluGluH_hist', 'VV_hist']
 
-ZTT_hist.SetFillColor(ROOT.TColor.GetColor("#ffcc66"))
+# ZTT_hist.SetFillColor(ROOT.TColor.GetColor("#ffcc66"))
+# ZLL_hist.SetFillColor(ROOT.TColor.GetColor("#3d96c9"))
 Wjets_hist.SetFillColor(ROOT.TColor.GetColor("#cc6666"))
 F_bkg.SetFillColor(ROOT.TColor.GetColor("#cc6666"))
+# TT_hist.SetFillColor(ROOT.TColor.GetColor("#9999cc"))
+# GluGluH_hist.SetFillColor(ROOT.TColor.GetColor("#0066ff"))
+# VV_hist.SetFillColor(ROOT.TColor.GetColor("#990099"))
+# #ZJetsToNuNu_hist.SetFillColor(ROOT.TColor.GetColor("#ff9999"))
+ZTT_hist.SetFillColor(ROOT.TColor.GetColor("#ffcc66"))
+ZLL_hist.SetFillColor(ROOT.TColor.GetColor("#4496c8"))
+#Wjets_hist.SetFillColor(ROOT.TColor.GetColor("#ffccff"))
+#F_bkg.SetFillColor(ROOT.TColor.GetColor("#ffccff"))
 TT_hist.SetFillColor(ROOT.TColor.GetColor("#9999cc"))
-GluGluH_hist.SetFillColor(ROOT.TColor.GetColor("#0066ff"))
+GluGluH_hist.SetFillColor(ROOT.TColor.GetColor("#12cadd"))
 VV_hist.SetFillColor(ROOT.TColor.GetColor("#990099"))
 #ZJetsToNuNu_hist.SetFillColor(ROOT.TColor.GetColor("#ff9999"))
 
@@ -308,17 +320,22 @@ Data_hist.GetXaxis().SetLabelSize(0)
 Data_hist.GetYaxis().SetLabelFont(42)
 Data_hist.GetYaxis().SetLabelOffset(0.01)
 Data_hist.GetYaxis().SetLabelSize(0.04)
-Data_hist.GetYaxis().SetTitleSize(0.075)
-Data_hist.GetYaxis().SetTitleOffset(1.04)
+Data_hist.GetYaxis().SetTitleSize(0.05)
+Data_hist.GetYaxis().SetTitleOffset(1.22)
 Data_hist.SetTitle("")
-Data_hist.GetYaxis().SetTitle("Events")
 Data_hist.GetYaxis().SetTitle("")
+
+# with open('eventYield.csv', mode='w') as yield_file:
+#   yield_write = csv.writer(yield_file, delimiter=',', quotechar='"')
+#   yield_write.writerow(['Name', 'Yield' ])
+
 if histoname=='cutflow_n' :
   with open('eventYield.csv', mode='a') as yield_file:
     yield_write = csv.writer(yield_file, delimiter=',', quotechar='"')
     yield_write.writerow(['From Cutflow bin 8' ])
     yield_write.writerow(['Data_hist', Data_hist.GetBinContent(8) ])
     yield_write.writerow(['ZTT',  ZTT_hist.GetBinContent(8)  ])
+    yield_write.writerow(['ZLL',  ZLL_hist.GetBinContent(8)  ])
     yield_write.writerow(['Fake', F_bkg.GetBinContent(8) ])
     yield_write.writerow(['TT',   TT_hist.GetBinContent(8) ])
     yield_write.writerow(['ggh',  GluGluH_hist.GetBinContent(8) ])
@@ -329,13 +346,14 @@ if histoname=='tauCharge_6' :
     yield_write.writerow(['From tau charge, integral, with mT cut' ])
     yield_write.writerow(['Data_hist', Data_hist.Integral() ])
     yield_write.writerow(['ZTT',  ZTT_hist.Integral()  ])
+    yield_write.writerow(['ZLL',  ZLL_hist.Integral()  ])
     yield_write.writerow(['Fake', F_bkg.Integral() ])
     yield_write.writerow(['TT',   TT_hist.Integral() ])
     yield_write.writerow(['ggh',  GluGluH_hist.Integral() ])
     yield_write.writerow(['VV' ,  VV_hist.Integral() ])
 
 c.cd()
-pad1 = ROOT.TPad("pad1","pad1",0,0.35,1,1)
+pad1 = ROOT.TPad("pad1","pad1",0,0.25,1,1)
 pad1.Draw()
 pad1.cd()
 pad1.SetFillColor(0)
@@ -344,10 +362,10 @@ pad1.SetBorderSize(1)
 pad1.SetTickx(1)
 pad1.SetTicky(1)
 pad1.SetGridx()
-pad1.SetLeftMargin(0.18)
-pad1.SetRightMargin(0.05)
+pad1.SetLeftMargin(0.15) #0.15
+pad1.SetRightMargin(0.15) #0.1
 pad1.SetTopMargin(0.122)
-pad1.SetBottomMargin(0.026)
+pad1.SetBottomMargin(0.025)
 pad1.SetFrameFillStyle(0)
 pad1.SetFrameLineStyle(0)
 pad1.SetFrameLineWidth(1)
@@ -358,6 +376,8 @@ if yaxisLog == 1 :
 
 Data_hist.SetMarkerStyle(20)
 Data_hist.SetMarkerSize(1.5)
+if histoname == "cutflow_n":
+  Data_hist.SetMarkerSize(1.5)
 Data_hist.SetMarkerColor(1)
 
 Data_hist.GetXaxis().SetTitle("")
@@ -366,18 +386,22 @@ if yaxisLog == 1 :
   Data_hist.SetMaximum(100*max(Data_hist.GetMaximum(),stack.GetMaximum()))
   Data_hist.SetMinimum(1000)
 else :
-  Data_hist.SetMaximum(1.35*max(Data_hist.GetMaximum(),stack.GetMaximum()))
+  Data_hist.SetMaximum(1.055*max(Data_hist.GetMaximum(),stack.GetMaximum()))
   Data_hist.SetMinimum(0.0)
+if histoname == "cutflow_n":
+  Data_hist.SetMinimum(100000)
 
 Data_hist.Draw("e1")
 stack.Draw("histsame")
 if histoname != "cutflow_n":
   errorBand.Draw("e2same")
 Data_hist.Draw("e1same")
+Data_hist.Draw("e1same")
 
 legendNameList = {
   'Data_hist'  : 'Data obs',
   'ZTT_hist'   : 'Z->mutau',
+  'ZLL_hist'   : 'Z-> ll',
   'Wjets_hist' : 'WJets',
   'F_bkg'      : 'jet-tau fake', 
   'TT_hist'    : 'ttabr',
@@ -414,11 +438,11 @@ categ.SetTextFont (   42 )
 
 
 c.cd()
-pad2 = ROOT.TPad("pad2","pad2",0,0,1,0.35);
-pad2.SetTopMargin(0.05);
+pad2 = ROOT.TPad("pad2","pad2",0,0,1,0.25);
+pad2.SetTopMargin(0.02);
 pad2.SetBottomMargin(0.35);
-pad2.SetLeftMargin(0.18);
-pad2.SetRightMargin(0.05);
+pad2.SetLeftMargin(0.15);
+pad2.SetRightMargin(0.15);
 pad2.SetTickx(1)
 pad2.SetTicky(1)
 pad2.SetFrameLineWidth(1)
@@ -442,7 +466,7 @@ h1.SetMarkerColor(1)
 h1.SetLineColor(1)
 h1.SetTitle("")
 h1.GetXaxis().SetLabelSize(0.1)
-h1.GetYaxis().SetTitle("ratio")
+h1.GetYaxis().SetTitle("Data/MC")
 h1.GetYaxis().SetLabelSize(0.08)
 h1.SetMaximum(1.5)
 h1.SetMinimum(0.5)
@@ -495,12 +519,14 @@ elif histoname=='cutflow_n':
   h1.SetMaximum(2.0)#FIXME(1.2)
   h1.SetMinimum(0.0)#FIXME(0.8)
 
+
+
 h1.GetYaxis().SetNdivisions(5)
 h1.GetXaxis().SetTitleFont(42)
 h1.GetYaxis().SetTitleFont(42)
 h1.GetXaxis().SetTitleSize(0.15)
 h1.GetYaxis().SetTitleSize(0.15)
-h1.GetYaxis().SetTitleOffset(0.56)
+h1.GetYaxis().SetTitleOffset(0.3)
 h1.GetXaxis().SetTitleOffset(1.1)
 
 h1.Draw("e0p")
