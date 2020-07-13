@@ -50,7 +50,7 @@ category_=args.category
 xaxis_label=args.xaxis[:-2]
 channel_=args.channel
 eventsPerBin=""
-if ("muPt" in histoname or "tauPt" in histoname):
+if ("muPt" in histoname or "tauPt" in histoname or "elePt" in histoname):
   eventsPerBin=" /2GeV"
 if ("higgsPt" in histoname):
   eventsPerBin=" /10GeV"
@@ -151,14 +151,15 @@ if(OutFile.Get(dirname[0]+"WplusH_"+histoname)):
 if( OutFile.Get(dirname[0]+"ZH_"+histoname)):
   GluGluH_hist.Add(ZH_hist)
 if(OutFile.Get(dirname[0]+"ST_t_"+histoname)):
-  VV_hist.Add(ST_t_hist)
+  GluGluH_hist.Add(ST_t_hist)
 if( OutFile.Get(dirname[0]+"VVV_"+histoname) ):
-  VV_hist.Add(VVV_hist)
-
+  GluGluH_hist.Add(VVV_hist)
+if(OutFile.Get(dirname[0]+"VV_"+histoname)):
+  GluGluH_hist.Add(VV_hist)
 
 F_bkg=OutFile.Get(dirname[2]+"data_obs_"+histoname+"_fr")
 ZTT_bkg     = OutFile.Get(dirname[2]+ZTTselect+"_"+histoname+"_fr")
-ZLL_bkg     = OutFile.Get(dirname[4]+ZTTselect+"_"+histoname+"_dyll_fr")
+#ZLL_bkg     = OutFile.Get(dirname[4]+ZTTselect+"_"+histoname+"_dyll_fr")
 EWKWMinus_bkg = OutFile.Get(dirname[2]+"EWKWMinus_"+histoname+"_fr")
 EWKWPlus_bkg = OutFile.Get(dirname[2]+"EWKWPlus_"+histoname+"_fr")
 EWKZ2Jets_bkg = OutFile.Get(dirname[2]+"EWKZ2Jets_"+histoname+"_fr")
@@ -203,10 +204,10 @@ if(OutFile.Get(dirname[2]+"VVV_"+histoname+"_fr")):
 
 #sampleList    = [Data_hist,    ZTT_hist,   Wjets_hist,   TT_hist,   GluGluH_hist,   VV_hist, ZJetsToNuNu_hist]
 #sampleListRef = ['Data_hist', 'ZTT_hist', 'Wjets_hist', 'TT_hist', 'GluGluH_hist', 'VV_hist', 'ZJetsToNuNu_hist']
-sampleList    = [Data_hist,    ZTT_hist,  ZLL_hist, TT_hist,   GluGluH_hist,   VV_hist, F_bkg ]
-sampleListRef = ['Data_hist', 'ZTT_hist', 'ZLL_hist', 'TT_hist', 'GluGluH_hist', 'VV_hist', 'F_bkg']
-# sampleList    = [Data_hist,    ZTT_hist,   Wjets_hist,   TT_hist,   GluGluH_hist,   VV_hist ]
-# sampleListRef = ['Data_hist', 'ZTT_hist', 'Wjets_hist', 'TT_hist', 'GluGluH_hist', 'VV_hist']
+# sampleList    = [Data_hist,    ZTT_hist,  ZLL_hist, TT_hist,   GluGluH_hist,   VV_hist, F_bkg ]
+# sampleListRef = ['Data_hist', 'ZTT_hist', 'ZLL_hist', 'TT_hist', 'GluGluH_hist', 'VV_hist', 'F_bkg']
+sampleList    = [Data_hist,    ZTT_hist,  ZLL_hist, TT_hist,   GluGluH_hist,    F_bkg ]
+sampleListRef = ['Data_hist', 'ZTT_hist', 'ZLL_hist', 'TT_hist', 'GluGluH_hist', 'F_bkg']
 
 Wjets_hist.SetFillColor(ROOT.TColor.GetColor(color_wjets))
 F_bkg.SetFillColor(ROOT.TColor.GetColor(color_wjets))
@@ -308,8 +309,11 @@ else :
   if channel_=="mutau":
     Data_hist.SetMaximum(1.055*max(Data_hist.GetMaximum(),stack.GetMaximum()))
   if channel_=="etau":
-    Data_hist.SetMaximum(1.5*max(Data_hist.GetMaximum(),stack.GetMaximum()))
+    Data_hist.SetMaximum(1.5*max(Data_hist.GetMaximum(), stack.GetMaximum()))
+  if channel_=="tautau":
+    Data_hist.SetMaximum(1.055*max(Data_hist.GetMaximum(), stack.GetMaximum()))
   Data_hist.SetMinimum(0.0)
+  
 if histoname == "cutflow_n":
   Data_hist.SetMinimum(1000)
 
@@ -327,7 +331,8 @@ legendNameList = {
   'Wjets_hist' : 'WJets',
   'F_bkg'      : 'jet-tau fake', 
   'TT_hist'    : 'ttabr',
-  'GluGluH_hist' : 'ggh, vbfH, ZH',
+  #'GluGluH_hist' : 'ggh, vbfH, ZH',
+  'GluGluH_hist' : 'Others',
   'VV_hist'    : 'VV, SingleTop',
   'ZJetsToNuNu_hist' : 'Z->nunu + jets'
 }
@@ -445,5 +450,4 @@ if noLegend == 0:
 
 c.Modified()
 c.SaveAs("plots/plot_"+histoname+"_"+channel_+".png")
-
 

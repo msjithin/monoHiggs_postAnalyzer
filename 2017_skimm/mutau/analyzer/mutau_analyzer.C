@@ -939,7 +939,7 @@ std::vector<int> mutau_analyzer::getJetCand(int muIndex, int tauIndex){
       if( dr_jetMu>0.5 && dr_jetTau>0.5 )
 	drPassed=true;
 	  
-      if( (kinematic50 || kinematic30 ) && drPassed==true)
+      if( (kinematic50 || kinematic30 ) && drPassed==true && jetPUFullID->at(iJet)>>1&1==1)
 	tmpCand.push_back(iJet);
     }
   return tmpCand;

@@ -45,6 +45,7 @@
 #include <TLorentzVector.h>
 #include "makeHisto.h" 
 #include "sf_files/roCorr_Run2_v3/RoccoR.cc"
+#include "ComputeFF2018/FFcode/interface/ApplyFF.h"
 
 using namespace std;
 using std::vector;
@@ -178,10 +179,25 @@ void tautau_analyzer::Loop(Long64_t maxEvents, int reportEvery, string SampleNam
    }
    
    // if(debug)cout<<" setting up other files ..."<<endl;
-   RoccoR  rc("sf_files/roCorr_Run2_v3/RoccoR2017.txt"); 
    TLorentzVector tau1P4;
    TLorentzVector tau2P4;
-   
+   TFile frawff("ComputeFF2018/ff_files_tt_2017/uncorrected_fakefactors_tt.root");
+   TF1* ff_qcd_0jet=(TF1*) frawff.Get("rawFF_tt_qcd_0jet");
+   TF1* ff_qcd_1jet=(TF1*) frawff.Get("rawFF_tt_qcd_1jet");
+   TF1* ff_w_0jet=(TF1*) frawff.Get("rawFF_tt_w_0jet");
+   TF1* ff_w_1jet=(TF1*) frawff.Get("rawFF_et_w_1jet");
+   TF1* ff_tt_0jet=(TF1*) frawff.Get("mc_rawFF_et_tt");
+
+   TFile fmvisclosure ("ComputeFF2018/ff_files_tt_2017/FF_corrections_1.root");
+   TF1* mvisclosure_qcd=(TF1*) fmvisclosure.Get("closure_mvis_tt_qcd");
+   TF1* mvisclosure_w=(TF1*) fmvisclosure.Get("closure_mvis_tt_w");
+   TF1* mvisclosure_tt=(TF1*) fmvisclosure.Get("closure_mvis_tt_ttmc");
+
+   TFile fosssclosure ("ComputeFF2018/ff_files_tt_2017/FF_QCDcorrectionOSSS_tt.root");
+   TF1* osssclosure_qcd=(TF1*) fosssclosure.Get("closure_mvis_tt_qcd");
+   TF1* mtclosure_w=(TF1*) fosssclosure.Get("closure_mt_tt_w");
+
+
    Long64_t nentries = fChain->GetEntries();
    if ( isMC==true ) std::cout<<".... MC file ..... "<<std::endl;
    else  std::cout<<".... DATA file ..... "<<std::endl;
@@ -341,7 +357,7 @@ void tautau_analyzer::Loop(Long64_t maxEvents, int reportEvery, string SampleNam
 			 {
 			   nGoodTauPassed+=event_weight;
 			   if(debug)cout<<"this worked Line 305"<<endl;
-
+			   
 			   reco_tau1.clear();reco_tau2.clear();
 			   reco_tau1=tau1Cand; reco_tau2=tau2Cand;
 			   //cout<<"tau 1 pt: "<<tau_Pt->at(reco_tau1[0])<< "   tau 2 pt: "<<tau_Pt->at(reco_tau2[0])<<endl;
@@ -352,6 +368,7 @@ void tautau_analyzer::Loop(Long64_t maxEvents, int reportEvery, string SampleNam
 				   nGoodMuTauPassed+=event_weight;
 				   tau1P4.SetPtEtaPhiE(tau_Pt->at(reco_tau1[0]), tau_Eta->at(reco_tau1[0]), tau_Phi->at(reco_tau1[0]), tau_Energy->at(reco_tau1[0]));
 				   tau2P4.SetPtEtaPhiE(tau_Pt->at(reco_tau2[0]), tau_Eta->at(reco_tau2[0]), tau_Phi->at(reco_tau2[0]), tau_Energy->at(reco_tau2[0]));
+				   
 				   if(debug)cout<<"this worked Line 314, SR opp charge passed"<<endl;
 				   
 				   if(debug)cout<<" sf : "<<getScaleFactors( reco_tau1[0] , reco_tau2[0] , false , isMC , debug ) <<endl;
@@ -421,6 +438,12 @@ void tautau_analyzer::Loop(Long64_t maxEvents, int reportEvery, string SampleNam
 				   nGoodMuTauPassed_fr+=event_weight;
 				   tau1P4.SetPtEtaPhiE(tau_Pt->at(reco_tau1[0]), tau_Eta->at(reco_tau1[0]), tau_Phi->at(reco_tau1[0]), tau_Energy->at(reco_tau1[0]));
 				   tau2P4.SetPtEtaPhiE(tau_Pt->at(reco_tau2[0]), tau_Eta->at(reco_tau2[0]), tau_Phi->at(reco_tau2[0]), tau_Energy->at(reco_tau2[0]));
+				   double mT_muMet = TMass_F( tau1P4.Pt(), tau1P4.Phi(),pfMET,pfMETPhi  );
+				   std::vector<int> jetCand;       jetCand.clear();
+				   jetCand=getJetCand(reco_tau1[0], reco_tau2[0]);
+				   
+				   float my_fakefactor = get_ff(tau1P4.Pt(), mT_muMet, VisMass_F(tau1P4, tau2P4), jetCand.size(), 1.0, 0, 0, ff_qcd_0jet, ff_qcd_1jet, 0, 0, 0, mvisclosure_qcd, 0, 0, 0, osssclosure_qcd);
+				   cout<<"my_fakefactor = "<<my_fakefactor<<endl;
 				   if(debug)cout<<"this worked Line 314, SR opp charge passed"<<endl;
 				   
 				   event_weight = event_weight* getFR(reco_tau2[0]) * 0.5;
@@ -697,10 +720,8 @@ std::vector<int> tautau_analyzer::getTauCand(double tauPtCut, double tauEtaCut){
       if( tau_byVVVLooseDeepTau2017v2p1VSe->at(iTau)==1 && tau_byVLooseDeepTau2017v2p1VSmu->at(iTau)==1)tau_reject=true;
 
       if(  HLTTau>>6&1 == 1 
-	   || HLTTau>>10&1 == 1
-	   || HLTTau>>7&1 == 1
-	   || HLTTau>>11&1 == 1
-	   || HLTTau>>12&1 == 1
+      	   || HLTTau>>7&1 == 1
+	   || HLTTau>>5&1 == 1
 	  ) trigger=true;
       if( kinematic==true    
 	  && decayModeCut==true   
@@ -738,12 +759,10 @@ std::vector<int> tautau_analyzer::getAISRTauCand(double tauPtCut, double tauEtaC
       //if( tau_DecayMode->at(iTau)==0 || tau_DecayMode->at(iTau)==1 || tau_DecayMode->at(iTau)==10 || tau_DecayMode->at(iTau)==11 ) decayModeCut=true;
       if( tau_DecayMode->at(iTau)==0 || tau_DecayMode->at(iTau)==1 || tau_DecayMode->at(iTau)==10 ) decayModeCut=true;
       if( tau_byVVVLooseDeepTau2017v2p1VSe->at(iTau)==1 && tau_byVLooseDeepTau2017v2p1VSmu->at(iTau)==1 )tau_reject=true;
-
+      
       if(  HLTTau>>6&1 == 1 
-	   || HLTTau>>10&1 == 1
 	   || HLTTau>>7&1 == 1
-	   || HLTTau>>11&1 == 1
-	   || HLTTau>>12&1 == 1
+	   || HLTTau>>5&1 == 1
 	  ) trigger=true;
 
       if( kinematic==true    
@@ -786,10 +805,8 @@ std::vector<int> tautau_analyzer::getTau2Cand(double tauPtCut, double tauEtaCut,
       if( tau_byVVVLooseDeepTau2017v2p1VSe->at(iTau)==1 && tau_byVLooseDeepTau2017v2p1VSmu->at(iTau)==1)tau_reject=true;
 
       if(  HLTTau>>6&1 == 1 
-	   || HLTTau>>10&1 == 1
 	   || HLTTau>>7&1 == 1
-	   || HLTTau>>11&1 == 1
-	   || HLTTau>>12&1 == 1
+	   || HLTTau>>5&1 == 1
 	  ) trigger=true;
 
       if( kinematic==true    
@@ -830,10 +847,8 @@ std::vector<int> tautau_analyzer::getAISRTau2Cand(double tauPtCut, double tauEta
       if( tau_DecayMode->at(iTau)==0 || tau_DecayMode->at(iTau)==1 || tau_DecayMode->at(iTau)==10 ) decayModeCut=true;
       if( tau_byVVVLooseDeepTau2017v2p1VSe->at(iTau)==1 && tau_byVLooseDeepTau2017v2p1VSmu->at(iTau)==1 )tau_reject=true;
       if(  HLTTau>>6&1 == 1 
-	   || HLTTau>>10&1 == 1
-	   || HLTTau>>7&1 == 1
-	   || HLTTau>>11&1 == 1
-	   || HLTTau>>12&1 == 1
+       	   || HLTTau>>7&1 == 1
+	   || HLTTau>>5&1 == 1
 	   ) trigger=true;
       
       
@@ -875,7 +890,7 @@ std::vector<int> tautau_analyzer::getJetCand(int tau1Index, int tau2Index){
       if( dr_jetTau1>0.5 && dr_jetTau2>0.5 )
 	drPassed=true;
 	  
-      if( (kinematic50 || kinematic30 ) && drPassed==true)
+      if( (kinematic50 || kinematic30 ) && drPassed==true &&  jetPUFullID->at(iJet)>>1&1==1)
 	tmpCand.push_back(iJet);
     }
   return tmpCand;
@@ -940,7 +955,7 @@ int tautau_analyzer::thirdLeptonVeto(){
   return thirdLepIndex;
   
 }
-                                                                                    
+
 
 double tautau_analyzer::dR(int mu_index, int tau_index)
 {
@@ -1019,14 +1034,14 @@ bool tautau_analyzer::passBjetVeto()
   if(tmpJetCand.size() >=1 ){
     // atleast one jet ==> events pass medium 
     if( (jetDeepCSVTags_b->at(tmpJetCand[0]) + jetDeepCSVTags_bb->at(tmpJetCand[0])) > 0.4941  )
-      return veto = false;
+      return false;
   }
   else if(tmpJetCand.size() >= 2){
     // atleast 2 jets ==> events pass loose
     if( (jetDeepCSVTags_b->at(tmpJetCand[0]) + jetDeepCSVTags_bb->at(tmpJetCand[0])) > 0.1522   )
-      return veto = false;
+      return false;
   }
-  return veto;
+  return true;
 }
 int tautau_analyzer::gen_matching(){
   int tmpCand=-1;
@@ -1154,10 +1169,8 @@ bool tautau_analyzer::MatchTriggerFilter(int tau1Index, int tau2Index)
     }
 
   if(  HLTTau>>6&1 == 1 
-       || HLTTau>>10&1 == 1
        || HLTTau>>7&1 == 1
-       || HLTTau>>11&1 == 1
-       || HLTTau>>12&1 == 1
+       || HLTTau>>5&1 == 1
        )  passFilter=true;
     
   return passFilter;
@@ -1264,7 +1277,7 @@ void tautau_analyzer::fillHist( string histNumber , int tau1Index, int tau2Index
   int triggerBin=0;
   if(  HLTTau>>6&1 == 1 ||  HLTTau>>10&1 == 1 ) triggerBin=1;
   if(  HLTTau>>7&1 == 1 ||  HLTTau>>11&1 == 1 ) triggerBin=2;
-  if( HLTTau>>2&1 == 1 )     triggerBin=3;
+  if( HLTTau>>5&1 == 1 )     triggerBin=3;
   plotFill("trigger_"+hNumber, triggerBin , 4, 0, 4,  event_weight);
   //if(debug)cout <<"plots filled for "<<hNumber<<endl;
   
@@ -1316,7 +1329,7 @@ void tautau_analyzer::fillHist( string histNumber , TLorentzVector tau1P4, TLore
   int triggerBin=0;
   if(  HLTTau>>6&1 == 1 ||  HLTTau>>10&1 == 1 ) triggerBin=1;
   if(  HLTTau>>7&1 == 1 ||  HLTTau>>11&1 == 1 ) triggerBin=2;
-  if( HLTTau>>2&1 == 1 )     triggerBin=3;
+  if( HLTTau>>5&1 == 1 )     triggerBin=3;
   plotFill("trigger_"+hNumber, triggerBin , 4, 0, 4,  event_weight);
   //if(debug)cout <<"plots filled for "<<hNumber<<endl;
    

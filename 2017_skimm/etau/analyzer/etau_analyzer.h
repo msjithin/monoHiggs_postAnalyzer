@@ -59,7 +59,6 @@ public :
    TFile *fileName;
    TTree *tree = new TTree("myTree", "A ROOT tree");
    TH1F* h_nEvents ;
-   Int_t reco_mu_index=-1; Int_t reco_tau_index=-1;
 
    double nMETFiltersPassed_fr, nPassedSkimmed_fr , nSingleTrgPassed_fr, nGoodMuonPassed_fr, nGoodTauPassed_fr, nGoodMuTauPassed_fr, nPassedThirdLepVeto_fr, nPassedBjetVeto_fr, nDeltaRPassed_fr;
    double nMETFiltersPassed, nPassedSkimmed, nSingleTrgPassed, nGoodMuonPassed, nGoodTauPassed, nGoodMuTauPassed, nPassedThirdLepVeto, nPassedBjetVeto, nDeltaRPassed;
@@ -882,7 +881,7 @@ public :
    virtual vector<int> getEleCand(double pt, double eta);
    virtual vector<int> getTauCand(double pt, double eta);
    virtual vector<int> getAISRTauCand(double pt, double eta);
-   virtual vector<int> getJetCand(int eleIndex, int tauIndex);
+   virtual vector<int> getJetCand(int eleIndex, int tauIndex, int ele2Index);
    virtual vector<int> gen_matching();
    virtual bool found_GenMatch(int genTau);
    virtual int thirdLeptonVeto();
@@ -896,9 +895,9 @@ public :
    //   virtual bool electron_pass(int pho_index, float elePtCut);
    //virtual bool relIso(int ele_index);
    virtual bool passBjetVeto();
-   virtual void fillHist( string histNumber, int muIndex, int tauIndex, float event_weight);
-   virtual void fillHist( string histNumber, TLorentzVector eleP4, TLorentzVector tauP4, int muIndex, int tauIndex, float event_weight);
-   virtual void fillHist_dyll( string histNumber, int mu1Index, int mu2Index, int tauIndex, float event_weight);
+   virtual void fillHist( string histNumber, int muIndex, int tauIndex, float event_weight, bool isMC);
+   virtual void fillHist( string histNumber, TLorentzVector eleP4, TLorentzVector tauP4, int muIndex, int tauIndex, float event_weight, bool isMC);
+   virtual void fillHist_dyll( string histNumber, int mu1Index, int mu2Index, int tauIndex, float event_weight, bool isMC);
    virtual vector<int> getGenMu();
    virtual bool hasGenTau();
    virtual float exponential(float x,float a,float b,float c);
@@ -907,8 +906,11 @@ public :
    virtual double getScaleFactors( int eleIndex , int tauIndex,  bool fakeBkg , bool isMC, bool debug);
    virtual bool noisyJet2017();
    virtual bool MatchTriggerFilter(int eleIndex, int tauIndex);
+   virtual void makeTestPlot( string histNumber , int eleIndex, int ele2Index, int tauIndex, float event_weight);
+   virtual bool passDiElectronVeto(int eleIndex);
+   virtual int eVetoZTTp001dxyz(double minDeltaR);
+   virtual int mVetoZTTp001dxyz(double minDeltaR);
 };
-
 #endif
 
 #ifdef etau_analyzer_cxx

@@ -16,11 +16,12 @@ else
 fi
 hadd $outDIR/DY1JetsToLL_M-50_TuneCP5_final.root rootFiles/DY1JetsToLL_M-50_TuneCP5_00.root rootFiles/DY1JetsToLL_M-50_TuneCP5_01.root rootFiles/DY1JetsToLL_M-50_TuneCP5_02.root rootFiles/DY1JetsToLL_M-50_TuneCP5_03.root rootFiles/DY1JetsToLL_M-50_TuneCP5_04.root 
 hadd $outDIR/DY2JetsToLL_M-50_TuneCP5_final.root rootFiles/DY2JetsToLL_M-50_TuneCP5_00.root rootFiles/DY2JetsToLL_M-50_TuneCP5_01.root 
-hadd $outDIR/DY3JetsToLL_M-50_TuneCP5_ext1_final.root rootFiles/DY3JetsToLL_M-50_TuneCP5_ext1_00.root rootFiles/DY3JetsToLL_M-50_TuneCP5_v1_00.root 
+hadd $outDIR/DY3JetsToLL_M-50_TuneCP5_ext1_final.root rootFiles/DY3JetsToLL_M-50_TuneCP5_ext1_00.root 
+hadd $outDIR/DY3JetsToLL_M-50_TuneCP5_v1_final.root rootFiles/DY3JetsToLL_M-50_TuneCP5_v1_00.root 
 hadd $outDIR/DY4JetsToLL_M-50_TuneCP5_final.root rootFiles/DY4JetsToLL_M-50_TuneCP5_00.root 
 hadd $outDIR/DYJetsToLL_M-10to50_TuneCP5_final.root rootFiles/DYJetsToLL_M-10to50_TuneCP5_00.root rootFiles/DYJetsToLL_M-10to50_TuneCP5_01.root rootFiles/DYJetsToLL_M-10to50_TuneCP5_02.root rootFiles/DYJetsToLL_M-10to50_TuneCP5_03.root rootFiles/DYJetsToLL_M-10to50_TuneCP5_04.root 
-
-hadd $outDIR/DYJetsToLL_M-50_TuneCP5_ext1_v1_final.root rootFiles/DYJetsToLL_M-50_TuneCP5_ext1_v1_00.root rootFiles/DYJetsToLL_M-50_TuneCP5_ext1_v1_01.root rootFiles/DYJetsToLL_M-50_TuneCP5_ext1_v1_02.root rootFiles/DYJetsToLL_M-50_TuneCP5_ext1_v1_03.root rootFiles/DYJetsToLL_M-50_TuneCP5_ext1_v1_04.root rootFiles/DYJetsToLL_M-50_TuneCP5_ext1_v1_05.root rootFiles/DYJetsToLL_M-50_TuneCP5_v1_00.root rootFiles/DYJetsToLL_M-50_TuneCP5_v1_01.root rootFiles/DYJetsToLL_M-50_TuneCP5_v1_02.root rootFiles/DYJetsToLL_M-50_TuneCP5_v1_03.root rootFiles/DYJetsToLL_M-50_TuneCP5_v1_04.root rootFiles/DYJetsToLL_M-50_TuneCP5_v1_05.root 
+hadd $outDIR/DYJetsToLL_M-50_TuneCP5_ext1_v1_final.root rootFiles/DYJetsToLL_M-50_TuneCP5_ext1_v1_00.root rootFiles/DYJetsToLL_M-50_TuneCP5_ext1_v1_01.root rootFiles/DYJetsToLL_M-50_TuneCP5_ext1_v1_02.root rootFiles/DYJetsToLL_M-50_TuneCP5_ext1_v1_03.root rootFiles/DYJetsToLL_M-50_TuneCP5_ext1_v1_04.root rootFiles/DYJetsToLL_M-50_TuneCP5_ext1_v1_05.root 
+hadd $outDIR/DYJetsToLL_M-50_TuneCP5_v1_final.root rootFiles/DYJetsToLL_M-50_TuneCP5_v1_00.root rootFiles/DYJetsToLL_M-50_TuneCP5_v1_01.root rootFiles/DYJetsToLL_M-50_TuneCP5_v1_02.root rootFiles/DYJetsToLL_M-50_TuneCP5_v1_03.root rootFiles/DYJetsToLL_M-50_TuneCP5_v1_04.root rootFiles/DYJetsToLL_M-50_TuneCP5_v1_05.root 
 hadd $outDIR/EWKWMinus2Jets_WToLNu_M-50_TuneCP5_final.root rootFiles/EWKWMinus2Jets_WToLNu_M-50_TuneCP5_00.root 
 hadd $outDIR/EWKWPlus2Jets_WToLNu_M-50_TuneCP5_final.root rootFiles/EWKWPlus2Jets_WToLNu_M-50_TuneCP5_00.root 
 hadd $outDIR/EWKZ2Jets_ZToLL_M-50_TuneCP5_final.root rootFiles/EWKZ2Jets_ZToLL_M-50_TuneCP5_00.root 

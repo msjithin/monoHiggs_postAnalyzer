@@ -198,8 +198,8 @@ if(OutFile.Get(dirname[2]+"VVV_"+histoname+"_fr")):
   F_bkg.Add(VVV_bkg, -1)
 #F_bkg.Add(ZJetsToNuNu_bkg, -1)
 
-sampleList    = [Data_hist,    ZTT_hist,   TT_hist,   GluGluH_hist,   VV_hist, F_bkg ]
-sampleListRef = ['Data_hist', 'ZTT_hist', 'TT_hist', 'GluGluH_hist', 'VV_hist', 'F_bkg']
+sampleList    = [Data_hist,    ZTT_hist,   TT_hist,   GluGluH_hist,   VV_hist ]
+sampleListRef = ['Data_hist', 'ZTT_hist', 'TT_hist', 'GluGluH_hist', 'VV_hist']
 # sampleList    = [Data_hist,    ZTT_hist,  ZLL_hist, TT_hist,   GluGluH_hist,   VV_hist, F_bkg ]
 # sampleListRef = ['Data_hist', 'ZTT_hist', 'ZLL_hist', 'TT_hist', 'GluGluH_hist', 'VV_hist', 'F_bkg']
 
@@ -314,7 +314,7 @@ Data_hist.Draw("e1same")
 
 legendNameList = {
   'Data_hist'  : 'Data obs',
-  'ZTT_hist'   : 'Z->mutau',
+  'ZTT_hist'   : 'Z->tautau',
   'ZLL_hist'   : 'Z-> ll',
   'Wjets_hist' : 'WJets',
   'F_bkg'      : 'jet-tau fake', 
