@@ -192,7 +192,7 @@ bool skimm_et_2017::skimming_Htt(){
        fabs(eleD0->at(iEle))<0.045 && 
        elePt->at(iEle) > 19.5      &&
        fabs(eleEta->at(iEle))< 2.5 &&
-       relMuIso<0.30 
+       relMuIso<0.50 
        ) {
       eleFound=true;
       tmpEleCand.push_back(iEle);
@@ -201,7 +201,7 @@ bool skimm_et_2017::skimming_Htt(){
   
   for(int iTau=0; iTau<nTau;iTau++){
     if( tau_Pt->at(iTau) > 19.5           &&
-	fabs( tau_Eta->at(iTau))< 2.3     &&
+	fabs( tau_Eta->at(iTau))< 2.5     &&
        	(tau_IDbits->at(iTau)>>2&1==1 || tau_byVLooseDeepTau2017v2p1VSmu->at(iTau)==1 ) &&
 	(tau_IDbits->at(iTau)>>4&1==1 || tau_byVVVLooseDeepTau2017v2p1VSe->at(iTau)==1)&&
 	(tau_IDbits->at(iTau)>>13&1==1 || tau_byVVVLooseDeepTau2017v2p1VSjet->at(iTau)==1 )

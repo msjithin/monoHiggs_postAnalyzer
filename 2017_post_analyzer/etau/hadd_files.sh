@@ -70,5 +70,3 @@ hadd $outDIR/ZZTo2L2Q_final.root rootFiles/ZZTo2L2Q_00.root rootFiles/ZZTo2L2Q_0
 hadd $outDIR/ZZTo4L_TuneCP5_final.root rootFiles/ZZTo4L_TuneCP5_00.root rootFiles/ZZTo4L_TuneCP5_01.root rootFiles/ZZTo4L_TuneCP5_02.root 
 hadd $outDIR/ZZZ_TuneCP5_final.root rootFiles/ZZZ_TuneCP5_00.root 
 hadd $outDIR/ZZ_TuneCP5_final.root rootFiles/ZZ_TuneCP5_00.root 
-
-

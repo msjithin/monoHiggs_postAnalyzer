@@ -134,8 +134,6 @@ ZH_hist      = OutFile.Get(dirname[0]+"ZH_"+histoname)
 VVV_hist     = OutFile.Get(dirname[0]+"VVV_"+histoname)
 ZJetsToNuNu_hist = OutFile.Get(dirname[0]+"ZJetsToNuNu_"+histoname)
 
-#if( OutFile.Get(dirname[3]+ZTTselect+"_"+histoname+"_dyll") ):
-#  ZTT_hist.Add(ZLL_hist, -1)
 if( OutFile.Get(dirname[0]+"EWKWMinus_"+histoname) ) :
   GluGluH_hist.Add(EWKWMinus_hist)
 if( OutFile.Get(dirname[0]+"EWKWPlus_"+histoname) ):
@@ -159,11 +157,9 @@ if(OutFile.Get(dirname[0]+"VV_"+histoname)):
 
 F_bkg=OutFile.Get(dirname[2]+"data_obs_"+histoname+"_fr")
 ZTT_bkg     = OutFile.Get(dirname[2]+ZTTselect+"_"+histoname+"_fr")
-#ZLL_bkg     = OutFile.Get(dirname[4]+ZTTselect+"_"+histoname+"_dyll_fr")
 EWKWMinus_bkg = OutFile.Get(dirname[2]+"EWKWMinus_"+histoname+"_fr")
 EWKWPlus_bkg = OutFile.Get(dirname[2]+"EWKWPlus_"+histoname+"_fr")
 EWKZ2Jets_bkg = OutFile.Get(dirname[2]+"EWKZ2Jets_"+histoname+"_fr")
-#Wjets_bkg   = OutFile.Get(dirname[2]+WJetselect+"_"+histoname+"_fr")
 GluGluH_bkg = OutFile.Get(dirname[2]+"GluGluH_"+histoname+"_fr")
 ST_t_bkg    = OutFile.Get(dirname[2]+"ST_t_"+histoname+"_fr")
 TT_bkg      = OutFile.Get(dirname[2]+"TT_"+histoname+"_fr")
@@ -176,15 +172,12 @@ VVV_bkg     = OutFile.Get(dirname[2]+"VVV_"+histoname+"_fr")
 #ZJetsToNuNu_bkg = OutFile.Get(dirname[2]+"ZJetsToNuNu_"+histoname+"_fr")
 
 F_bkg.Add(ZTT_bkg, -1)
-#if(OutFile.Get(dirname[4]+ZTTselect+"_"+histoname+"_dyll_fr")):
-#  F_bkg.Add(ZLL_bkg, -1)
 if(OutFile.Get(dirname[2]+"EWKWMinus_"+histoname+"_fr")):
   F_bkg.Add(EWKWMinus_bkg, -1)
 if( OutFile.Get(dirname[2]+"EWKWPlus_"+histoname+"_fr")):
   F_bkg.Add(EWKWPlus_bkg, -1)
 if(OutFile.Get(dirname[2]+"EWKZ2Jets_"+histoname+"_fr")):
   F_bkg.Add(EWKZ2Jets_bkg, -1)
-  #F_bkg.Add(Wjets_bkg, -1)
 F_bkg.Add(GluGluH_bkg, -1)
 F_bkg.Add(ST_t_bkg, -1)
 F_bkg.Add(TT_bkg, -1)
@@ -202,12 +195,12 @@ if(OutFile.Get(dirname[2]+"VVV_"+histoname+"_fr")):
   F_bkg.Add(VVV_bkg, -1)
 #F_bkg.Add(ZJetsToNuNu_bkg, -1)
 
-#sampleList    = [Data_hist,    ZTT_hist,   Wjets_hist,   TT_hist,   GluGluH_hist,   VV_hist, ZJetsToNuNu_hist]
-#sampleListRef = ['Data_hist', 'ZTT_hist', 'Wjets_hist', 'TT_hist', 'GluGluH_hist', 'VV_hist', 'ZJetsToNuNu_hist']
-# sampleList    = [Data_hist,    ZTT_hist,  ZLL_hist, TT_hist,   GluGluH_hist,   VV_hist, F_bkg ]
-# sampleListRef = ['Data_hist', 'ZTT_hist', 'ZLL_hist', 'TT_hist', 'GluGluH_hist', 'VV_hist', 'F_bkg']
 sampleList    = [Data_hist,    ZTT_hist,  ZLL_hist, TT_hist,   GluGluH_hist,    F_bkg ]
 sampleListRef = ['Data_hist', 'ZTT_hist', 'ZLL_hist', 'TT_hist', 'GluGluH_hist', 'F_bkg']
+if channel_=="etau":
+  sampleList    = [Data_hist,    ZTT_hist,  ZLL_hist, TT_hist,  F_bkg, GluGluH_hist ]
+  sampleListRef = ['Data_hist', 'ZTT_hist', 'ZLL_hist', 'TT_hist', 'F_bkg', 'GluGluH_hist']
+
 
 Wjets_hist.SetFillColor(ROOT.TColor.GetColor(color_wjets))
 F_bkg.SetFillColor(ROOT.TColor.GetColor(color_wjets))
@@ -222,6 +215,7 @@ for i in range(len(sampleList)):
 
 stack=ROOT.THStack("stack","stack")  
 for i in range(len(sampleList)-1, 0, -1):
+  #print(i, sampleList[i])
   stack.Add(sampleList[i])
 
 errorBand=sampleList[1].Clone()
@@ -295,10 +289,11 @@ if yaxisLog == 1 :
   pad1.SetLogy()  
 
 Data_hist.SetMarkerStyle(20)
+Data_hist.SetMarkerColor(1)
 Data_hist.SetMarkerSize(1.5)
 if histoname == "cutflow_n":
-  Data_hist.SetMarkerSize(1.5)
-Data_hist.SetMarkerColor(1)
+  Data_hist.SetMarkerSize(2)
+
 
 Data_hist.GetXaxis().SetTitle("")
 Data_hist.GetYaxis().SetTitle("Events"+eventsPerBin)
@@ -319,10 +314,11 @@ if histoname == "cutflow_n":
 
 Data_hist.Draw("e1")
 stack.Draw("histsame")
-if histoname != "cutflow_n":
-  errorBand.Draw("e2same")
+# if histoname != "cutflow_n":
+#   errorBand.Draw("e1same")
 Data_hist.Draw("e1same")
-Data_hist.Draw("e1same")
+if histoname == "cutflow_n":
+  Data_hist.Draw("e0psame")
 
 legendNameList = {
   'Data_hist'  : 'Data obs',
@@ -343,8 +339,6 @@ for i in range(len(sampleListRef)):
   else:
     legende.AddEntry(sampleList[i], legendNameList[sampleListRef[i]], "f")
   
-# if noLegend == 0:
-#   legende.Draw()
 
 l1=add_lumi(year_, channel_)
 l1.Draw("same")

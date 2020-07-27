@@ -1,9 +1,9 @@
 
 #!/bin/bash 
 set -e 
-if [ -f "f_mutau_initial.root" ]; then
-    echo "deleting existing f_mutau_initial.root file ....."
-    rm f_mutau_initial.root
+if [ -f "f_etau_initial.root" ]; then
+    echo "deleting existing f_etau_initial.root file ....."
+    rm f_etau_initial.root
 fi
 if [ "$(ls -A files_nominal)" ]; then
     echo "deleting existing files in directory files_nominal ....."
@@ -23,15 +23,11 @@ fi
 ./_postAnalyzer_mutau.exe ../files_initial/DY3JetsToLL_M-50_TuneCP5_v1_final.root files_nominal/DY3JetsToLL_M-50_TuneCP5_v1_stitch_final.root ZTT3jet ZTTjet 0 
 ./_postAnalyzer_mutau.exe ../files_initial/DY4JetsToLL_M-50_TuneCP5_final.root files_nominal/DY4JetsToLL_M-50_TuneCP5_final.root DY4JetsToLL ZTT 0 
 ./_postAnalyzer_mutau.exe ../files_initial/DY4JetsToLL_M-50_TuneCP5_final.root files_nominal/DY4JetsToLL_M-50_TuneCP5_stitch_final.root ZTT4jet ZTTjet 0 
-
 ./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_M-10to50_TuneCP5_final.root files_nominal/DYJetsToLL_M-10to50_TuneCP5_final.root DYJetsToLL ZTT 0 
-
 ./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_M-50_TuneCP5_ext1_v1_final.root files_nominal/DYJetsToLL_M-50_TuneCP5_ext1_v1_final.root DYJetsToLL ZTT 0 
 ./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_M-50_TuneCP5_ext1_v1_final.root files_nominal/DYJetsToLL_M-50_TuneCP5_ext1_v1_stitch_final.root ZTTjet_inc ZTTjet 0 
-
 ./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_M-50_TuneCP5_v1_final.root files_nominal/DYJetsToLL_M-50_TuneCP5_v1_final.root DYJetsToLL ZTT 0 
 ./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_M-50_TuneCP5_v1_final.root files_nominal/DYJetsToLL_M-50_TuneCP5_v1_stitch_final.root ZTTjet_inc ZTTjet 0 
-
 ./_postAnalyzer_mutau.exe ../files_initial/EWKWMinus2Jets_WToLNu_M-50_TuneCP5_final.root files_nominal/EWKWMinus2Jets_WToLNu_M-50_TuneCP5_final.root EWKWMinus2Jets EWKWMinus 0 
 ./_postAnalyzer_mutau.exe ../files_initial/EWKWPlus2Jets_WToLNu_M-50_TuneCP5_final.root files_nominal/EWKWPlus2Jets_WToLNu_M-50_TuneCP5_final.root EWKWPlus2Jets EWKWPlus 0 
 ./_postAnalyzer_mutau.exe ../files_initial/EWKZ2Jets_ZToLL_M-50_TuneCP5_final.root files_nominal/EWKZ2Jets_ZToLL_M-50_TuneCP5_final.root EWKZ2Jets_ZToLL EWKZ2Jets 0 
@@ -86,7 +82,7 @@ fi
 ./_postAnalyzer_mutau.exe ../files_initial/ZZZ_TuneCP5_final.root files_nominal/ZZZ_TuneCP5_final.root ZZZ VVV 0 
 ./_postAnalyzer_mutau.exe ../files_initial/ZZ_TuneCP5_final.root files_nominal/ZZ_TuneCP5_final.root ZZ VV 0 
 
-hadd -f f_mutau_initial.root files_nominal/*.root 
+hadd -f f_etau_initial.root files_nominal/*.root 
 echo "*************** root file made ***************" 
 sh do_make_plots.sh
 echo "*************** plots made ***************" 
