@@ -11,13 +11,15 @@ import datetime
 import argparse
 from sys import path
 path.append("../../../MacrosAndScripts/")
+
 from myPlotStyle import *
 
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-name",
                     help="name of hist to be plotted")
-
+parser.add_argument("-year",
+                    help="dataset year")
 parser.add_argument("-in", "--inputFile",
                     help="name of input file")
 
@@ -42,12 +44,13 @@ parser.add_argument("-ch", "--channel",
 now = datetime.datetime.now()
 args =  parser.parse_args()
 histoname=args.name
+year_=args.year
 inputFile_=args.inputFile
 category_=args.category
 xaxis_label=args.xaxis[:-2]
 channel_=args.channel
 eventsPerBin=""
-if ("muPt" in histoname or "tauPt" in histoname):
+if ("muPt" in histoname or "tauPt" in histoname or "elePt" in histoname):
   eventsPerBin=" /2GeV"
 if ("higgsPt" in histoname):
   eventsPerBin=" /10GeV"
@@ -79,7 +82,6 @@ ROOT.gStyle.SetFrameLineWidth(1)
 ROOT.gStyle.SetLineWidth(2)
 ROOT.gStyle.SetOptStat(0)
 
-c=ROOT.TCanvas("canvas","",0,0,1300,1200)
 c.cd()
 
 if channel_=="mutau":
@@ -132,8 +134,34 @@ ZH_hist      = OutFile.Get(dirname[0]+"ZH_"+histoname)
 VVV_hist     = OutFile.Get(dirname[0]+"VVV_"+histoname)
 ZJetsToNuNu_hist = OutFile.Get(dirname[0]+"ZJetsToNuNu_"+histoname)
 
-#if( OutFile.Get(dirname[3]+ZTTselect+"_"+histoname+"_dyll") ):
-#  ZTT_hist.Add(ZLL_hist, -1)
+# Data_hist_dyll=OutFile.Get(dirname[3]+"data_obs_"+histoname+"_dyll")
+# Data_hist.Add(Data_hist_dyll)
+# EWKWMinus_dyll = OutFile.Get(dirname[3]+"EWKWMinus_"+histoname+"_dyll")
+# EWKWPlus_dyll = OutFile.Get(dirname[3]+"EWKWPlus_"+histoname+"_dyll")
+# EWKZ2Jets_dyll = OutFile.Get(dirname[3]+"EWKZ2Jets_"+histoname+"_dyll")
+# GluGluH_dyll = OutFile.Get(dirname[3]+"GluGluH_"+histoname+"_dyll")
+# ST_t_dyll    = OutFile.Get(dirname[3]+"ST_t_"+histoname+"_dyll")
+# TT_dyll      = OutFile.Get(dirname[3]+"TT_"+histoname+"_dyll")
+# VBFH_dyll    = OutFile.Get(dirname[3]+"VBFH_"+histoname+"_dyll")
+# VV_dyll      = OutFile.Get(dirname[3]+"VV_"+histoname+"_dyll")
+# WminusH_dyll = OutFile.Get(dirname[3]+"WminusH_"+histoname+"_dyll")
+# WplusH_dyll  = OutFile.Get(dirname[3]+"WplusH_"+histoname+"_dyll")
+# ZH_dyll      = OutFile.Get(dirname[3]+"ZH_"+histoname+"_dyll")
+# VVV_dyll     = OutFile.Get(dirname[3]+"VVV_"+histoname+"_dyll")
+#ZLL_hist.Add(EWKWMinus_dyll )
+#ZLL_hist.Add(EWKWPlus_dyll  )
+# ZLL_hist.Add(EWKZ2Jets_dyll )
+# ZLL_hist.Add(GluGluH_dyll   )
+# ZLL_hist.Add(ST_t_dyll   )
+# ZLL_hist.Add(TT_dyll   )
+# ZLL_hist.Add(VBFH_dyll )
+# ZLL_hist.Add(VV_dyll   )
+# ZLL_hist.Add(WminusH_dyll )
+# ZLL_hist.Add(WplusH_dyll  )
+# ZLL_hist.Add(ZH_dyll   )
+# ZLL_hist.Add(VVV_dyll  )
+
+
 if( OutFile.Get(dirname[0]+"EWKWMinus_"+histoname) ) :
   GluGluH_hist.Add(EWKWMinus_hist)
 if( OutFile.Get(dirname[0]+"EWKWPlus_"+histoname) ):
@@ -149,18 +177,19 @@ if(OutFile.Get(dirname[0]+"WplusH_"+histoname)):
 if( OutFile.Get(dirname[0]+"ZH_"+histoname)):
   GluGluH_hist.Add(ZH_hist)
 if(OutFile.Get(dirname[0]+"ST_t_"+histoname)):
-  VV_hist.Add(ST_t_hist)
+  GluGluH_hist.Add(ST_t_hist)
 if( OutFile.Get(dirname[0]+"VVV_"+histoname) ):
-  VV_hist.Add(VVV_hist)
-
+  GluGluH_hist.Add(VVV_hist)
+if(OutFile.Get(dirname[0]+"VV_"+histoname)):
+  GluGluH_hist.Add(VV_hist)
 
 F_bkg=OutFile.Get(dirname[2]+"data_obs_"+histoname+"_fr")
+F_bkg_dyll=OutFile.Get(dirname[4]+"data_obs_"+histoname+"_dyll_fr")
 ZTT_bkg     = OutFile.Get(dirname[2]+ZTTselect+"_"+histoname+"_fr")
 ZLL_bkg     = OutFile.Get(dirname[4]+ZTTselect+"_"+histoname+"_dyll_fr")
 EWKWMinus_bkg = OutFile.Get(dirname[2]+"EWKWMinus_"+histoname+"_fr")
 EWKWPlus_bkg = OutFile.Get(dirname[2]+"EWKWPlus_"+histoname+"_fr")
 EWKZ2Jets_bkg = OutFile.Get(dirname[2]+"EWKZ2Jets_"+histoname+"_fr")
-#Wjets_bkg   = OutFile.Get(dirname[2]+WJetselect+"_"+histoname+"_fr")
 GluGluH_bkg = OutFile.Get(dirname[2]+"GluGluH_"+histoname+"_fr")
 ST_t_bkg    = OutFile.Get(dirname[2]+"ST_t_"+histoname+"_fr")
 TT_bkg      = OutFile.Get(dirname[2]+"TT_"+histoname+"_fr")
@@ -172,6 +201,8 @@ ZH_bkg      = OutFile.Get(dirname[2]+"ZH_"+histoname+"_fr")
 VVV_bkg     = OutFile.Get(dirname[2]+"VVV_"+histoname+"_fr")
 #ZJetsToNuNu_bkg = OutFile.Get(dirname[2]+"ZJetsToNuNu_"+histoname+"_fr")
 
+#if(OutFile.Get(dirname[4]+"data_obs_"+histoname+"_dyll_fr")):
+#  F_bkg.Add(F_bkg_dyll)
 F_bkg.Add(ZTT_bkg, -1)
 #if(OutFile.Get(dirname[4]+ZTTselect+"_"+histoname+"_dyll_fr")):
 #  F_bkg.Add(ZLL_bkg, -1)
@@ -181,7 +212,6 @@ if( OutFile.Get(dirname[2]+"EWKWPlus_"+histoname+"_fr")):
   F_bkg.Add(EWKWPlus_bkg, -1)
 if(OutFile.Get(dirname[2]+"EWKZ2Jets_"+histoname+"_fr")):
   F_bkg.Add(EWKZ2Jets_bkg, -1)
-  #F_bkg.Add(Wjets_bkg, -1)
 F_bkg.Add(GluGluH_bkg, -1)
 F_bkg.Add(ST_t_bkg, -1)
 F_bkg.Add(TT_bkg, -1)
@@ -189,19 +219,25 @@ if(OutFile.Get(dirname[2]+"VBFH_"+histoname+"_fr")):
   F_bkg.Add(VBFH_bkg, -1)
 if(OutFile.Get(dirname[2]+"VV_"+histoname+"_fr")):  
   F_bkg.Add(VV_bkg, -1)
-F_bkg.Add(WminusH_bkg, -1)
-F_bkg.Add(WplusH_bkg, -1)
-F_bkg.Add(ZH_bkg, -1)
+if(OutFile.Get(dirname[2]+"WminusH_"+histoname+"_fr")):
+  F_bkg.Add(WminusH_bkg, -1)
+if(OutFile.Get(dirname[2]+"WplusH_"+histoname+"_fr")):
+  F_bkg.Add(WplusH_bkg, -1)
+if(OutFile.Get(dirname[2]+"ZH_"+histoname+"_fr")):
+  F_bkg.Add(ZH_bkg, -1)
 if(OutFile.Get(dirname[2]+"VVV_"+histoname+"_fr")):
   F_bkg.Add(VVV_bkg, -1)
 #F_bkg.Add(ZJetsToNuNu_bkg, -1)
 
-#sampleList    = [Data_hist,    ZTT_hist,   Wjets_hist,   TT_hist,   GluGluH_hist,   VV_hist, ZJetsToNuNu_hist]
-#sampleListRef = ['Data_hist', 'ZTT_hist', 'Wjets_hist', 'TT_hist', 'GluGluH_hist', 'VV_hist', 'ZJetsToNuNu_hist']
-sampleList    = [Data_hist,    ZTT_hist,  ZLL_hist, TT_hist,   GluGluH_hist,   VV_hist, F_bkg ]
-sampleListRef = ['Data_hist', 'ZTT_hist', 'ZLL_hist', 'TT_hist', 'GluGluH_hist', 'VV_hist', 'F_bkg']
-# sampleList    = [Data_hist,    ZTT_hist,   Wjets_hist,   TT_hist,   GluGluH_hist,   VV_hist ]
-# sampleListRef = ['Data_hist', 'ZTT_hist', 'Wjets_hist', 'TT_hist', 'GluGluH_hist', 'VV_hist']
+sampleList    = [Data_hist,    ZTT_hist,  ZLL_hist, TT_hist,   GluGluH_hist,    F_bkg ]
+sampleListRef = ['Data_hist', 'ZTT_hist', 'ZLL_hist', 'TT_hist', 'GluGluH_hist', 'F_bkg']
+# if channel_=="etau":
+#   sampleList    = [Data_hist,    ZTT_hist,   TT_hist,  F_bkg, GluGluH_hist ]
+#   sampleListRef = ['Data_hist', 'ZTT_hist',  'TT_hist', 'F_bkg', 'GluGluH_hist']
+if channel_=="etau":
+ sampleList    = [Data_hist,    ZTT_hist,  ZLL_hist, TT_hist,  F_bkg, GluGluH_hist ]
+ sampleListRef = ['Data_hist', 'ZTT_hist', 'ZLL_hist', 'TT_hist', 'F_bkg', 'GluGluH_hist']
+
 
 Wjets_hist.SetFillColor(ROOT.TColor.GetColor(color_wjets))
 F_bkg.SetFillColor(ROOT.TColor.GetColor(color_wjets))
@@ -216,6 +252,7 @@ for i in range(len(sampleList)):
 
 stack=ROOT.THStack("stack","stack")  
 for i in range(len(sampleList)-1, 0, -1):
+  #print(i, sampleList[i])
   stack.Add(sampleList[i])
 
 errorBand=sampleList[1].Clone()
@@ -268,7 +305,7 @@ if histoname=='cutflow_n' :
     yield_write.writerow(['Fake', F_bkg.GetBinContent(8) ])
     yield_write.writerow(['TT',   TT_hist.GetBinContent(8) ])
     yield_write.writerow(['ggh',  GluGluH_hist.GetBinContent(8) ])
-    yield_write.writerow(['VV' ,  VV_hist.GetBinContent(8) ])
+    #yield_write.writerow(['VV' ,  VV_hist.GetBinContent(8) ])
 if histoname=='tauCharge_6' :
   with open('eventYield.csv', mode='a') as yield_file:
     yield_write = csv.writer(yield_file, delimiter=',', quotechar='"')
@@ -279,35 +316,21 @@ if histoname=='tauCharge_6' :
     yield_write.writerow(['Fake', F_bkg.Integral() ])
     yield_write.writerow(['TT',   TT_hist.Integral() ])
     yield_write.writerow(['ggh',  GluGluH_hist.Integral() ])
-    yield_write.writerow(['VV' ,  VV_hist.Integral() ])
+    #yield_write.writerow(['VV' ,  VV_hist.Integral() ])
 
 c.cd()
-pad1 = ROOT.TPad("pad1","pad1",0,0.25,1,1)
 pad1.Draw()
 pad1.cd()
-pad1.SetFillColor(0)
-pad1.SetBorderMode(0)
-pad1.SetBorderSize(1)
-pad1.SetTickx(1)
-pad1.SetTicky(1)
-pad1.SetGridx()
-pad1.SetLeftMargin(0.15) #0.15
-pad1.SetRightMargin(0.15) #0.1
-pad1.SetTopMargin(0.122)
-pad1.SetBottomMargin(0.025)
-pad1.SetFrameFillStyle(0)
-pad1.SetFrameLineStyle(0)
-pad1.SetFrameLineWidth(1)
-pad1.SetFrameBorderMode(0)
-pad1.SetFrameBorderSize(1)
+
 if yaxisLog == 1 :
   pad1.SetLogy()  
 
 Data_hist.SetMarkerStyle(20)
+Data_hist.SetMarkerColor(1)
 Data_hist.SetMarkerSize(1.5)
 if histoname == "cutflow_n":
-  Data_hist.SetMarkerSize(1.5)
-Data_hist.SetMarkerColor(1)
+  Data_hist.SetMarkerSize(2)
+
 
 Data_hist.GetXaxis().SetTitle("")
 Data_hist.GetYaxis().SetTitle("Events"+eventsPerBin)
@@ -315,26 +338,34 @@ if yaxisLog == 1 :
   Data_hist.SetMaximum(100*max(Data_hist.GetMaximum(),stack.GetMaximum()))
   Data_hist.SetMinimum(1000)
 else :
-  Data_hist.SetMaximum(1.055*max(Data_hist.GetMaximum(),stack.GetMaximum()))
+  if channel_=="mutau":
+    Data_hist.SetMaximum(1.055*max(Data_hist.GetMaximum(),stack.GetMaximum()))
+  if channel_=="etau":
+    Data_hist.SetMaximum(1.5*max(Data_hist.GetMaximum(), stack.GetMaximum()))
+  if channel_=="tautau":
+    Data_hist.SetMaximum(1.055*max(Data_hist.GetMaximum(), stack.GetMaximum()))
   Data_hist.SetMinimum(0.0)
+  
 if histoname == "cutflow_n":
-  Data_hist.SetMinimum(100000)
+  Data_hist.SetMinimum(1000)
 
 Data_hist.Draw("e1")
 stack.Draw("histsame")
-if histoname != "cutflow_n":
-  errorBand.Draw("e2same")
+# if histoname != "cutflow_n":
+#   errorBand.Draw("e1same")
 Data_hist.Draw("e1same")
-Data_hist.Draw("e1same")
+if histoname == "cutflow_n":
+  Data_hist.Draw("e0psame")
 
 legendNameList = {
   'Data_hist'  : 'Data obs',
-  'ZTT_hist'   : 'Z->mutau',
+  'ZTT_hist'   : 'Z->tautau',
   'ZLL_hist'   : 'Z-> ll',
   'Wjets_hist' : 'WJets',
   'F_bkg'      : 'jet-tau fake', 
   'TT_hist'    : 'ttabr',
-  'GluGluH_hist' : 'ggh, vbfH, ZH',
+  #'GluGluH_hist' : 'ggh, vbfH, ZH',
+  'GluGluH_hist' : 'Others',
   'VV_hist'    : 'VV, SingleTop',
   'ZJetsToNuNu_hist' : 'Z->nunu + jets'
 }
@@ -345,10 +376,8 @@ for i in range(len(sampleListRef)):
   else:
     legende.AddEntry(sampleList[i], legendNameList[sampleListRef[i]], "f")
   
-# if noLegend == 0:
-#   legende.Draw()
 
-l1=add_lumi("2017", channel_)
+l1=add_lumi(year_, channel_)
 l1.Draw("same")
 l2=add_CMS()
 l2.Draw("same")
@@ -357,27 +386,9 @@ l3.Draw("same")
 
 pad1.RedrawAxis()
 #print "Line 217 is okay"
-categ  = ROOT.TPaveText(0.21, 0.5+0.013, 0.43, 0.70+0.155, "NDC")
-categ.SetBorderSize(   0 )
-categ.SetFillStyle(    0 )
-categ.SetTextAlign(   12 )
-categ.SetTextSize ( 0.06 )
-categ.SetTextColor(    1 )
-categ.SetTextFont (   42 )
 
 
 c.cd()
-pad2 = ROOT.TPad("pad2","pad2",0,0,1,0.25);
-pad2.SetTopMargin(0.02);
-pad2.SetBottomMargin(0.35);
-pad2.SetLeftMargin(0.15);
-pad2.SetRightMargin(0.15);
-pad2.SetTickx(1)
-pad2.SetTicky(1)
-pad2.SetFrameLineWidth(1)
-#pad2.SetGridx()
-pad2.SetGridy()
-#pad2.SetLogy()
 pad2.Draw()
 pad2.cd()
 h1=Data_hist.Clone()
@@ -470,5 +481,4 @@ if noLegend == 0:
 
 c.Modified()
 c.SaveAs("plots/plot_"+histoname+"_"+channel_+".png")
-
 

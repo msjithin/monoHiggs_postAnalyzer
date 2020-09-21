@@ -116,7 +116,14 @@ HistSelected = OutFile.Get(histoname)
 HistSelected_1 = OutFile_1.Get(histoname)
 Data_hist    = OutFile.Get(histoname)
 
-HistSelected.SetFillColor(ROOT.TColor.GetColor(color_ztt))
+dy_norm=2.447677534
+if(bkg_=="DY"):
+  HistSelected.Scale(dy_norm)
+  HistSelected_1.Scale(dy_norm)
+  #Data_hist.Scale(dy_norm)
+
+#HistSelected.SetFillColor(ROOT.TColor.GetColor(color_ztt))
+HistSelected_1.SetFillColor(ROOT.TColor.GetColor(color_ztt))
 #HistSelected_1.SetFillColor(1)
 
 
@@ -161,9 +168,9 @@ if yaxisLog == 1 :
 
 Data_hist.SetMarkerStyle(20)
 Data_hist.SetMarkerSize(0)
-HistSelected_1.SetMarkerStyle(20)
-HistSelected_1.SetMarkerSize(2)
-HistSelected_1.SetMarkerColor(1)
+HistSelected.SetMarkerStyle(20)
+HistSelected.SetMarkerSize(2)
+HistSelected.SetMarkerColor(1)
 
 if histoname == "cutflow_n":
   Data_hist.SetMarkerSize(0)
@@ -186,23 +193,29 @@ if histoname == "cutflow_n":
 errorBand=HistSelected.Clone()
 errorBand.SetFillColor(1)
 errorBand.SetFillStyle(errorStyle)
-HistSelected_1.SetFillStyle(errorStyle)
-Data_hist.Draw("e1")
-HistSelected.Draw("histsame")
-HistSelected_1.Draw("e1same")
+HistSelected.SetFillStyle(errorStyle)
+# Data_hist.Draw("e1")
+# HistSelected.Draw("histsame")
+# HistSelected_1.Draw("e1same")
 
+Data_hist.Draw("e1")
+HistSelected_1.Draw("histsame")
+HistSelected.Draw("e1same")
+
+
+sampleListRef = ['HistSelected', 'HistSelected_1']
+sampleList    = [HistSelected, HistSelected_1]
 legendNameList = {
-  'Data_hist'  : 'Data obs',
-  'ZTT_hist'   : 'Z->tautau',
-  'ZLL_hist'   : 'Z-> ll',
-  'Wjets_hist' : 'WJets',
-  'F_bkg'      : 'jet-tau fake', 
-  'TT_hist'    : 'ttabr',
-  #'GluGluH_hist' : 'ggh, vbfH, ZH',
-  'GluGluH_hist' : 'Others',
-  'VV_hist'    : 'VV, SingleTop',
+  'HistSelected'    : 'my ntuple',  
+  'HistSelected_1'  : 'from Cecile',
   'ZJetsToNuNu_hist' : 'Z->nunu + jets'
 }
+legende=make_legend()
+for i in range(len(sampleListRef)):
+  if(i==0):
+    legende.AddEntry(sampleList[i], legendNameList[sampleListRef[i]], "elp")
+  else:
+    legende.AddEntry(sampleList[i], legendNameList[sampleListRef[i]], "f")
 
 l1=add_lumi(year_, channel_)
 l1.Draw("same")
@@ -218,7 +231,7 @@ pad1.RedrawAxis()
 c.cd()
 pad2.Draw()
 pad2.cd()
-h1=Data_hist.Clone()
+h1=HistSelected.Clone()
 h3=HistSelected_1.Clone()
 hwoE=HistSelected_1.Clone()
 h1.SetMarkerStyle(20)
@@ -236,8 +249,8 @@ h1.SetTitle("")
 h1.GetXaxis().SetLabelSize(0.1)
 h1.GetYaxis().SetTitle("ratio")
 h1.GetYaxis().SetLabelSize(0.08)
-h1.SetMaximum(2.0)
-h1.SetMinimum(0.0)
+h1.SetMaximum(1.2)
+h1.SetMinimum(0.8)
 h1.GetXaxis().SetNdivisions(nDivXAxis)
 if piAxis ==1 :
   h1.GetXaxis().SetBinLabel(30,"#pi");
@@ -296,12 +309,16 @@ h1.GetXaxis().SetTitleSize(0.15)
 h1.GetYaxis().SetTitleSize(0.15)
 h1.GetYaxis().SetTitleOffset(0.3)
 h1.GetXaxis().SetTitleOffset(1.1)
+h3.SetFillStyle(0)
+h3.SetFillColor(0)
 
-h1.Draw("e0p")
-h3.Draw("e2same")
+h1.Draw("e0")
+h3.Draw("e0same")
+
 
 c.cd()
 
+legende.Draw()
 c.Modified()
-c.SaveAs("plots/plot_"+histoname+"_"+channel_+"_"+bkg_selected+".png")
+c.SaveAs("plots/"+bkg_selected+"/plot_"+histoname+"_"+channel_+"_"+bkg_selected+".png")
 

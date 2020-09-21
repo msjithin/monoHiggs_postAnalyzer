@@ -30,4 +30,6 @@ Out_DATA_*/
 Out_*/
 output*/*.root
 analyzer/*.root
+smhtt_et_2017/*/*.root 
+smhtt_et_2018/*/*.root
 sync.sh

@@ -62,7 +62,8 @@ public :
    TFile *fileName;
    TTree *tree = new TTree("myTree", "A ROOT tree");
    TH1F* h_nEvents ;
-
+   ofstream myfile_genmatch;
+   
    double nMETFiltersPassed_fr, nPassedSkimmed_fr , nSingleTrgPassed_fr, nGoodMuonPassed_fr, nGoodTauPassed_fr, nGoodMuTauPassed_fr, nPassedThirdLepVeto_fr, nPassedBjetVeto_fr, nDeltaRPassed_fr;
    double nMETFiltersPassed, nPassedSkimmed, nSingleTrgPassed, nGoodMuonPassed, nGoodTauPassed, nGoodMuTauPassed, nPassedThirdLepVeto, nPassedBjetVeto, nDeltaRPassed;
 
@@ -71,6 +72,48 @@ public :
   
   
 // Fixed size dimensions of array or collections stored in the TTree if any.
+   TFile *f_pileup = new TFile("sf_files/2017/RootFiles/pileup/PU_Central.root");
+   TH1F* h_pileup = (TH1F*)f_pileup->Get("pileup");
+   
+   TFile *f_eleReconstrucSF_highpt=new TFile("sf_files/2017/egammaEffi.txt_EGM2D_runBCDEF_passingRECO.root");
+   TFile *f_eleIDeffSF=new TFile("sf_files/2017/egammaEffi.txt_EGM2D_runBCDEF_passingTight94X.root");
+   TFile *f_eleIsoSF=new TFile("sf_files/2017/2017_ElectronMVA90noiso.root");
+   TFile *f_eleTrgSF_1=new TFile("sf_files/2017/trigger/electron_trigger_sf_2017.root");
+   TFile *f_eleTrgSF_2=new TFile("sf_files/2017/trigger/EleTriggSF.root");
+   TH2F *h_eleRecoSF_highpt=(TH2F*) f_eleReconstrucSF_highpt->Get("EGamma_SF2D");
+   TH2F *h_eleIDSF=(TH2F*) f_eleIDeffSF->Get("EGamma_SF2D");
+   TH2F *h_eleIsoSF=(TH2F*) f_eleIsoSF->Get("EGamma_SF2D");
+   TH2F *h_eleTrgSF_1=(TH2F*) f_eleTrgSF_1->Get("EGamma_SF2D");
+   TH2F *h_eleTrgSF_2=(TH2F*) f_eleTrgSF_2->Get("EGamma_SF2D");
+
+   TFile *f_tauidSF = new TFile("sf_files/TauIDSFs/data/TauID_SF_dm_DeepTau2017v2p1VSjet_2017ReReco.root");
+  TH1F *h_tauidSF_m = (TH1F*)f_tauidSF->Get("Medium");
+  TH1F *h_tauidSF_vvvl = (TH1F*)f_tauidSF->Get("VVVLoose");
+  
+  /* TFile *f_tauidSF = new TFile("sf_files/2017/TauIDSFs/data/TauID_SF_pt_DeepTau2017v2p1VSjet_2017ReReco.root"); */
+  /* TF1 *fn_tauIDSF_m = (TF1*) f_tauidSF->Get("Medium_cent"); */
+  /* TF1 *fn_tauIDSF_vvl = (TF1*) f_tauidSF->Get("VVLoose_cent"); */
+
+  TFile *f_tauesSF = new TFile("sf_files/TauIDSFs/data/TauES_dm_DeepTau2017v2p1VSjet_2017ReReco.root");
+  TH1F *h_tauesSF = (TH1F*)f_tauesSF->Get("tes");
+  
+  TFile *f_tauFakeMuSF = new TFile("sf_files/TauIDSFs/data/TauID_SF_eta_DeepTau2017v2p1VSmu_2017ReReco.root");
+  TH1F *h_tauFakeMuSF = (TH1F*)f_tauFakeMuSF->Get("VVLoose");
+  
+  TFile *f_tauFakeEleSF = new TFile("sf_files/TauIDSFs/data/TauID_SF_eta_DeepTau2017v2p1VSe_2017ReReco.root");
+  TH1F *h_tauFakeEleSF = (TH1F*)f_tauFakeEleSF->Get("Tight");
+  
+  TFile *f_taufesSF = TFile::Open("sf_files/TauIDSFs/data/TauFES_eta-dm_DeepTau2017v2p1VSe_2017ReReco.root");
+  TGraph *h_taufesSF = (TGraph*) f_taufesSF->Get("fes");
+
+  TFile *f_tauTrgSf = TFile::Open("sf_files/TauTriggerSFs/data/2017_tauTriggerEff_DeepTau2017v2p1.root");
+  TH1F  *h_tauTrgSF_dm0  = (TH1F*) f_tauTrgSf->Get("sf_etau_Medium_dm0_fitted");
+  TH1F  *h_tauTrgSF_dm1  = (TH1F*) f_tauTrgSf->Get("sf_etau_Medium_dm1_fitted");
+  TH1F  *h_tauTrgSF_dm10 = (TH1F*) f_tauTrgSf->Get("sf_etau_Medium_dm10_fitted");
+  TH1F  *h_tauTrgSF_dm11 = (TH1F*) f_tauTrgSf->Get("sf_etau_Medium_dm11_fitted");
+   
+   TFile *fw = TFile::Open("sf_files/htt_scalefactors_legacy_2017.root");
+   RooWorkspace *w = (RooWorkspace*)fw->Get("w");
 
    // Declaration of leaf types
    Int_t           run;
@@ -840,14 +883,15 @@ public :
    virtual void fillHistos(int histoNumber, double event_weight,int higgs_index);
    virtual double DeltaPhi(double phi1, double phi2);
    virtual vector<int> getEleCand(double pt, double eta);
-   virtual vector<int> getEle2Cand(double pt, double eta, int ele1Index);
+   //virtual vector<int> getEle2Cand(double pt, double eta, int ele1Index);
    virtual vector<int> getTauCand(double pt, double eta);
    virtual vector<int> getAISRTauCand(double pt, double eta);
-   virtual vector<int> getJetCand(int eleIndex, int tauIndex, int ele2Index);
+   virtual vector<int> getJetCand(int eleIndex, int tauIndex);
    virtual vector<int> getZCand();
    virtual vector<int> gen_matching();
+   virtual int myGenMaching(int tauIndex);
+   virtual int myGenMaching1(int eleIndex);
    virtual bool found_GenMatch(int genTau);
-   virtual int thirdLeptonVeto();
    virtual int thirdLeptonVeto(int eleIndex, int tauIndex);
    //virtual double dR(int mu_index, int tau_index);
    virtual double delta_R(float phi1, float eta1, float phi2, float eta2);
@@ -858,7 +902,7 @@ public :
    virtual float pTvecsum_F(TLorentzVector a, TLorentzVector b, TLorentzVector met);
    //   virtual bool electron_pass(int pho_index, float elePtCut);
    //virtual bool relIso(int ele_index);
-   virtual bool passBjetVeto(int eleIndex, int tauIndex, int ele2Index);
+   virtual bool passBjetVeto(int eleIndex, int tauIndex);
    virtual void fillHist( string histNumber, int muIndex, int tauIndex, float event_weight, bool isMC);
    virtual void fillHist( string histNumber, TLorentzVector eleP4, TLorentzVector tauP4, int muIndex, int tauIndex, float event_weight, bool isMC);
    virtual void fillHist_dyll( string histNumber, int mu1Index, int mu2Index, int tauIndex, float event_weight, bool isMC);
@@ -867,10 +911,10 @@ public :
    virtual float exponential(float x,float a,float b,float c);
    virtual double getFR(int tauIndex);
    virtual float EletriggerSF(float pt, float eta);
-   virtual double getScaleFactors( int eleIndex , int tauIndex,  bool fakeBkg , bool isMC, bool debug);
+   virtual double getScaleFactors( double elept, double taupt, double eleeta, double taueta, int taudm, int gen_match_2);
    virtual bool noisyJet2017();
    virtual bool MatchTriggerFilter(int eleIndex, int tauIndex);
-   virtual void makeMyPlot( string histNumber , int eleIndex, int ele2Index, int tauIndex, float event_weight);
+   virtual void makeMyPlot( string histNumber , int eleIndex, int tauIndex, float event_weight);
    virtual bool passDiElectronVeto(int eleIndex);
    virtual bool eVetoZTTp001dxyz(int eleIndex, int tauIndex);
    virtual bool mVetoZTTp001dxyz(int eleIndex, int tauIndex);
@@ -938,7 +982,7 @@ void etau_analyzer::Init(TChain *tree, string _isMC_)
    
   nMETFiltersPassed_dyll_fr = nPassedSkimmed_dyll_fr = nSingleTrgPassed_dyll_fr = nGoodMuonPassed_dyll_fr = nGoodTauPassed_dyll_fr = nGoodMuTauPassed_dyll_fr = nPassedThirdLepVeto_dyll_fr = nPassedBjetVeto_dyll_fr = nDeltaRPassed_dyll_fr=0;
   nMETFiltersPassed_dyll= nPassedSkimmed_dyll= nSingleTrgPassed_dyll= nGoodMuonPassed_dyll= nGoodTauPassed_dyll= nGoodMuTauPassed_dyll= nPassedThirdLepVeto_dyll= nPassedBjetVeto_dyll= nDeltaRPassed_dyll=0;
-   
+  myfile_genmatch.open("genmatchCheck_.txt");
 
   TString isMC = TString(_isMC_);
   cout<<"from Init "<<isMC<<endl;

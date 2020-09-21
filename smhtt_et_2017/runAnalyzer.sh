@@ -1,11 +1,19 @@
 #!/bin/bash
 set -e  # exit when any command fails
+# keep track of the last executed command
+trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
+# echo an error message before exiting
+trap 'echo "\"${last_command}\" command filed with exit code $?."' EXIT
 
 
-./rootcom etau_analyzer executable_etau
+f_exe="executable_etau"
+if [ -f "$f_exe" ]; then
+    echo "$f_exe exists, removing file"
+    rm $f_exe
+fi
+./rootcom etau_analyzer $f_exe
 
 
-outFile="study_mutau_110k.root"
 start=`date +%s`
 nEvents=10000
 sample='dy'
@@ -21,5 +29,5 @@ esac
 done
 
 echo "dy sample analysis....."
-./executable_etau /hdfs/store/user/jmadhusu/2017_skimmed/htt_et_2017/DYJetsToLL_M-50_TuneCP5_ext1_v1_00.root DYJetsToLL_00_ext1_test.root $nEvents 1000 2017 MC DY1JetsToLL_00
-#./executable_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/SingleElectron_EraF_05.root SingleElectron_EraF_05.root $nEvents 1000 2017 DATA SingleElectron_EraF_05
+./$f_exe /hdfs/store/user/jmadhusu/2017_skimmed/htt_et_2017/DYJetsToLL_M-50_TuneCP5_ext1_v1_00.root DYJetsToLL_00_ext1_test.root $nEvents 1000 2017 MC DY1JetsToLL_00
+#./$f_exe /hdfs/store/user/jmadhusu/2017_skimmed/etau/SingleElectron_EraF_05.root SingleElectron_EraF_05.root $nEvents 1000 2017 DATA SingleElectron_EraF_05

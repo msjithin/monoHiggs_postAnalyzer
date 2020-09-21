@@ -201,11 +201,11 @@ ZH_bkg      = OutFile.Get(dirname[2]+"ZH_"+histoname+"_fr")
 VVV_bkg     = OutFile.Get(dirname[2]+"VVV_"+histoname+"_fr")
 #ZJetsToNuNu_bkg = OutFile.Get(dirname[2]+"ZJetsToNuNu_"+histoname+"_fr")
 
-if(OutFile.Get(dirname[4]+"data_obs_"+histoname+"_dyll_fr")):
-  F_bkg.Add(F_bkg_dyll)
+#if(OutFile.Get(dirname[4]+"data_obs_"+histoname+"_dyll_fr")):
+#  F_bkg.Add(F_bkg_dyll)
 F_bkg.Add(ZTT_bkg, -1)
-if(OutFile.Get(dirname[4]+ZTTselect+"_"+histoname+"_dyll_fr")):
-  F_bkg.Add(ZLL_bkg, -1)
+#if(OutFile.Get(dirname[4]+ZTTselect+"_"+histoname+"_dyll_fr")):
+#  F_bkg.Add(ZLL_bkg, -1)
 if(OutFile.Get(dirname[2]+"EWKWMinus_"+histoname+"_fr")):
   F_bkg.Add(EWKWMinus_bkg, -1)
 if( OutFile.Get(dirname[2]+"EWKWPlus_"+histoname+"_fr")):
@@ -231,9 +231,12 @@ if(OutFile.Get(dirname[2]+"VVV_"+histoname+"_fr")):
 
 sampleList    = [Data_hist,    ZTT_hist,  ZLL_hist, TT_hist,   GluGluH_hist,    F_bkg ]
 sampleListRef = ['Data_hist', 'ZTT_hist', 'ZLL_hist', 'TT_hist', 'GluGluH_hist', 'F_bkg']
+# if channel_=="etau":
+#   sampleList    = [Data_hist,    ZTT_hist,   TT_hist,  F_bkg, GluGluH_hist ]
+#   sampleListRef = ['Data_hist', 'ZTT_hist',  'TT_hist', 'F_bkg', 'GluGluH_hist']
 if channel_=="etau":
-  sampleList    = [Data_hist,    ZTT_hist,  ZLL_hist, TT_hist,  F_bkg, GluGluH_hist ]
-  sampleListRef = ['Data_hist', 'ZTT_hist', 'ZLL_hist', 'TT_hist', 'F_bkg', 'GluGluH_hist']
+ sampleList    = [Data_hist,    ZTT_hist,  ZLL_hist, TT_hist,  F_bkg, GluGluH_hist ]
+ sampleListRef = ['Data_hist', 'ZTT_hist', 'ZLL_hist', 'TT_hist', 'F_bkg', 'GluGluH_hist']
 
 
 Wjets_hist.SetFillColor(ROOT.TColor.GetColor(color_wjets))
@@ -302,7 +305,7 @@ if histoname=='cutflow_n' :
     yield_write.writerow(['Fake', F_bkg.GetBinContent(8) ])
     yield_write.writerow(['TT',   TT_hist.GetBinContent(8) ])
     yield_write.writerow(['ggh',  GluGluH_hist.GetBinContent(8) ])
-    yield_write.writerow(['VV' ,  VV_hist.GetBinContent(8) ])
+    #yield_write.writerow(['VV' ,  VV_hist.GetBinContent(8) ])
 if histoname=='tauCharge_6' :
   with open('eventYield.csv', mode='a') as yield_file:
     yield_write = csv.writer(yield_file, delimiter=',', quotechar='"')
@@ -313,7 +316,8 @@ if histoname=='tauCharge_6' :
     yield_write.writerow(['Fake', F_bkg.Integral() ])
     yield_write.writerow(['TT',   TT_hist.Integral() ])
     yield_write.writerow(['ggh',  GluGluH_hist.Integral() ])
-    yield_write.writerow(['VV' ,  VV_hist.Integral() ])
+    yield_write.writerow(['mc sum',  ZTT_hist.Integral()+ZLL_hist.Integral()+F_bkg.Integral()+TT_hist.Integral()+GluGluH_hist.Integral() ])
+    #yield_write.writerow(['VV' ,  VV_hist.Integral() ])
 
 c.cd()
 pad1.Draw()

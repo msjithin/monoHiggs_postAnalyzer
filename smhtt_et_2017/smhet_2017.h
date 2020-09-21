@@ -51,7 +51,48 @@ public :
    
    TFile *fileName;
 // Fixed size dimensions of array or collections stored in the TTree if any.
+   TFile *f_pileup = new TFile("sf_files/2017/RootFiles/pileup/PU_Central.root");
+   TH1F* h_pileup = (TH1F*)f_pileup->Get("pileup");
+   
+   TFile *f_eleReconstrucSF_highpt=new TFile("sf_files/2017/egammaEffi.txt_EGM2D_runBCDEF_passingRECO.root");
+   TFile *f_eleIDeffSF=new TFile("sf_files/2017/egammaEffi.txt_EGM2D_runBCDEF_passingTight94X.root");
+   TFile *f_eleIsoSF=new TFile("sf_files/2017/2017_ElectronMVA90noiso.root");
+   TFile *f_eleTrgSF_1=new TFile("sf_files/2017/trigger/electron_trigger_sf_2017.root");
+   TFile *f_eleTrgSF_2=new TFile("sf_files/2017/trigger/EleTriggSF.root");
+   TH2F *h_eleRecoSF_highpt=(TH2F*) f_eleReconstrucSF_highpt->Get("EGamma_SF2D");
+   TH2F *h_eleIDSF=(TH2F*) f_eleIDeffSF->Get("EGamma_SF2D");
+   TH2F *h_eleIsoSF=(TH2F*) f_eleIsoSF->Get("EGamma_SF2D");
+   TH2F *h_eleTrgSF_1=(TH2F*) f_eleTrgSF_1->Get("EGamma_SF2D");
+   TH2F *h_eleTrgSF_2=(TH2F*) f_eleTrgSF_2->Get("EGamma_SF2D");
 
+   TFile *f_tauidSF = new TFile("sf_files/TauIDSFs/data/TauID_SF_dm_DeepTau2017v2p1VSjet_2017ReReco.root");
+  TH1F *h_tauidSF_m = (TH1F*)f_tauidSF->Get("Medium");
+  TH1F *h_tauidSF_vvvl = (TH1F*)f_tauidSF->Get("VVVLoose");
+  
+  /* TFile *f_tauidSF = new TFile("sf_files/2017/TauIDSFs/data/TauID_SF_pt_DeepTau2017v2p1VSjet_2017ReReco.root"); */
+  /* TF1 *fn_tauIDSF_m = (TF1*) f_tauidSF->Get("Medium_cent"); */
+  /* TF1 *fn_tauIDSF_vvl = (TF1*) f_tauidSF->Get("VVLoose_cent"); */
+
+  TFile *f_tauesSF = new TFile("sf_files/TauIDSFs/data/TauES_dm_DeepTau2017v2p1VSjet_2017ReReco.root");
+  TH1F *h_tauesSF = (TH1F*)f_tauesSF->Get("tes");
+  
+  TFile *f_tauFakeMuSF = new TFile("sf_files/TauIDSFs/data/TauID_SF_eta_DeepTau2017v2p1VSmu_2017ReReco.root");
+  TH1F *h_tauFakeMuSF = (TH1F*)f_tauFakeMuSF->Get("VVLoose");
+  
+  TFile *f_tauFakeEleSF = new TFile("sf_files/TauIDSFs/data/TauID_SF_eta_DeepTau2017v2p1VSe_2017ReReco.root");
+  TH1F *h_tauFakeEleSF = (TH1F*)f_tauFakeEleSF->Get("Tight");
+  
+  TFile *f_taufesSF = TFile::Open("sf_files/TauIDSFs/data/TauFES_eta-dm_DeepTau2017v2p1VSe_2017ReReco.root");
+  TGraph *h_taufesSF = (TGraph*) f_taufesSF->Get("fes");
+
+  TFile *f_tauTrgSf = TFile::Open("sf_files/TauTriggerSFs/data/2017_tauTriggerEff_DeepTau2017v2p1.root");
+  TH1F  *h_tauTrgSF_dm0  = (TH1F*) f_tauTrgSf->Get("sf_etau_Medium_dm0_fitted");
+  TH1F  *h_tauTrgSF_dm1  = (TH1F*) f_tauTrgSf->Get("sf_etau_Medium_dm1_fitted");
+  TH1F  *h_tauTrgSF_dm10 = (TH1F*) f_tauTrgSf->Get("sf_etau_Medium_dm10_fitted");
+  TH1F  *h_tauTrgSF_dm11 = (TH1F*) f_tauTrgSf->Get("sf_etau_Medium_dm11_fitted");
+   
+   TFile *fw = TFile::Open("sf_files/htt_scalefactors_legacy_2017.root");
+   RooWorkspace *w = (RooWorkspace*)fw->Get("w");
    // Declaration of leaf types
    Int_t           run;
    Int_t           lumi;
@@ -589,6 +630,7 @@ public :
    virtual void     makeMyPlot( string histNumber , int eleIndex, int ele2Index, int tauIndex, float event_weight);
    virtual Bool_t   Notify();
    virtual void     Show(Long64_t entry = -1);
+   virtual double getScaleFactors( double elept, double taupt, double eleeta, double taueta, int taudm);
 };
 
 #endif

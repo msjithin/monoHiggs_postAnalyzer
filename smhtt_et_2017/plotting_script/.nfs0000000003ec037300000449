@@ -1,0 +1,7 @@
+
+declare -a List_index=("_a" "_b" "_c" "_d" "_e" "_f" "_g" "_h" "_i" "_j")
+for i in "${List_index[@]}"
+do
+    convert plots/Data/plot_*$i_*.png plots/Data$i.pdf
+    convert plots/DY/plot_*$i_*.png plots/DY$i.pdf
+done

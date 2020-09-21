@@ -1,14 +1,35 @@
 
+unset DISPLAY
+echo "making plots ..........."
 
-inFile=f_mutau_initial.root
+declare -a List_index=("_a" "_b" "_c" "_d" "_e" "_f" "_g" "_h" "_i" "_j")
+declare -a List_names=("elePt" "mT_eMet" "tauDecayMode" "nJet" "decayModeFinding" "mass1" "mass2" "genmatch1" "genmatch2" "met" "metPhi" "trigger" "tauPt" "eleEta" "tauEta" "elePhi" "tauPhi" "deltaPhi" "deltaEta" "deltaR")
 
-declare -a plotList_a=("elePt_a" "elePt_b" "elePt_c" "elePt_d" "elePt_e" "elePt_f" "elePt_g" "elePt_h" "elePt_i" "elePt_j")
 
-for i in "${plotList_a[@]}"
+for n in "${List_names[@]}"
 do
-   echo "$i"
-   #python ~/monoHiggs_2018_wDnn/CMSSW_10_2_18/src/analysis/MacrosAndScripts/makeplot.py -in $inFile -name $i -cat 0 -ch etau -xaxis $i -year 2017
-   python makeplot_ztt.py -bkg DY -name $i -ch etau -xaxis $i  -year 2017
-   #python makeplot_ztt.py -bkg Data -name $i -ch etau -xaxis $i  -year 2017
+    for i in "${List_index[@]}"
+    do
+	hist=$n$i
+	#echo "$hist"
+	python makeplot_ztt.py -bkg DY -name $hist -ch etau -xaxis $hist  -year 2017 &
+	python makeplot_ztt.py -bkg Data -name $hist -ch etau -xaxis $hist  -year 2017 &
+    done
 done
 
+wait
+echo "All processes done!"
+
+sh combinne_to_pdf.sh
+
+declare -a List_names_filter=("filterEle35_1" "filterEle32_1" "filterEle27_1" "filterEle24Tau30_1" "filterEle24Tau30_2")
+for n in "${List_names_filter[@]}"
+do
+    for i in "${List_index[@]}"
+    do
+        hist=$n$i
+        #echo "$hist"
+        python makeplot_ztt.py -bkg DY -name $hist -ch etau -xaxis $hist  -year 2017 &
+        python makeplot_ztt.py -bkg Data -name $hist -ch etau -xaxis $hist  -year 2017 &
+    done
+done

@@ -50,6 +50,7 @@
 #include "vector"
 #include "vector"
 //#include "makeHisto.h"
+//#include "RecoilCorrector.cc"
 
 using namespace std;
 
@@ -119,7 +120,10 @@ public :
 
   TFile *fw = TFile::Open("sf_files/htt_scalefactors_legacy_2017.root");
   RooWorkspace *w = (RooWorkspace*)fw->Get("w");
+  //RecoilCorrector recoilPFMetCorrector("sf_files/HTT-utilities/RecoilCorrections/data/Type1_PFMET_2017.root"); // Type I PF MET 2017 (ReReco)
   
+
+  //  RecoilCorrector recoilPFMetCorrector("sf_files/HTT-utilities/RecoilCorrections/data/Type1_PFMET_2017.root"); // Type I PF MET 2017 (ReReco)
 // Fixed size dimensions of array or collections stored in the TTree if any.
 
    // Declaration of leaf types
@@ -894,8 +898,10 @@ public :
    virtual vector<int> getTauCand(double pt, double eta);
    virtual vector<int> getAISRTauCand(double pt, double eta);
    virtual vector<int> getJetCand(int eleIndex, int tauIndex, int ele2Index);
-   virtual vector<int> getZCand();
+   virtual int getZCand();
    virtual vector<int> gen_matching();
+   virtual int myGenMaching(int tauIndex);
+   virtual int myGenMaching1(int eleIndex);
    virtual bool found_GenMatch(int genTau);
    virtual int thirdLeptonVeto();
    virtual bool thirdLeptonVeto(int eleIndex, int tauIndex);
@@ -919,13 +925,16 @@ public :
    virtual float exponential(float x,float a,float b,float c);
    virtual double getFR(int tauIndex);
    virtual float EletriggerSF(float pt, float eta);
-   virtual double getScaleFactors( int eleIndex , int tauIndex,  bool fakeBkg , bool isMC, bool debug);
-   virtual bool noisyJet2017();
+   virtual double getScaleFactors(  double elept, double taupt, double eleeta, double taueta, int taudm, int tauGenMatch, bool isFakebkg);
+   virtual bool noisyJet2017(int eleIndex, int tauIndex);
    virtual bool MatchTriggerFilter(int eleIndex, int tauIndex);
    virtual void makeTestPlot( string histNumber , int eleIndex, int ele2Index, int tauIndex, float event_weight);
    virtual bool passDiElectronVeto(int eleIndex);
-   virtual int eVetoZTTp001dxyz(double minDeltaR);
-   virtual int mVetoZTTp001dxyz(double minDeltaR);
+   virtual bool eVetoZTTp001dxyz(int eleIndex, int tauIndex);
+   virtual bool mVetoZTTp001dxyz(int eleIndex, int tauIndex);
+   //virtual TLorentzVector MetRecoilCorrections(int eleIndex, int tauIndex);
+
+
 };
 #endif
 

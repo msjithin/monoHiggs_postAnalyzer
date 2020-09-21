@@ -31,7 +31,7 @@ request_disk         = 2048000
 
 #OutputDestination = ${outdir}
 #Initialdir = Out_${8}         
-Transfer_Input_Files = ${currentDir}/${1}, ${currentDir}/sf_files
+Transfer_Input_Files = ${currentDir}/${1} , /nfs_scratch/jmadhusu/CMSSW_10_2_10/src/sf_files
 
 output               = $outDir/\$(Cluster)_\$(Process)_${8}.out
 error                = $outDir/\$(Cluster)_\$(Process)_${8}.err

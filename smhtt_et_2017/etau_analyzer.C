@@ -154,41 +154,7 @@ void etau_analyzer::Loop(Long64_t maxEvents, int reportEvery, string SampleName,
      nentriesToCheck = maxEvents;
    nTotal = nentriesToCheck;
    Long64_t nbytes = 0, nb = 0;
-   ofstream myfile;
-   ofstream myfile2;
-   ofstream myfile3;
-   ofstream ptcd;
-   //if(isMC)
-   ptcd.open("compare_ptdiff_etau.txt");
-   //ptcd << "ele pt" <<"\n";
    
-   myfile.open ("eventAnalysisEtau_"+sample+".txt");
-   myfile << "event" << std::setw(10) << "lumi" << std::setw(10) << "run" << 
-     std::setw(10) << "ele pt" << std::setw(10) << "ele eta" << std::setw(10) << "ele phi" << 
-     std::setw(10) << "tau pt" << std::setw(10) << "tau eta" << std::setw(10) << "tau phi" << 
-     std::setw(10) << "nEle"   << std::setw(10) << "nTau"    << std::setw(10) << "nMu" <<
-     std::setw(10) << "nMC"    << std::setw(10) << "genMatch2"<<   
-     std::setw(10) << "diEleVeto" <<std::setw(10) << "eVetoZtt" << std::setw(10) << "mVetoZtt" << std::setw(10)<<     
-     "\n";
-
-   myfile2.open ("rogue_events_"+sample+".txt");
-   myfile2 << "event" << std::setw(10) << "lumi" << std::setw(10) << "run" <<
-     std::setw(10) << "ele pt" << std::setw(10) << "ele eta" << std::setw(10) << "ele phi" <<
-     std::setw(10) << "tau pt" << std::setw(10) << "tau eta" << std::setw(10) << "tau phi" <<
-     std::setw(10) << "nEle"   << std::setw(10) << "nTau"    << std::setw(10) << "nMu" << 
-     std::setw(10) << "nMC"    << std::setw(10) << "genMatch2"<<   
-     std::setw(10) << "diEleVeto" <<std::setw(10) << "eVetoZtt" << std::setw(10) << "mVetoZtt" << std::setw(10)<<
-     "\n";
-   
-   myfile3.open ("good_events_"+sample+".txt");
-   myfile3 << "event" << std::setw(10) << "lumi" << std::setw(10) << "run" <<
-     std::setw(10) << "ele pt" << std::setw(10) << "ele eta" << std::setw(10) << "ele phi" <<
-     std::setw(10) << "tau pt" << std::setw(10) << "tau eta" << std::setw(10) << "tau phi" <<
-     std::setw(10) << "nEle"   << std::setw(10) << "nTau"    << std::setw(10) << "nMu" << 
-     std::setw(10) << "nMC"    << std::setw(10) << "genMatch2"<<   
-     std::setw(10) << "diEleVeto" <<std::setw(10) << "eVetoZtt" << std::setw(10) << "mVetoZtt" << std::setw(10)<<
-     "\n";
-
    std::cout<<"Running over "<<nTotal<<" events."<<std::endl;
    //TStopwatch sw;
    //sw.Start();
@@ -236,7 +202,13 @@ void etau_analyzer::Loop(Long64_t maxEvents, int reportEvery, string SampleName,
        numberOfEvents+=weight;
        if(isMC) weight=inspected_event_weight;
        else weight=1.0;
-       
+       if(isMC)
+         pileup_sf = h_pileup->GetBinContent(h_pileup->GetXaxis()->FindBin(puTrue->at(0)));
+       weight = weight*pileup_sf;
+       if(isMC)
+         weight=weight*prefiringweight;
+       if( isGoodVtx==false ) continue;
+
        eleTau_selector=true;
        eleEle_selector=true;
        ////Trigger bit selection
@@ -260,13 +232,13 @@ void etau_analyzer::Loop(Long64_t maxEvents, int reportEvery, string SampleName,
        ////// reco selection begin
        
        bool Ztt_selector=false;
-       if(isMC)
-	 event_weight=2.447677534;
-       else
-	 event_weight=1.0;
+       // if(isMC)
+       // 	 event_weight=2.447677534;
+       // else
+       //        event_weight=1.0;
 
        eleCand.clear(); ele2Cand.clear();  tauCand.clear();
-       if(eleTau_selector)
+       //if(eleTau_selector)
 	 {
 	   
 	   if(metFilters==0)
@@ -274,20 +246,20 @@ void etau_analyzer::Loop(Long64_t maxEvents, int reportEvery, string SampleName,
 	       if(debug)cout<<"metfilters selected"<<endl;
 	       if (isMC) fabs(genWeight) > 0.0 ? event_weight *= genWeight/fabs(genWeight) : event_weight = 0;
 	       nMETFiltersPassed+=event_weight;
-	       makeMyPlot("a", -1,0,0,event_weight);
+	       makeMyPlot("a", -1,-1,event_weight);
 	       if(debug)cout<<"genweight applied"<<endl;
 	       if( passSingleTriggerPaths || passCrossTrigger  )
 		 {
 		   nSingleTrgPassed+=event_weight;
 		   if(debug)cout<<"trigger selected"<<endl;
-		   makeMyPlot("b", -1,0,0,event_weight);
-		   eleCand = getEleCand(24.0,2.1);  ///// ele selected 
+		   makeMyPlot("b", -1,-1,event_weight);
+		   eleCand = getEleCand(25.0,2.1);  ///// ele selected 
 		   if( eleCand.size() >0 ) 
 		     { 
 		       nGoodMuonPassed+=event_weight;
 		       if(debug)cout<<"this worked Line 526"<<endl;
 		       
-		       makeMyPlot("c", eleCand[0],0,0,event_weight);
+		       makeMyPlot("c", eleCand[0],-1,event_weight);
 		       tauCand = getTauCand(30.0,2.3);
 		       if( tauCand.size() >0 )
 			 {
@@ -295,166 +267,95 @@ void etau_analyzer::Loop(Long64_t maxEvents, int reportEvery, string SampleName,
 			   
 			   reco_ele.clear();reco_tau.clear();
 			   reco_ele=eleCand; reco_tau=tauCand;
-			   makeMyPlot("d", reco_ele[0],0,0,event_weight);
-			   if(found_DYjet_sample){
+			   makeMyPlot("d", reco_ele[0],reco_tau[0],event_weight);
+			   //if(found_DYjet_sample)
+			   {
 			     if( passDiElectronVeto(eleCand[0])==true 
 				 && eVetoZTTp001dxyz(eleCand[0], tauCand[0])
 				 && mVetoZTTp001dxyz(eleCand[0], tauCand[0])
 				 ) Ztt_selector=true;
 			     else Ztt_selector=false;
 			   }
-			   else
-			     Ztt_selector=true;
+			   // else
+			   //   Ztt_selector=true;
 			   
 			   if(Ztt_selector) 
 			     {
+			       
 			       if (  eleCharge->at(reco_ele[0]) * tau_Charge->at(reco_tau[0]) < 0  ) 
 				 {
 				   nGoodMuTauPassed+=event_weight;
 				   
 				   if(debug)cout<<"this worked Line 538"<<endl;
 				   afterSF1+=event_weight;
-				   makeMyPlot("e", reco_ele[0],0,0,event_weight);
-				   if ( MatchTriggerFilter(reco_ele[0], reco_tau[0]) )
+				   makeMyPlot("e", reco_ele[0],reco_tau[0],event_weight);
+				   //if ( MatchTriggerFilter(reco_ele[0], reco_tau[0]) )
 				     {
 				       if(debug)cout<<"this worked Line 534"<<endl;
+				       TLorentzVector dau2; 
+				       dau2.SetPtEtaPhiE(tau_Pt->at(reco_tau[0]),tau_Eta->at(reco_tau[0]),tau_Phi->at(reco_tau[0]), tau_Energy->at(reco_tau[0]));
+				       TLorentzVector myEle; 
+				       myEle.SetPtEtaPhiE(elePt->at(reco_ele[0]), eleEta->at(reco_ele[0]), elePhi->at(reco_ele[0]), eleE->at(reco_ele[0]));
 				       
+				       
+				       myEle = myEle*(eleCalibE->at(reco_ele[0])/myEle.E());
+				       if(isMC)
+					 {
+					   if (myGenMaching(reco_tau[0])==5 && tau_DecayMode->at(reco_tau[0])==0) dau2=dau2*1.007;
+					   else if (myGenMaching(reco_tau[0])==5 && tau_DecayMode->at(reco_tau[0])==1) dau2=dau2*0.998;
+					   else if (myGenMaching(reco_tau[0])==5 && tau_DecayMode->at(reco_tau[0])==10) dau2=dau2*1.001;
+					   if (  (myGenMaching(reco_tau[0])==1 || myGenMaching(reco_tau[0])==3) && tau_DecayMode->at(reco_tau[0])==0 ) dau2=dau2*1.003;
+					   else if ( (myGenMaching(reco_tau[0])==1 || myGenMaching(reco_tau[0])==3) && tau_DecayMode->at(reco_tau[0])==1) dau2=dau2*1.036;
+					   if(  (myGenMaching(reco_tau[0])==1 || myGenMaching(reco_tau[0])==3) && tau_DecayMode->at(reco_tau[0])==0 )  dau2=dau2*0.982;
+                                           else if ( (myGenMaching(reco_tau[0])==1 || myGenMaching(reco_tau[0])==3) && tau_DecayMode->at(reco_tau[0])==1) dau2=dau2*1.018;
+					 }
+				       
+				       double applySf=1.0;
+				       if(isMC)
+					 applySf=  getScaleFactors( myEle.Pt(),
+								    dau2.Pt(),
+								    eleEta->at(reco_ele[0]),
+								    tau_Eta->at(reco_tau[0]),
+								    tau_DecayMode->at(reco_tau[0]),
+								    myGenMaching(reco_tau[0])
+								    );
+			  
 				       // if(debug)cout<<" sf : "<<getScaleFactors( reco_ele[0] , reco_tau[0] , false , isMC , debug ) <<endl;
-				       // if (isMC) event_weight = event_weight * getScaleFactors( reco_ele[0] , reco_tau[0] , false , isMC , debug );
+				       event_weight = event_weight * applySf;
 				       
 				       afterSF4+=event_weight;
-				       makeMyPlot("f", reco_ele[0],0,0,event_weight);
-				       if( thirdLeptonVeto(reco_ele[0] , reco_tau[0]) < 0 )
+				       makeMyPlot("f", reco_ele[0],reco_tau[0],event_weight);
+				       if( thirdLeptonVeto(reco_ele[0] , reco_tau[0])  )
 					 {
 					   nPassedThirdLepVeto+=event_weight;
-					   makeMyPlot("g", reco_ele[0],0,0,event_weight);
-					   if( passBjetVeto(reco_ele[0] , reco_tau[0], -1) == true)
+					   makeMyPlot("g", reco_ele[0],reco_tau[0],event_weight);
+					   if( passBjetVeto(reco_ele[0] , reco_tau[0] ) )
 					     {
 					       nPassedBjetVeto+=event_weight;
-					       makeMyPlot("h", reco_ele[0],0,0,event_weight);
-					       
+					       makeMyPlot("h", reco_ele[0],reco_tau[0],event_weight);
+					       if(tau_DecayMode->at(reco_tau[0])==5 || tau_DecayMode->at(reco_tau[0])==6) continue;
 					       double deltaR = dR(eleEta->at(reco_ele[0]), elePhi->at(reco_ele[0]),  tau_Eta->at(reco_tau[0]), tau_Phi->at(reco_tau[0]));
 					       if(deltaR > 0.5 )
 						 {
 						   
-						   
-						   // for(int imc=0; imc<nMC; imc++){
-						   //   if(abs(mcPID->at(imc))==15 || abs(mcPID->at(imc))==111 || abs(mcPID->at(imc))==211 )
-						   //     cout<<"mcPID : "<<mcPID->at(imc)<<" , genMatch2 :"
-						   // 	 << (genMatch2->at(imc)>>1&1==1) <<" "
-						   // 	 << (genMatch2->at(imc)>>2&1==1)<<" "
-						   // 	 << (genMatch2->at(imc)>>3&1==1)<<" "
-						   // 	 << (genMatch2->at(imc)>>4&1==1)<<" "
-						   // 	 << (genMatch2->at(imc)>>5&1==1)<<" "
-						   // 	 << (genMatch2->at(imc)>>6&1==1)<<" "
-						   // 	 <<endl; 
-						   // }						
-						   
-						   bool found_tauEle=false; bool found_tauTau=false;
-						   std::vector<int> eleGenCand;  eleGenCand.clear();
-						   for(int iMC=0;iMC<nMC;iMC++) //Loop over mc
+						  			   
+						   nDeltaRPassed+=event_weight;
+						   if(isMC==false)event_weight=1.0;
+						   if(debug)cout<<"this worked Line 558"<<endl;
+						   //fillHist("5", reco_ele[0], reco_tau[0], event_weight, isMC);
+						   makeMyPlot("i", reco_ele[0],reco_tau[0],event_weight);
+						   double mT_eleMet = TMass_F(myEle.Pt(),myEle.Phi(),pfMETCorr,pfMETPhiCorr  );
+						   if( mT_eleMet < 50 )
 						     {
-						       if(fabs(mcPID->at(iMC))==11 && mcStatus->at(iMC)==62) eleGenCand.push_back(iMC);
+						       //fillHist("6", reco_ele[0], reco_tau[0], event_weight, isMC);
+						       makeMyPlot("j", reco_ele[0],reco_tau[0],event_weight);
 						     }
-						   std::vector<int> tauGenCand;  tauGenCand.clear();
-						   for(int iMC=0;iMC<nMC;iMC++) //Loop over mc
-						     {
-						       if(fabs(mcPID->at(iMC))==15 && mcStatus->at(iMC)==62) tauGenCand.push_back(iMC);
-						     }
-						   if(eleGenCand.size()>0 && tauGenCand.size()>0)
-						     {
-						       double mc_dr = delta_R(mcPhi->at(eleGenCand[0]), mcEta->at(eleGenCand[0]), mcPhi->at(tauGenCand[0]), mcEta->at(tauGenCand[0]) );
-						       if(mc_dr<0.2)
-							 found_tauEle=true;
-						     }
-						   if(tauGenCand.size()>1)
-						     {
-						       double mc_dr_tt = delta_R(mcPhi->at(tauGenCand[0]), mcEta->at(tauGenCand[0]), mcPhi->at(tauGenCand[1]), mcEta->at(tauGenCand[1]) );
-						       if(mc_dr_tt<0.2)
-							 found_tauTau=true;
-						     }
-						   //cout<<"event:"<<event<<"  genmatch3="<<found_tauEle<< "  genmatch5="<<found_tauTau<<endl;
-						   std::vector<int> v = gen_matching();
-						   int genMatch2_=-1;
-						   if(v.size() >0)
-						     {
-						       genMatch2_=v[0];
-						       // cout<<"event:"<<event<<"   v: ";
-						       // for(int imc=0; imc<v.size(); imc++){
-						       //   cout<<v[imc]<<" ";
-						       // }
-						       // cout<<""<<endl;
-						     }
-						   
-						   int diEleVeto = 0; int eVetoZtt=0; int mVetoZtt=0;
-						   if( passDiElectronVeto(reco_ele[0])==true ) diEleVeto=1;
-						   if(  eVetoZTTp001dxyz(eleCand[0], tauCand[0]) ) eVetoZtt = 1;
-						   if(   mVetoZTTp001dxyz(eleCand[0], tauCand[0])) mVetoZtt=1;
-						   
-						   
-						   
-						   myfile << event << std::setw(10) << lumis << std::setw(10) << run << 
-						     std::setw(10) << elePt->at(reco_ele[0]) << std::setw(10) << eleEta->at(reco_ele[0]) << std::setw(10) << elePhi->at(reco_ele[0]) << 
-						     std::setw(10) << tau_Pt->at(reco_tau[0]) << std::setw(10) << tau_Eta->at(reco_tau[0]) << std::setw(10) <<  tau_Phi->at(reco_tau[0]) <<
-						     std::setw(10) << nEle   << std::setw(10) << nTau    << std::setw(10) << nMu <<
-						     std::setw(10) << nMC    << std::setw(10) << genMatch2_ << std::setw(10) <<
-						     diEleVeto  << std::setw(10) << eVetoZtt  << std::setw(10) << mVetoZtt  << std::setw(10) <<
-						     "\n";
-						   
-						 if (std::find(std::begin(out_event_list), std::end(out_event_list), event) != std::end(out_event_list))
-						   {
-						     //cout<<"rougue event found "<<event<<endl;
-						     myfile2 << event << std::setw(10) << lumis << std::setw(10) << run <<
-						       std::setw(10) << elePt->at(reco_ele[0]) << std::setw(10) << eleEta->at(reco_ele[0]) << std::setw(10) << elePhi->at(reco_ele[0]) <<
-						       std::setw(10) << tau_Pt->at(reco_tau[0]) << std::setw(10) << tau_Eta->at(reco_tau[0]) << std::setw(10) <<  tau_Phi->at(reco_tau[0]) <<
-						       std::setw(10) << nEle   << std::setw(10) << nTau    << std::setw(10) << nMu <<
-						       std::setw(10) << nMC    << std::setw(10) << genMatch2_ << std::setw(10) << 
-						       diEleVeto  << std::setw(10) << eVetoZtt  << std::setw(10) << mVetoZtt  << std::setw(10) <<
-						       "\n";
-						   }
-						 else
-						   {
-						     //cout<<"rougue event found "<<event<<endl;
-						     myfile3 << event << std::setw(10) << lumis << std::setw(10) << run <<
-						       std::setw(10) << elePt->at(reco_ele[0]) << std::setw(10) << eleEta->at(reco_ele[0]) << std::setw(10) << elePhi->at(reco_ele[0]) <<
-						       std::setw(10) << tau_Pt->at(reco_tau[0]) << std::setw(10) << tau_Eta->at(reco_tau[0]) << std::setw(10) <<  tau_Phi->at(reco_tau[0]) <<
-						       std::setw(10) << nEle   << std::setw(10) << nTau    << std::setw(10) << nMu <<
-						       std::setw(10) << nMC    << std::setw(10) << genMatch2_ << std::setw(10) <<
-						       diEleVeto  << std::setw(10) << eVetoZtt  << std::setw(10) << mVetoZtt  << std::setw(10) <<
-						       "\n";
-						   }
-						 float relEleIso = ( elePFChIso->at(reco_ele[0]) + max( elePFNeuIso->at(reco_ele[0]) + elePFPhoIso->at(reco_ele[0]) - 0.5 *elePFPUIso->at(reco_ele[0]) , 0.0 )) / (elePt->at(reco_ele[0]));
-						 int eleid=-1;
-						 if(eleIDbit->at(reco_ele[0])>>8&1==1)
-						   eleid=1;
-						 if (std::find(std::begin(good_event_list), std::end(good_event_list), event) != std::end(good_event_list))
-						   {
-						     ptcd <<event<<"\t"<< elePt->at(reco_ele[0]) <<"\t"<< eleEta->at(reco_ele[0])<<"\t"<< elePhi->at(reco_ele[0])
-							  << "\t"      << tau_Pt->at(reco_tau[0])<<"\t"<< tau_Eta->at(reco_tau[0])<<"\t"<< tau_Phi->at(reco_tau[0])<<"\t"
-							  << eleid <<"\t" << (relEleIso) <<"\t"
-							  << (tau_byMediumDeepTau2017v2p1VSjet->at(reco_tau[0])==1) <<"\t" << (tau_byTightDeepTau2017v2p1VSe->at(reco_tau[0])==1)  <<"\t" << (tau_byVLooseDeepTau2017v2p1VSmu->at(reco_tau[0])==1)<<"\t"
-							  << eleCharge->at(reco_ele[0]) <<"\t" << tau_Charge->at(reco_tau[0]) <<"\t"
-							  << deltaR  <<"\t"<< genMatch2_ <<  "\t"
-							  <<"\n";
-						     makeMyPlot("cd", reco_ele[0],0,0,event_weight);
-						   }
-						 nDeltaRPassed+=event_weight;
-						 if(isMC==false)event_weight=1.0;
-						 if(debug)cout<<"this worked Line 558"<<endl;
-						 //fillHist("5", reco_ele[0], reco_tau[0], event_weight, isMC);
-						 makeMyPlot("i", reco_ele[0],0,0,event_weight);
-						 double mT_eleMet = TMass_F((elePt->at(reco_ele[0])),(elePhi->at(reco_ele[0])),pfMET,pfMETPhi  );
-						 if( mT_eleMet < 50 )
-						   {
-						     //fillHist("6", reco_ele[0], reco_tau[0], event_weight, isMC);
-						     makeMyPlot("j", reco_ele[0],0,0,event_weight);
-						   }
-					       }
-					   }
-				       }
-				   }
-			       }
-			   }
+						 }
+					     }
+					 }
+				     }
+				 }
+			     }
 			 }
 		     }
 		 }
@@ -477,10 +378,10 @@ void etau_analyzer::Loop(Long64_t maxEvents, int reportEvery, string SampleName,
 	   std::cout<<"Finished entry "<<jentry<<"/"<<(nentriesToCheck-1)<<std::endl;
 	 }
      }
-   cout<<"dr="<<delta_R(-1.2972, -0.765188,  0.515507, 0.350012)<< "  expected: 1.1152"<<endl;
-   myfile.close();
-   myfile2.close();
-   myfile3.close();
+   //cout<<"dr="<<delta_R(-1.2972, -0.765188,  0.515507, 0.350012)<< "  expected: 1.1152"<<endl;
+   // myfile.close();
+   // myfile2.close();
+   // myfile3.close();
    std::cout.setf( std::ios::fixed, std:: ios::floatfield );
    if((nentriesToCheck-1)%reportEvery != 0)
      std::cout<<"Finished entry "<<(nentriesToCheck-1)<<"/"<<(nentriesToCheck-1)<<std::endl;
@@ -639,39 +540,6 @@ std::vector<int> etau_analyzer::getEleCand(double elePtCut, double eleEtaCut){
   return tmpCand;
   
 }
-std::vector<int> etau_analyzer::getEle2Cand(double elePtCut, double eleEtaCut, int ele1Index){
-  std::vector<int> tmpCand;
-  tmpCand.clear();
-  //Loop over electrons                                                                     
-  for(int iEle=0;iEle<nEle;iEle++)
-    {
-      if(iEle==ele1Index) continue;
-      bool kinematic = false;
-      if( elePt->at(iEle) > elePtCut  
-	  && fabs(eleEta->at(iEle))< eleEtaCut 
-	  && fabs(eleD0->at(iEle)) < 0.045
-	  && fabs(eleDz->at(iEle)) < 0.2
-	  && eleMissHits->at(iEle) <= 1 && eleConvVeto->at(iEle)==1
-	  ) kinematic = true;
-      bool electronId =false;
-      if( eleIDbit->at(iEle)>>8&1==1) electronId =true;
-      bool relative_iso = false;    
-      float relEleIso = ( elePFChIso->at(iEle) + max( elePFNeuIso->at(iEle) + elePFPhoIso->at(iEle) - 0.5 *elePFPUIso->at(iEle) , 0.0 )) / (elePt->at(iEle));
-      if( relEleIso < 0.15 ) relative_iso = true;
-      bool trigger = false;
-      if( ( HLTEleMuX>>3&1 == 1 && elePt->at(iEle) > 28.0  ) 
-	  || ( HLTEleMuX>>61&1 == 1 && elePt->at(iEle) > 33.0  )
-	  || ( HLTEleMuX>>5&1 == 1 && elePt->at(iEle) > 36.0 )
-	  || ( HLTTau>>1&1 == 1 && elePt->at(iEle) > 25.0  && elePt->at(iEle) < 28.0 && fabs(eleEta->at(iEle))< 2.1 )
-	  
-	  ) trigger = true;
-      if( kinematic && electronId && relative_iso && trigger ){
-	tmpCand.push_back(iEle);
-      }	
-    }                           
-  return tmpCand;
-  
-}
 
 std::vector<int> etau_analyzer::getTauCand(double tauPtCut, double tauEtaCut){
   std::vector<int> tmpCand;
@@ -767,7 +635,7 @@ std::vector<int> etau_analyzer::getZCand()
     }
   return tmpCand;
 }
-std::vector<int> etau_analyzer::getJetCand(int eleIndex, int tauIndex, int ele2Index){
+std::vector<int> etau_analyzer::getJetCand(int eleIndex, int tauIndex){
   std::vector<int> tmpCand;  tmpCand.clear();
   for(int iJet=0;iJet<nJet;iJet++) //Loop over jets
     {
@@ -789,8 +657,7 @@ std::vector<int> etau_analyzer::getJetCand(int eleIndex, int tauIndex, int ele2I
       double lepton1Phi=elePhi->at(eleIndex);
       double lepton1Eta= eleEta->at(eleIndex);
       double lepton2Phi=0;double lepton2Eta=0;
-      if(ele2Index<0){ lepton2Phi= tau_Phi->at(tauIndex); lepton2Eta=tau_Eta->at(tauIndex); }
-      else           { lepton2Phi= elePhi->at(ele2Index); lepton2Eta=eleEta->at(ele2Index); }
+      lepton2Phi= tau_Phi->at(tauIndex); lepton2Eta=tau_Eta->at(tauIndex);
       
       double dr_jetEle=delta_R( jetPhi->at(iJet), jetEta->at(iJet) , lepton1Phi, lepton1Eta );
       double dr_jetTau=delta_R( jetPhi->at(iJet), jetEta->at(iJet) , lepton2Phi, lepton2Eta);
@@ -801,6 +668,7 @@ std::vector<int> etau_analyzer::getJetCand(int eleIndex, int tauIndex, int ele2I
 	tmpCand.push_back(iJet);
     }
   return tmpCand;
+
 }
 //The noisy jets are defined as: 20 < pt < 50 && abs(eta) > 2.65 && abs(eta) < 3.139. 
 bool etau_analyzer::noisyJet2017(){
@@ -820,29 +688,7 @@ bool etau_analyzer::noisyJet2017(){
     }
   return noisyJet;
 }
-int etau_analyzer::thirdLeptonVeto(){
-  std::vector<int> tmpCand;
-  tmpCand.clear();
-  int thirdLepIndex = -1;
-  bool thirdLepVeto=true;
-  for(int iMu=0; iMu < nMu;iMu++)
-    {
-      bool kinematic = false;
-      if( (*muPt)[iMu] > 10.0  && fabs((*muEta)[iMu])< 2.4 && (*muD0)[iMu] < 0.045 && (*muDz)[iMu] < 0.2 ) kinematic = true;
-      bool muonId =false;
-      if( muIDbit->at(iMu)>>1&1==1) muonId =true;
-      bool relative_iso = false;
-      float relMuIso = ( muPFChIso->at(iMu) + max( muPFNeuIso->at(iMu) + muPFPhoIso->at(iMu) - 0.5 *muPFPUIso->at(iMu) , 0.0 )) / (muPt->at(iMu));
-      if( relMuIso < 0.3 ) relative_iso = true;
-      //if( muIDbit->at(iMu)>>6&1==1) relative_iso =true;
-      if(muonId==true && kinematic==true && relative_iso==true){
-	tmpCand.push_back(iMu);
-      }                   
-    }          
-  if(tmpCand.size() > 0){ thirdLepIndex = tmpCand[0]; thirdLepVeto=false;}
-  return thirdLepIndex;
-  
-}
+
 int etau_analyzer::thirdLeptonVeto(int eleIndex, int tauIndex){
   std::vector<int> tmpCand;
   tmpCand.clear();
@@ -867,13 +713,12 @@ int etau_analyzer::thirdLeptonVeto(int eleIndex, int tauIndex){
       deltaRm1 = delta_R(elePhi->at(eleIndex),eleEta->at(eleIndex), muPhi->at(tmpCand[0]),  muEta->at(tmpCand[0]));
       deltaRm2 = delta_R(tau_Phi->at(tauIndex),tau_Eta->at(tauIndex), muPhi->at(tmpCand[0]),  muEta->at(tmpCand[0]));
       if(deltaRm1>0.5 && deltaRm2>0.5 ){
-	found_3rdmu=true;
+	return false;
       }
     }
+  else
+    return true;
 
-  if(tmpCand.size() > 0 && found_3rdmu){ thirdLepIndex = tmpCand[0]; thirdLepVeto=false;}
-  return thirdLepIndex;
-  
 }
                                                                                     
 
@@ -936,7 +781,7 @@ float etau_analyzer::pTvecsum_F(TLorentzVector a, TLorentzVector b, TLorentzVect
   return pt_vecSum;
 }
 
-bool etau_analyzer::passBjetVeto(int eleIndex, int tauIndex, int ele2Index)
+bool etau_analyzer::passBjetVeto(int eleIndex, int tauIndex)
 {
   std::vector<int> tmpJetCand;
   tmpJetCand.clear();
@@ -944,26 +789,24 @@ bool etau_analyzer::passBjetVeto(int eleIndex, int tauIndex, int ele2Index)
   bool foundBjet = false;
   double lepton1Phi=elePhi->at(eleIndex);
   double lepton1Eta= eleEta->at(eleIndex);
-  double lepton2Phi=0;double lepton2Eta=0;
-  if(ele2Index<0){ lepton2Phi= tau_Phi->at(tauIndex); lepton2Eta=tau_Eta->at(tauIndex); }
-  else           { lepton2Phi= elePhi->at(ele2Index); lepton2Eta=eleEta->at(ele2Index); }
-  
-  double dr_jetEle=0.0; double dr_jetTau=0.0;
+  double lepton2Phi= tau_Phi->at(tauIndex); double lepton2Eta=tau_Eta->at(tauIndex);   
+  double dr_jetEle=0.0; double dr_jetTau=0.0; 
   
   for(int iJets=0; iJets<nJet ; iJets++){
-    dr_jetEle=delta_R( jetPhi->at(iJets), jetEta->at(iJets) , lepton1Phi, lepton1Eta );
-    dr_jetTau=delta_R( jetPhi->at(iJets), jetEta->at(iJets) , lepton2Phi, lepton2Eta);
-    
+    bool particles_separated=false;
+    dr_jetEle =delta_R( jetPhi->at(iJets), jetEta->at(iJets) , lepton1Phi, lepton1Eta );
+    dr_jetTau =delta_R( jetPhi->at(iJets), jetEta->at(iJets) , lepton2Phi, lepton2Eta);
+    if( dr_jetEle>0.5 && dr_jetTau>0.5) { particles_separated=true;}
+      
     if( jetPt->at(iJets) > 25  
 	&& abs(jetEta->at(iJets)) < 2.4 
 	&& jetID->at(iJets)>>0&1==1 
 	&& jetPUFullID->at(iJets)>>1&1==1
-	&& dr_jetEle>0.5 && dr_jetTau>0.5
+	&& particles_separated==true
 	){
       tmpJetCand.push_back(iJets);
     }
   }
-  //cout<<" jet size = "<<tmpJetCand.size()<<endl;
   if(tmpJetCand.size() ==1 ){
     // atleast one jet ==> events pass medium 
     if( (jetDeepCSVTags_b->at(tmpJetCand[0]) + jetDeepCSVTags_bb->at(tmpJetCand[0])) > 0.4941  )
@@ -1005,20 +848,59 @@ bool etau_analyzer::passDiElectronVeto(int eleIndex)
     if(eleCharge->at(tmpCand[i]) < 0) iEleMinus.push_back(tmpCand[i]);
     if(eleCharge->at(tmpCand[i]) > 0) iElePlus.push_back(tmpCand[i]);
   }
-  
   if(iElePlus.size()>0 && iEleMinus.size()>0){
     double deltaR= delta_R(elePhi->at(iEleMinus[0]), eleEta->at(iEleMinus[0]), elePhi->at(iElePlus[0]), eleEta->at(iElePlus[0]));
-    if (deltaR > 0.15 && eleCharge->at(iElePlus[0])*eleCharge->at(iEleMinus[0])<0) 
-      {
-	return false;
-      }
+    if (deltaR > 0.15 && eleCharge->at(iElePlus[0])*eleCharge->at(iEleMinus[0])<0) {
+      return false;
+    }
   }
   return true;
   
 }
+// bool etau_analyzer::passDiElectronVeto(int eleIndex)
+// {
+//   std::vector<int> tmpCand; int tmpEleIndex=-1;
+//   tmpCand.clear();
+//   bool veto = true;
+//   bool awayFromEverything=true;
+//   for(int iEle=0;iEle<nEle;iEle++)
+//     {
+//       bool kinematic = false;
+//       if( elePt->at(iEle) > 15
+// 	  && fabs(eleEta->at(iEle))< 2.5
+// 	  && fabs(eleD0->at(iEle)) < 0.045
+// 	  && fabs(eleDz->at(iEle)) < 0.2
+//        	  ) kinematic = true;
+//       bool electronId =false;
+//       if( eleIDbit->at(iEle)>>3&1==1) electronId =true; // cut based electron id veto
+//       bool relative_iso = false;    
+//       float relEleIso = ( elePFChIso->at(iEle) + max( elePFNeuIso->at(iEle) + elePFPhoIso->at(iEle) - 0.5 *elePFPUIso->at(iEle) , 0.0 )) / (elePt->at(iEle));
+//       if( relEleIso < 0.3 ) relative_iso = true;
+//       if( kinematic && electronId && relative_iso ){
+// 	tmpCand.push_back(iEle);
+//       }	
+//     }
+//   if(tmpCand.size()>0){
+//     for(int iEle=0;iEle<tmpCand.size();iEle++)
+//       {
+// 	awayFromEverything=true;
+// 	double deltaR= delta_R(elePhi->at(eleIndex), eleEta->at(eleIndex), elePhi->at(tmpCand[iEle]), eleEta->at(tmpCand[iEle]));
+// 	if (deltaR < 0.15) {
+// 	  awayFromEverything = false; tmpEleIndex=iEle;
+// 	  break;
+// 	}
+//       }
+//     if (!awayFromEverything && tmpEleIndex>-1 && eleCharge->at(eleIndex)*eleCharge->at(tmpEleIndex)<0) {
+//       return false;
+//     }
+//   }
+  
+//   return true;
+  
+// }
 bool etau_analyzer::eVetoZTTp001dxyz(int eleIndex, int tauIndex){
-  std::vector<int> tmpCand;
-  tmpCand.clear();
+  std::vector<int> tmpCand;  tmpCand.clear();
+  std::vector<int> output;  output.clear();
   bool awayFromEverything = true;   int tmpEleIndex=-1;
   //Loop over electrons      
   for(int iEle=0;iEle<nEle;iEle++)
@@ -1042,13 +924,20 @@ bool etau_analyzer::eVetoZTTp001dxyz(int eleIndex, int tauIndex){
     }
   if(tmpCand.size()>0)
     {
-      double deltaR_et = delta_R(tau_Phi->at(tauIndex), tau_Eta->at(tauIndex), elePhi->at(tmpCand[0]), eleEta->at(tmpCand[0]));
-      double deltaR_ee = delta_R(elePhi->at(eleIndex), eleEta->at(eleIndex), elePhi->at(tmpCand[0]), eleEta->at(tmpCand[0]));
-      if(deltaR_et>0.5 && deltaR_ee>0.5)
-	return false;
+      for(int i=0;i<tmpCand.size();i++)
+	{
+	  double deltaR_et = delta_R(tau_Phi->at(tauIndex), tau_Eta->at(tauIndex), elePhi->at(tmpCand[i]), eleEta->at(tmpCand[i]));
+	  double deltaR_ee = delta_R(elePhi->at(eleIndex), eleEta->at(eleIndex), elePhi->at(tmpCand[i]), eleEta->at(tmpCand[i]));
+	  if(deltaR_et<0.5 && deltaR_ee<0.5)
+	    output.push_back(i);
+	}
     }
-  return true;
-  
+  if(output.size() >1 )
+    return false;
+  else
+    return true;
+    
+   
 }
 bool etau_analyzer::mVetoZTTp001dxyz(int eleIndex, int tauIndex){
   std::vector<int> tmpCand;
@@ -1080,8 +969,8 @@ bool etau_analyzer::mVetoZTTp001dxyz(int eleIndex, int tauIndex){
   else
     return true;
 
+   
 }
-
 std::vector<int> etau_analyzer::gen_matching(){
   int tmpCand=-1;
   std::vector<int> tmpGenMatch;
@@ -1109,6 +998,194 @@ bool  etau_analyzer::found_GenMatch(int genTau)
   
   return false;
 }
+int etau_analyzer::myGenMaching(int tauIndex)
+{
+  double recotau_eta=tau_Eta->at(tauIndex);
+  double recotau_phi=tau_Phi->at(tauIndex);
+  double closestEle=999;  double closestMu=999;
+  double closestETau=999;  double closestMTau=999;  double closestHTau=999;  double closestDR=999;
+  double genLeptonEta=0;
+  double genLeptonPhi=0;
+  bool prompt_ele=false;  bool tau_ele=false; bool tau_mu=false; bool tau_tauh=false;
+  bool prompt_mu=false;
+  for(int imc=0; imc<nMC; imc++){
+    genLeptonEta=mcEta->at(imc);
+    genLeptonPhi=mcPhi->at(imc);
+    double mc_tau_dr= dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+    if(mc_tau_dr<closestDR)
+      closestDR=mc_tau_dr;
+  }
+
+
+  for(int imc=0; imc<nMC; imc++){
+    genLeptonEta=mcEta->at(imc);
+    genLeptonPhi=mcPhi->at(imc);
+    double dr_tau_lepton=dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+    //prompt_ele=false; prompt_mu=false; tau_ele=false; tau_mu=false; tau_tauh=false;
+    
+    ///// prompt electrons
+    if(mcPt->at(imc)>8 && abs(mcPID->at(imc))==11 && mcStatusFlag->at(imc)>>1&1==1)
+      {
+	//dr_tau_lepton= dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+	if( dr_tau_lepton<0.2 && closestEle>dr_tau_lepton)
+	  {closestEle=dr_tau_lepton; prompt_ele=true; }
+	
+      }
+    ///// prompt muons
+    if(mcPt->at(imc)>8 && abs(mcPID->at(imc))==13 && mcStatusFlag->at(imc)>>1&1==1)
+      {
+	//dr_tau_lepton= dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+        if( dr_tau_lepton<0.2 && closestMu>dr_tau_lepton)
+          {closestMu=dr_tau_lepton; prompt_mu=true; }
+      }
+    ///// tau -> electrons
+    if(mcPt->at(imc)>8 && abs(mcPID->at(imc))==11 && mcStatusFlag->at(imc)>>5&1==1)
+      {
+	//dr_tau_lepton= dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+        if( dr_tau_lepton<0.2 && closestETau>dr_tau_lepton)
+          {closestETau=dr_tau_lepton;  tau_ele=true; }
+      }
+    ///// tau -> muons
+    if(mcPt->at(imc)>8 && abs(mcPID->at(imc))==13 && mcStatusFlag->at(imc)>>5&1==1)
+      {
+	//dr_tau_lepton= dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+        if( dr_tau_lepton<0.2 && closestMTau>dr_tau_lepton)
+          {closestMTau=dr_tau_lepton;  tau_mu=true; }
+      }
+    ///// tau -> tau hadronic
+    if(mcPt->at(imc)>15 &&  abs(mcPID->at(imc))!=13 &&  abs(mcPID->at(imc))!=11 )
+      {
+	dr_tau_lepton= dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+        if( dr_tau_lepton<0.2 && closestHTau>dr_tau_lepton)
+          {closestHTau=dr_tau_lepton;   tau_tauh=true; }
+      } 
+  }
+  double closestLTau =  min(closestETau, closestMTau);
+  if(closestHTau < closestLTau)
+    closestLTau=closestHTau;
+  //closestDR = min(closestLTau, min(closestEle, closestMu) );
+  int genMatch=0;
+  //cout<<"closestDR: "<<closestDR<<" closestEle:"<<closestEle<<" closestMu:"<<closestMu<<" closestETau:"<<closestETau<<" closestMTau:"<<closestMTau<<" closestHTau:"<<closestHTau<<endl;
+  
+  if( (prompt_ele || prompt_mu))
+    {
+      if(closestEle<0.2 && prompt_ele)
+	//return 1;
+	genMatch=1;
+      else if(closestMu<0.2 && prompt_mu)				
+	//return 2;
+	genMatch=2;
+    }
+  else if(closestDR <= closestLTau)
+    {
+      if(closestETau<0.2 && closestETau< min(closestMTau, closestHTau) && tau_ele) //return 3;
+	genMatch=3;
+      else if(closestMTau<0.2 && closestMTau< min(closestETau, closestHTau) && tau_mu) //return 4;
+	genMatch=4;
+      else if(closestHTau<0.2 && closestHTau< min(closestETau, closestMTau) && tau_tauh) //return 5;
+	genMatch=5;
+    }
+  else
+    genMatch=6;
+
+  //  myfile_genmatch << event << std::setw(10) << genMatch << std::setw(10) << " closestDR: "<<closestDR<<" closestEle:"<<closestEle<<" closestMu:"<<closestMu<<" closestETau:"<<closestETau<<" closestMTau:"<<closestMTau<<" closestHTau:"<<closestHTau<<"\n";
+  return genMatch;
+
+}
+int etau_analyzer::myGenMaching1(int eleIndex)
+{
+  double recotau_eta=eleEta->at(eleIndex);
+  double recotau_phi=elePhi->at(eleIndex);
+  double closestEle=999;  double closestMu=999;
+  double closestETau=999;  double closestMTau=999;  double closestHTau=999;  double closestDR=999;
+  double genLeptonEta=0;
+  double genLeptonPhi=0;
+  bool prompt_ele=false;  bool tau_ele=false; bool tau_mu=false; bool tau_tauh=false;
+  bool prompt_mu=false;
+  for(int imc=0; imc<nMC; imc++){
+    genLeptonEta=mcEta->at(imc);
+    genLeptonPhi=mcPhi->at(imc);
+    double mc_tau_dr= dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+    if(mc_tau_dr<closestDR)
+      closestDR=mc_tau_dr;
+  }
+
+
+  for(int imc=0; imc<nMC; imc++){
+    genLeptonEta=mcEta->at(imc);
+    genLeptonPhi=mcPhi->at(imc);
+    double dr_tau_lepton=dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+    //prompt_ele=false; prompt_mu=false; tau_ele=false; tau_mu=false; tau_tauh=false;
+    
+    ///// prompt electrons
+    if(mcPt->at(imc)>8 && abs(mcPID->at(imc))==11 && mcStatusFlag->at(imc)>>1&1==1)
+      {
+	//dr_tau_lepton= dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+	if( dr_tau_lepton<0.2 && closestEle>dr_tau_lepton)
+	  {closestEle=dr_tau_lepton; prompt_ele=true; }
+	
+      }
+    ///// prompt muons
+    if(mcPt->at(imc)>8 && abs(mcPID->at(imc))==13 && mcStatusFlag->at(imc)>>1&1==1)
+      {
+	//dr_tau_lepton= dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+        if( dr_tau_lepton<0.2 && closestMu>dr_tau_lepton)
+          {closestMu=dr_tau_lepton; prompt_mu=true; }
+      }
+    ///// tau -> electrons
+    if(mcPt->at(imc)>8 && abs(mcPID->at(imc))==11 && mcStatusFlag->at(imc)>>5&1==1)
+      {
+	//dr_tau_lepton= dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+        if( dr_tau_lepton<0.2 && closestETau>dr_tau_lepton)
+          {closestETau=dr_tau_lepton;  tau_ele=true; }
+      }
+    ///// tau -> muons
+    if(mcPt->at(imc)>8 && abs(mcPID->at(imc))==13 && mcStatusFlag->at(imc)>>5&1==1)
+      {
+	//dr_tau_lepton= dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+        if( dr_tau_lepton<0.2 && closestMTau>dr_tau_lepton)
+          {closestMTau=dr_tau_lepton;  tau_mu=true; }
+      }
+    ///// tau -> tau hadronic
+    if(mcPt->at(imc)>15 &&  abs(mcPID->at(imc))!=13 &&  abs(mcPID->at(imc))!=11 )
+      {
+	dr_tau_lepton= dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+        if( dr_tau_lepton<0.2 && closestHTau>dr_tau_lepton)
+          {closestHTau=dr_tau_lepton;   tau_tauh=true; }
+      } 
+  }
+  double closestLTau =  min(closestETau, closestMTau);
+  if(closestHTau < closestLTau)
+    closestLTau=closestHTau;
+  //closestDR = min(closestLTau, min(closestEle, closestMu) );
+  int genMatch=0;
+  //cout<<"closestDR: "<<closestDR<<" closestEle:"<<closestEle<<" closestMu:"<<closestMu<<" closestETau:"<<closestETau<<" closestMTau:"<<closestMTau<<" closestHTau:"<<closestHTau<<endl;
+  
+  if( (prompt_ele || prompt_mu))
+    {
+      if(closestEle<0.2 && prompt_ele)
+	//return 1;
+	genMatch=1;
+      else if(closestMu<0.2 && prompt_mu)				
+	//return 2;
+	genMatch=2;
+    }
+  else if(closestDR <= closestLTau)
+    {
+      if(closestETau<0.2 && closestETau< min(closestMTau, closestHTau) && tau_ele) //return 3;
+	genMatch=3;
+      else if(closestMTau<0.2 && closestMTau< min(closestETau, closestHTau) && tau_mu) //return 4;
+	genMatch=4;
+      else if(closestHTau<0.2 && closestHTau< min(closestETau, closestMTau) && tau_tauh) //return 5;
+	genMatch=5;
+    }
+  else
+    genMatch=6;
+
+  myfile_genmatch << event << std::setw(10) << genMatch << std::setw(10) << " closestDR: "<<closestDR<<" closestEle:"<<closestEle<<" closestMu:"<<closestMu<<" closestETau:"<<closestETau<<" closestMTau:"<<closestMTau<<" closestHTau:"<<closestHTau<<"\n";
+  return genMatch;
+
+}
 std::vector<int> etau_analyzer::getGenMu(){
   std::vector<int> tmpCand;
   tmpCand.clear();
@@ -1130,9 +1207,103 @@ bool etau_analyzer::hasGenTau(){
 float etau_analyzer::exponential(float x,float a,float b,float c) {
   return a * TMath::Exp(-b * x) + c;
 }
-double etau_analyzer::getScaleFactors( int eleIndex , int tauIndex, bool fakeBkg , bool isMC, bool debug)
+double etau_analyzer::getScaleFactors(  double elept, double taupt, double eleeta, double taueta, int taudm, int gen_match_2)
 {
-  return 1.0;
+  bool debug=false;
+  double rv_sf=1.0;
+  double eleRecoSF_corr=1.0;
+  double eleEffSF_corr=1.0;
+  double eletrgsf_tmp=1.0;
+  double eletrgsf=1.0;
+  double sf_tauTrg = 1.0; double sf_htt_workspace=1.0;
+  double sf_Zvtx=1.0;
+  double sf_tauidSF_m = 1.0;
+  double sf_tauidSF_vvvl = 1.0;
+  double sf_tauesSF = 1.0;
+  double sf_fakeEle = 1.0; double sf_fakeMu = 1.0;
+  double sf_taufesSF = 1.0;
+  
+  eleRecoSF_corr=h_eleRecoSF_highpt->GetBinContent(h_eleRecoSF_highpt->GetXaxis()->FindBin(eleeta),h_eleRecoSF_highpt->GetYaxis()->FindBin(elept));
+  if (debug==true ) std::cout<<"eleRecoSF_corr =  "<< eleRecoSF_corr<<std::endl;
+  eleEffSF_corr=h_eleIDSF->GetBinContent(h_eleIDSF->GetXaxis()->FindBin(eleeta),h_eleIDSF->GetYaxis()->FindBin(elept));
+  if (debug==true ) std::cout<<"eleEffSF_corr =  "<< eleEffSF_corr<<std::endl;
+  if (debug==true ) std::cout<<"This works line 269 "<<std::endl;
+  
+
+  if( gen_match_2==5)
+    {
+      sf_tauidSF_m = h_tauidSF_m->GetBinContent(h_tauidSF_m->GetXaxis()->FindBin(taudm));
+      //sf_tauidSF_m = fn_tauIDSF_m->Eval(tau_Pt->at(reco_tau));
+      sf_tauidSF_vvvl = h_tauidSF_vvvl->GetBinContent(h_tauidSF_vvvl->GetXaxis()->FindBin(taudm));
+      //sf_tauidSF_vvvl = fn_tauIDSF_vvl->Eval(tau_Pt->at(reco_tau));
+      sf_tauesSF = h_tauesSF->GetBinContent(h_tauesSF->GetXaxis()->FindBin(taudm));
+    }
+  
+  if(gen_match_2<5)
+    {
+      if(taudm==0)
+  	{
+  	  if(abs(taueta) < 1.479 ) sf_fakeEle=0.98;
+  	  if(abs(taueta) > 1.479 ) sf_fakeEle=0.80;
+  	}
+      if(taudm==1)
+  	{
+  	  if(abs(taueta) < 1.479 ) sf_fakeEle=1.07;
+  	  if(abs(taueta) > 1.479 ) sf_fakeEle=0.64;
+  	}
+    }
+  if(taudm==0 && abs(taueta)<=1.4 ) sf_taufesSF = h_taufesSF->Eval(1);
+  if(taudm==0 && abs(taueta)>1.4 )  sf_taufesSF = h_taufesSF->Eval(3);
+  if(taudm==1 && abs(taueta)<=1.4 ) sf_taufesSF = h_taufesSF->Eval(5);
+  if(taudm==1 && abs(taueta)>1.4 )  sf_taufesSF = h_taufesSF->Eval(7);
+  
+  double tauPtCheck=taupt;
+  if(taupt > 450 ) tauPtCheck = 450;
+  else if ( taupt < 20 )  tauPtCheck = 20;
+  
+  if(taudm==0)  sf_tauTrg= h_tauTrgSF_dm0->GetBinContent(h_tauTrgSF_dm0->GetXaxis()->FindBin(tauPtCheck));
+  if(taudm==1)  sf_tauTrg= h_tauTrgSF_dm1->GetBinContent(h_tauTrgSF_dm1->GetXaxis()->FindBin(tauPtCheck));
+  if(taudm==10) sf_tauTrg= h_tauTrgSF_dm10->GetBinContent(h_tauTrgSF_dm10->GetXaxis()->FindBin(tauPtCheck));
+  if(taudm==11) sf_tauTrg= h_tauTrgSF_dm11->GetBinContent(h_tauTrgSF_dm11->GetXaxis()->FindBin(tauPtCheck));
+  
+  w->var("e_pt")->setVal(elept);
+  w->var("e_eta")->setVal(eleeta);
+  w->var("t_pt")->setVal(taupt);
+  w->var("t_mvadm")->setVal(taudm);
+  double e_trk_sf=w->function("e_trk_ratio")->getVal();
+  double e_idiso_sf=w->function("e_idiso_ic_ratio")->getVal();
+  double e_trg_sf=w->function("e_trg_ic_ratio")->getVal();
+  double e_trg24_sf=w->function("e_trg_24_ic_ratio")->getVal();
+  double t_trg_sf=w->function("t_trg_ic_deeptau_medium_mvadm_etau_ratio")->getVal();
+  double t_deepid_tightvsele_sf=w->function("t_deeptauid_mvadm_medium_tightvsele")->getVal();
+  double zptmass_weight = 1.0;
+  // if(genZCand.size()>0){
+  //   w->var("z_gen_pt")->setVal(mcPt->at(genZCand[0]));
+  //   w->var("z_gen_mass")->setVal(mcMass->at(genZCand[0]));
+  //   //cout<< "zptmass_weight_nom = "<<w->function("zptmass_weight_nom")->getVal();
+  //   zptmass_weight=w->function("zptmass_weight_nom")->getVal();
+  // }
+
+  if(elept<28)
+    e_trg_sf=1.0;
+  if(elept>28)
+    e_trg24_sf=1.0;
+  // if(taupt>35)
+  //   t_trg_sf=1.0;
+  //sf_htt_workspace=sf_htt_workspace * e_trk_sf * e_idiso_sf * e_trg_sf * e_trg24_sf * t_trg_sf * t_deepid_tightvsele_sf;
+  sf_htt_workspace=  e_trk_sf * e_idiso_sf *  e_trg24_sf * e_trg_sf;
+  //cout<<"sf_htt_workspace : "<<sf_htt_workspace<<endl;
+  
+  rv_sf = eleRecoSF_corr * eleEffSF_corr * sf_Zvtx * sf_tauidSF_m * sf_tauesSF *  sf_fakeMu * sf_taufesSF *sf_tauTrg* sf_htt_workspace;
+  //rv_sf = sf_htt_workspace;
+  //if(rv_sf < 0.5)
+  //cout<<"rv_sf< 0.5 "<<" "<<eleRecoSF_corr<<" "<<eleEffSF_corr<<" "<<sf_Zvtx<<" "<<sf_tauidSF_vvvl<<" "<<sf_tauesSF<<" "<<sf_fakeMu<<" "<<sf_taufesSF<<" "<<sf_htt_workspace<<endl;
+  if(rv_sf>0)
+    return rv_sf;
+  else
+    return 1.0;
+  //return 1.0;
+
 }
 bool etau_analyzer::MatchTriggerFilter(int eleIndex, int tauIndex)
 {
@@ -1162,9 +1333,9 @@ bool etau_analyzer::MatchTriggerFilter(int eleIndex, int tauIndex)
     }
   if( 
      (HLTEleMuX>>3&1 == 1 && eleFiredSingleTrgs->at(eleIndex)>>12&1==1)
-     || (HLTEleMuX>>61&1 == 1  && (eleFiredSingleTrgs->at(eleIndex)>>51&1==1 || eleFiredSingleTrgs->at(eleIndex)>>52&1==1) )
+     || (HLTEleMuX>>61&1 == 1  && (eleFiredSingleTrgs->at(eleIndex)>>51&1==1 ))//|| eleFiredSingleTrgs->at(eleIndex)>>52&1==1) )
      || (HLTEleMuX>>5&1 == 1  && eleFiredSingleTrgs->at(eleIndex)>>14&1==1)
-     || (HLTTau>>1&1 ==1  )//&& (eleFiredSingleTrgs->at(eleIndex)>>53&1==1 || eleFiredSingleTrgs->at(eleIndex)>>54&1==1 || eleFiredSingleTrgs->at(eleIndex)>>55&1==1))
+     || (HLTTau>>1&1 ==1  )// && (eleFiredSingleTrgs->at(eleIndex)>>53&1==1 || eleFiredSingleTrgs->at(eleIndex)>>54&1==1 || eleFiredSingleTrgs->at(eleIndex)>>55&1==1 ))
       )
     return true;
   else
@@ -1205,197 +1376,13 @@ double  etau_analyzer::getFR(int tauIndex){
 }
 
 void etau_analyzer::fillHist( string histNumber , int eleIndex, int tauIndex, float event_weight, bool isMC){
-  string hNumber = histNumber;
-  plotFill("elePt_"+hNumber,  elePt->at(eleIndex) , 38 , 24 , 100,  event_weight);
-  plotFill("eleEta_"+hNumber, eleEta->at(eleIndex), 48, -2.4, 2.4,  event_weight);
-  plotFill("elePhi_"+hNumber, elePhi->at(eleIndex), 30, -3.14, 3.14,  event_weight);
-  plotFill("eleDz_"+hNumber,  eleDz->at(eleIndex), 20, -0.2, 0.2,  event_weight);
-  plotFill("eleD0_"+hNumber,  eleD0->at(eleIndex), 48, -0.06, 0.06,  event_weight);
-  plotFill("electronID_"+hNumber, eleIDbit->at(eleIndex)>>8&1, 4, -2, 2,  event_weight); // electronID
-  float relEleIso = ( elePFChIso->at(eleIndex) + max( elePFNeuIso->at(eleIndex) + elePFPhoIso->at(eleIndex) - 0.5 *elePFPUIso->at(eleIndex) , 0.0 )) / (elePt->at(eleIndex));
-  plotFill("relEleIso_"+hNumber, relEleIso, 15, 0, 0.3,  event_weight);
-  plotFill("eleCharge_"+hNumber, eleCharge->at(eleIndex), 8, -2, 2 ,  event_weight);
-  
-  plotFill("tauPt_"+hNumber,  tau_Pt->at(tauIndex) , 25 , 30 , 80,  event_weight);
-  plotFill("tauEta_"+hNumber, tau_Eta->at(tauIndex), 45, -2.5, 2.5,  event_weight);
-  plotFill("tauPhi_"+hNumber, tau_Phi->at(tauIndex), 30, -3.14, 3.14,  event_weight);
-  plotFill("tauIso_"+hNumber, tau_byMediumDeepTau2017v2p1VSjet->at(tauIndex), 4, -2, 2,  event_weight);
-  plotFill("tauDecayMode_"+hNumber, tau_DecayMode->at(tauIndex) , 12, 0, 12,  event_weight);
-  plotFill("tauCharge_"+hNumber, tau_Charge->at(tauIndex), 8, -2, 2 ,  event_weight);
-  plotFill("tauAntiEle_"+hNumber, tau_byTightDeepTau2017v2p1VSe->at(tauIndex), 8, -2, 2,  event_weight );
-  plotFill("tauAntiMu_"+hNumber,  tau_byVLooseDeepTau2017v2p1VSmu->at(tauIndex), 8, -2, 2 ,  event_weight);
-  double deltaR = delta_R(elePhi->at(eleIndex), eleEta->at(eleIndex), tau_Phi->at(tauIndex), tau_Eta->at(tauIndex));
-  plotFill("deltaR_"+hNumber, deltaR , 30, 0, 6,  event_weight);
-  std::vector<int> jetCand;       jetCand.clear();
-  jetCand=getJetCand(eleIndex, tauIndex, -1);
-  plotFill("nJet_"+hNumber,  jetCand.size() , 6, 0, 6,  event_weight);
-  plotFill("met_"+hNumber, pfMET , 20, 0, 100,  event_weight);
-  
-  double mT_eleMet = TMass_F((elePt->at(eleIndex)),(elePhi->at(eleIndex)),pfMET,pfMETPhi  );
-  plotFill("mT_eleMet_"+hNumber, mT_eleMet , 30, 0, 150,  event_weight);
-
-  TLorentzVector myTau; 
-  myTau.SetPtEtaPhiE(tau_Pt->at(tauIndex),tau_Eta->at(tauIndex),tau_Phi->at(tauIndex), tau_Energy->at(tauIndex));
-  TLorentzVector myEle; 
-  myEle.SetPtEtaPhiE(elePt->at(eleIndex), eleEta->at(eleIndex), elePhi->at(eleIndex), eleE->at(eleIndex));
-  double visMass_mutau = VisMass_F(myTau, myEle);
-  plotFill("visMass_"+hNumber, visMass_mutau , 30, 50, 200,  event_weight);
-  
-  TLorentzVector myMet;
-  myMet.SetPtEtaPhiE(pfMET ,0,pfMETPhi,pfMET);
-  double HiggsPt = pTvecsum_F(myEle, myTau, myMet );
-  plotFill("higgsPt_"+hNumber,HiggsPt , 25, 0, 250,  event_weight);
-
-  double tot_tr_mass = TotTMass_F(myEle, myTau, myMet );
-  plotFill("tot_TMass_"+hNumber, tot_tr_mass , 20, 0, 200,  event_weight);
-
-  int triggerBin=0;
-  if( HLTTau>>1&1 == 1 )     triggerBin=4;    //HLT_Ele24_eta2p1_WPTight_Gsf_LooseChargedIsoPFTau30_eta2p1_CrossL1
-  else if( HLTEleMuX>>3&1 == 1 ) triggerBin=1;   //HLT_Ele27_WPTight_Gsf_v
-  else if( HLTEleMuX>>61&1 == 1 ) triggerBin=2;   //HLT_Ele32_WPTight_Gsf_v
-  else if( HLTEleMuX>>5&1 == 1 ) triggerBin=3;     //HLT_Ele35_WPTight_Gsf_v
-  plotFill("trigger_"+hNumber, triggerBin , 5, 0, 5,  event_weight);
-  
-  int genMatchBin=0;
-  if(isMC){
-    if(found_GenMatch(1)) genMatchBin=1;
-    else if(found_GenMatch(2)) genMatchBin=2;
-    else if(found_GenMatch(3)) genMatchBin=3;
-    else if(found_GenMatch(4)) genMatchBin=4;
-    else if(found_GenMatch(5)) genMatchBin=5;
-    else if(found_GenMatch(6)) genMatchBin=6;
-  }
-  plotFill("genMatch_"+hNumber, genMatchBin ,7, 0, 7,  event_weight);
-  //if(debug)cout <<"plots filled for "<<hNumber<<endl;
   
 }
 void etau_analyzer::fillHist( string histNumber , TLorentzVector eleP4, TLorentzVector tauP4, int eleIndex, int tauIndex, float event_weight, bool isMC){
-  string hNumber = histNumber;
-  plotFill("elePt_"+hNumber,  elePt->at(eleIndex) , 38 , 24 , 100,  event_weight);
-  plotFill("eleEta_"+hNumber, eleEta->at(eleIndex), 48, -2.4, 2.4,  event_weight);
-  plotFill("elePhi_"+hNumber, elePhi->at(eleIndex), 30, -3.14, 3.14,  event_weight);
-  plotFill("eleDz_"+hNumber,  eleDz->at(eleIndex), 40, -0.5, 0.5,  event_weight);
-  plotFill("eleD0_"+hNumber,  eleD0->at(eleIndex), 48, -0.06, 0.06,  event_weight);
-  plotFill("electronID_"+hNumber, eleIDbit->at(eleIndex)>>8&1, 4, -2, 2,  event_weight); 
-  float relEleIso = ( elePFChIso->at(eleIndex) + max( elePFNeuIso->at(eleIndex) + elePFPhoIso->at(eleIndex) - 0.5 *elePFPUIso->at(eleIndex) , 0.0 )) / (elePt->at(eleIndex));
-  plotFill("relEleIso_"+hNumber, relEleIso, 15, 0, 0.3,  event_weight);
-  plotFill("eleCharge_"+hNumber, eleCharge->at(eleIndex), 8, -2, 2 ,  event_weight);
-  
-  plotFill("tauPt_"+hNumber,  tau_Pt->at(tauIndex) , 25 , 30 , 80,  event_weight);
-  plotFill("tauEta_"+hNumber, tau_Eta->at(tauIndex), 45, -2.5, 2.5,  event_weight);
-  plotFill("tauPhi_"+hNumber, tau_Phi->at(tauIndex), 30, -3.14, 3.14,  event_weight);
-  plotFill("tauIso_"+hNumber, tau_byMediumDeepTau2017v2p1VSjet->at(tauIndex), 4, -2, 2,  event_weight);
-  plotFill("tauDecayMode_"+hNumber, tau_DecayMode->at(tauIndex) , 12, 0, 12,  event_weight);
-  plotFill("tauCharge_"+hNumber, tau_Charge->at(tauIndex), 8, -2, 2 ,  event_weight);
-  plotFill("tauAntiEle_"+hNumber, tau_byTightDeepTau2017v2p1VSe->at(tauIndex), 8, -2, 2,  event_weight );
-  plotFill("tauAntiMu_"+hNumber,  tau_byVLooseDeepTau2017v2p1VSmu->at(tauIndex), 8, -2, 2 ,  event_weight);
-  double deltaR = delta_R(elePhi->at(eleIndex), eleEta->at(eleIndex), tau_Phi->at(tauIndex), tau_Eta->at(tauIndex));
-  plotFill("deltaR_"+hNumber, deltaR , 30, 0, 6,  event_weight);
 
-  std::vector<int> jetCand;       jetCand.clear();
-  jetCand=getJetCand(eleIndex, tauIndex, -1);
-  plotFill("nJet_"+hNumber, jetCand.size() , 6, 0, 6,  event_weight);
-  plotFill("met_"+hNumber, pfMET , 20, 0, 100,  event_weight);
-
-  double mT_eleMet = TMass_F((elePt->at(eleIndex)),(elePhi->at(eleIndex)),pfMET,pfMETPhi  );
-  plotFill("mT_eleMet_"+hNumber, mT_eleMet , 30, 0, 150,  event_weight);
-  
-  double visMass_mutau = VisMass_F(eleP4, tauP4);
-  plotFill("visMass_"+hNumber, visMass_mutau , 30, 50, 200,  event_weight);
-  
-  TLorentzVector myMet;
-  myMet.SetPtEtaPhiE(pfMET ,0,pfMETPhi,pfMET);
-  double HiggsPt = pTvecsum_F(eleP4, tauP4, myMet);
-  plotFill("higgsPt_"+hNumber,HiggsPt , 25, 0, 250,  event_weight);
-
-  double tot_tr_mass = TotTMass_F(eleP4, tauP4, myMet );
-  plotFill("tot_TMass_"+hNumber, tot_tr_mass , 20, 0, 200,  event_weight);
-
-  int triggerBin=0;
-  if( HLTTau>>1&1 == 1 )     triggerBin=4;
-  else if( HLTEleMuX>>3&1 == 1 ) triggerBin=1;
-  else if( HLTEleMuX>>61&1 == 1 ) triggerBin=2;
-  else if( HLTEleMuX>>5&1 == 1 ) triggerBin=3;
-  plotFill("trigger_"+hNumber, triggerBin , 5, 0, 5,  event_weight);
-  
-  int genMatchBin=0;
-  if(isMC){
-    if(found_GenMatch(1)) genMatchBin=1;
-    else if(found_GenMatch(2)) genMatchBin=2;
-    else if(found_GenMatch(3)) genMatchBin=3;
-    else if(found_GenMatch(4)) genMatchBin=4;
-    else if(found_GenMatch(5)) genMatchBin=5;
-    else if(found_GenMatch(6)) genMatchBin=6;
-  }
-  plotFill("genMatch_"+hNumber, genMatchBin ,7, 0, 7,  event_weight);
-  //if(debug)cout <<"plots filled for "<<hNumber<<endl;
 }
 void etau_analyzer::fillHist_dyll( string histNumber , int eleIndex, int ele2Index, int tauIndex, float event_weight, bool isMC){
-  string hNumber = histNumber;
-  plotFill("elePt_"+hNumber,  elePt->at(eleIndex) , 38 , 24 , 100,  event_weight);
-  plotFill("eleEta_"+hNumber, eleEta->at(eleIndex), 48, -2.4, 2.4,  event_weight);
-  plotFill("elePhi_"+hNumber, elePhi->at(eleIndex), 30, -3.14, 3.14,  event_weight);
-  plotFill("eleDz_"+hNumber,  eleDz->at(eleIndex), 20, -0.2, 0.2,  event_weight);
-  plotFill("eleD0_"+hNumber,  eleD0->at(eleIndex), 48, -0.06, 0.06,  event_weight);
-  plotFill("electronID_"+hNumber, eleIDbit->at(eleIndex)>>8&1, 4, -2, 2,  event_weight); // electronID
-  float relEleIso = ( elePFChIso->at(eleIndex) + max( elePFNeuIso->at(eleIndex) + elePFPhoIso->at(eleIndex) - 0.5 *elePFPUIso->at(eleIndex) , 0.0 )) / (elePt->at(eleIndex));
-  plotFill("relEleIso_"+hNumber, relEleIso, 15, 0, 0.3,  event_weight);
-  plotFill("eleCharge_"+hNumber, eleCharge->at(eleIndex), 8, -2, 2 ,  event_weight);
-  
-  plotFill("tauPt_"+hNumber,  tau_Pt->at(tauIndex) , 25 , 30 , 80,  event_weight);
-  plotFill("tauEta_"+hNumber, tau_Eta->at(tauIndex), 45, -2.5, 2.5,  event_weight);
-  plotFill("tauPhi_"+hNumber, tau_Phi->at(tauIndex), 30, -3.14, 3.14,  event_weight);
-  plotFill("tauIso_"+hNumber, tau_byMediumDeepTau2017v2p1VSjet->at(tauIndex), 4, -2, 2,  event_weight);
-  plotFill("tauDecayMode_"+hNumber, tau_DecayMode->at(tauIndex) , 12, 0, 12,  event_weight);
-  plotFill("tauCharge_"+hNumber, tau_Charge->at(tauIndex), 8, -2, 2 ,  event_weight);
-  plotFill("tauAntiEle_"+hNumber, tau_byTightDeepTau2017v2p1VSe->at(tauIndex), 8, -2, 2,  event_weight );
-  plotFill("tauAntiMu_"+hNumber,  tau_byVLooseDeepTau2017v2p1VSmu->at(tauIndex), 8, -2, 2 ,  event_weight);
-  
-  double deltaR = delta_R(elePhi->at(eleIndex), eleEta->at(eleIndex), elePhi->at(ele2Index), eleEta->at(ele2Index));
-  plotFill("deltaR_"+hNumber, deltaR , 30, 0, 6,  event_weight);
-  std::vector<int> jetCand;       jetCand.clear();
-  jetCand=getJetCand(eleIndex, -1, ele2Index);
-  plotFill("nJet_"+hNumber,  jetCand.size() , 6, 0, 6,  event_weight);
-  plotFill("met_"+hNumber, pfMET , 20, 0, 100,  event_weight);
-  
-  double mT_eleMet = TMass_F((elePt->at(eleIndex)),(elePhi->at(eleIndex)),pfMET,pfMETPhi  );
-  plotFill("mT_eleMet_"+hNumber, mT_eleMet , 30, 0, 150,  event_weight);
 
-  TLorentzVector myTau; 
-  myTau.SetPtEtaPhiE(tau_Pt->at(tauIndex),tau_Eta->at(tauIndex),tau_Phi->at(tauIndex), tau_Energy->at(tauIndex));
-  TLorentzVector myEle; 
-  myEle.SetPtEtaPhiE(elePt->at(eleIndex), eleEta->at(eleIndex), elePhi->at(eleIndex), eleE->at(eleIndex));
-  TLorentzVector myEle2;
-  myEle2.SetPtEtaPhiE(elePt->at(ele2Index), eleEta->at(ele2Index), elePhi->at(ele2Index), eleE->at(ele2Index));
-  double visMass_eletau = VisMass_F(myEle2, myEle);
-  plotFill("visMass_"+hNumber, visMass_eletau , 30, 50, 200,  event_weight);
-  
-  TLorentzVector myMet;
-  myMet.SetPtEtaPhiE(pfMET ,0,pfMETPhi,pfMET);
-  double HiggsPt = pTvecsum_F(myEle, myEle2, myMet );
-  plotFill("higgsPt_"+hNumber,HiggsPt , 25, 0, 250,  event_weight);
-
-  double tot_tr_mass = TotTMass_F(myEle, myEle2, myMet );
-  plotFill("tot_TMass_"+hNumber, tot_tr_mass , 20, 0, 200,  event_weight);
-
-  int triggerBin=0;
-  if( HLTTau>>1&1 == 1 )     triggerBin=4;
-  else if( HLTEleMuX>>3&1 == 1 ) triggerBin=1;
-  else if( HLTEleMuX>>61&1 == 1 ) triggerBin=2;
-  else if( HLTEleMuX>>5&1 == 1 ) triggerBin=3;
-  plotFill("trigger_"+hNumber, triggerBin , 5, 0, 5,  event_weight);
-  
-  int genMatchBin=0;
-  if(isMC)
-    {
-      if(found_GenMatch(1)) genMatchBin=1;
-      else if(found_GenMatch(2)) genMatchBin=2;
-      else if(found_GenMatch(3)) genMatchBin=3;
-      else if(found_GenMatch(4)) genMatchBin=4;
-      else if(found_GenMatch(5)) genMatchBin=5;
-      else if(found_GenMatch(6)) genMatchBin=6;
-    }
-  plotFill("genMatch_"+hNumber, genMatchBin ,7, 0, 7,  event_weight);  
 }
 
 float etau_analyzer::EletriggerSF(float pt, float eta){
@@ -1447,18 +1434,111 @@ float etau_analyzer::EletriggerSF(float pt, float eta){
      }
    return sf;
 }
-void etau_analyzer::makeMyPlot( string histNumber , int eleIndex, int ele2Index, int tauIndex, float event_weight){
+void etau_analyzer::makeMyPlot( string histNumber , int eleIndex, int tauIndex, float event_weight){
   string hNumber = histNumber;
   int ele_select=-1;
   std::vector<int> tmpCand; tmpCand.clear();
-  for(int iEle=0;iEle<nEle;iEle++)
-    {
-      tmpCand.push_back(iEle);
-    }
+  // for(int iEle=0;iEle<nEle;iEle++)
+  //   {
+  //     tmpCand.push_back(iEle);
+  //   }
+  // if(eleIndex>-1)
+  //   eleIndex=eleIndex;
+  // else
+  //   eleIndex=tmpCand[0];
+  // tmpCand.clear();
+  // for(int iTau=0;iTau<nTau;iTau++)
+  //   {
+  //     tmpCand.push_back(iTau);
+  //   }
+  // if(tauIndex>-1)
+  //   tauIndex=tauIndex;
+  // else
+  //   tauIndex=tmpCand[0];
   if(eleIndex>-1)
-    ele_select=eleIndex;
+    eleIndex=eleIndex;
   else
-    ele_select=tmpCand[0];
-  plotFill("elePt_"+hNumber,  elePt->at(ele_select) , 38 , 24 , 100,  event_weight);
+    eleIndex=0;
+  if(tauIndex>-1)
+    tauIndex=tauIndex;
+  else
+    tauIndex=0;
+  plotFill("elePt_"+hNumber,  elePt->at(eleIndex) , 38 , 24 , 100,  event_weight);
+  plotFill("eleEta_"+hNumber, eleEta->at(eleIndex), 25, -2.5, 2.5,  event_weight);
+  plotFill("elePhi_"+hNumber, elePhi->at(eleIndex), 30, -3.14, 3.14,  event_weight);
+  plotFill("tauPt_"+hNumber,  tau_Pt->at(tauIndex)  , 25 , 30 , 80 ,  event_weight);
+  plotFill("tauEta_"+hNumber, tau_Eta->at(tauIndex), 25, -2.5, 2.5,  event_weight);
+  plotFill("tauPhi_"+hNumber, tau_Phi->at(tauIndex), 30, -3.14, 3.14,  event_weight);
+  
+  plotFill("tauDecayMode_"+hNumber,  tau_DecayMode->at(tauIndex) ,  12, 0, 12, event_weight);
+  int decayModeFinding_2=0;
+  if(tau_IDbits->at(tauIndex)>>1&1==1) decayModeFinding_2=1;
+  plotFill("decayModeFinding_"+hNumber, decayModeFinding_2 , 4, 0, 2,  event_weight);
+  //decayModeFinding_2
+  std::vector<int> jetCand;       jetCand.clear();
+  jetCand=getJetCand(eleIndex, tauIndex);
+  plotFill("nJet_"+hNumber, jetCand.size() , 8, 0, 8,  event_weight);
+  
+  int filterEle27_1, filterEle32_1, filterEle35_1, filterEle24Tau30_1, filterEle24Tau30_2;
+  filterEle27_1=filterEle32_1=filterEle35_1=filterEle24Tau30_1=filterEle24Tau30_2=-1;
+
+  for(int ifilter=0;ifilter<56;ifilter++)
+    {
+      if( HLTEleMuX>>5&1 == 1 && eleFiredSingleTrgs->at(eleIndex)>>ifilter&1==1)
+	{
+	  filterEle35_1=ifilter;
+	  plotFill("filterEle35_1_"+hNumber, filterEle35_1 , 61, -1, 60,  event_weight);
+	}
+      if( HLTEleMuX>>61&1 == 1 && eleFiredSingleTrgs->at(eleIndex)>>ifilter&1==1)
+	{
+	  filterEle32_1=ifilter;
+	  plotFill("filterEle32_1_"+hNumber, filterEle32_1 , 61, -1, 60,  event_weight);
+	}
+      if( HLTEleMuX>>3&1 == 1 && eleFiredSingleTrgs->at(eleIndex)>>ifilter&1==1)
+	{
+	  filterEle27_1=ifilter;
+	  plotFill("filterEle27_1_"+hNumber, filterEle27_1 , 61, -1, 60,  event_weight);
+	}
+      if( HLTTau>>1&1 == 1 && eleFiredSingleTrgs->at(eleIndex)>>ifilter&1==1)
+	{
+	  filterEle24Tau30_1=ifilter;
+	  plotFill("filterEle24Tau30_1_"+hNumber, filterEle24Tau30_1 , 61, -1, 60,  event_weight);
+	}
+    }
+  for(int ifilter=0;ifilter<18;ifilter++)
+    {
+      if( HLTTau>>1&1==1 && tauFiredTrgs->at(tauIndex)>>ifilter&1==1)
+	{
+	  filterEle24Tau30_2=ifilter;
+	  plotFill("filterEle24Tau30_2_"+hNumber, filterEle24Tau30_2 , 61, -1, 60,  event_weight);
+	}
+    }
+  int triggerBin=0;
+  if( HLTEleMuX>>5&1 == 1 ) triggerBin=4;
+  else if( HLTEleMuX>>61&1 == 1 ) triggerBin=3;
+  else if( HLTEleMuX>>3&1 == 1 ) triggerBin=2;
+  else if( HLTTau>>1&1 == 1 )     triggerBin=1;
+  
+  TLorentzVector elep4; TLorentzVector taup4;
+  elep4.SetPtEtaPhiE(elePt->at(eleIndex), eleEta->at(eleIndex), elePhi->at(eleIndex), eleE->at(eleIndex));
+  taup4.SetPtEtaPhiE(tau_Pt->at(tauIndex),tau_Eta->at(tauIndex),tau_Phi->at(tauIndex), tau_Energy->at(tauIndex));
+  plotFill("mass1_"+hNumber, elep4.M() , 50, 0, 0.05,  event_weight);
+  plotFill("mass2_"+hNumber, taup4.M() , 25, 0, 2.5,  event_weight);
+  
+  plotFill("genmatch1_"+hNumber, myGenMaching1(eleIndex) , 7, 0, 7,  event_weight);
+  plotFill("genmatch2_"+hNumber, myGenMaching(tauIndex) , 7, 0, 7,  event_weight);
+
+  double deltaPhi = DeltaPhi(elePhi->at(eleIndex), tau_Phi->at(tauIndex));
+  double deltaEta = fabs(eleEta->at(eleIndex) - tau_Eta->at(tauIndex));
+  plotFill("deltaPhi_"+hNumber, deltaPhi , 30, -3.14, 3.14,  event_weight);
+  plotFill("deltaEta_"+hNumber, deltaEta ,  25, -2.5, 2.5,  event_weight);
+  double deltaR = delta_R(elePhi->at(eleIndex), eleEta->at(eleIndex), tau_Phi->at(tauIndex), tau_Eta->at(tauIndex));
+  plotFill("deltaR_"+hNumber, deltaR , 30, 0, 6,  event_weight);
+  plotFill("trigger_"+hNumber, triggerBin , 5, 0, 5,  event_weight);
+
+  plotFill("met_"+hNumber, pfMETCorr , 20, 0, 100,  event_weight);
+  plotFill("metPhi_"+hNumber, pfMETPhiCorr , 30, -3.14, 3.14,  event_weight);
+  double mT_eleMet = TMass_F((elePt->at(eleIndex)),(elePhi->at(eleIndex)),pfMETCorr,pfMETPhiCorr  );
+  plotFill("mT_eMet_"+hNumber,  mT_eleMet , 30, 0, 150, event_weight);
   //cout<<"     elePt_"<<hNumber<<" = "<< elePt->at(tmpCand[0])<<endl;
 }

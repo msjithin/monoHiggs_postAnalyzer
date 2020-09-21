@@ -6,11 +6,19 @@ trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
 # echo an error message before exiting
 trap 'echo "\"${last_command}\" command filed with exit code $?."' EXIT
 
-./rootcom etau_analyzer analyze_etau
+
+f_exe="analyze_etau_test"
+if [ -f "$f_exe" ]; then
+    echo "$f_exe exists, removing file"
+    rm $f_exe
+fi
+
+./rootcom etau_analyzer $f_exe
+
 
 outFile="study_mutau_110k.root"
 start=`date +%s`
-nEvents=1000
+nEvents=10000
 sample='dy'
 plottingOn=0
 while getopts n:s:p option
@@ -23,45 +31,18 @@ do
 esac
 done
 
-outFile="study_mutau_dy.root"
 echo "dy sample analysis....."
-./analyze_etau /hdfs/store/user/jmadhusu/2018_skimmed/etau/DY1JetsToLL_00.root DY1JetsToLL_00_test.root $nEvents 1000 2018_test MC DY1JetsToLL_00
-
-outFile="study_mutau_wj.root"
+./$f_exe /hdfs/store/user/jmadhusu/2018_skimmed/etau/DY1JetsToLL_00.root DY1JetsToLL_00_test.root $nEvents 1000 2018 MC DY1JetsToLL_00 
+#./$f_exe /hdfs/store/user/jmadhusu/2017_skimmed/etau/ee_DY1JetsToLL_M-50_TuneCP5_01.root ee_DY1JetsToLL_M-50_TuneCP5_01_test.root $nEvents 1000 2017 MC DY1JetsToLL_01
 echo "wjets sample analysis....."
-./analyze_etau /hdfs/store/user/jmadhusu/2018_skimmed/etau/W1JetsToLNu_05.root WJetsToLNu_00_test.root $nEvents 1000 2018_test MC WJetsToLNu_00
-outFile="study_mutau_data.root"
-echo "data sample analysis....."
-./analyze_etau /hdfs/store/user/jmadhusu/2018_skimmed/etau/EGamma2018A_00.root EGamma2018A_00_test.root $nEvents 1000 2018_test DATA EGamma2018A_00
+./$f_exe /hdfs/store/user/jmadhusu/2018_skimmed/etau/WJetsToLNu_Incl_00.root WJetsToLNu_Incl_00_test.root $nEvents 1000 2018 MC WJetsToLNu_00
 
+echo "data sample analysis....."
+./$f_exe /hdfs/store/user/jmadhusu/2018_skimmed/etau/EGamma2018A_04.root EGamma2018A_04_test.root $nEvents 1000 2017 DATA EGamma2018A_04
+
+#./$f_exe /hdfs/store/user/jmadhusu/2017_skimmed/etau/SingleElectron_EraE_01.root SingleElectron_EraE_01_test.root $nEvents 1000 2017 DATA SingleMuon_EraE_01 
 
 end=`date +%s`
 runtime=$((end-start))
 echo "Runtime = $runtime"
 echo "Elapsed: $(($runtime / 3600))hrs $((($runtime / 60) % 60))min $(($runtime % 60))sec"
-
-if [ "$plottingOn" == 1 ]
-then
-    echo "plotting ......... "
-    cd plotting_script/
-    cp ../$outFile .
-    bash do_ind_plots.sh $outFile
-    #bash postAnalyzer_mutau.sh $outFile
-    cp plot_* /afs/hep.wisc.edu/home/ms/public_html/boosted_study/study_1/
-    cd ..
-fi
-#
-#for arg in "$@"
-#do
-#    if [ "$arg" == "-p" ] || [ "$arg" == "--plot" ]
-#    then
-#	echo "plotting ......... "
-#	cd plotting_script/
-#	cp ../$outFile .
-#	bash do_ind_plots.sh $outFile
-#	bash postAnalyzer_mutau.sh $outFile
-#	cp plot_* /afs/hep.wisc.edu/home/ms/public_html/boosted_study/study_1/
-#	cd ..
-#	
- #   fi
-#done

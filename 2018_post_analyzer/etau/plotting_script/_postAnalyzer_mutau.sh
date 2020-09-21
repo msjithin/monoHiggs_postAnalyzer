@@ -23,18 +23,18 @@ fi
 ./_postAnalyzer_mutau.exe ../files_initial/DY4JetsToLL_final.root files_nominal/DY4JetsToLL_stitch_final.root ZTT4jet ZTTjet 0 
 ./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_final.root files_nominal/DYJetsToLL_final.root DYJetsToLL ZTT 0 
 ./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_final.root files_nominal/DYJetsToLL_stitch_final.root ZTTjet_inc ZTTjet 0 
-./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_0J_Incl_final.root files_nominal/DYJetsToLL_0J_Incl_final.root DYJetsToLL_0J_Incl ZTT_0J 0 
+# ./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_0J_Incl_final.root files_nominal/DYJetsToLL_0J_Incl_final.root DYJetsToLL_0J_Incl ZTT_0J 0 
 ./_postAnalyzer_mutau.exe ../files_initial/WWW_final.root files_nominal/WWW_final.root WWW VVV 0 
-./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_2J_Incl_final.root files_nominal/DYJetsToLL_2J_Incl_final.root DYJetsToLL_2J_Incl ZTT_2J 0 
-./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_HT100-200_final.root files_nominal/DYJetsToLL_HT100-200_final.root DYJetsToLL_HT100-200 ZTT_HT 0 
-./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_HT1200-2500_final.root files_nominal/DYJetsToLL_HT1200-2500_final.root DYJetsToLL_HT1200-2500 ZTT_HT 0 
-./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_HT200-400_final.root files_nominal/DYJetsToLL_HT200-400_final.root DYJetsToLL_HT200-400 ZTT_HT 0 
-./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_HT2500-Inf_final.root files_nominal/DYJetsToLL_HT2500-Inf_final.root DYJetsToLL_HT2500-Inf ZTT_HT 0 
-./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_HT600-800_final.root files_nominal/DYJetsToLL_HT600-800_final.root DYJetsToLL_HT600-800 ZTT_HT 0 
-./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_HT70-100_final.root files_nominal/DYJetsToLL_HT70-100_final.root DYJetsToLL_HT70-100 ZTT_HT 0 
-./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_HT800-1200_final.root files_nominal/DYJetsToLL_HT800-1200_final.root DYJetsToLL_HT800-1200 ZTT_HT 0 
-./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_Incl_HT_final.root files_nominal/DYJetsToLL_Incl_HT_final.root DYJetsToLL_Incl_HT ZTT_HT 0 
-./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_M10to50_final.root files_nominal/DYJetsToLL_M10to50_final.root DYJetsToLL_M10to50 ZTT 0 
+# ./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_2J_Incl_final.root files_nominal/DYJetsToLL_2J_Incl_final.root DYJetsToLL_2J_Incl ZTT_2J 0 
+# ./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_HT100-200_final.root files_nominal/DYJetsToLL_HT100-200_final.root DYJetsToLL_HT100-200 ZTT_HT 0 
+# ./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_HT1200-2500_final.root files_nominal/DYJetsToLL_HT1200-2500_final.root DYJetsToLL_HT1200-2500 ZTT_HT 0 
+# ./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_HT200-400_final.root files_nominal/DYJetsToLL_HT200-400_final.root DYJetsToLL_HT200-400 ZTT_HT 0 
+# ./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_HT2500-Inf_final.root files_nominal/DYJetsToLL_HT2500-Inf_final.root DYJetsToLL_HT2500-Inf ZTT_HT 0 
+# ./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_HT600-800_final.root files_nominal/DYJetsToLL_HT600-800_final.root DYJetsToLL_HT600-800 ZTT_HT 0 
+# ./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_HT70-100_final.root files_nominal/DYJetsToLL_HT70-100_final.root DYJetsToLL_HT70-100 ZTT_HT 0 
+# ./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_HT800-1200_final.root files_nominal/DYJetsToLL_HT800-1200_final.root DYJetsToLL_HT800-1200 ZTT_HT 0 
+# ./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_Incl_HT_final.root files_nominal/DYJetsToLL_Incl_HT_final.root DYJetsToLL_Incl_HT ZTT_HT 0 
+# ./_postAnalyzer_mutau.exe ../files_initial/DYJetsToLL_M10to50_final.root files_nominal/DYJetsToLL_M10to50_final.root DYJetsToLL_M10to50 ZTT 0 
 ./_postAnalyzer_mutau.exe ../files_initial/EGamma2018A_final.root files_nominal/EGamma2018A_final.root data_obs data_obs 0 
 ./_postAnalyzer_mutau.exe ../files_initial/WWZ_final.root files_nominal/WWZ_final.root WWZ VVV 0 
 ./_postAnalyzer_mutau.exe ../files_initial/EGamma2018B_final.root files_nominal/EGamma2018B_final.root data_obs data_obs 0 

@@ -7,7 +7,7 @@ trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
 trap 'echo "\"${last_command}\" command filed with exit code $?."' EXIT
 
 
-f_exe="analyze_etau"
+f_exe="analyze_etau_test"
 if [ -f "$f_exe" ]; then
     echo "$f_exe exists, removing file"
     rm $f_exe
@@ -33,7 +33,7 @@ done
 
 echo "dy sample analysis....."
 ./$f_exe /hdfs/store/user/jmadhusu/2017_skimmed/etau/DYJetsToLL_M-50_TuneCP5_v1_00.root DYJetsToLL_00_test.root $nEvents 1000 2017 MC DY1JetsToLL_00
-./$f_exe /hdfs/store/user/jmadhusu/2017_skimmed/etau/ee_DY1JetsToLL_M-50_TuneCP5_01.root ee_DY1JetsToLL_M-50_TuneCP5_01_test.root $nEvents 1000 2017 MC DY1JetsToLL_01
+#./$f_exe /hdfs/store/user/jmadhusu/2017_skimmed/etau/ee_DY1JetsToLL_M-50_TuneCP5_01.root ee_DY1JetsToLL_M-50_TuneCP5_01_test.root $nEvents 1000 2017 MC DY1JetsToLL_01
 echo "wjets sample analysis....."
 ./$f_exe /hdfs/store/user/jmadhusu/2017_skimmed/etau/WJetsToLNu_TuneCP5_00.root WJetsToLNu_00_test.root $nEvents 1000 2017 MC WJetsToLNu_00
 
