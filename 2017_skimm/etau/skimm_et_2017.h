@@ -61,7 +61,7 @@ public :
    TTree *newtree;
    TH1F* h_nEvents;
    
-
+   bool is_MC;
 // Fixed size dimensions of array or collections stored in the TTree if any.
 
    // Declaration of leaf types
@@ -839,7 +839,8 @@ public :
    virtual void fillOutTree();
    virtual double DeltaPhi(double phi1, double phi2);
    virtual double dR(int mu_index, int tau_index);
-
+   double dR(float l1eta, float l1phi, float l2eta, float l2phi);
+   virtual int myGenMaching(int tauIndex);
 };
 
 #endif
@@ -926,6 +927,10 @@ void skimm_et_2017::Init(TChain *tree, string _isMC_)
    // (once per file to be processed).
   TString isMC = TString(_isMC_);
   cout<<"from Init "<<isMC<<endl;
+  if(isMC=="MC")
+    is_MC=true;
+  else
+    is_MC=false;
    // Set object pointer
    phoE = 0;
    phoEt = 0;

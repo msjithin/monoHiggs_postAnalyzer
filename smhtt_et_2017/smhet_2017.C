@@ -23,7 +23,7 @@
 #include <TLorentzVector.h>
 #include "makeHisto.h"
 #include "commonFunctions.h"
-
+#include "ApplyFF.h"
 
 using namespace std;
 using std::vector;
@@ -70,7 +70,16 @@ void smhet_2017::Loop(Long64_t maxEvents, int reportEvery, string SampleName, st
    Long64_t nentries = fChain->GetEntries();
 
    Long64_t nbytes = 0, nb = 0;
-   
+   //   ofstream myfile;
+   // if(isMC)
+   //   myfile.open ("eventAnalysis.txt");
+   // myfile << "event"  << "\t" << "lumi" << "\t" << "run" <<
+   //   "\t" << "ele pt" <<
+   //   "\t" << "tau pt" <<
+   //   "\t" << "met"    <<
+   //   "\t" << "taudm"  <<
+   //   "\t" << "tauGM"  <<
+   //   "\n";
    for (Long64_t jentry=0; jentry<nentries;jentry++) {
      Long64_t ientry = LoadTree(jentry);
       if (ientry < 0) break;
@@ -82,26 +91,30 @@ void smhet_2017::Loop(Long64_t maxEvents, int reportEvery, string SampleName, st
       bool selectTrgEle27=(passEle27 && matchEle27_1 && filterEle27_1 && pt_1>28);
       bool selectTrgEle32=(passEle32 && matchEle32_1 && filterEle32_1 && pt_1>33);
       bool selectTrgEle35=(passEle35 && matchEle35_1 && filterEle35_1 && pt_1>36);
-      bool selectTrgCross=(passEle24Tau30 && matchEle24Tau30_1 && filterEle24Tau30_1
-      			   && matchEle24Tau30_2 && filterEle24Tau30_2
+      bool selectTrgCross=(passEle24Tau30 
       			   && pt_1>25 && pt_1<28 && pt_2>35 && abs(eta_1)<2.1 && abs(eta_2)<2.1
       			   );
-      // bool selectTrgEle27=(passEle27 && pt_1>28 && abs(eta_1)<2.1);
-      // bool selectTrgEle32=(passEle32 && pt_1>33 && abs(eta_1)<2.1);
-      // bool selectTrgEle35=(passEle35 && pt_1>36 && abs(eta_1)<2.1);
-      // bool selectTrgCross=(passEle24Tau30 && pt_1>25 && pt_1<28 && pt_2>35  
-      // 			   && abs(eta_1)<2.1 && abs(eta_2)<2.1);
+      // bool selectTrgEle27=(passEle27 && matchEle27_1 && filterEle27_1 && pt_1>28);
+      // bool selectTrgEle32=(passEle32 && matchEle32_1 && filterEle32_1 && pt_1>33);
+      // bool selectTrgEle35=(passEle35 && matchEle35_1 && filterEle35_1 && pt_1>36);
+      // bool selectTrgCross=(passEle24Tau30 && matchEle24Tau30_1 && filterEle24Tau30_1
+      // 			   && matchEle24Tau30_2 
+      // 			   && filterEle24Tau30_2
+      // 			   && pt_1>25 && pt_1<28 && pt_2>35 && abs(eta_1)<2.1 && abs(eta_2)<2.1
+      // 			   );
+
       if(selectTrgEle27 || selectTrgEle32 || selectTrgEle35 || selectTrgCross)
       //if( selectTrgEle32 || selectTrgEle35 || selectTrgCross)
 	{
 	  makeMyPlot("b", 0, 0, 0, eventWeight);
 	  
-	  //select electrons
 	  if(pt_1>25 && fabs(eta_1)<2.1 && iso_1<0.15)// && eid90_noiso_1 )
 	    {
 	      makeMyPlot("c", 0, 0, 0, eventWeight);
 	      // selct taus
-	      if(pt_2>30 && fabs(eta_1)<2.3 && byMediumDeepVSjet_2>0
+	      if(pt_2>30 && fabs(eta_1)<2.3 
+		 && byMediumDeepVSjet_2>0.5
+		 //&& byMediumDeepVSjet_2<0.5 && byVVVLooseDeepVSjet_2>0.5
 		 && byTightDeepVSe_2>0.5 && byVLooseDeepVSmu_2>0.5 
 		 && (l2_decayMode==0 || l2_decayMode==1 || l2_decayMode==10 || l2_decayMode==11)
 		 //&& decayModeFinding_2>0.5
@@ -115,8 +128,13 @@ void smhet_2017::Loop(Long64_t maxEvents, int reportEvery, string SampleName, st
 		      //cout<<"eventWeight="<<eventWeight<<endl;
 		      double applySf=1.0;
 		      if(isMC)
-			applySf=getScaleFactors( pt_1, pt_2, eta_1, eta_2, l2_decayMode);
+		      	applySf=getScaleFactors( pt_1, pt_2, eta_1, eta_2, l2_decayMode);
 		      
+		      TLorentzVector dau1, dau2;
+		      dau1.SetPtEtaPhiE(pt_1, eta_1, phi_1, e_1);
+		      dau2.SetPtEtaPhiE(pt_2, eta_2, phi_2, e_2);
+		      double mt=TMass_F(pt_1, phi_1 , met, metphi);
+		      float mvis=(dau1+dau2).M();
 		      eventWeight =  eventWeight*applySf;
 		      // match filers
 		      makeMyPlot("f", 0, 0, 0, eventWeight);
@@ -126,7 +144,8 @@ void smhet_2017::Loop(Long64_t maxEvents, int reportEvery, string SampleName, st
 		      makeMyPlot("g", 0, 0, 0, eventWeight);
 		      
 		      //bjet veto
-		      if(nbtag <= 0 && nbtagL <= 1)
+		      //if(nbtag < 1)
+		      if(nbtag < 1 && nbtagL <2)
 			{
 			  makeMyPlot("h", 0, 0, 0, eventWeight);
 			  
@@ -141,8 +160,7 @@ void smhet_2017::Loop(Long64_t maxEvents, int reportEvery, string SampleName, st
 			      if(mT_eMet<50)
 				{
 				  makeMyPlot("j", 0, 0, 0, eventWeight);
-				  //cout<<"run:"<<run<<" lumi:"<<lumi<<" event:"<<evt<<" genpX:"<<genpX<<" genpY:"<<genpY<<" vispX:"<<vispX<<" vispY"<<vispY<<endl;
-				  //cout<<"l2_decayMode="<<l2_decayMode<<"  , decayModeFinding_2="<<decayModeFinding_2<<endl;
+		
 				}
 			    }
 			}
@@ -152,6 +170,7 @@ void smhet_2017::Loop(Long64_t maxEvents, int reportEvery, string SampleName, st
 	    }
 	}
    }
+   //myfile.close();
   
 }
 void smhet_2017::BookHistos(const char* file1, const char* file2)
@@ -172,15 +191,18 @@ double smhet_2017::delta_R(float phi1, float eta1, float phi2, float eta2)
 }
 
 
-
+float smhet_2017::pTvecsum_F(TLorentzVector a, TLorentzVector b, TLorentzVector c) {
+  float pt_vecSum = (a + b+ c).Pt();
+  return pt_vecSum;
+}
 double smhet_2017::DeltaPhi(double phi1, double phi2)
 //Gives the (minimum) separation in phi between the specified phi values
 //Must return a positive value
 {
   double pi = TMath::Pi();
   double dphi = phi1-phi2;
-  if(dphi>pi) dphi = 2.0*pi - dphi;
-  if(dphi<= -1*pi) dphi =  2.0*pi +dphi;
+  if(dphi>pi) dphi  -= 2.0*pi;
+  if(dphi<= -1*pi) dphi +=  2.0*pi;
   return fabs(dphi);
 }
 
@@ -203,18 +225,35 @@ void smhet_2017::makeMyPlot( string histNumber , int eleIndex, int ele2Index, in
   plotFill("decayModeFinding_"+hNumber, decayModeFinding_2 , 4, 0, 2,  event_weight);
   plotFill("nJet_"+hNumber, njets , 8, 0, 8,  event_weight);
   
-  plotFill("filterEle35_1_"+hNumber, filterEle35_1 , 61, -1, 60,  event_weight);
-  plotFill("filterEle32_1_"+hNumber, filterEle32_1 , 61, -1, 60,  event_weight);
-  plotFill("filterEle27_1_"+hNumber, filterEle27_1 , 61, -1, 60,  event_weight);
-  plotFill("filterEle24Tau30_1_"+hNumber, filterEle24Tau30_1 , 61, -1, 60,  event_weight);
-  plotFill("filterEle24Tau30_2_"+hNumber, filterEle24Tau30_2 , 61, -1, 60,  event_weight);
+  plotFill("filterEle35_1_"+hNumber, filterEle35_1 , 20, 0, 20,  event_weight);
+  plotFill("filterEle32_1_"+hNumber, filterEle32_1 , 20, 0, 20,  event_weight);
+  plotFill("filterEle27_1_"+hNumber, filterEle27_1 , 20, 0, 20,  event_weight);
+  plotFill("filterEle24Tau30_1_"+hNumber, filterEle24Tau30_1 , 20, 0, 20,  event_weight);
+  plotFill("filterEle24Tau30_2_"+hNumber, filterEle24Tau30_2 , 20, 0, 20,  event_weight);
 
 
-  int triggerBin=0;
-  if( passEle35 && matchEle35_1 && filterEle35_1 ) triggerBin=4;
-  else if( passEle32 && matchEle32_1 && filterEle32_1 ) triggerBin=3;
-  else if( passEle27 && matchEle27_1 && filterEle27_1 ) triggerBin=2;
-  else if( passEle24Tau30 && matchEle24Tau30_1 && matchEle24Tau30_2 && filterEle24Tau30_1 && filterEle24Tau30_2 ) triggerBin=1;
+  // int triggerBin=0;
+  // if( passEle35 && matchEle35_1 && filterEle35_1 ) triggerBin=4;
+  // else if( passEle32 && matchEle32_1 && filterEle32_1 ) triggerBin=3;
+  // else if( passEle27 && matchEle27_1 && filterEle27_1 ) triggerBin=2;
+  // else if( passEle24Tau30 && matchEle24Tau30_1 && matchEle24Tau30_2 && filterEle24Tau30_1 && filterEle24Tau30_2 ) triggerBin=1;
+  int triggerBin1, triggerBin2, triggerBin3, triggerBin4;
+  triggerBin1=triggerBin2=triggerBin3=triggerBin4=0;
+  if( passEle35 && matchEle35_1 && filterEle35_1 )  triggerBin4=4;
+  if( passEle32 && matchEle32_1 && filterEle32_1 )  triggerBin3=3;
+  if( passEle27 && matchEle27_1 && filterEle27_1 )  triggerBin2=2;
+  if( passEle24Tau30 
+      && matchEle24Tau30_1 && matchEle24Tau30_2 
+      && filterEle24Tau30_1 && filterEle24Tau30_2 ) triggerBin1=1;
+  if(triggerBin1>0)
+    plotFill("trigger_"+hNumber, triggerBin1 , 5, 0, 5,  event_weight);
+  if(triggerBin2>0)
+    plotFill("trigger_"+hNumber, triggerBin2 , 5, 0, 5,  event_weight);
+  if(triggerBin3>0)
+    plotFill("trigger_"+hNumber, triggerBin3 , 5, 0, 5,  event_weight);
+  if(triggerBin4>0)
+    plotFill("trigger_"+hNumber, triggerBin4 , 5, 0, 5,  event_weight);
+  
   plotFill("mass1_"+hNumber, m_1 , 50, 0, 0.05,  event_weight);
   plotFill("mass2_"+hNumber, m_2 , 25, 0, 2.5,  event_weight);
   plotFill("genmatch1_"+hNumber, gen_match_1 , 7, 0, 7,  event_weight);
@@ -226,14 +265,33 @@ void smhet_2017::makeMyPlot( string histNumber , int eleIndex, int ele2Index, in
   plotFill("deltaEta_"+hNumber, deltaEta ,  25, -2.5, 2.5,  event_weight);
   double deltaR = delta_R(phi_1, eta_1, phi_2, eta_2);
   plotFill("deltaR_"+hNumber, deltaR , 30, 0, 6,  event_weight);
-
-  plotFill("trigger_"+hNumber, triggerBin , 5, 0, 5,  event_weight);
+  TLorentzVector dau1, dau2, corrMet;
+  dau1.SetPtEtaPhiE(pt_1, eta_1, phi_1, e_1);
+  dau2.SetPtEtaPhiE(pt_2, eta_2, phi_2, e_2);
+  corrMet.SetPtEtaPhiE(met, 0,metphi, met);
+  double higgsPt = pTvecsum_F(dau1, dau2, corrMet);
+  plotFill("higgsPt_"+hNumber, higgsPt , 25, 0, 250,  event_weight);
   plotFill("met_"+hNumber, met , 20, 0, 100,  event_weight);
   plotFill("metPhi_"+hNumber, metphi , 30, -3.14, 3.14,  event_weight);
   double mT_eleMet = TMass_F( pt_1, phi_1, met, metphi  );
   plotFill("mT_eMet_"+hNumber,  mT_eleMet ,  30, 0, 150,  event_weight);
-
+  int nEvent=1;
+  plotFill("nEvents_"+hNumber, nEvent , 3, 0.0, 3.0 , event_weight);
+  plotFill("eventWeight_"+hNumber, event_weight , 20, 0.0 , 2.0,  1.0 );
   //cout<<"     elePt_"<<hNumber<<" = "<< elePt->at(tmpCand[0])<<endl;
+  // TLorentzVector dau1, dau2;
+  // dau1.SetPtEtaPhiE(pt_1, eta_1, phi_1, e_1);
+  // dau2.SetPtEtaPhiE(pt_2, eta_2, phi_2, e_2);
+  double mt=TMass_F(pt_1, phi_1 , met, metphi);
+  float mvis=(dau1+dau2).M();
+  float frac_tt=0.01; float frac_qcd=0.24; float frac_w=0.75;
+  float my_fakefactor = 1.0;
+  // get_ff( pt_2, mt, mvis, njets,
+  // 				frac_tt, frac_qcd, frac_w,
+  // 				ff_qcd_0jet, ff_qcd_1jet, ff_w_0jet,
+  // 				ff_w_1jet, ff_tt_0jet,
+  // 				mvisclosure_qcd, mvisclosure_w, mvisclosure_tt, mtclosure_w, osssclosure_qcd);
+  plotFill("fakefactor_"+hNumber, event_weight , 20, 0.0 , 1.0,  1.0 );
 }
 
 double smhet_2017::getScaleFactors( double elept, double taupt, double eleeta, double taueta, int taudm)
@@ -259,7 +317,7 @@ double smhet_2017::getScaleFactors( double elept, double taupt, double eleeta, d
   if (debug==true ) std::cout<<"This works line 269 "<<std::endl;
   
 
-  if( gen_match_2==5)
+  if( gen_match_2>=5)
     {
       sf_tauidSF_m = h_tauidSF_m->GetBinContent(h_tauidSF_m->GetXaxis()->FindBin(taudm));
       //sf_tauidSF_m = fn_tauIDSF_m->Eval(tau_Pt->at(reco_tau));
@@ -312,21 +370,16 @@ double smhet_2017::getScaleFactors( double elept, double taupt, double eleeta, d
   //   //cout<< "zptmass_weight_nom = "<<w->function("zptmass_weight_nom")->getVal();
   //   zptmass_weight=w->function("zptmass_weight_nom")->getVal();
   // }
-
-  if(elept<28)
+  if(  elept<28.0 )
     e_trg_sf=1.0;
-  if(elept>28)
+  if(elept>28.0 && taupt<35.0)
     e_trg24_sf=1.0;
-  // if(taupt>35)
-  //   t_trg_sf=1.0;
+  
   //sf_htt_workspace=sf_htt_workspace * e_trk_sf * e_idiso_sf * e_trg_sf * e_trg24_sf * t_trg_sf * t_deepid_tightvsele_sf;
   sf_htt_workspace=  e_trk_sf * e_idiso_sf *  e_trg24_sf * e_trg_sf;
-  //cout<<"sf_htt_workspace : "<<sf_htt_workspace<<endl;
-  
-  rv_sf = eleRecoSF_corr * eleEffSF_corr * sf_Zvtx * sf_tauidSF_m * sf_tauesSF *  sf_fakeMu * sf_taufesSF *sf_tauTrg* sf_htt_workspace;
-  //rv_sf = sf_htt_workspace;
-  //if(rv_sf < 0.5)
-  //cout<<"rv_sf< 0.5 "<<" "<<eleRecoSF_corr<<" "<<eleEffSF_corr<<" "<<sf_Zvtx<<" "<<sf_tauidSF_vvvl<<" "<<sf_tauesSF<<" "<<sf_fakeMu<<" "<<sf_taufesSF<<" "<<sf_htt_workspace<<endl;
+
+  //  rv_sf = eleRecoSF_corr * eleEffSF_corr * sf_Zvtx * sf_tauidSF_m * sf_tauesSF *  sf_fakeMu * sf_taufesSF *sf_tauTrg* sf_htt_workspace;
+  rv_sf = sf_tauidSF_m * sf_tauTrg * sf_fakeEle* sf_htt_workspace;
   if(rv_sf>0)
     return rv_sf;
   else

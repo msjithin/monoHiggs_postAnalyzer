@@ -118,7 +118,7 @@ WJetselect="WJets_jets"
 OutFile.cd()
 Data_hist    =OutFile.Get(dirname[2]+"data_obs_"+histoname+"_fr")
 ZTT_hist     = OutFile.Get(dirname[2]+ZTTselect+"_"+histoname+"_fr")
-ZLL_hist     =  OutFile.Get(dirname[4]+ZTTselect+"_"+histoname+"_dyll_fr")
+#ZLL_hist     =  OutFile.Get(dirname[4]+ZTTselect+"_"+histoname+"_dyll_fr")
 EWKWMinus_hist = OutFile.Get(dirname[2]+"EWKWMinus_"+histoname+"_fr")
 EWKWPlus_hist =  OutFile.Get(dirname[2]+"EWKWPlus_"+histoname+"_fr")
 EWKZ2Jets_hist = OutFile.Get(dirname[2]+"EWKZ2Jets_"+histoname+"_fr")
@@ -157,20 +157,20 @@ if(OutFile.Get(dirname[0]+"VV_"+histoname)):
   GluGluH_hist.Add(VV_hist)
 
 
-sampleList    = [Data_hist,    ZTT_hist,  ZLL_hist, TT_hist,   GluGluH_hist,     ]
-sampleListRef = ['Data_hist', 'ZTT_hist', 'ZLL_hist', 'TT_hist', 'GluGluH_hist'  ]
-# if channel_=="etau":
-#   sampleList    = [Data_hist,    ZTT_hist,   TT_hist,  F_bkg, GluGluH_hist ]
-#   sampleListRef = ['Data_hist', 'ZTT_hist',  'TT_hist', 'F_bkg', 'GluGluH_hist']
+sampleList    = [Data_hist,    ZTT_hist,   TT_hist,   GluGluH_hist,     ]
+sampleListRef = ['Data_hist', 'ZTT_hist',  'TT_hist', 'GluGluH_hist'  ]
 if channel_=="etau":
- sampleList    = [Data_hist,    ZTT_hist,  ZLL_hist, TT_hist,   GluGluH_hist ]
- sampleListRef = ['Data_hist', 'ZTT_hist', 'ZLL_hist', 'TT_hist', 'GluGluH_hist']
+  sampleList    = [Data_hist,    ZTT_hist,   TT_hist,  GluGluH_hist ]
+  sampleListRef = ['Data_hist', 'ZTT_hist',  'TT_hist', 'GluGluH_hist']
+# if channel_=="etau":
+#  sampleList    = [Data_hist,    ZTT_hist,  ZLL_hist, TT_hist,   GluGluH_hist ]
+#  sampleListRef = ['Data_hist', 'ZTT_hist', 'ZLL_hist', 'TT_hist', 'GluGluH_hist']
 
 
 #Wjets_hist.SetFillColor(ROOT.TColor.GetColor(color_wjets))
 #F_bkg.SetFillColor(ROOT.TColor.GetColor(color_wjets))
 ZTT_hist.SetFillColor(ROOT.TColor.GetColor(color_ztt))
-ZLL_hist.SetFillColor(ROOT.TColor.GetColor(color_zll))
+#ZLL_hist.SetFillColor(ROOT.TColor.GetColor(color_zll))
 TT_hist.SetFillColor(ROOT.TColor.GetColor(color_tt))
 GluGluH_hist.SetFillColor(ROOT.TColor.GetColor(color_ggh))
 VV_hist.SetFillColor(ROOT.TColor.GetColor(color_vv))

@@ -50,7 +50,7 @@
 #include "vector"
 #include "vector"
 //#include "makeHisto.h"
-//#include "RecoilCorrector.cc"
+#include "RecoilCorrector.cc"
 
 using namespace std;
 
@@ -120,13 +120,34 @@ public :
 
   TFile *fw = TFile::Open("sf_files/htt_scalefactors_legacy_2017.root");
   RooWorkspace *w = (RooWorkspace*)fw->Get("w");
-  //RecoilCorrector recoilPFMetCorrector("sf_files/HTT-utilities/RecoilCorrections/data/Type1_PFMET_2017.root"); // Type I PF MET 2017 (ReReco)
   
+  TFile * frawff = TFile::Open("sf_files/ComputeFF2018/ff_files_et_2017/uncorrected_fakefactors_et.root");
+  TF1* ff_qcd_0jet=(TF1*) frawff->Get("rawFF_et_qcd_0jet");
+  TF1* ff_qcd_1jet=(TF1*) frawff->Get("rawFF_et_qcd_1jet");
+  TF1* ff_w_0jet=(TF1*) frawff->Get("rawFF_et_w_0jet");
+  TF1* ff_w_1jet=(TF1*) frawff->Get("rawFF_et_w_1jet");
+  TF1* ff_tt_0jet=(TF1*) frawff->Get("mc_rawFF_et_tt");
 
-  //  RecoilCorrector recoilPFMetCorrector("sf_files/HTT-utilities/RecoilCorrections/data/Type1_PFMET_2017.root"); // Type I PF MET 2017 (ReReco)
-// Fixed size dimensions of array or collections stored in the TTree if any.
+  TFile *fmvisclosure = TFile::Open("sf_files/ComputeFF2018/ff_files_et_2017/FF_corrections_1.root");
+  TF1* mvisclosure_qcd=(TF1*) fmvisclosure->Get("closure_mvis_et_qcd");
+  TF1* mvisclosure_w=(TF1*) fmvisclosure->Get("closure_mvis_et_w");
+  TF1* mvisclosure_tt=(TF1*) fmvisclosure->Get("closure_mvis_et_ttmc");
 
-   // Declaration of leaf types
+  TFile *fosssclosure  = TFile::Open("sf_files/ComputeFF2018/ff_files_et_2017/FF_QCDcorrectionOSSS.root");
+  TF1* osssclosure_qcd=(TF1*) fosssclosure->Get("closure_OSSS_mvis_et_qcd");
+  TF1* mtclosure_w=(TF1*) fosssclosure->Get("closure_mt_et_w");
+
+  // Fixed size dimensions of array or collections stored in the TTree if any.
+  RecoilCorrector recoilPFMetCorrector;
+  bool is_MC;
+
+
+  TLorentzVector my_tauP4;
+  TLorentzVector my_eleP4;
+  TLorentzVector my_metP4;
+  int EleIndex, TauIndex;
+  int my_njets;
+  // Declaration of leaf types
    Int_t           run;
    Long64_t        event;
    Int_t           lumis;
@@ -887,22 +908,21 @@ public :
    virtual Long64_t LoadTree(Long64_t entry);
    virtual void     Init(TChain *tree, string isMC);
    //virtual void     Init(TTree *tree);
-   virtual void     Loop(Long64_t maxEvents, int reportEvery, string SampleName, string _isMC_);
+   virtual void     Loop(Long64_t maxEvents, int reportEvery, string SampleName);
    virtual Bool_t   Notify();
    virtual void     Show(Long64_t entry = -1);
    virtual void BookHistos(const char* file1, const char* file2);
    virtual void fillHistos(int histoNumber, double event_weight,int higgs_index);
    virtual double DeltaPhi(double phi1, double phi2);
    virtual vector<int> getEleCand(double pt, double eta);
-   virtual vector<int> getEle2Cand(double pt, double eta, int ele1Index);
    virtual vector<int> getTauCand(double pt, double eta);
    virtual vector<int> getAISRTauCand(double pt, double eta);
-   virtual vector<int> getJetCand(int eleIndex, int tauIndex, int ele2Index);
+   virtual vector<int> getJetCand(int eleIndex, int tauIndex);
    virtual int getZCand();
-   virtual vector<int> gen_matching();
+   //virtual vector<int> gen_matching();
    virtual int myGenMaching(int tauIndex);
    virtual int myGenMaching1(int eleIndex);
-   virtual bool found_GenMatch(int genTau);
+   //virtual bool found_GenMatch(int genTau);
    virtual int thirdLeptonVeto();
    virtual bool thirdLeptonVeto(int eleIndex, int tauIndex);
    virtual bool thirdLeptonVeto(int eleIndex, int tauIndex, int ele2Index);
@@ -913,15 +933,13 @@ public :
    virtual float VisMass_F(TLorentzVector a, TLorentzVector b);
    virtual float pTvecsum_F(float pt1, float pt2, float phi1, float phi2);
    virtual float pTvecsum_F(TLorentzVector a, TLorentzVector b, TLorentzVector met);
-   //   virtual bool electron_pass(int pho_index, float elePtCut);
-   //virtual bool relIso(int ele_index);
    virtual bool passBjetVeto(int eleIndex, int tauIndex);
-   virtual bool passBjetVeto(int eleIndex, int tauIndex, int ele2Index);
-   virtual void fillHist( string histNumber, int muIndex, int tauIndex, float event_weight, bool isMC);
-   virtual void fillHist( string histNumber, TLorentzVector eleP4, TLorentzVector tauP4, int muIndex, int tauIndex, float event_weight, bool isMC);
-   virtual void fillHist_dyll( string histNumber, int mu1Index, int mu2Index, int tauIndex, float event_weight, bool isMC);
+   virtual bool passBjetVetoM(int eleIndex, int tauIndex);
+   virtual bool passBjetVetoL(int eleIndex, int tauIndex);
+
+   virtual void fillHist( string histNumber, int muIndex, int tauIndex, bool isFakeBkg,float event_weight);
    virtual vector<int> getGenMu();
-   virtual bool hasGenTau();
+   //virtual bool hasGenTau();
    virtual float exponential(float x,float a,float b,float c);
    virtual double getFR(int tauIndex);
    virtual float EletriggerSF(float pt, float eta);
@@ -932,8 +950,11 @@ public :
    virtual bool passDiElectronVeto(int eleIndex);
    virtual bool eVetoZTTp001dxyz(int eleIndex, int tauIndex);
    virtual bool mVetoZTTp001dxyz(int eleIndex, int tauIndex);
-   //virtual TLorentzVector MetRecoilCorrections(int eleIndex, int tauIndex);
-
+   virtual TLorentzVector MetRecoilCorrections(int eleIndex, int tauIndex);
+   virtual void applyESCorrections(TLorentzVector eleP4, TLorentzVector tauP4, int eleIndex, int tauIndex,  bool isFakebkg, TLorentzVector& eleP4Corr, TLorentzVector& tauP4Corr);
+   virtual int eventCategory(int eleIndex, int tauIndex,  double higgsPt);
+   virtual void setMyEleTau(int eleIndex, int tauIndex);
+   virtual int if_DY_Genmatching(int eleIndex, int tauIndex);
 
 };
 #endif
@@ -1014,6 +1035,10 @@ void etau_analyzer::Init(TChain *tree, string _isMC_)
 
   TString isMC = TString(_isMC_);
   cout<<"from Init "<<isMC<<endl;
+  if( _isMC_=="MC" )
+    is_MC=true;
+  else
+    is_MC=false;
    // Set object pointer
    phoE = 0;
    phoEt = 0;
@@ -1733,4 +1758,41 @@ Int_t etau_analyzer::Cut(Long64_t entry)
 // returns -1 otherwise.
    return 1;
 }
+void etau_analyzer::setMyEleTau(int eleIndex, int tauIndex){
+
+  EleIndex=eleIndex; TauIndex=tauIndex;
+  my_eleP4.SetPtEtaPhiE(elePt->at(eleIndex), eleEta->at(eleIndex),
+                        elePhi->at(eleIndex), eleE->at(eleIndex)
+                        );
+  my_tauP4.SetPtEtaPhiE(tau_Pt->at(tauIndex),tau_Eta->at(tauIndex)
+                        ,tau_Phi->at(tauIndex), tau_Energy->at(tauIndex)
+                        );
+
+  TLorentzVector uncorrected_met; TLorentzVector uncorrectedMetPlusTau;
+  if(is_MC)
+    uncorrected_met=MetRecoilCorrections(eleIndex, tauIndex);
+  else
+    uncorrected_met.SetPtEtaPhiE(pfMET ,0,pfMETPhi,pfMET);
+
+  uncorrectedMetPlusTau=uncorrected_met+my_tauP4;
+
+  /// ES corrections
+  my_eleP4 = my_eleP4*(eleCalibE->at(eleIndex)/my_eleP4.E());
+  if(is_MC){
+    if (myGenMaching(tauIndex)>=5 && tau_DecayMode->at(tauIndex)==0) my_tauP4=my_tauP4*1.007;
+    else if (myGenMaching(tauIndex)>=5 && tau_DecayMode->at(tauIndex)==1) my_tauP4=my_tauP4*0.998;
+    else if (myGenMaching(tauIndex)>=5 && tau_DecayMode->at(tauIndex)==10) my_tauP4=my_tauP4*1.001;
+    if (  (myGenMaching(tauIndex)==1 || myGenMaching(tauIndex)==3) && tau_DecayMode->at(tauIndex)==0 )
+      my_tauP4=my_tauP4*1.003;
+    else if ( (myGenMaching(tauIndex)==1 || myGenMaching(tauIndex)==3) && tau_DecayMode->at(tauIndex)==1)
+      my_tauP4=my_tauP4*1.036;
+  }
+  my_metP4 = uncorrectedMetPlusTau - my_tauP4;
+  
+  std::vector<int> jetCand;       jetCand.clear();
+  jetCand=getJetCand(eleIndex, tauIndex);
+  my_njets=jetCand.size();
+
+}
+
 #endif // #ifdef etau_analyzer_cxx

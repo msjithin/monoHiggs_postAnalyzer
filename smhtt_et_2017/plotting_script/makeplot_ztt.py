@@ -117,6 +117,10 @@ HistSelected_1 = OutFile_1.Get(histoname)
 Data_hist    = OutFile.Get(histoname)
 
 dy_norm=2.447677534
+if(year_=='2017'):
+  dy_norm=2.447677534
+elif(year_=='2018'):
+  dy_norm=3.621053408
 if(bkg_=="DY"):
   HistSelected.Scale(dy_norm)
   HistSelected_1.Scale(dy_norm)
@@ -135,7 +139,7 @@ if piAxis == 1:
   nDivXAxis= -105
 elif histoname=='cutflow_n' or histoname=='cutflow_Htt':
   nDivXAxis= Data_hist.GetNbinsX()
-elif histoname=='relMuIso_5' :
+elif histoname=='relMuIso_5' or histoname[:9]=='filterEle':
   nDivXAxis= Data_hist.GetNbinsX()
 elif histoname=='tauAntiEle_5' or histoname=='tauAntiMu_5':
   nDivXAxis= Data_hist.GetNbinsX()
@@ -154,11 +158,22 @@ Data_hist.GetYaxis().SetTitleOffset(1.22)
 Data_hist.SetTitle("")
 Data_hist.GetYaxis().SetTitle("")
 
-with open('eventYield.csv', mode='a') as yield_file:
-  yield_write = csv.writer(yield_file, delimiter=',', quotechar='"')
-  yield_write.writerow([ histoname ])
-  yield_write.writerow(['monoH', Data_hist.Integral() ])
-  yield_write.writerow(['SMHtt_et', HistSelected_1.Integral() ])  
+writeMode='a'
+expectedSmhtt='81508.0'
+difference=HistSelected_1.Integral()-81508.0
+if(bkg_selected=='DY'):
+  expectedSmhtt='40302.4254025'
+  difference=HistSelected_1.Integral()-40302.4254025
+if (histoname[-1]=='j'):
+  with open('eventYield.csv', mode=writeMode) as yield_file:
+    yield_write = csv.writer(yield_file, delimiter=',', quotechar='"')
+    yield_write.writerow([ histoname, bkg_selected ])
+    yield_write.writerow(['monoH   ', Data_hist.Integral() ])
+    yield_write.writerow(['SMHtt_et', HistSelected_1.Integral(), expectedSmhtt,"difference=", difference ])  
+    yield_write.writerow(['*'*10])
+
+
+
 c.cd()
 pad1.Draw()
 pad1.cd()
@@ -201,6 +216,11 @@ HistSelected.SetFillStyle(errorStyle)
 Data_hist.Draw("e1")
 HistSelected_1.Draw("histsame")
 HistSelected.Draw("e1same")
+
+# with open("eventYield.txt", "a") as fileOut:
+#   fileOut.write("my ntuple", HistSelected.Integral())
+#   fileOut.write("from Cecile", HistSelected_1.Integral())
+
 
 
 sampleListRef = ['HistSelected', 'HistSelected_1']

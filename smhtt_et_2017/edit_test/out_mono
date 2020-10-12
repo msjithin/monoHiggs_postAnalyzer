@@ -1,0 +1,209 @@
+executable_etau_fbkg exists, removing file
+dy sample analysis.....
+All files added.
+Initializing chain.
+from Init MC
+****************** dyjet sample found
+.... MC file ..... 
+Coming in: 
+nentries:166794
+Running over 10000 events.
+Finished entry 0/9999
+event	10198	my_fakefactor	0.113752	taupt	93.5488	njets	1	mt	6.11043	mvis	112.218	
+event	8123649	my_fakefactor	0.10483	taupt	50.7858	njets	2	mt	65.5936	mvis	318.392	
+event	4431168	my_fakefactor	0.120041	taupt	54.9818	njets	0	mt	53.2502	mvis	185.061	
+event	4514031	my_fakefactor	0.130025	taupt	54.3636	njets	0	mt	131.132	mvis	144.333	
+Finished entry 500/9999
+event	17250424	my_fakefactor	0.127499	taupt	35.5114	njets	3	mt	75.1569	mvis	33.7381	
+event	16288293	my_fakefactor	0.124415	taupt	45.155	njets	2	mt	73.9691	mvis	53.9529	
+event	415273	my_fakefactor	0.127586	taupt	40.0842	njets	0	mt	11.2858	mvis	88.1333	
+event	415319	my_fakefactor	0.128512	taupt	61.9103	njets	0	mt	154.931	mvis	177.664	
+event	419569	my_fakefactor	0.117196	taupt	58.3762	njets	2	mt	41.765	mvis	89.373	
+event	422265	my_fakefactor	0.133322	taupt	44.1254	njets	0	mt	63.5488	mvis	81.0607	
+event	15514814	my_fakefactor	0.131808	taupt	35.4484	njets	0	mt	30.9809	mvis	71.8851	
+event	1642758	my_fakefactor	0.134072	taupt	36.445	njets	0	mt	55.8805	mvis	71.6364	
+Finished entry 1000/9999
+event	15535591	my_fakefactor	0.134601	taupt	35.1303	njets	0	mt	49.0331	mvis	65.0839	
+event	15539365	my_fakefactor	0.126155	taupt	63.3694	njets	0	mt	2.9842	mvis	98.0638	
+event	15539689	my_fakefactor	0.137851	taupt	33.7897	njets	0	mt	108.238	mvis	75.9609	
+event	15546996	my_fakefactor	0.130898	taupt	37.0598	njets	0	mt	51.1487	mvis	88.1927	
+event	1647757	my_fakefactor	0.116827	taupt	43.4379	njets	1	mt	7.25502	mvis	67.1225	
+event	9174544	my_fakefactor	0.125757	taupt	59.0179	njets	0	mt	73.9495	mvis	144.069	
+event	12134469	my_fakefactor	0.119922	taupt	40.8158	njets	1	mt	39.8859	mvis	62.7963	
+event	867030	my_fakefactor	0.129982	taupt	44.0127	njets	2	mt	98.3386	mvis	33.9545	
+event	869790	my_fakefactor	0.110613	taupt	35.3367	njets	5	mt	37.1265	mvis	126.938	
+event	8940107	my_fakefactor	0.128613	taupt	41.428	njets	0	mt	3.40201	mvis	77.5949	
+event	12139013	my_fakefactor	0.133473	taupt	31.1737	njets	0	mt	30.079	mvis	61.3331	
+Finished entry 1500/9999
+event	860698	my_fakefactor	0.133634	taupt	44.6503	njets	0	mt	50.4964	mvis	72.646	
+event	863975	my_fakefactor	0.130389	taupt	31.8787	njets	0	mt	20.5727	mvis	74.2945	
+event	17246325	my_fakefactor	0.119999	taupt	58.2143	njets	1	mt	34.131	mvis	66.586	
+event	22922095	my_fakefactor	0.125881	taupt	30.1934	njets	1	mt	25.9673	mvis	18.1637	
+event	17259803	my_fakefactor	0.128484	taupt	41.9104	njets	2	mt	100.941	mvis	42.3049	
+event	9137363	my_fakefactor	0.114839	taupt	39.0131	njets	1	mt	12.5794	mvis	81.4605	
+event	9172208	my_fakefactor	0.111826	taupt	44.2003	njets	1	mt	35.8425	mvis	120.424	
+event	12653109	my_fakefactor	0.104321	taupt	53.5526	njets	1	mt	19.6837	mvis	198.433	
+event	12655902	my_fakefactor	0.111449	taupt	74.6054	njets	1	mt	20.3007	mvis	130.742	
+event	8032693	my_fakefactor	0.120189	taupt	57.7169	njets	1	mt	120.264	mvis	110.031	
+Finished entry 2000/9999
+event	12669387	my_fakefactor	0.119605	taupt	30.4	njets	1	mt	50.1419	mvis	65.6263	
+event	12675603	my_fakefactor	0.128812	taupt	47.1737	njets	0	mt	7.21655	mvis	79.4355	
+event	41800227	my_fakefactor	0.134204	taupt	32.4114	njets	0	mt	71.6818	mvis	78.2737	
+event	41804739	my_fakefactor	0.115277	taupt	37.2337	njets	1	mt	43.4749	mvis	94.3578	
+event	41810308	my_fakefactor	0.113136	taupt	54.6963	njets	2	mt	26.684	mvis	109.59	
+event	41595947	my_fakefactor	0.131115	taupt	35.2123	njets	0	mt	9.90138	mvis	65.0438	
+event	70947595	my_fakefactor	0.130586	taupt	40.9258	njets	0	mt	20.8325	mvis	74.7618	
+Finished entry 2500/9999
+event	70835567	my_fakefactor	0.113985	taupt	40.2964	njets	1	mt	78.7445	mvis	126.357	
+event	4848359	my_fakefactor	0.122866	taupt	48.9591	njets	2	mt	21.9117	mvis	39.5925	
+event	4854472	my_fakefactor	0.125074	taupt	40.9607	njets	0	mt	31.4502	mvis	117.446	
+event	6000699	my_fakefactor	0.123709	taupt	45.078	njets	0	mt	0.927807	mvis	109.982	
+event	12008203	my_fakefactor	0.131439	taupt	33.101	njets	0	mt	34.5651	mvis	75.5592	
+Finished entry 3000/9999
+event	484005	my_fakefactor	0.115657	taupt	30.1541	njets	1	mt	35.4688	mvis	84.0701	
+event	12185725	my_fakefactor	0.132959	taupt	45.6146	njets	0	mt	81.2902	mvis	92.8146	
+event	12186052	my_fakefactor	0.128914	taupt	37.9446	njets	0	mt	71.0879	mvis	112.48	
+event	16023865	my_fakefactor	0.137871	taupt	30.2568	njets	0	mt	114.347	mvis	78.3582	
+event	16016953	my_fakefactor	0.109456	taupt	34.7144	njets	1	mt	65.7434	mvis	157.285	
+Finished entry 3500/9999
+event	16045984	my_fakefactor	0.136016	taupt	35.0207	njets	0	mt	86.0305	mvis	75.4915	
+event	16048818	my_fakefactor	0.118271	taupt	44.45	njets	1	mt	78.3506	mvis	95.0919	
+event	15000270	my_fakefactor	0.132325	taupt	36.0075	njets	0	mt	38.179	mvis	72.6701	
+event	15003154	my_fakefactor	0.110478	taupt	42.6309	njets	1	mt	2.35892	mvis	110.401	
+event	41599616	my_fakefactor	0.128411	taupt	41.1777	njets	0	mt	17.8024	mvis	86.6459	
+event	34616	my_fakefactor	0.136324	taupt	30.9172	njets	0	mt	77.0382	mvis	68.7751	
+Finished entry 4000/9999
+event	15023032	my_fakefactor	0.11717	taupt	31.884	njets	1	mt	8.71403	mvis	60.7865	
+event	15024653	my_fakefactor	0.11613	taupt	42.0906	njets	0	mt	21.2379	mvis	198.786	
+event	7551630	my_fakefactor	0.1195	taupt	32.2309	njets	1	mt	84.3486	mvis	84.2938	
+event	7571152	my_fakefactor	0.108122	taupt	62.301	njets	1	mt	97.8287	mvis	237.538	
+event	621728	my_fakefactor	0.11827	taupt	42.7468	njets	2	mt	79.0297	mvis	94.6714	
+event	633401	my_fakefactor	0.128759	taupt	49.3773	njets	0	mt	2.98232	mvis	77.9228	
+Finished entry 4500/9999
+event	7555818	my_fakefactor	0.102812	taupt	46.1055	njets	2	mt	22.8158	mvis	222.312	
+event	14867662	my_fakefactor	0.125904	taupt	50.7816	njets	0	mt	19.9145	mvis	106.841	
+event	14898140	my_fakefactor	0.138331	taupt	35.0685	njets	0	mt	119.53	mvis	78.9027	
+event	14902512	my_fakefactor	0.119749	taupt	34.9701	njets	1	mt	59.8288	mvis	71.4099	
+event	14906355	my_fakefactor	0.114245	taupt	38.0188	njets	1	mt	19.7734	mvis	89.1415	
+event	14912690	my_fakefactor	0.135825	taupt	30.396	njets	0	mt	80.0151	mvis	72.9636	
+event	744250	my_fakefactor	0.117469	taupt	34.3735	njets	1	mt	99.0496	mvis	107.352	
+Finished entry 5000/9999
+event	458606	my_fakefactor	0.121602	taupt	33.8141	njets	1	mt	121.399	mvis	89.722	
+event	14893333	my_fakefactor	0.131254	taupt	36.5787	njets	0	mt	33.3831	mvis	76.5981	
+event	14893951	my_fakefactor	0.101929	taupt	43.5099	njets	1	mt	27.3133	mvis	252.069	
+event	620458	my_fakefactor	0.121397	taupt	31.4484	njets	1	mt	56.5664	mvis	58.1382	
+event	33665750	my_fakefactor	0.114928	taupt	30.3735	njets	1	mt	16.5176	mvis	79.0813	
+event	640358	my_fakefactor	0.119193	taupt	35.9955	njets	1	mt	53.6299	mvis	72.3097	
+event	592513	my_fakefactor	0.119071	taupt	44.1644	njets	3	mt	37.8117	mvis	68.5077	
+event	597227	my_fakefactor	0.127858	taupt	41.003	njets	0	mt	0.186673	mvis	80.4529	
+event	597464	my_fakefactor	0.110278	taupt	84.02	njets	2	mt	70.7607	mvis	188.775	
+event	2911897	my_fakefactor	0.134663	taupt	31.6027	njets	0	mt	64.4143	mvis	71.8899	
+event	2912308	my_fakefactor	0.133261	taupt	38.3434	njets	0	mt	39.993	mvis	68.5248	
+Finished entry 5500/9999
+event	2826734	my_fakefactor	0.119846	taupt	43.3144	njets	1	mt	54.372	mvis	71.545	
+event	2834382	my_fakefactor	0.124605	taupt	32.2907	njets	1	mt	11.2276	mvis	18.8861	
+event	6176726	my_fakefactor	0.130049	taupt	40.3917	njets	0	mt	5.25539	mvis	69.6469	
+event	59689740	my_fakefactor	0.118884	taupt	45.0047	njets	1	mt	33.6137	mvis	67.9437	
+event	59693669	my_fakefactor	0.119828	taupt	65.7135	njets	2	mt	22.8274	mvis	65.0493	
+event	52164	my_fakefactor	0.131889	taupt	32.1124	njets	0	mt	25.4405	mvis	68.062	
+event	58703	my_fakefactor	0.106745	taupt	55.0628	njets	3	mt	5.29641	mvis	155.009	
+event	22103883	my_fakefactor	0.1152	taupt	33.9846	njets	1	mt	78.0015	mvis	112.684	
+event	587841	my_fakefactor	0.119181	taupt	32.1639	njets	2	mt	33.3544	mvis	60.61	
+event	594864	my_fakefactor	0.114289	taupt	42.5581	njets	1	mt	9.58978	mvis	85.3728	
+event	2907306	my_fakefactor	0.130326	taupt	36.9553	njets	0	mt	4.96592	mvis	67.3382	
+Finished entry 6000/9999
+event	2888834	my_fakefactor	0.131695	taupt	33.1419	njets	0	mt	26.3001	mvis	69.7463	
+event	2891200	my_fakefactor	0.131148	taupt	40.2427	njets	0	mt	35.6545	mvis	78.9917	
+event	637860	my_fakefactor	0.128202	taupt	57.3487	njets	0	mt	30.7871	mvis	98.4829	
+event	58697562	my_fakefactor	0.125088	taupt	41.7936	njets	0	mt	13.9598	mvis	107.03	
+event	58697936	my_fakefactor	0.107669	taupt	44.6747	njets	1	mt	26.8231	mvis	154.226	
+event	3001540	my_fakefactor	0.130467	taupt	31.0291	njets	0	mt	16.5635	mvis	71.5689	
+event	3004928	my_fakefactor	0.0999641	taupt	40.2438	njets	2	mt	5.6234	mvis	301.342	
+event	58700745	my_fakefactor	0.131027	taupt	32.8681	njets	0	mt	27.6244	mvis	74.3546	
+Finished entry 6500/9999
+event	59877529	my_fakefactor	0.131687	taupt	30.7457	njets	0	mt	20.4709	mvis	66.4929	
+event	501233	my_fakefactor	0.110985	taupt	46.4991	njets	1	mt	54.8342	mvis	141.582	
+event	501247	my_fakefactor	0.119698	taupt	36.1576	njets	1	mt	83.0821	mvis	84.0405	
+event	1953552	my_fakefactor	0.120683	taupt	45.3501	njets	1	mt	22.3544	mvis	51.2581	
+event	1968187	my_fakefactor	0.123676	taupt	30.2571	njets	0	mt	35.1639	mvis	127.704	
+event	1968751	my_fakefactor	0.117236	taupt	37.6203	njets	3	mt	52.4479	mvis	85.4799	
+event	2021541	my_fakefactor	0.12998	taupt	35.5556	njets	0	mt	17.534	mvis	75.7583	
+event	2021500	my_fakefactor	0.119632	taupt	36.2775	njets	1	mt	115.083	mvis	101.136	
+event	2022689	my_fakefactor	0.13899	taupt	34.2763	njets	0	mt	113.191	mvis	72.1335	
+Finished entry 7000/9999
+event	2176846	my_fakefactor	0.121621	taupt	31.585	njets	0	mt	63.4587	mvis	166.382	
+event	27947265	my_fakefactor	0.110939	taupt	30.6604	njets	1	mt	0.114561	mvis	99.3244	
+event	76629766	my_fakefactor	0.131259	taupt	40.1089	njets	0	mt	32.6144	mvis	76.7469	
+event	76634375	my_fakefactor	0.121525	taupt	35.9196	njets	0	mt	26.3111	mvis	141.291	
+event	76638712	my_fakefactor	0.11599	taupt	72.9009	njets	1	mt	124.781	mvis	157.147	
+event	66983308	my_fakefactor	0.117085	taupt	76.3005	njets	1	mt	46.1851	mvis	100.996	
+event	66794089	my_fakefactor	0.126176	taupt	53.6619	njets	0	mt	83.2301	mvis	145.154	
+event	66984215	my_fakefactor	0.134001	taupt	40.1008	njets	0	mt	43.5244	mvis	66.3795	
+Finished entry 7500/9999
+event	8540472	my_fakefactor	0.131164	taupt	30.604	njets	0	mt	27.5046	mvis	73.1108	
+event	82218	my_fakefactor	0.132941	taupt	40.6014	njets	0	mt	112.609	mvis	108.877	
+event	22136449	my_fakefactor	0.129033	taupt	30.2356	njets	0	mt	7.39931	mvis	75.189	
+event	22143951	my_fakefactor	0.131166	taupt	30.5587	njets	0	mt	7.99718	mvis	63.0495	
+event	22149122	my_fakefactor	0.115224	taupt	36.0785	njets	1	mt	4.77112	mvis	73.3615	
+event	545687	my_fakefactor	0.136132	taupt	31.4899	njets	0	mt	71.001	mvis	66.9784	
+event	25871475	my_fakefactor	0.12976	taupt	42.0859	njets	0	mt	6.03516	mvis	72.1105	
+Finished entry 8000/9999
+event	11318191	my_fakefactor	0.109731	taupt	47.7855	njets	1	mt	19.2323	mvis	130.331	
+event	66780430	my_fakefactor	0.124781	taupt	40.8519	njets	0	mt	73.7776	mvis	147.123	
+event	66787547	my_fakefactor	0.132115	taupt	45.6851	njets	0	mt	31.2099	mvis	71.8033	
+event	66787905	my_fakefactor	0.114447	taupt	36.3109	njets	1	mt	7.10879	mvis	80.0033	
+event	66802144	my_fakefactor	0.120495	taupt	42.6753	njets	1	mt	14.5123	mvis	47.5142	
+event	66803441	my_fakefactor	0.126195	taupt	31.1882	njets	4	mt	88.7101	mvis	45.3881	
+event	715581	my_fakefactor	0.129453	taupt	32.9633	njets	4	mt	97.031	mvis	32.2248	
+event	718015	my_fakefactor	0.118379	taupt	66.6189	njets	1	mt	10.1003	mvis	68.2155	
+event	718352	my_fakefactor	0.131419	taupt	36.7839	njets	0	mt	16.7596	mvis	67.0516	
+event	26202768	my_fakefactor	0.131766	taupt	39.6435	njets	0	mt	26.6063	mvis	70.5047	
+event	6628237	my_fakefactor	0.128935	taupt	30.1433	njets	0	mt	6.5287	mvis	75.2986	
+Finished entry 8500/9999
+event	6622018	my_fakefactor	0.115065	taupt	48.1128	njets	1	mt	68.6443	mvis	115.548	
+event	66989569	my_fakefactor	0.117538	taupt	48.6234	njets	1	mt	46.4989	mvis	85.1717	
+event	11319203	my_fakefactor	0.113499	taupt	71.933	njets	1	mt	3.06375	mvis	101.487	
+event	11327411	my_fakefactor	0.132872	taupt	34.0422	njets	0	mt	30.9971	mvis	65.5947	
+event	13690242	my_fakefactor	0.115596	taupt	42.1612	njets	1	mt	22.5844	mvis	82.9882	
+event	6793588	my_fakefactor	0.129637	taupt	49.7395	njets	0	mt	55.8464	mvis	101.279	
+event	13707914	my_fakefactor	0.131588	taupt	35.6623	njets	0	mt	64.6545	mvis	90.8269	
+Finished entry 9000/9999
+event	19941047	my_fakefactor	0.11602	taupt	42.5582	njets	1	mt	5.75057	mvis	71.2855	
+event	19999688	my_fakefactor	0.134273	taupt	30.1305	njets	0	mt	81.0972	mvis	82.3227	
+event	20002470	my_fakefactor	0.130588	taupt	42.5119	njets	0	mt	21.4277	mvis	75.3256	
+event	20039300	my_fakefactor	0.120629	taupt	34.5819	njets	1	mt	29.4577	mvis	50.8174	
+event	20004155	my_fakefactor	0.136383	taupt	34.4314	njets	0	mt	64.2687	mvis	62.6881	
+event	5918410	my_fakefactor	0.12267	taupt	60.4256	njets	2	mt	79.7927	mvis	73.4394	
+event	22158132	my_fakefactor	0.111601	taupt	56.3609	njets	1	mt	91.9815	mvis	168.598	
+Finished entry 9500/9999
+event	16781373	my_fakefactor	0.107686	taupt	48.6234	njets	2	mt	26.0258	mvis	156.112	
+event	1555949	my_fakefactor	0.132382	taupt	34.979	njets	0	mt	43.4854	mvis	74.9163	
+event	5679201	my_fakefactor	0.118614	taupt	71.349	njets	0	mt	22.6911	mvis	182.274	
+event	20202950	my_fakefactor	0.104723	taupt	32.7345	njets	4	mt	7.99444	mvis	164.516	
+Finished entry 9999/9999
+All events checked.
+*******************************************
+******************Jithin's original*************************
+    Initial entries 10000.000000
+   Passing smikking 0.000000
+Inspected genWeightd 9998.000000   % change= 0.020000
+   METFiltersPassed 9947.000000   % change= 0.510102
+    SingleTrgPassed 8467.000000   % change= 14.878858
+     GoodMuonPassed 7817.000000   % change= 7.676863
+      GoodTauPassed 430.000000   % change= 94.499168
+         opp charge 152.000000   % change= 64.651163
+         after sf 1 152.000000   % change= 64.651163
+         after sf 2 0.000000   % change= 64.651163
+         after sf 3 0.000000   % change= 64.651163
+         after sf 4 10.776800   % change= 64.651163
+ PassedThirdLepVeto 10.776800   % change= 92.910000
+     PassedBjetVeto 10.556492   % change= 2.044279
+       DeltaRPassed 10.556492   % change= 0.000000
+      Total change :99.894435
+*******************************************
+*******************************************
+Number of events inspected: 10000
+Number of events inspected (minus negative gen. weights): 9998.000000
+ Outpt written to DYJetsToLL_00_ext1_fbkg_test.root
+Real time 0:00:13, CP time 11.510
+"./$f_exe /hdfs/store/user/jmadhusu/2017_skimmed/htt_et_2017/DYJetsToLL_M-50_TuneCP5_ext1_v1_00.root DYJetsToLL_00_ext1_fbkg_test.root $nEvents 1000 2017 MC DY1JetsToLL_00" command filed with exit code 0.

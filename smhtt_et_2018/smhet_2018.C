@@ -86,23 +86,21 @@ void smhet_2018::Loop(Long64_t maxEvents, int reportEvery, string SampleName, st
       			   && matchEle24Tau30_2 && filterEle24Tau30_2
       			   && pt_1>25 && pt_1<33 && pt_2>35 && abs(eta_1)<2.1 && abs(eta_2)<2.1
       			   );
-      bool selectTrgCross2=(passEle24HPSTau30 && matchEle24HPSTau30_1 && matchEle24HPSTau30_2
-			    && filterEle24HPSTau30_1 && filterEle24HPSTau30_2
+      bool selectTrgCross2=(passEle24HPSTau30 
+			    && matchEle24HPSTau30_1 
+			    && matchEle24HPSTau30_2
+			    && filterEle24HPSTau30_1 
+			    && filterEle24HPSTau30_2
 			    && pt_1>25 && pt_1<33 && pt_2>35 && abs(eta_1)<2.1 && abs(eta_2)<2.1
 			    );
 	    
-      // bool selectTrgEle27=(passEle27 && pt_1>28 && abs(eta_1)<2.1);
-      // bool selectTrgEle32=(passEle32 && pt_1>33 && abs(eta_1)<2.1);
-      // bool selectTrgEle35=(passEle35 && pt_1>36 && abs(eta_1)<2.1);
-      // bool selectTrgCross=(passEle24Tau30 && pt_1>25 && pt_1<28 && pt_2>35  
-      // 			   && abs(eta_1)<2.1 && abs(eta_2)<2.1);
       if(selectTrgEle32 || selectTrgEle35 || selectTrgCross || selectTrgCross2)
       //if( selectTrgEle32 || selectTrgEle35 || selectTrgCross)
 	{
 	  makeMyPlot("b", 0, 0, 0, eventWeight);
 	  
 	  //select electrons
-	  if(pt_1>25 && fabs(eta_1)<2.1 && iso_1<0.15)// && eid90_noiso_1 )
+	  if(pt_1>25 && fabs(eta_1)<2.1 && iso_1<0.1)// && eid90_noiso_1 )
 	    {
 	      makeMyPlot("c", 0, 0, 0, eventWeight);
 	      // selct taus
@@ -131,7 +129,7 @@ void smhet_2018::Loop(Long64_t maxEvents, int reportEvery, string SampleName, st
 		      makeMyPlot("g", 0, 0, 0, eventWeight);
 		      
 		      //bjet veto
-		      if(nbtag <= 0 && nbtagL <= 1)
+		      if(nbtag <1 && nbtagL <2)
 			{
 			  makeMyPlot("h", 0, 0, 0, eventWeight);
 			  
@@ -208,6 +206,12 @@ void smhet_2018::makeMyPlot( string histNumber , int eleIndex, int ele2Index, in
   plotFill("decayModeFinding_"+hNumber, decayModeFinding_2 , 4, 0, 2,  event_weight);
   plotFill("nJet_"+hNumber, njets , 8, 0, 8,  event_weight);
   
+  plotFill("filterEle35_1_"+hNumber, filterEle35_1 , 61, -1, 60,  event_weight);
+  plotFill("filterEle32_1_"+hNumber, filterEle32_1 , 61, -1, 60,  event_weight);
+  plotFill("filterEle27_1_"+hNumber, filterEle27_1 , 61, -1, 60,  event_weight);
+  plotFill("filterEle24Tau30_1_"+hNumber, filterEle24Tau30_1 , 61, -1, 60,  event_weight);
+  plotFill("filterEle24Tau30_2_"+hNumber, filterEle24Tau30_2 , 61, -1, 60,  event_weight);
+
   int triggerBin=0;
   if( passEle35 && matchEle35_1 && filterEle35_1 ) triggerBin=4;
   else if( passEle32 && matchEle32_1 && filterEle32_1 ) triggerBin=3;
@@ -230,6 +234,9 @@ void smhet_2018::makeMyPlot( string histNumber , int eleIndex, int ele2Index, in
   plotFill("metPhi_"+hNumber, metphi , 30, -3.14, 3.14,  event_weight);
   double mT_eleMet = TMass_F( pt_1, phi_1, met, metphi  );
   plotFill("mT_eMet_"+hNumber,  mT_eleMet ,  30, 0, 150,  event_weight);
+  
+  int nEvent=1;
+  plotFill("nEvents_"+hNumber, nEvent , 3, 0.0, 3.0 , event_weight);
 
   //cout<<"     elePt_"<<hNumber<<" = "<< elePt->at(tmpCand[0])<<endl;
 }

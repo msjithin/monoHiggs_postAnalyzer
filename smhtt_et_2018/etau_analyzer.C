@@ -304,11 +304,11 @@ void etau_analyzer::Loop(Long64_t maxEvents, int reportEvery, string SampleName,
 				       myEle = myEle*(eleCalibE->at(reco_ele[0])/myEle.E());
 				       if(isMC)
 					 {
-					   if (myGenMaching(reco_tau)==5 && tau_DecayMode->at(reco_tau)==0) dau2=dau2*0.987;
-					   else if (myGenMaching(reco_tau)==5 && tau_DecayMode->at(reco_tau)==1) dau2=dau2*0.995;
-					   else if (myGenMaching(reco_tau)==5 && tau_DecayMode->at(reco_tau)==10) dau2=dau2*0.988;
-					   if (  (myGenMaching(reco_tau)==1 || myGenMaching(reco_tau)==3) && tau_DecayMode->at(reco_tau)==0 ) dau2=dau2*0.968;
-					   else if ( (myGenMaching(reco_tau)==1 || myGenMaching(reco_tau)==3) && tau_DecayMode->at(reco_tau)==1) dau2=dau2*1.026;
+					   if (myGenMaching(reco_tau[0])==5 && tau_DecayMode->at(reco_tau[0])==0) dau2=dau2*0.987;
+					   else if (myGenMaching(reco_tau[0])==5 && tau_DecayMode->at(reco_tau[0])==1) dau2=dau2*0.995;
+					   else if (myGenMaching(reco_tau[0])==5 && tau_DecayMode->at(reco_tau[0])==10) dau2=dau2*0.988;
+					   if (  (myGenMaching(reco_tau[0])==1 || myGenMaching(reco_tau[0])==3) && tau_DecayMode->at(reco_tau[0])==0 ) dau2=dau2*0.968;
+					   else if ( (myGenMaching(reco_tau[0])==1 || myGenMaching(reco_tau[0])==3) && tau_DecayMode->at(reco_tau[0])==1) dau2=dau2*1.026;
 					   
 					 }
 				       
@@ -1226,9 +1226,9 @@ double etau_analyzer::getScaleFactors(  double elept, double taupt, double eleet
   if( gen_match_2==5)
     {
       sf_tauidSF_m = h_tauidSF_m->GetBinContent(h_tauidSF_m->GetXaxis()->FindBin(taudm));
-      //sf_tauidSF_m = fn_tauIDSF_m->Eval(tau_Pt->at(reco_tau));
+      //sf_tauidSF_m = fn_tauIDSF_m->Eval(tau_Pt->at(reco_tau[0]));
       sf_tauidSF_vvvl = h_tauidSF_vvvl->GetBinContent(h_tauidSF_vvvl->GetXaxis()->FindBin(taudm));
-      //sf_tauidSF_vvvl = fn_tauIDSF_vvl->Eval(tau_Pt->at(reco_tau));
+      //sf_tauidSF_vvvl = fn_tauIDSF_vvl->Eval(tau_Pt->at(reco_tau[0]));
       sf_tauesSF = h_tauesSF->GetBinContent(h_tauesSF->GetXaxis()->FindBin(taudm));
     }
   
@@ -1456,11 +1456,49 @@ void etau_analyzer::makeMyPlot( string histNumber , int eleIndex, int tauIndex, 
   std::vector<int> jetCand;       jetCand.clear();
   jetCand=getJetCand(eleIndex, tauIndex);
   plotFill("nJet_"+hNumber, jetCand.size() , 8, 0, 8,  event_weight);
-  
+  int filterEle27_1, filterEle32_1, filterEle35_1, filterEle24Tau30_1, filterEle24Tau30_2,  filterEle24HPSTau30_1, filterEle24HPSTau30_2;
+  filterEle27_1=filterEle32_1=filterEle35_1=filterEle24Tau30_1=filterEle24Tau30_2=filterEle24HPSTau30_1=filterEle24HPSTau30_2=-1;
+
+  for(int ifilter=0;ifilter<56;ifilter++)
+    {
+      if( HLTEleMuX>>5&1 == 1 && eleFiredSingleTrgs->at(eleIndex)>>ifilter&1==1)
+	{
+	  filterEle35_1=ifilter;
+	  plotFill("filterEle35_1_"+hNumber, filterEle35_1 , 61, -1, 60,  event_weight);
+	}
+      if( HLTEleMuX>>61&1 == 1 && eleFiredSingleTrgs->at(eleIndex)>>ifilter&1==1)
+	{
+	  filterEle32_1=ifilter;
+	  plotFill("filterEle32_1_"+hNumber, filterEle32_1 , 61, -1, 60,  event_weight);
+	}
+      if( HLTTau>>1&1 == 1 && eleFiredSingleTrgs->at(eleIndex)>>ifilter&1==1)
+	{
+	  filterEle24Tau30_1=ifilter;
+	  plotFill("filterEle24Tau30_1_"+hNumber, filterEle24Tau30_1 , 61, -1, 60,  event_weight);
+	}
+      if( HLTTau>>16&1 == 1 && eleFiredSingleTrgs->at(eleIndex)>>ifilter&1==1)
+	{
+	  filterEle24HPSTau30_1=ifilter;
+	  plotFill("filterEle24HPSTau30_1_"+hNumber, filterEle24HPSTau30_1 , 61, -1, 60,  event_weight);
+	}
+    }
+  for(int ifilter=0;ifilter<18;ifilter++)
+    {
+      if( HLTTau>>1&1==1 && tauFiredTrgs->at(tauIndex)>>ifilter&1==1)
+	{
+	  filterEle24Tau30_2=ifilter;
+	  plotFill("filterEle24Tau30_2_"+hNumber, filterEle24Tau30_2 , 61, -1, 60,  event_weight);
+	}
+      if( HLTTau>>16&1==1 && tauFiredTrgs->at(tauIndex)>>ifilter&1==1)
+	{
+	  filterEle24HPSTau30_2=ifilter;
+	  plotFill("filterEle24HPSTau30_2_"+hNumber, filterEle24HPSTau30_2 , 61, -1, 60,  event_weight);
+	}
+    }
   int triggerBin=0;
   if( HLTEleMuX>>5&1 == 1 ) triggerBin=4;
   else if( HLTEleMuX>>61&1 == 1 ) triggerBin=3;
-  else if( HLTEleMuX>>3&1 == 1 ) triggerBin=2;
+  else if( HLTEleMuX>>16&1 == 1 ) triggerBin=2;
   else if( HLTTau>>1&1 == 1 )     triggerBin=1;
   
   TLorentzVector elep4; TLorentzVector taup4;
@@ -1485,5 +1523,9 @@ void etau_analyzer::makeMyPlot( string histNumber , int eleIndex, int tauIndex, 
   plotFill("metPhi_"+hNumber, pfMETPhiCorr , 30, -3.14, 3.14,  event_weight);
   double mT_eleMet = TMass_F((elePt->at(eleIndex)),(elePhi->at(eleIndex)),pfMETCorr,pfMETPhiCorr  );
   plotFill("mT_eMet_"+hNumber,  mT_eleMet , 30, 0, 150, event_weight);
+  
+  int nEvent=1;
+  plotFill("nEvents_"+hNumber, nEvent , 3, 0.0, 3.0,  event_weight);
+
   //cout<<"     elePt_"<<hNumber<<" = "<< elePt->at(tmpCand[0])<<endl;
 }

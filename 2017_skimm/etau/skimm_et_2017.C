@@ -184,15 +184,21 @@ bool skimm_et_2017::skimming_Htt(){
   bool eleFound=false; bool tauFound=false; bool drCutPassed=false;
   std::vector<int> tmpEleCand;    tmpEleCand.clear();
   std::vector<int> tmpTauCand;    tmpTauCand.clear();
+  TLorentzVector eleP4;  TLorentzVector tauP4;
   
   for(int iEle=0; iEle<nEle;iEle++){
     float relMuIso = 0;
+    eleP4.SetPtEtaPhiE(elePt->at(iEle), eleEta->at(iEle), elePhi->at(iEle), eleE->at(iEle));
+    eleP4=eleP4*(eleCalibE->at(iEle)/eleP4.E());
+    
     relMuIso = ( elePFChIso->at(iEle) + max( elePFNeuIso->at(iEle) + elePFPhoIso->at(iEle) - 0.5 *elePFPUIso->at(iEle) , 0.0 )) / (elePt->at(iEle));
     if(fabs(eleDz->at(iEle)) < 0.2 && 
        fabs(eleD0->at(iEle))<0.045 && 
-       elePt->at(iEle) > 19.5      &&
-       fabs(eleEta->at(iEle))< 2.5 &&
-       relMuIso<0.50 
+       eleP4.Pt() > 19.5      &&
+       fabs(eleP4.Eta())< 2.5 &&
+       relMuIso<0.50 &&
+       (eleIDbit->at(iEle)>>8&1)==1 &&
+       eleMissHits->at(iEle) <= 1 && eleConvVeto->at(iEle)==1
        ) {
       eleFound=true;
       tmpEleCand.push_back(iEle);
@@ -200,11 +206,24 @@ bool skimm_et_2017::skimming_Htt(){
   }
   
   for(int iTau=0; iTau<nTau;iTau++){
-    if( tau_Pt->at(iTau) > 19.5           &&
-	fabs( tau_Eta->at(iTau))< 2.5     &&
+    
+    tauP4.SetPtEtaPhiE(tau_Pt->at(iTau),tau_Eta->at(iTau),tau_Phi->at(iTau),tau_Energy->at(iTau));
+    if(is_MC)
+      {
+	if (myGenMaching(iTau)>=5 && tau_DecayMode->at(iTau)==0) tauP4=tauP4*1.007;
+	else if (myGenMaching(iTau)>=5 && tau_DecayMode->at(iTau)==1) tauP4=tauP4*0.998;
+	else if (myGenMaching(iTau)>=5 && tau_DecayMode->at(iTau)==10) tauP4=tauP4*1.001;
+	if (  (myGenMaching(iTau)==1 || myGenMaching(iTau)==3) && tau_DecayMode->at(iTau)==0 )
+	  tauP4=tauP4*1.003;
+	else if ( (myGenMaching(iTau)==1 || myGenMaching(iTau)==3) && tau_DecayMode->at(iTau)==1)
+	  tauP4=tauP4*1.036;
+      }
+    if( tauP4.Pt() > 19.5           &&
+	fabs( tauP4.Eta() )< 2.3     &&
        	(tau_IDbits->at(iTau)>>2&1==1 || tau_byVLooseDeepTau2017v2p1VSmu->at(iTau)==1 ) &&
 	(tau_IDbits->at(iTau)>>4&1==1 || tau_byVVVLooseDeepTau2017v2p1VSe->at(iTau)==1)&&
-	(tau_IDbits->at(iTau)>>13&1==1 || tau_byVVVLooseDeepTau2017v2p1VSjet->at(iTau)==1 )
+	(tau_IDbits->at(iTau)>>13&1==1 || tau_byVVVLooseDeepTau2017v2p1VSjet->at(iTau)==1 ) &&
+ 	( !(tau_DecayMode->at(iTau)==5 || tau_DecayMode->at(iTau)==6)  )
 	) {
       tauFound = true;
       tmpTauCand.push_back(iTau);
@@ -274,6 +293,11 @@ double skimm_et_2017::dR(int ele_index, int tau_index)
   return deltar;
   
 }
+double skimm_et_2017::dR(float l1eta, float l1phi, float l2eta, float l2phi) {
+  float deta = l1eta - l2eta;
+  float dphi = DeltaPhi(l1phi, l2phi);
+  return sqrt(deta * deta + dphi * dphi);
+}
 
 double skimm_et_2017::DeltaPhi(double phi1, double phi2)
 //Gives the (minimum) separation in phi between the specified phi values
@@ -284,4 +308,98 @@ double skimm_et_2017::DeltaPhi(double phi1, double phi2)
   if(dphi>pi) dphi = 2.0*pi - dphi;
   if(dphi<= -1*pi) dphi =  2.0*pi +dphi;
   return fabs(dphi);
+}
+
+int skimm_et_2017::myGenMaching(int tauIndex)
+{
+  double recotau_eta=tau_Eta->at(tauIndex);
+  double recotau_phi=tau_Phi->at(tauIndex);
+  double closestEle=999;  double closestMu=999;
+  double closestETau=999;  double closestMTau=999;  double closestHTau=999;  double closestDR=999;
+  double genLeptonEta=0;
+  double genLeptonPhi=0;
+  bool prompt_ele=false;  bool tau_ele=false; bool tau_mu=false; bool tau_tauh=false;
+  bool prompt_mu=false;
+  for(int imc=0; imc<nMC; imc++){
+    genLeptonEta=mcEta->at(imc);
+    genLeptonPhi=mcPhi->at(imc);
+    double mc_tau_dr= dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+    if(mc_tau_dr<closestDR)
+      closestDR=mc_tau_dr;
+  }
+
+
+  for(int imc=0; imc<nMC; imc++){
+    genLeptonEta=mcEta->at(imc);
+    genLeptonPhi=mcPhi->at(imc);
+    double dr_tau_lepton=dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+    //prompt_ele=false; prompt_mu=false; tau_ele=false; tau_mu=false; tau_tauh=false;
+    
+    ///// prompt electrons
+    if(mcPt->at(imc)>8 && abs(mcPID->at(imc))==11 && mcStatusFlag->at(imc)>>1&1==1)
+      {
+	//dr_tau_lepton= dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+	if( dr_tau_lepton<0.2 && closestEle>dr_tau_lepton)
+	  {closestEle=dr_tau_lepton; prompt_ele=true; }
+	
+      }
+    ///// prompt muons
+    if(mcPt->at(imc)>8 && abs(mcPID->at(imc))==13 && mcStatusFlag->at(imc)>>1&1==1)
+      {
+	//dr_tau_lepton= dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+        if( dr_tau_lepton<0.2 && closestMu>dr_tau_lepton)
+          {closestMu=dr_tau_lepton; prompt_mu=true; }
+      }
+    ///// tau -> electrons
+    if(mcPt->at(imc)>8 && abs(mcPID->at(imc))==11 && mcStatusFlag->at(imc)>>5&1==1)
+      {
+	//dr_tau_lepton= dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+        if( dr_tau_lepton<0.2 && closestETau>dr_tau_lepton)
+          {closestETau=dr_tau_lepton;  tau_ele=true; }
+      }
+    ///// tau -> muons
+    if(mcPt->at(imc)>8 && abs(mcPID->at(imc))==13 && mcStatusFlag->at(imc)>>5&1==1)
+      {
+	//dr_tau_lepton= dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+        if( dr_tau_lepton<0.2 && closestMTau>dr_tau_lepton)
+          {closestMTau=dr_tau_lepton;  tau_mu=true; }
+      }
+    ///// tau -> tau hadronic
+    if(mcPt->at(imc)>15 &&  abs(mcPID->at(imc))!=13 &&  abs(mcPID->at(imc))!=11 )
+      {
+	dr_tau_lepton= dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+        if( dr_tau_lepton<0.2 && closestHTau>dr_tau_lepton)
+          {closestHTau=dr_tau_lepton;   tau_tauh=true; }
+      } 
+  }
+  double closestLTau =  min(closestETau, closestMTau);
+  if(closestHTau < closestLTau)
+    closestLTau=closestHTau;
+  //closestDR = min(closestLTau, min(closestEle, closestMu) );
+  int genMatch=0;
+  //cout<<"closestDR: "<<closestDR<<" closestEle:"<<closestEle<<" closestMu:"<<closestMu<<" closestETau:"<<closestETau<<" closestMTau:"<<closestMTau<<" closestHTau:"<<closestHTau<<endl;
+  
+  if( (prompt_ele || prompt_mu))
+    {
+      if(closestEle<0.2 && prompt_ele)
+	//return 1;
+	genMatch=1;
+      else if(closestMu<0.2 && prompt_mu)				
+	//return 2;
+	genMatch=2;
+    }
+  else if(closestDR <= closestLTau)
+    {
+      if(closestETau<0.2 && closestETau< min(closestMTau, closestHTau) && tau_ele) //return 3;
+	genMatch=3;
+      else if(closestMTau<0.2 && closestMTau< min(closestETau, closestHTau) && tau_mu) //return 4;
+	genMatch=4;
+      else if(closestHTau<0.2 && closestHTau< min(closestETau, closestMTau) && tau_tauh) //return 5;
+	genMatch=5;
+    }
+  else
+    genMatch=6;
+
+  return genMatch;
+
 }

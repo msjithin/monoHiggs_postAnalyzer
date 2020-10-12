@@ -34,6 +34,9 @@
 #include <TList.h>
 #include <TSystemFile.h>
 #include <TSystemDirectory.h>
+#include"RooWorkspace.h"
+#include "RooRealVar.h"
+#include "RooFunctor.h"
 //#include <TDCacheFile.h>
 #include <TLorentzVector.h>
 #include "makeHisto.h"
@@ -47,6 +50,7 @@
 #include "vector"
 #include "vector"
 //#include "makeHisto.h"
+#include "RecoilCorrector.cc"
 
 using namespace std;
 
@@ -59,7 +63,6 @@ public :
    TFile *fileName;
    TTree *tree = new TTree("myTree", "A ROOT tree");
    TH1F* h_nEvents ;
-   Int_t reco_mu_index=-1; Int_t reco_tau_index=-1;
 
    double nMETFiltersPassed_fr, nPassedSkimmed_fr , nSingleTrgPassed_fr, nGoodMuonPassed_fr, nGoodTauPassed_fr, nGoodMuTauPassed_fr, nPassedThirdLepVeto_fr, nPassedBjetVeto_fr, nDeltaRPassed_fr;
    double nMETFiltersPassed, nPassedSkimmed, nSingleTrgPassed, nGoodMuonPassed, nGoodTauPassed, nGoodMuTauPassed, nPassedThirdLepVeto, nPassedBjetVeto, nDeltaRPassed;
@@ -67,22 +70,22 @@ public :
    double nMETFiltersPassed_dyll_fr, nPassedSkimmed_dyll_fr , nSingleTrgPassed_dyll_fr, nGoodMuonPassed_dyll_fr, nGoodTauPassed_dyll_fr, nGoodMuTauPassed_dyll_fr, nPassedThirdLepVeto_dyll_fr, nPassedBjetVeto_dyll_fr, nDeltaRPassed_dyll_fr;
    double nMETFiltersPassed_dyll, nPassedSkimmed_dyll, nSingleTrgPassed_dyll, nGoodMuonPassed_dyll, nGoodTauPassed_dyll, nGoodMuTauPassed_dyll, nPassedThirdLepVeto_dyll, nPassedBjetVeto_dyll, nDeltaRPassed_dyll;
   
-   TFile *f_tauFR=new TFile("sf_files/tauFF_vvvl_m.root");
+   TFile *f_tauFR=new TFile("sf_files/2017/tauFF_vvvl_m.root");
    TGraph *h_tauFR_0=(TGraph*) f_tauFR->Get("hpt_dm0_tight_hpt_dm0_veryloose");
    TGraph *h_tauFR_1=(TGraph*) f_tauFR->Get("hpt_dm1_tight_hpt_dm1_veryloose");
    TGraph *h_tauFR_10=(TGraph*) f_tauFR->Get("hpt_dm10_tight_hpt_dm10_veryloose");
    TGraph *h_tauFR_11=(TGraph*) f_tauFR->Get("hpt_dm11_tight_hpt_dm11_veryloose");
-   TFile *f_kfactors = TFile::Open("sf_files/kfactors.root", "READ");
+   TFile *f_kfactors = TFile::Open("sf_files/2017/kfactors.root", "READ");
    
 
-   TFile *f_pileup = new TFile("sf_files/RootFiles/pileup/PU_Central.root");
+   TFile *f_pileup = new TFile("sf_files/2017/RootFiles/pileup/PU_Central.root");
    TH1F* h_pileup = (TH1F*)f_pileup->Get("pileup");
    
-   TFile *f_eleReconstrucSF_highpt=new TFile("sf_files/egammaEffi.txt_EGM2D_runBCDEF_passingRECO.root");
-   TFile *f_eleIDeffSF=new TFile("sf_files/egammaEffi.txt_EGM2D_runBCDEF_passingTight94X.root");
-   TFile *f_eleIsoSF=new TFile("sf_files/2017_ElectronMVA90noiso.root");
-   TFile *f_eleTrgSF_1=new TFile("sf_files/trigger/electron_trigger_sf_2017.root");
-   TFile *f_eleTrgSF_2=new TFile("sf_files/trigger/EleTriggSF.root");
+   TFile *f_eleReconstrucSF_highpt=new TFile("sf_files/2017/egammaEffi.txt_EGM2D_runBCDEF_passingRECO.root");
+   TFile *f_eleIDeffSF=new TFile("sf_files/2017/egammaEffi.txt_EGM2D_runBCDEF_passingTight94X.root");
+   TFile *f_eleIsoSF=new TFile("sf_files/2017/2017_ElectronMVA90noiso.root");
+   TFile *f_eleTrgSF_1=new TFile("sf_files/2017/trigger/electron_trigger_sf_2017.root");
+   TFile *f_eleTrgSF_2=new TFile("sf_files/2017/trigger/EleTriggSF.root");
    TH2F *h_eleRecoSF_highpt=(TH2F*) f_eleReconstrucSF_highpt->Get("EGamma_SF2D");
    TH2F *h_eleIDSF=(TH2F*) f_eleIDeffSF->Get("EGamma_SF2D");
    TH2F *h_eleIsoSF=(TH2F*) f_eleIsoSF->Get("EGamma_SF2D");
@@ -93,7 +96,7 @@ public :
   TH1F *h_tauidSF_m = (TH1F*)f_tauidSF->Get("Medium");
   TH1F *h_tauidSF_vvvl = (TH1F*)f_tauidSF->Get("VVVLoose");
   
-  /* TFile *f_tauidSF = new TFile("sf_files/TauIDSFs/data/TauID_SF_pt_DeepTau2017v2p1VSjet_2017ReReco.root"); */
+  /* TFile *f_tauidSF = new TFile("sf_files/2017/TauIDSFs/data/TauID_SF_pt_DeepTau2017v2p1VSjet_2017ReReco.root"); */
   /* TF1 *fn_tauIDSF_m = (TF1*) f_tauidSF->Get("Medium_cent"); */
   /* TF1 *fn_tauIDSF_vvl = (TF1*) f_tauidSF->Get("VVLoose_cent"); */
 
@@ -109,10 +112,42 @@ public :
   TFile *f_taufesSF = TFile::Open("sf_files/TauIDSFs/data/TauFES_eta-dm_DeepTau2017v2p1VSe_2017ReReco.root");
   TGraph *h_taufesSF = (TGraph*) f_taufesSF->Get("fes");
 
-  
-// Fixed size dimensions of array or collections stored in the TTree if any.
+  TFile *f_tauTrgSf = TFile::Open("sf_files/TauTriggerSFs/data/2017_tauTriggerEff_DeepTau2017v2p1.root");
+  TH1F  *h_tauTrgSF_dm0  = (TH1F*) f_tauTrgSf->Get("sf_etau_Medium_dm0_fitted");
+  TH1F  *h_tauTrgSF_dm1  = (TH1F*) f_tauTrgSf->Get("sf_etau_Medium_dm1_fitted");
+  TH1F  *h_tauTrgSF_dm10 = (TH1F*) f_tauTrgSf->Get("sf_etau_Medium_dm10_fitted");
+  TH1F  *h_tauTrgSF_dm11 = (TH1F*) f_tauTrgSf->Get("sf_etau_Medium_dm11_fitted");
 
-   // Declaration of leaf types
+  TFile *fw = TFile::Open("sf_files/htt_scalefactors_legacy_2017.root");
+  RooWorkspace *w = (RooWorkspace*)fw->Get("w");
+  
+  TFile * frawff = TFile::Open("sf_files/ComputeFF2018/ff_files_et_2017/uncorrected_fakefactors_et.root");
+  TF1* ff_qcd_0jet=(TF1*) frawff->Get("rawFF_et_qcd_0jet");
+  TF1* ff_qcd_1jet=(TF1*) frawff->Get("rawFF_et_qcd_1jet");
+  TF1* ff_w_0jet=(TF1*) frawff->Get("rawFF_et_w_0jet");
+  TF1* ff_w_1jet=(TF1*) frawff->Get("rawFF_et_w_1jet");
+  TF1* ff_tt_0jet=(TF1*) frawff->Get("mc_rawFF_et_tt");
+
+  TFile *fmvisclosure = TFile::Open("sf_files/ComputeFF2018/ff_files_et_2017/FF_corrections_1.root");
+  TF1* mvisclosure_qcd=(TF1*) fmvisclosure->Get("closure_mvis_et_qcd");
+  TF1* mvisclosure_w=(TF1*) fmvisclosure->Get("closure_mvis_et_w");
+  TF1* mvisclosure_tt=(TF1*) fmvisclosure->Get("closure_mvis_et_ttmc");
+
+  TFile *fosssclosure  = TFile::Open("sf_files/ComputeFF2018/ff_files_et_2017/FF_QCDcorrectionOSSS.root");
+  TF1* osssclosure_qcd=(TF1*) fosssclosure->Get("closure_OSSS_mvis_et_qcd");
+  TF1* mtclosure_w=(TF1*) fosssclosure->Get("closure_mt_et_w");
+
+  // Fixed size dimensions of array or collections stored in the TTree if any.
+  RecoilCorrector recoilPFMetCorrector;
+  bool is_MC;
+
+
+  TLorentzVector my_tauP4;
+  TLorentzVector my_eleP4;
+  TLorentzVector my_metP4;
+  int EleIndex, TauIndex;
+  int my_njets;
+  // Declaration of leaf types
    Int_t           run;
    Long64_t        event;
    Int_t           lumis;
@@ -873,7 +908,7 @@ public :
    virtual Long64_t LoadTree(Long64_t entry);
    virtual void     Init(TChain *tree, string isMC);
    //virtual void     Init(TTree *tree);
-   virtual void     Loop(Long64_t maxEvents, int reportEvery, string SampleName, string _isMC_);
+   virtual void     Loop(Long64_t maxEvents, int reportEvery, string SampleName);
    virtual Bool_t   Notify();
    virtual void     Show(Long64_t entry = -1);
    virtual void BookHistos(const char* file1, const char* file2);
@@ -883,32 +918,45 @@ public :
    virtual vector<int> getTauCand(double pt, double eta);
    virtual vector<int> getAISRTauCand(double pt, double eta);
    virtual vector<int> getJetCand(int eleIndex, int tauIndex);
-   virtual vector<int> gen_matching();
-   virtual bool found_GenMatch(int genTau);
+   virtual int getZCand();
+   //virtual vector<int> gen_matching();
+   virtual int myGenMaching(int tauIndex);
+   virtual int myGenMaching1(int eleIndex);
+   //virtual bool found_GenMatch(int genTau);
    virtual int thirdLeptonVeto();
-   virtual double dR(int mu_index, int tau_index);
+   virtual bool thirdLeptonVeto(int eleIndex, int tauIndex);
+   virtual bool thirdLeptonVeto(int eleIndex, int tauIndex, int ele2Index);
+   //virtual double dR(int mu_index, int tau_index);
    virtual double delta_R(float phi1, float eta1, float phi2, float eta2);
    virtual float TMass_F(float LepPt, float LepPhi ,float met, float metPhi);
    virtual float TotTMass_F(TLorentzVector a, TLorentzVector b, TLorentzVector met);   
    virtual float VisMass_F(TLorentzVector a, TLorentzVector b);
    virtual float pTvecsum_F(float pt1, float pt2, float phi1, float phi2);
    virtual float pTvecsum_F(TLorentzVector a, TLorentzVector b, TLorentzVector met);
-   //   virtual bool electron_pass(int pho_index, float elePtCut);
-   //virtual bool relIso(int ele_index);
-   virtual bool passBjetVeto();
-   virtual void fillHist( string histNumber, int muIndex, int tauIndex, float event_weight);
-   virtual void fillHist( string histNumber, TLorentzVector eleP4, TLorentzVector tauP4, int muIndex, int tauIndex, float event_weight);
-   virtual void fillHist_dyll( string histNumber, int mu1Index, int mu2Index, int tauIndex, float event_weight);
+   virtual bool passBjetVeto(int eleIndex, int tauIndex);
+   virtual bool passBjetVetoM(int eleIndex, int tauIndex);
+   virtual bool passBjetVetoL(int eleIndex, int tauIndex);
+
+   virtual void fillHist( string histNumber, int muIndex, int tauIndex, bool isFakeBkg,float event_weight);
    virtual vector<int> getGenMu();
-   virtual bool hasGenTau();
+   //virtual bool hasGenTau();
    virtual float exponential(float x,float a,float b,float c);
    virtual double getFR(int tauIndex);
    virtual float EletriggerSF(float pt, float eta);
-   virtual double getScaleFactors( int eleIndex , int tauIndex,  bool fakeBkg , bool isMC, bool debug);
-   virtual bool noisyJet2017();
+   virtual double getScaleFactors(  double elept, double taupt, double eleeta, double taueta, int taudm, int tauGenMatch, bool isFakebkg);
+   virtual bool noisyJet2017(int eleIndex, int tauIndex);
    virtual bool MatchTriggerFilter(int eleIndex, int tauIndex);
-};
+   virtual void makeTestPlot( string histNumber , int eleIndex, int ele2Index, int tauIndex, float event_weight);
+   virtual bool passDiElectronVeto(int eleIndex);
+   virtual bool eVetoZTTp001dxyz(int eleIndex, int tauIndex);
+   virtual bool mVetoZTTp001dxyz(int eleIndex, int tauIndex);
+   virtual TLorentzVector MetRecoilCorrections(int eleIndex, int tauIndex);
+   virtual void applyESCorrections(TLorentzVector eleP4, TLorentzVector tauP4, int eleIndex, int tauIndex,  bool isFakebkg, TLorentzVector& eleP4Corr, TLorentzVector& tauP4Corr);
+   virtual int eventCategory(int eleIndex, int tauIndex,  double higgsPt);
+   virtual void setMyEleTau(int eleIndex, int tauIndex);
+   virtual int if_DY_Genmatching(int eleIndex, int tauIndex);
 
+};
 #endif
 
 #ifdef etau_analyzer_cxx
@@ -947,6 +995,7 @@ etau_analyzer::~etau_analyzer()
    f_eleIDeffSF->Close();
    f_eleTrgSF_1->Close();
    f_eleTrgSF_2->Close();
+   fw->Close();
 }
 
 Int_t etau_analyzer::GetEntry(Long64_t entry)
@@ -986,6 +1035,10 @@ void etau_analyzer::Init(TChain *tree, string _isMC_)
 
   TString isMC = TString(_isMC_);
   cout<<"from Init "<<isMC<<endl;
+  if( _isMC_=="MC" )
+    is_MC=true;
+  else
+    is_MC=false;
    // Set object pointer
    phoE = 0;
    phoEt = 0;
@@ -1315,9 +1368,9 @@ void etau_analyzer::Init(TChain *tree, string _isMC_)
    fChain->SetBranchAddress("nGoodVtx", &nGoodVtx, &b_nGoodVtx);
    fChain->SetBranchAddress("rho", &rho, &b_rho);
    fChain->SetBranchAddress("rhoCentral", &rhoCentral, &b_rhoCentral);
-   /* fChain->SetBranchAddress("prefiringweight", &prefiringweight, &b_prefiringweight); */
-   /* fChain->SetBranchAddress("prefiringweightup", &prefiringweightup, &b_prefiringweightup); */
-   /* fChain->SetBranchAddress("prefiringweightdown", &prefiringweightdown, &b_prefiringweightdown); */
+   fChain->SetBranchAddress("prefiringweight", &prefiringweight, &b_prefiringweight);
+   fChain->SetBranchAddress("prefiringweightup", &prefiringweightup, &b_prefiringweightup);
+   fChain->SetBranchAddress("prefiringweightdown", &prefiringweightdown, &b_prefiringweightdown);
    fChain->SetBranchAddress("HLTEleMuX", &HLTEleMuX, &b_HLTEleMuX);
    fChain->SetBranchAddress("HLTEleMuXIsPrescaled", &HLTEleMuXIsPrescaled, &b_HLTEleMuXIsPrescaled);
    fChain->SetBranchAddress("HLTEleMuXRejectedByPS", &HLTEleMuXRejectedByPS, &b_HLTEleMuXRejectedByPS);
@@ -1705,4 +1758,41 @@ Int_t etau_analyzer::Cut(Long64_t entry)
 // returns -1 otherwise.
    return 1;
 }
+void etau_analyzer::setMyEleTau(int eleIndex, int tauIndex){
+
+  EleIndex=eleIndex; TauIndex=tauIndex;
+  my_eleP4.SetPtEtaPhiE(elePt->at(eleIndex), eleEta->at(eleIndex),
+                        elePhi->at(eleIndex), eleE->at(eleIndex)
+                        );
+  my_tauP4.SetPtEtaPhiE(tau_Pt->at(tauIndex),tau_Eta->at(tauIndex)
+                        ,tau_Phi->at(tauIndex), tau_Energy->at(tauIndex)
+                        );
+
+  TLorentzVector uncorrected_met; TLorentzVector uncorrectedMetPlusTau;
+  if(is_MC)
+    uncorrected_met=MetRecoilCorrections(eleIndex, tauIndex);
+  else
+    uncorrected_met.SetPtEtaPhiE(pfMET ,0,pfMETPhi,pfMET);
+
+  uncorrectedMetPlusTau=uncorrected_met+my_tauP4;
+
+  /// ES corrections
+  my_eleP4 = my_eleP4*(eleCalibE->at(eleIndex)/my_eleP4.E());
+  if(is_MC){
+    if (myGenMaching(tauIndex)>=5 && tau_DecayMode->at(tauIndex)==0) my_tauP4=my_tauP4*1.007;
+    else if (myGenMaching(tauIndex)>=5 && tau_DecayMode->at(tauIndex)==1) my_tauP4=my_tauP4*0.998;
+    else if (myGenMaching(tauIndex)>=5 && tau_DecayMode->at(tauIndex)==10) my_tauP4=my_tauP4*1.001;
+    if (  (myGenMaching(tauIndex)==1 || myGenMaching(tauIndex)==3) && tau_DecayMode->at(tauIndex)==0 )
+      my_tauP4=my_tauP4*1.003;
+    else if ( (myGenMaching(tauIndex)==1 || myGenMaching(tauIndex)==3) && tau_DecayMode->at(tauIndex)==1)
+      my_tauP4=my_tauP4*1.036;
+  }
+  my_metP4 = uncorrectedMetPlusTau - my_tauP4;
+  
+  std::vector<int> jetCand;       jetCand.clear();
+  jetCand=getJetCand(eleIndex, tauIndex);
+  my_njets=jetCand.size();
+
+}
+
 #endif // #ifdef etau_analyzer_cxx
