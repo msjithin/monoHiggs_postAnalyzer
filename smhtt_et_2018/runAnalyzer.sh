@@ -1,8 +1,17 @@
 #!/bin/bash
 set -e  # exit when any command fails
+# keep track of the last executed command
+trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
+# echo an error message before exiting
+trap 'echo "\"${last_command}\" command filed with exit code $?."' EXIT
+unset DISPLAY
 
-
-./rootcom etau_analyzer executable_etau
+f_exe="executable_etau"
+if [ -f "$f_exe" ]; then
+    echo "$f_exe exists, removing file"
+    rm $f_exe
+fi
+./rootcom etau_analyzer $f_exe
 
 
 outFile="study_mutau_110k.root"
@@ -21,6 +30,6 @@ esac
 done
 
 echo "dy sample analysis....."
-./executable_etau /hdfs/store/user/jmadhusu/2018_skimmed/etau/DYJetsToLL_00.root DYJetsToLL_00_test.root $nEvents 1000 2018 MC DY1JetsToLL_00
-./executable_etau /hdfs/store/user/jmadhusu/2018_skimmed/etau/EGamma2018A_00.root EGamma2018A_00_test.root $nEvents 1000 2018 DATA SingleElectron_EraF_05
+./$f_exe /hdfs/store/user/jmadhusu/2018_skimmed/etau/DYJetsToLL_00.root DYJetsToLL_00_test.root $nEvents 1000 2018 MC DY1JetsToLL_00
+./$f_exe /hdfs/store/user/jmadhusu/2018_skimmed/etau/EGamma2018A_00.root EGamma2018A_00_test.root $nEvents 1000 2018 DATA SingleElectron_EraF_05
 

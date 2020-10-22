@@ -50,6 +50,7 @@
 #include "vector"
 #include "vector"
 //#include "makeHisto.h"
+#include "RecoilCorrector.cc"
 
 using namespace std;
 
@@ -70,7 +71,7 @@ public :
    double nMETFiltersPassed_dyll_fr, nPassedSkimmed_dyll_fr , nSingleTrgPassed_dyll_fr, nGoodMuonPassed_dyll_fr, nGoodTauPassed_dyll_fr, nGoodMuTauPassed_dyll_fr, nPassedThirdLepVeto_dyll_fr, nPassedBjetVeto_dyll_fr, nDeltaRPassed_dyll_fr;
    double nMETFiltersPassed_dyll, nPassedSkimmed_dyll, nSingleTrgPassed_dyll, nGoodMuonPassed_dyll, nGoodTauPassed_dyll, nGoodMuTauPassed_dyll, nPassedThirdLepVeto_dyll, nPassedBjetVeto_dyll, nDeltaRPassed_dyll;
   
-  
+
 // Fixed size dimensions of array or collections stored in the TTree if any.
    TFile *f_pileup = new TFile("sf_files/RootFiles/pileup/PU_Central_2018.root");
    TH1F* h_pileup = (TH1F*)f_pileup->Get("pileup");
@@ -114,7 +115,32 @@ public :
    
    TFile *fw = TFile::Open("sf_files/htt_scalefactors_legacy_2018.root");
    RooWorkspace *w = (RooWorkspace*)fw->Get("w");
+   
+   TFile * frawff = TFile::Open("sf_files/ComputeFF2018/ff_files_et_2018/uncorrected_fakefactors_et.root");
+   TF1* ff_qcd_0jet=(TF1*) frawff->Get("rawFF_et_qcd_0jet");
+   TF1* ff_qcd_1jet=(TF1*) frawff->Get("rawFF_et_qcd_1jet");
+   TF1* ff_w_0jet=(TF1*) frawff->Get("rawFF_et_w_0jet");
+   TF1* ff_w_1jet=(TF1*) frawff->Get("rawFF_et_w_1jet");
+   TF1* ff_tt_0jet=(TF1*) frawff->Get("mc_rawFF_et_tt");
 
+   TFile *fmvisclosure = TFile::Open("sf_files/ComputeFF2018/ff_files_et_2018/FF_corrections_1.root");
+   TF1* mvisclosure_qcd=(TF1*) fmvisclosure->Get("closure_mvis_et_qcd");
+   TF1* mvisclosure_w=(TF1*) fmvisclosure->Get("closure_mvis_et_w");
+   TF1* mvisclosure_tt=(TF1*) fmvisclosure->Get("closure_mvis_et_ttmc");
+
+   TFile *fosssclosure  = TFile::Open("sf_files/ComputeFF2018/ff_files_et_2018/FF_QCDcorrectionOSSS.root");
+   TF1* osssclosure_qcd=(TF1*) fosssclosure->Get("closure_OSSS_mvis_et_qcd");
+   TF1* mtclosure_w=(TF1*) fosssclosure->Get("closure_mt_et_w");
+
+   //   RecoilCorrector recoilPFMetCorrector("sf_files/HTT-utilities/RecoilCorrections/data/Type1_PFMET_2017.root");
+
+   RecoilCorrector recoilPFMetCorrector;
+   bool is_MC;
+   TLorentzVector my_tauP4;
+   TLorentzVector my_eleP4;
+   TLorentzVector my_metP4;
+   int EleIndex, TauIndex;
+   int my_njets;
    // Declaration of leaf types
    Int_t           run;
    Long64_t        event;
@@ -902,10 +928,11 @@ public :
    virtual float pTvecsum_F(TLorentzVector a, TLorentzVector b, TLorentzVector met);
    //   virtual bool electron_pass(int pho_index, float elePtCut);
    //virtual bool relIso(int ele_index);
-   virtual bool passBjetVeto(int eleIndex, int tauIndex);
-   virtual void fillHist( string histNumber, int muIndex, int tauIndex, float event_weight, bool isMC);
-   virtual void fillHist( string histNumber, TLorentzVector eleP4, TLorentzVector tauP4, int muIndex, int tauIndex, float event_weight, bool isMC);
-   virtual void fillHist_dyll( string histNumber, int mu1Index, int mu2Index, int tauIndex, float event_weight, bool isMC);
+   virtual bool passBjetVetoM(int eleIndex, int tauIndex);
+   virtual bool passBjetVetoL(int eleIndex, int tauIndex);
+   virtual void fillHist( string histNumber, int muIndex, int tauIndex, float event_weight);
+   virtual void fillHist( string histNumber, TLorentzVector eleP4, TLorentzVector tauP4, int muIndex, int tauIndex, float event_weight);
+   virtual void fillHist_dyll( string histNumber, int mu1Index, int mu2Index, int tauIndex, float event_weight);
    virtual vector<int> getGenMu();
    virtual bool hasGenTau();
    virtual float exponential(float x,float a,float b,float c);
@@ -917,7 +944,12 @@ public :
    virtual void makeMyPlot( string histNumber , int eleIndex, int tauIndex, float event_weight);
    virtual bool passDiElectronVeto(int eleIndex);
    virtual bool eVetoZTTp001dxyz(int eleIndex, int tauIndex);
-   virtual bool mVetoZTTp001dxyz(int eleIndex, int tauIndex); 
+   virtual bool mVetoZTTp001dxyz(int eleIndex, int tauIndex);
+   virtual TLorentzVector MetRecoilCorrections(int eleIndex, int tauIndex, TLorentzVector mymet);
+   virtual void applyESCorrections(TLorentzVector eleP4, TLorentzVector tauP4, int eleIndex, int tauIndex, TLorentzVector& eleP4Corr, TLorentzVector& tauP4Corr);
+   virtual int eventCategory(int eleIndex, int tauIndex);
+   virtual void setMyEleTau(int eleIndex, int tauIndex);
+
 };
 #endif
 
@@ -983,10 +1015,19 @@ void etau_analyzer::Init(TChain *tree, string _isMC_)
   nMETFiltersPassed_dyll_fr = nPassedSkimmed_dyll_fr = nSingleTrgPassed_dyll_fr = nGoodMuonPassed_dyll_fr = nGoodTauPassed_dyll_fr = nGoodMuTauPassed_dyll_fr = nPassedThirdLepVeto_dyll_fr = nPassedBjetVeto_dyll_fr = nDeltaRPassed_dyll_fr=0;
   nMETFiltersPassed_dyll= nPassedSkimmed_dyll= nSingleTrgPassed_dyll= nGoodMuonPassed_dyll= nGoodTauPassed_dyll= nGoodMuTauPassed_dyll= nPassedThirdLepVeto_dyll= nPassedBjetVeto_dyll= nDeltaRPassed_dyll=0;
   myfile_genmatch.open("genmatchCheck_.txt");
+  
+  /* //RecoilCorrector recoilPFMetCorrector("sf_files/HTT-utilities/RecoilCorrections/data/Type1_PFMET_2017.root"); */
+  
+  //RecoilCorrector recoilPFMetCorrector("sf_files/HTT-utilities/RecoilCorrections/data/Type1_PFMET_2017.root");
 
+  
   TString isMC = TString(_isMC_);
   cout<<"from Init "<<isMC<<endl;
-   // Set object pointer
+  if( _isMC_=="MC" ) 
+    is_MC=true;
+  else
+    is_MC=false;
+  // Set object pointer
    phoE = 0;
    phoEt = 0;
    phoEta = 0;
@@ -1676,7 +1717,25 @@ void etau_analyzer::Init(TChain *tree, string _isMC_)
    fChain->SetBranchAddress("pfMETPhi_T1JESDo", &pfMETPhi_T1JESDo, &b_pfMETPhi_T1JESDo);
    fChain->SetBranchAddress("pfMETPhi_T1UESUp", &pfMETPhi_T1UESUp, &b_pfMETPhi_T1UESUp);
    fChain->SetBranchAddress("pfMETPhi_T1UESDo", &pfMETPhi_T1UESDo, &b_pfMETPhi_T1UESDo);
-   
+   /*    class tauCorr{ */
+   /*   double tauPt; */
+   /*   double tauEta; */
+   /*   double tauPhi; */
+   /*   double tauEn; */
+   /* public: */
+   /*   TLorentzVector myTauP4; */
+   /*   tauCorr(int tauIndex){ */
+   /*     tauPt=tau_Pt->at(tauIndex); */
+   /*     tauEta=tau_Eta->at(tauIndex); */
+   /*     tauPhi=tau_Phi->at(tauIndex); */
+   /*     tauEn=tau_Energy->at(tauIndex); */
+   /*     myTauP4.SetPtEtaPhiE(tauPt, tauEta, tauPhi, tauEn); */
+   /*     esCorrections(); */
+   /*   } */
+   /*   void esCorrections(){ */
+   /*     myTauP4 = myTauP4*100; */
+   /*   } */
+   /* }; */
    Notify();
 }
 
@@ -1704,5 +1763,40 @@ Int_t etau_analyzer::Cut(Long64_t entry)
 // returns  1 if entry is accepted.
 // returns -1 otherwise.
    return 1;
+}
+
+void etau_analyzer::setMyEleTau(int eleIndex, int tauIndex){
+  
+  EleIndex=eleIndex; TauIndex=tauIndex;
+  my_eleP4.SetPtEtaPhiE(elePt->at(eleIndex), eleEta->at(eleIndex),
+                        elePhi->at(eleIndex), eleE->at(eleIndex)
+                        );
+  my_tauP4.SetPtEtaPhiE(tau_Pt->at(tauIndex),tau_Eta->at(tauIndex)
+                        ,tau_Phi->at(tauIndex), tau_Energy->at(tauIndex)
+                        );
+  TLorentzVector uncorrected_met; TLorentzVector uncorrectedMetPlusTau; TLorentzVector corrected_met;
+  uncorrected_met.SetPtEtaPhiE(pfMET ,0,pfMETPhi,pfMET);
+  uncorrectedMetPlusTau=uncorrected_met+my_tauP4;
+  my_eleP4 = my_eleP4*(eleCalibE->at(eleIndex)/my_eleP4.E());
+  if(is_MC){
+    if (myGenMaching(tauIndex)>=5 && tau_DecayMode->at(tauIndex)==0) my_tauP4=my_tauP4*0.987;
+    else if (myGenMaching(tauIndex)>=5 && tau_DecayMode->at(tauIndex)==1) my_tauP4=my_tauP4*0.995;
+    else if (myGenMaching(tauIndex)>=5 && tau_DecayMode->at(tauIndex)==10) my_tauP4=my_tauP4*0.988;
+    if (  (myGenMaching(tauIndex)==1 || myGenMaching(tauIndex)==3) && tau_DecayMode->at(tauIndex)==0 ) my_tauP4=my_tauP4*0.968;
+    else if ( (myGenMaching(tauIndex)==1 || myGenMaching(tauIndex)==3) && tau_DecayMode->at(tauIndex)==1) my_tauP4=my_tauP4*1.026;
+    if (  (myGenMaching(tauIndex)==2 || myGenMaching(tauIndex)==4) && tau_DecayMode->at(tauIndex)==0 ) my_tauP4=my_tauP4*0.998;
+    else if ( (myGenMaching(tauIndex)==2 || myGenMaching(tauIndex)==4) && tau_DecayMode->at(tauIndex)==1) my_tauP4=my_tauP4*0.990;
+  }
+
+  corrected_met = uncorrectedMetPlusTau - my_tauP4; 
+  if(is_MC)
+    my_metP4=MetRecoilCorrections(eleIndex, tauIndex, corrected_met);
+  else
+    my_metP4.SetPtEtaPhiE(pfMET ,0,pfMETPhi,pfMET);
+
+  
+  std::vector<int> jetCand;       jetCand.clear();
+  jetCand=getJetCand(eleIndex, tauIndex);
+  my_njets=jetCand.size();
 }
 #endif // #ifdef etau_analyzer_cxx

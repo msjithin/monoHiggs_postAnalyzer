@@ -40,7 +40,7 @@
 #include "vector"
 #include "TString.h"
 #include "vector"
-
+#include <TLorentzVector.h>
 using namespace std;
 // Header file for the classes stored in the TTree if any.
 
@@ -93,8 +93,26 @@ public :
    
    TFile *fw = TFile::Open("sf_files/htt_scalefactors_legacy_2018.root");
    RooWorkspace *w = (RooWorkspace*)fw->Get("w");
+   
+   TFile * frawff = TFile::Open("sf_files/ComputeFF2018/ff_files_et_2018/uncorrected_fakefactors_et.root");
+   TF1* ff_qcd_0jet=(TF1*) frawff->Get("rawFF_et_qcd_0jet");
+   TF1* ff_qcd_1jet=(TF1*) frawff->Get("rawFF_et_qcd_1jet");
+   TF1* ff_w_0jet=(TF1*) frawff->Get("rawFF_et_w_0jet");
+   TF1* ff_w_1jet=(TF1*) frawff->Get("rawFF_et_w_1jet");
+   TF1* ff_tt_0jet=(TF1*) frawff->Get("mc_rawFF_et_tt");
+
+   TFile *fmvisclosure = TFile::Open("sf_files/ComputeFF2018/ff_files_et_2018/FF_corrections_1.root");
+   TF1* mvisclosure_qcd=(TF1*) fmvisclosure->Get("closure_mvis_et_qcd");
+   TF1* mvisclosure_w=(TF1*) fmvisclosure->Get("closure_mvis_et_w");
+   TF1* mvisclosure_tt=(TF1*) fmvisclosure->Get("closure_mvis_et_ttmc");
+
+   TFile *fosssclosure  = TFile::Open("sf_files/ComputeFF2018/ff_files_et_2018/FF_QCDcorrectionOSSS.root");
+   TF1* osssclosure_qcd=(TF1*) fosssclosure->Get("closure_OSSS_mvis_et_qcd");
+   TF1* mtclosure_w=(TF1*) fosssclosure->Get("closure_mt_et_w");
+
+
    // Declaration of leaf types
-      Int_t           run;
+   Int_t           run;
    Int_t           lumi;
    Int_t           evt;
    Float_t         matchEmbFilter_Ele24Tau30_2;
@@ -690,6 +708,7 @@ public :
    virtual void     makeMyPlot( string histNumber , int eleIndex, int ele2Index, int tauIndex, float event_weight);
    virtual Bool_t   Notify();
    virtual void     Show(Long64_t entry = -1);
+   virtual float pTvecsum_F(TLorentzVector a, TLorentzVector b, TLorentzVector c);
    virtual double getScaleFactors( double elept, double taupt, double eleeta, double taueta, int taudm);
 };
 

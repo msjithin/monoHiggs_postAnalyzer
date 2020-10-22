@@ -23,7 +23,10 @@ float norm_F(float x, float y){
   return sqrt(x*x+y*y);
 }
 
-
+/* float TMass_F(float LepPt, float LepPhi , float met, float metPhi) { */
+/*   //return  sqrt(2.0*LepPt*met*(1.0-cos(DeltaPhi(LepPhi, metPhi)))); */
+/*   return sqrt(pow(LepPt + met, 2) - pow(LepPt* cos(LepPhi) + met * cos(metPhi), 2) - pow(LepPt * sin(LepPhi) + met * sin(metPhi), 2)); */
+/* } */
 float TMass_F(float pt3lep, float px3lep, float py3lep, float met, float metPhi) {
   return sqrt(pow(pt3lep + met, 2) - pow(px3lep + met * cos(metPhi), 2) - pow(py3lep + met * sin(metPhi), 2));
 }
@@ -95,8 +98,18 @@ bool NewOverLap(float l1eta, float l1phi, float l2eta, float l2phi, float l3eta,
 
 
 
+template<typename ...Args>
+constexpr void printTabSeparated(Args&&... args) noexcept
+{
+  ((std::cout << std::forward<Args>(args) << "\t"), ...)<<'\n';
+}
 
 
+template<typename ...Args>
+constexpr void printCSV(Args&&... args) noexcept
+{
+  ((std::cout << std::forward<Args>(args) << ","), ...)<<'\n';
+}
 
 
 

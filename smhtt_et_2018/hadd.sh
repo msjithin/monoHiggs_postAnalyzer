@@ -10,8 +10,8 @@ then
     echo "root files moved"
 
     cd mine_rootfile/
-    hadd DY.root DYJetsToLL_M-50*.root
-    hadd Data.root SingleElectron_*.root
+    hadd DY.root DYJetsToLL_*.root
+    hadd Data.root EGamma2018*.root
     cd ..
 fi    
 cd plotting_script/

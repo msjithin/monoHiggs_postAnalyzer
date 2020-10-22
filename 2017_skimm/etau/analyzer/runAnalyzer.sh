@@ -33,14 +33,15 @@ done
 
 echo "dy sample analysis....."
 ./$f_exe /hdfs/store/user/jmadhusu/2017_skimmed/etau/DYJetsToLL_M-50_TuneCP5_v1_00.root DYJetsToLL_00_test.root $nEvents 1000 2017 MC DY1JetsToLL_00
-#./$f_exe /hdfs/store/user/jmadhusu/2017_skimmed/etau/ee_DY1JetsToLL_M-50_TuneCP5_01.root ee_DY1JetsToLL_M-50_TuneCP5_01_test.root $nEvents 1000 2017 MC DY1JetsToLL_01
+
+echo "ttbar sample analysis....."
+./$f_exe /hdfs/store/user/jmadhusu/2017_skimmed/etau/TTToSemiLeptonic_TuneCP5_00.root TTToSemiLeptonic_TuneCP5_00_test.root $nEvents 1000 2017 MC TTToSemiLeptonic_TuneCP5_00 
+
 echo "wjets sample analysis....."
 ./$f_exe /hdfs/store/user/jmadhusu/2017_skimmed/etau/WJetsToLNu_TuneCP5_00.root WJetsToLNu_00_test.root $nEvents 1000 2017 MC WJetsToLNu_00
 
 echo "data sample analysis....."
 ./$f_exe /hdfs/store/user/jmadhusu/2017_skimmed/etau/SingleElectron_EraB_00.root SingleElectron_EraB_00_test.root $nEvents 1000 2017 DATA SingleMuon_EraF_03
-
-./$f_exe /hdfs/store/user/jmadhusu/2017_skimmed/etau/SingleElectron_EraE_01.root SingleElectron_EraE_01_test.root $nEvents 1000 2017 DATA SingleMuon_EraE_01 
 
 end=`date +%s`
 runtime=$((end-start))

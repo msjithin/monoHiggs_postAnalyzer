@@ -98,8 +98,18 @@ bool NewOverLap(float l1eta, float l1phi, float l2eta, float l2phi, float l3eta,
 
 
 
+template<typename ...Args>
+constexpr void printTabSeparated(Args&&... args) noexcept
+{
+  ((std::cout << std::forward<Args>(args) << "\t"), ...)<<'\n';
+}
 
 
+template<typename ...Args>
+constexpr void printCSV(Args&&... args) noexcept
+{
+  ((std::cout << std::forward<Args>(args) << ","), ...)<<'\n';
+}
 
 
 

@@ -240,7 +240,7 @@ if channel_=="etau":
 
 
 Wjets_hist.SetFillColor(ROOT.TColor.GetColor(color_wjets))
-F_bkg.SetFillColor(ROOT.TColor.GetColor(color_wjets))
+F_bkg.SetFillColor(ROOT.TColor.GetColor(color_jetfake))
 ZTT_hist.SetFillColor(ROOT.TColor.GetColor(color_ztt))
 ZLL_hist.SetFillColor(ROOT.TColor.GetColor(color_zll))
 TT_hist.SetFillColor(ROOT.TColor.GetColor(color_tt))

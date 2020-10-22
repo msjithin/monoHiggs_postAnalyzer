@@ -610,13 +610,13 @@ std::vector<int> etau_analyzer::getJetCand(int eleIndex, int tauIndex){
       	  && abs(jetEta->at(iJet))<4.7
       	  && (jetID->at(iJet)>>0&1)==1
 	  ) kinematic30=true;
-      if(jetRawPt->at(iJet) < 50
+      if(jetPt->at(iJet) < 50
       	 && abs(jetEta->at(iJet))>2.65
       	 && abs(jetEta->at(iJet))<3.139
       	 //&& (jetID->at(iJet)>>0&1)==1
       	 ) foundNoisyJets=true;
       
-      if( jetRawPt->at(iJet) < 50 )
+      if( jetPt->at(iJet) < 50 )
 	//if( jetPt->at(iJet) < 50 )
       	{
       	  if( (jetPUFullID->at(iJet)>>1&1)==1 )
@@ -624,7 +624,7 @@ std::vector<int> etau_analyzer::getJetCand(int eleIndex, int tauIndex){
       	  else 
       	    passLoosePUID=false;
       	}
-      else if (jetRawPt->at(iJet) > 50 )
+      else if (jetPt->at(iJet) > 50 )
 	//else if (jetPt->at(iJet) > 50 )
       	passLoosePUID=true;
       

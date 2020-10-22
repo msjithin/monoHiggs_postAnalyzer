@@ -139,7 +139,7 @@ if piAxis == 1:
   nDivXAxis= -105
 elif histoname=='cutflow_n' or histoname=='cutflow_Htt':
   nDivXAxis= Data_hist.GetNbinsX()
-elif histoname=='relMuIso_5' :
+elif histoname=='relMuIso_5' or histoname[:9]=='filterEle':
   nDivXAxis= Data_hist.GetNbinsX()
 elif histoname=='tauAntiEle_5' or histoname=='tauAntiMu_5':
   nDivXAxis= Data_hist.GetNbinsX()

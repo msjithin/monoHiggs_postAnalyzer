@@ -5,8 +5,8 @@
 // found on file: /hdfs/store/user/jmadhusu/MonoHiggs_MC2017/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/crab_DYJetsToLL_M-50/180603_140815/0000/ggtree_mc_1.root
 //////////////////////////////////////////////////////////
 
-#ifndef etau_analyzer_h
-#define etau_analyzer_h
+#ifndef etau_analyzer_fbkg_h
+#define etau_analyzer_fbkg_h
 
 #include <TROOT.h>
 #include <TChain.h>
@@ -54,7 +54,7 @@
 
 using namespace std;
 
-class etau_analyzer {
+class etau_analyzer_fbkg {
 public :
    TTree          *fChain;   //!pointer to the analyzed TTree or TChain
    Int_t           fCurrent; //!current Tree number in a TChain
@@ -136,6 +136,11 @@ public :
 
    RecoilCorrector recoilPFMetCorrector;
    bool is_MC;
+   TLorentzVector my_tauP4;
+   TLorentzVector my_eleP4;
+   TLorentzVector my_metP4;
+   int EleIndex, TauIndex;
+   int my_njets;
    // Declaration of leaf types
    Int_t           run;
    Long64_t        event;
@@ -889,9 +894,9 @@ public :
    TBranch        *b_mcTauDecayMode;   //!
    TBranch        *b_genMatch2;   //!
 
-   //   etau_analyzer(TTree *tree=0);
-   etau_analyzer(const char* file1, const char* file2, string isMC);
-   virtual ~etau_analyzer();
+   //   etau_analyzer_fbkg(TTree *tree=0);
+   etau_analyzer_fbkg(const char* file1, const char* file2, string isMC);
+   virtual ~etau_analyzer_fbkg();
    virtual Int_t    Cut(Long64_t entry);
    virtual Int_t    GetEntry(Long64_t entry);
    virtual Long64_t LoadTree(Long64_t entry);
@@ -942,11 +947,14 @@ public :
    virtual bool mVetoZTTp001dxyz(int eleIndex, int tauIndex);
    virtual TLorentzVector MetRecoilCorrections(int eleIndex, int tauIndex);
    virtual void applyESCorrections(TLorentzVector eleP4, TLorentzVector tauP4, int eleIndex, int tauIndex, TLorentzVector& eleP4Corr, TLorentzVector& tauP4Corr);
+   virtual int eventCategory(int eleIndex, int tauIndex);
+   virtual void setMyEleTau(int eleIndex, int tauIndex);
+
 };
 #endif
 
-#ifdef etau_analyzer_cxx
-etau_analyzer::etau_analyzer(const char* file1, const char* file2, string isMC)
+#ifdef etau_analyzer_fbkg_cxx
+etau_analyzer_fbkg::etau_analyzer_fbkg(const char* file1, const char* file2, string isMC)
 {
   TChain *chain = new TChain("eventTree");
   
@@ -962,7 +970,7 @@ etau_analyzer::etau_analyzer(const char* file1, const char* file2, string isMC)
 }
 
 
-etau_analyzer::~etau_analyzer()
+etau_analyzer_fbkg::~etau_analyzer_fbkg()
 {
    if (!fChain) return;
    delete fChain->GetCurrentFile();
@@ -973,13 +981,13 @@ etau_analyzer::~etau_analyzer()
 
 }
 
-Int_t etau_analyzer::GetEntry(Long64_t entry)
+Int_t etau_analyzer_fbkg::GetEntry(Long64_t entry)
 {
 // Read contents of entry.
    if (!fChain) return 0;
    return fChain->GetEntry(entry);
 }
-Long64_t etau_analyzer::LoadTree(Long64_t entry)
+Long64_t etau_analyzer_fbkg::LoadTree(Long64_t entry)
 {
 // Set the environment to read one entry
    if (!fChain) return -5;
@@ -992,7 +1000,7 @@ Long64_t etau_analyzer::LoadTree(Long64_t entry)
    return centry;
 }
 
-void etau_analyzer::Init(TChain *tree, string _isMC_)
+void etau_analyzer_fbkg::Init(TChain *tree, string _isMC_)
 {
    // The Init() function is called when the selector needs to initialize
    // a new tree or chain. Typically here the branch addresses and branch
@@ -1731,7 +1739,7 @@ void etau_analyzer::Init(TChain *tree, string _isMC_)
    Notify();
 }
 
-Bool_t etau_analyzer::Notify()
+Bool_t etau_analyzer_fbkg::Notify()
 {
    // The Notify() function is called when a new file is opened. This
    // can be either for a new TTree in a TChain or when when a new TTree
@@ -1742,18 +1750,54 @@ Bool_t etau_analyzer::Notify()
    return kTRUE;
 }
 
-void etau_analyzer::Show(Long64_t entry)
+void etau_analyzer_fbkg::Show(Long64_t entry)
 {
 // Print contents of entry.
 // If entry is not specified, print current entry
    if (!fChain) return;
    fChain->Show(entry);
 }
-Int_t etau_analyzer::Cut(Long64_t entry)
+Int_t etau_analyzer_fbkg::Cut(Long64_t entry)
 {
 // This function may be called from Loop.
 // returns  1 if entry is accepted.
 // returns -1 otherwise.
    return 1;
 }
-#endif // #ifdef etau_analyzer_cxx
+
+void etau_analyzer_fbkg::setMyEleTau(int eleIndex, int tauIndex){
+  
+  EleIndex=eleIndex; TauIndex=tauIndex;
+  my_eleP4.SetPtEtaPhiE(elePt->at(eleIndex), eleEta->at(eleIndex),
+                        elePhi->at(eleIndex), eleE->at(eleIndex)
+                        );
+  my_tauP4.SetPtEtaPhiE(tau_Pt->at(tauIndex),tau_Eta->at(tauIndex)
+                        ,tau_Phi->at(tauIndex), tau_Energy->at(tauIndex)
+                        );
+  
+  TLorentzVector uncorrected_met; TLorentzVector uncorrectedMetPlusTau;
+  if(is_MC)
+    uncorrected_met=MetRecoilCorrections(eleIndex, tauIndex);
+  else
+    uncorrected_met.SetPtEtaPhiE(pfMET ,0,pfMETPhi,pfMET);
+
+  uncorrectedMetPlusTau=uncorrected_met+my_tauP4;
+
+  /// ES corrections
+  my_eleP4 = my_eleP4*(eleCalibE->at(eleIndex)/my_eleP4.E());
+  if(is_MC){
+    if (myGenMaching(tauIndex)>=5 && tau_DecayMode->at(tauIndex)==0) my_tauP4=my_tauP4*1.007;
+    else if (myGenMaching(tauIndex)>=5 && tau_DecayMode->at(tauIndex)==1) my_tauP4=my_tauP4*0.998;
+    else if (myGenMaching(tauIndex)>=5 && tau_DecayMode->at(tauIndex)==10) my_tauP4=my_tauP4*1.001;
+    if (  (myGenMaching(tauIndex)==1 || myGenMaching(tauIndex)==3) && tau_DecayMode->at(tauIndex)==0 ) 
+      my_tauP4=my_tauP4*1.003;
+    else if ( (myGenMaching(tauIndex)==1 || myGenMaching(tauIndex)==3) && tau_DecayMode->at(tauIndex)==1) 
+      my_tauP4=my_tauP4*1.036;
+  }
+  my_metP4 = uncorrectedMetPlusTau - my_tauP4;
+
+  std::vector<int> jetCand;       jetCand.clear();
+  jetCand=getJetCand(eleIndex, tauIndex);
+  my_njets=jetCand.size();
+}
+#endif // #ifdef etau_analyzer_fbkg_cxx

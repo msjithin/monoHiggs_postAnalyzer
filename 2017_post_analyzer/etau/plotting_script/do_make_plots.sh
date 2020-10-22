@@ -2,7 +2,7 @@ set -e
 
 inFile=f_etau_initial.root
 #inFile=$1
-declare -a plotList=("elePt" "eleEta" "elePhi" "eleDz" "eleD0" "electronID" "relEleIso" "eleCharge" "tauPt" "tauEta" "tauPhi" "tauIso" "tauDecayMode" "tauCharge" "tauAntiEle" "tauAntiMu" "deltaR" "higgsPt" "nJet" "visMass" "mT_eleMet" "trigger" "genMatch" "met" "metPhi" "deltaPhi" "deltaEta") 
+declare -a plotList=("elePt" "eleEta" "elePhi" "eleDz" "eleD0" "electronID" "relEleIso" "eleCharge" "tauPt" "tauEta" "tauPhi" "tauIso" "tauDecayMode" "tauCharge" "tauAntiEle" "tauAntiMu" "deltaR" "higgsPt" "nJet" "visMass" "mT_eleMet" "trigger" "genMatch" "met" "metPhi" "deltaPhi" "deltaEta" "metLongXaxis") 
 declare -a indexList=("_5" "_6")
 
 

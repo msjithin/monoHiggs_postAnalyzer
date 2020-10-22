@@ -71,7 +71,8 @@ color_zll="#4496c8"
 color_tt="#9999cc"
 color_ggh="#12cadd"
 color_vv="#990099"
-color_wjets="#cc6666"
+color_wjets="#cc6666" 
+color_jetfake="#f1cde1"
 
 
 errorStyle=3002

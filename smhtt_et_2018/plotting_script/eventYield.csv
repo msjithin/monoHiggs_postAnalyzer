@@ -1,160 +1,184 @@
-trigger_j,DY
-monoH   ,45121.92626953125
-SMHtt_et,43251.28369140625,40302.4254025,difference=,2948.8582889062527
-**********
-eleEta_j,DY
-monoH   ,45121.92297363281
-SMHtt_et,43251.26794433594,40302.4254025,difference=,2948.84254183594
-**********
 elePt_j,DY
-monoH   ,44573.589405059814
-SMHtt_et,42759.231201171875,40302.4254025,difference=,2456.8057986718777
-**********
-genmatch1_j,DY
-monoH   ,45121.923828125
-SMHtt_et,43251.427642822266,40302.4254025,difference=,2949.0022403222683
-**********
-genmatch2_j,DY
-monoH   ,45121.927290678024
-SMHtt_et,43251.40315294266,40302.4254025,difference=,2948.97775044266
-**********
-deltaEta_j,DY
-monoH   ,44980.60997390747
-SMHtt_et,43148.012897491455,40302.4254025,difference=,2845.587494991458
-**********
-decayModeFinding_j,DY
-monoH   ,45121.9140625
-SMHtt_et,43251.37744140625,40302.4254025,difference=,2948.9520389062527
-**********
-mass1_j,DY
-monoH   ,21754.526260375977
-SMHtt_et,21390.86626434326,40302.4254025,difference=,-18911.559138156736
-**********
-nJet_j,DY
-monoH   ,45119.31323814392
-SMHtt_et,43249.1328253746,40302.4254025,difference=,2946.707422874606
-**********
-tauDecayMode_j,DY
-monoH   ,45121.91357421875
-SMHtt_et,43251.28857421875,40302.4254025,difference=,2948.8631717187527
-**********
-mass2_j,DY
-monoH   ,45110.30468758941
-SMHtt_et,43241.448327064514,40302.4254025,difference=,2939.022924564517
-**********
-tauPhi_j,DY
-monoH   ,45109.409423828125
-SMHtt_et,43238.69226074219,40302.4254025,difference=,2936.26685824219
+monoH   ,44534.736125946045
+SMHtt_et,44865.58186340332,40302.4254025,difference=,4563.156460903323
 **********
 mT_eMet_j,DY
-monoH   ,45118.896476745605
-SMHtt_et,43251.264892578125,40302.4254025,difference=,2948.8394900781277
+monoH   ,45043.881591796875
+SMHtt_et,45361.16357421875,40302.4254025,difference=,5058.738171718753
 **********
-deltaPhi_j,DY
-monoH   ,44801.289611816406
-SMHtt_et,42947.74172973633,40302.4254025,difference=,2645.316327236331
+tauDecayMode_j,DY
+monoH   ,45043.882080078125
+SMHtt_et,45361.142822265625,40302.4254025,difference=,5058.717419765628
 **********
-tauEta_j,DY
-monoH   ,45121.92404174805
-SMHtt_et,43251.264221191406,40302.4254025,difference=,2948.838818691409
+nJet_j,DY
+monoH   ,45041.56375551224
+SMHtt_et,45358.87271404266,40302.4254025,difference=,5056.447311542666
+**********
+mass1_j,DY
+monoH   ,21819.321603775024
+SMHtt_et,22426.94953727722,40302.4254025,difference=,-17875.475865222776
+**********
+mass2_j,DY
+monoH   ,45030.54210329056
+SMHtt_et,45350.8043088913,40302.4254025,difference=,5048.378906391299
+**********
+genmatch1_j,DY
+monoH   ,45043.85046386719
+SMHtt_et,45361.15805053711,40302.4254025,difference=,5058.732648037112
+**********
+genmatch2_j,DY
+monoH   ,45043.848019599915
+SMHtt_et,45361.14507007599,40302.4254025,difference=,5058.7196675759915
 **********
 met_j,DY
-monoH   ,43597.07482910156
-SMHtt_et,41573.207443237305,40302.4254025,difference=,1270.7820407373074
-**********
-tauPt_j,DY
-monoH   ,42976.308166503906
-SMHtt_et,41254.13917541504,40302.4254025,difference=,951.7137729150418
+monoH   ,43329.711334228516
+SMHtt_et,43595.14343261719,40302.4254025,difference=,3292.71803011719
 **********
 metPhi_j,DY
-monoH   ,45108.97930908203
-SMHtt_et,43235.305908203125,40302.4254025,difference=,2932.8805057031277
+monoH   ,45033.67218017578
+SMHtt_et,45343.194396972656,40302.4254025,difference=,5040.768994472659
 **********
-deltaR_j,DY
-monoH   ,45121.92026114464
-SMHtt_et,43251.23223590851,40302.4254025,difference=,2948.806833408511
+trigger_j,DY
+monoH   ,87350.021484375
+SMHtt_et,87767.275390625,40302.4254025,difference=,47464.849988125
+**********
+tauPt_j,DY
+monoH   ,42948.21310424805
+SMHtt_et,43280.33445739746,40302.4254025,difference=,2977.9090548974636
+**********
+eleEta_j,DY
+monoH   ,45043.88195800781
+SMHtt_et,45361.16613769531,40302.4254025,difference=,5058.740735195315
+**********
+tauEta_j,DY
+monoH   ,45043.882751464844
+SMHtt_et,45361.17236328125,40302.4254025,difference=,5058.746960781253
 **********
 elePhi_j,DY
-monoH   ,45099.75524902344
-SMHtt_et,43230.301513671875,40302.4254025,difference=,2927.8761111718777
+monoH   ,45023.20397949219
+SMHtt_et,45338.249267578125,40302.4254025,difference=,5035.823865078128
 **********
-mass2_j,Data
-monoH   ,113497.0
-SMHtt_et,112866.0,81508.0,difference=,31358.0
+tauPhi_j,DY
+monoH   ,45030.61169433594
+SMHtt_et,45347.89392089844,40302.4254025,difference=,5045.46851839844
 **********
-elePhi_j,Data
-monoH   ,113502.0
-SMHtt_et,112868.0,81508.0,difference=,31360.0
+deltaPhi_j,DY
+monoH   ,44745.18167114258
+SMHtt_et,45044.1262512207,40302.4254025,difference=,4741.700848720706
 **********
-deltaR_j,Data
-monoH   ,113546.0
-SMHtt_et,112913.0,81508.0,difference=,31405.0
+deltaEta_j,DY
+monoH   ,44917.72721481323
+SMHtt_et,45258.27042007446,40302.4254025,difference=,4955.845017574466
 **********
-tauPhi_j,Data
-monoH   ,113482.0
-SMHtt_et,112852.0,81508.0,difference=,31344.0
+deltaR_j,DY
+monoH   ,45043.879730820656
+SMHtt_et,45361.13640868664,40302.4254025,difference=,5058.711006186641
 **********
-deltaPhi_j,Data
-monoH   ,113078.0
-SMHtt_et,112417.0,81508.0,difference=,30909.0
+nEvents_j,DY
+monoH   ,45043.875
+SMHtt_et,45361.0859375,40302.4254025,difference=,5058.660535000003
 **********
-trigger_j,Data
-monoH   ,113546.0
-SMHtt_et,112913.0,81508.0,difference=,31405.0
+eventWeight_j,DY
+monoH   ,53139.08006095886
+SMHtt_et,53381.39843559265,40302.4254025,difference=,13078.973033092654
 **********
-metPhi_j,Data
-monoH   ,113504.0
-SMHtt_et,112868.0,81508.0,difference=,31360.0
+higgsPt_j,DY
+monoH   ,44206.97706604004
+SMHtt_et,44513.515396118164,40302.4254025,difference=,4211.089993618167
 **********
-tauDecayMode_j,Data
-monoH   ,113546.0
-SMHtt_et,112913.0,81508.0,difference=,31405.0
-**********
-nJet_j,Data
-monoH   ,113525.0
-SMHtt_et,112909.0,81508.0,difference=,31401.0
-**********
-tauPt_j,Data
-monoH   ,106550.0
-SMHtt_et,106469.0,81508.0,difference=,24961.0
-**********
-mT_eMet_j,Data
-monoH   ,113534.0
-SMHtt_et,112913.0,81508.0,difference=,31405.0
-**********
-eleEta_j,Data
-monoH   ,113546.0
-SMHtt_et,112913.0,81508.0,difference=,31405.0
+fakefactor_j,DY
+monoH   ,51117.29813957214
+SMHtt_et,51318.00739860535,40302.4254025,difference=,11015.58199610535
 **********
 elePt_j,Data
-monoH   ,110089.0
-SMHtt_et,109986.0,81508.0,difference=,28478.0
+monoH   ,114087.0
+SMHtt_et,114404.0,81508.0,difference=,32896.0
+**********
+mT_eMet_j,Data
+monoH   ,117093.0
+SMHtt_et,117337.0,81508.0,difference=,35829.0
+**********
+tauDecayMode_j,Data
+monoH   ,117093.0
+SMHtt_et,117337.0,81508.0,difference=,35829.0
+**********
+nJet_j,Data
+monoH   ,117091.0
+SMHtt_et,117333.0,81508.0,difference=,35825.0
 **********
 mass1_j,Data
-monoH   ,53566.0
-SMHtt_et,54189.0,81508.0,difference=,-27319.0
+monoH   ,55317.0
+SMHtt_et,56351.0,81508.0,difference=,-25157.0
 **********
-met_j,Data
-monoH   ,109514.0
-SMHtt_et,109499.0,81508.0,difference=,27991.0
-**********
-decayModeFinding_j,Data
-monoH   ,113546.0
-SMHtt_et,112913.0,81508.0,difference=,31405.0
+mass2_j,Data
+monoH   ,117041.0
+SMHtt_et,117289.0,81508.0,difference=,35781.0
 **********
 genmatch1_j,Data
-monoH   ,113546.0
+monoH   ,117093.0
 SMHtt_et,0.0,81508.0,difference=,-81508.0
 **********
+genmatch2_j,Data
+monoH   ,117093.0
+SMHtt_et,0.0,81508.0,difference=,-81508.0
+**********
+met_j,Data
+monoH   ,113652.0
+SMHtt_et,113862.0,81508.0,difference=,32354.0
+**********
+metPhi_j,Data
+monoH   ,117050.0
+SMHtt_et,117291.0,81508.0,difference=,35783.0
+**********
+trigger_j,Data
+monoH   ,243576.0
+SMHtt_et,277126.0,81508.0,difference=,195618.0
+**********
+tauPt_j,Data
+monoH   ,110542.0
+SMHtt_et,110749.0,81508.0,difference=,29241.0
+**********
+eleEta_j,Data
+monoH   ,117093.0
+SMHtt_et,117337.0,81508.0,difference=,35829.0
+**********
 tauEta_j,Data
-monoH   ,113546.0
-SMHtt_et,112913.0,81508.0,difference=,31405.0
+monoH   ,117093.0
+SMHtt_et,117337.0,81508.0,difference=,35829.0
+**********
+elePhi_j,Data
+monoH   ,117048.0
+SMHtt_et,117290.0,81508.0,difference=,35782.0
+**********
+tauPhi_j,Data
+monoH   ,117028.0
+SMHtt_et,117273.0,81508.0,difference=,35765.0
+**********
+deltaPhi_j,Data
+monoH   ,116589.0
+SMHtt_et,116818.0,81508.0,difference=,35310.0
 **********
 deltaEta_j,Data
-monoH   ,109493.0
-SMHtt_et,109152.0,81508.0,difference=,27644.0
+monoH   ,112915.0
+SMHtt_et,113277.0,81508.0,difference=,31769.0
 **********
-genmatch2_j,Data
-monoH   ,113546.0
+deltaR_j,Data
+monoH   ,117093.0
+SMHtt_et,117337.0,81508.0,difference=,35829.0
+**********
+nEvents_j,Data
+monoH   ,117093.0
+SMHtt_et,117337.0,81508.0,difference=,35829.0
+**********
+eventWeight_j,Data
+monoH   ,117093.0
+SMHtt_et,117337.0,81508.0,difference=,35829.0
+**********
+higgsPt_j,Data
+monoH   ,115823.0
+SMHtt_et,116065.0,81508.0,difference=,34557.0
+**********
+fakefactor_j,Data
+monoH   ,0.0
 SMHtt_et,0.0,81508.0,difference=,-81508.0
 **********

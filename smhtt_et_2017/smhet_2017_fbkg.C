@@ -105,7 +105,8 @@ void smhet_2017::Loop(Long64_t maxEvents, int reportEvery, string SampleName, st
 	      // selct taus
 	      if(pt_2>30 && fabs(eta_1)<2.3 
 		 //&& byMediumDeepVSjet_2>0.5
-		 && byMediumDeepVSjet_2<0.5 && byVVVLooseDeepVSjet_2>0.5
+		 //&& byMediumDeepVSjet_2<0.5 //
+		 && byVVVLooseDeepVSjet_2>0.5
 		 && byTightDeepVSe_2>0.5 && byVLooseDeepVSmu_2>0.5 
 		 && (l2_decayMode==0 || l2_decayMode==1 || l2_decayMode==10 || l2_decayMode==11)
 		 //&& decayModeFinding_2>0.5
@@ -118,8 +119,8 @@ void smhet_2017::Loop(Long64_t maxEvents, int reportEvery, string SampleName, st
 		      makeMyPlot("e", 0, 0, 0, eventWeight);
 		      //cout<<"eventWeight="<<eventWeight<<endl;
 		      double applySf=1.0;
-		      if(isMC)
-		      	applySf=getScaleFactors( pt_1, pt_2, eta_1, eta_2, l2_decayMode);
+		      // if(isMC)
+		      // 	applySf=getScaleFactors( pt_1, pt_2, eta_1, eta_2, l2_decayMode);
 		      
 		      TLorentzVector dau1, dau2;
 		      dau1.SetPtEtaPhiE(pt_1, eta_1, phi_1, e_1);
@@ -138,7 +139,7 @@ void smhet_2017::Loop(Long64_t maxEvents, int reportEvery, string SampleName, st
 		      // 	       "my_fakefactor", my_fakefactor,
 		      // 	       "taupt", pt_2, "njets", njets
 		      // 	       );
-		      eventWeight =  eventWeight*applySf;
+		      //eventWeight =  eventWeight*applySf;
 		      // match filers
 		      makeMyPlot("f", 0, 0, 0, eventWeight);
 		      
