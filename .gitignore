@@ -1,4 +1,6 @@
 __init__.py
+.gitignore
+.gitsubmit.sh
 *.pyc
 *.so
 *.log
@@ -32,4 +34,6 @@ output*/*.root
 analyzer/*.root
 smhtt_et_2017/*/*.root 
 smhtt_et_2018/*/*.root
+2017_skimm/*/analyzer/output/*
+2018_skim/*/analyzer/output/*
 sync.sh

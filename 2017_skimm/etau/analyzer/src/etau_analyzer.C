@@ -50,7 +50,7 @@
 
 #include "commonFunctions.h"
 #include "fractions.C"
-#include "ApplyFF.h"
+//#include "ApplyFF.h"
 
 using namespace std;
 using std::vector;
@@ -223,69 +223,71 @@ void etau_analyzer::Loop(Long64_t maxEvents, int reportEvery, string SampleName)
 		      makeTestPlot("d_dyll", 0,0,0,event_weight);
 		       
 		      setMyEleTau(eleCand[0], tauCand[0]); // from here we can use my_eleP4, my_tauP4, my_metP4, etc
-		 
+		      
 		      if( passDiElectronVeto(EleIndex)==true 
 			  && eVetoZTTp001dxyz(EleIndex, TauIndex)
 			  && mVetoZTTp001dxyz(EleIndex, TauIndex)
 			  ) Ztt_selector=true;
 		      else Ztt_selector=false;
 		     
-		   
-		      if(Ztt_selector) 
+		      if ( TriggerSelection(my_eleP4, my_tauP4) )
 			{
-			  if ( eleCharge->at(EleIndex) * tau_Charge->at(TauIndex) < 0  
-			       &&  (if_DY_Genmatching(EleIndex, TauIndex)==1 || if_DY_Genmatching(EleIndex, TauIndex)==2)  )
+			  if(Ztt_selector) 
 			    {
-			      nGoodMuTauPassed_dyll+=event_weight;
-			      makeTestPlot("e_dyll", 0,0,0,event_weight);
-			       
-			      if ( MatchTriggerFilter(EleIndex, TauIndex) )
+			      if ( eleCharge->at(EleIndex) * tau_Charge->at(TauIndex) < 0  
+				   &&  (if_DY_Genmatching(EleIndex, TauIndex)==1 || if_DY_Genmatching(EleIndex, TauIndex)==2)  )
 				{
+				  nGoodMuTauPassed_dyll+=event_weight;
+				  makeTestPlot("e_dyll", 0,0,0,event_weight);
 			       
-				  if(debug)cout<<"this worked Line 314, SR opp charge passed"<<endl;
-				  
-				  applySf=1.0;
-				  if(is_MC)
-				    applySf=  getScaleFactors( my_eleP4.Pt(),
-							       my_tauP4.Pt(),
-							       eleSCEta->at(EleIndex),
-							       //my_eleP4.Eta(),
-							       my_tauP4.Eta(),
-							       tau_DecayMode->at(TauIndex),
-							       myGenMaching(TauIndex),
-							       false  /// this is set to true for fake bakground
-							       );
-				   
-				  // if(debug)cout<<" sf : "<<getScaleFactors( EleIndex[0] , TauIndex[0] , false , is_MC , debug ) <<endl;
-				  event_weight = event_weight * applySf;
-				   
-				  makeTestPlot("f_dyll", 0,0,0,event_weight);
-				  if( thirdLeptonVeto(EleIndex , TauIndex)  )
+				  if ( MatchTriggerFilter(EleIndex, TauIndex) )
 				    {
-				      nPassedThirdLepVeto_dyll+=event_weight;
-				      makeTestPlot("g_dyll", 0,0,0,event_weight);
-				      //bool pbjv = (bJet_medium(EleIndex, TauIndex).size()==0) && (bJet_loose(EleIndex, TauIndex).size()<2);
-				      if( pass_bjet_veto )
+			       
+				      if(debug)cout<<"this worked Line 314, SR opp charge passed"<<endl;
+				  
+				      applySf=1.0;
+				      if(is_MC)
+					applySf=  getScaleFactors( my_eleP4.Pt(),
+								   my_tauP4.Pt(),
+								   eleSCEta->at(EleIndex),
+								   //my_eleP4.Eta(),
+								   my_tauP4.Eta(),
+								   tau_DecayMode->at(TauIndex),
+								   myGenMaching(TauIndex),
+								   false  /// this is set to true for fake bakground
+								   );
+				   
+				      // if(debug)cout<<" sf : "<<getScaleFactors( EleIndex[0] , TauIndex[0] , false , is_MC , debug ) <<endl;
+				      event_weight = event_weight * applySf;
+				   
+				      makeTestPlot("f_dyll", 0,0,0,event_weight);
+				      if( thirdLeptonVeto(EleIndex , TauIndex)  )
 					{
-					  
-					  nPassedBjetVeto_dyll+=event_weight;
-					  makeTestPlot("h_dyll", 0,0,0,event_weight);
-					  double deltaR =  my_eleP4.DeltaR(my_tauP4);
-					  if(deltaR > 0.5 )
+					  nPassedThirdLepVeto_dyll+=event_weight;
+					  makeTestPlot("g_dyll", 0,0,0,event_weight);
+					  //bool pbjv = (bJet_medium(EleIndex, TauIndex).size()==0) && (bJet_loose(EleIndex, TauIndex).size()<2);
+					  if( pass_bjet_veto )
 					    {
-					      nDeltaRPassed_dyll+=event_weight;
-					      if(is_MC==false)event_weight=1.0;
-					      makeTestPlot("i_dyll", 0,0,0,event_weight);
-					      if(debug)cout<<"this worked Line 374"<<endl;
-					      fillHist("5_dyll",  EleIndex, TauIndex, false, event_weight);
+					  
+					      nPassedBjetVeto_dyll+=event_weight;
+					      makeTestPlot("h_dyll", 0,0,0,event_weight);
+					      double deltaR =  my_eleP4.DeltaR(my_tauP4);
+					      if(deltaR > 0.5 )
+						{
+						  nDeltaRPassed_dyll+=event_weight;
+						  if(is_MC==false)event_weight=1.0;
+						  makeTestPlot("i_dyll", 0,0,0,event_weight);
+						  if(debug)cout<<"this worked Line 374"<<endl;
+						  fillHist("5_dyll",  EleIndex, TauIndex, false, event_weight);
 					       
 					   
-					      double mT_eleMet = TMass_F( my_eleP4.Pt(), my_eleP4.Phi(),
-									  my_metP4.Pt(), my_metP4.Phi() );
-					      if( mT_eleMet < 50 )
-						{
-						  fillHist("6_dyll", EleIndex, TauIndex, false, event_weight);
-						  makeTestPlot("j_dyll", 0,0,0,event_weight);
+						  double mT_eleMet = TMass_F( my_eleP4.Pt(), my_eleP4.Phi(),
+									      my_metP4.Pt(), my_metP4.Phi() );
+						  if( mT_eleMet < 50 )
+						    {
+						      fillHist("6_dyll", EleIndex, TauIndex, false, event_weight);
+						      makeTestPlot("j_dyll", 0,0,0,event_weight);
+						    }
 						}
 					    }
 					}
@@ -297,7 +299,6 @@ void etau_analyzer::Loop(Long64_t maxEvents, int reportEvery, string SampleName)
 		}
 	    }
 	}
-     
       
       if(debug)cout<<"signal region -  isolated begin L523"<<endl;       
        
@@ -344,60 +345,62 @@ void etau_analyzer::Loop(Long64_t maxEvents, int reportEvery, string SampleName)
 		      else Ztt_selector=false;
 			   
 			   
-			   
-		      if(Ztt_selector) 
-			{
-			   		   
-			  if (  eleCharge->at(EleIndex) * tau_Charge->at(TauIndex) < 0 
-				&& (if_DY_Genmatching(EleIndex, TauIndex)==1 ||  if_DY_Genmatching(EleIndex, TauIndex)==3) ) 
+		      if ( TriggerSelection(my_eleP4, my_tauP4) )
+                        {
+			  if(Ztt_selector) 
 			    {
-			      nGoodMuTauPassed+=event_weight;
-			       
-			      if(debug)cout<<"this worked Line 538"<<endl;
-			       
-			      makeTestPlot("e", 0,0,0,event_weight);
-			      if ( MatchTriggerFilter(EleIndex, TauIndex) )
+			   		   
+			      if (  eleCharge->at(EleIndex) * tau_Charge->at(TauIndex) < 0 
+				    && (if_DY_Genmatching(EleIndex, TauIndex)==1 ||  if_DY_Genmatching(EleIndex, TauIndex)==3) ) 
 				{
-				  if(debug)cout<<"this worked Line 534"<<endl;
-				  applySf=1.0;
-				  if(is_MC)
-				    applySf=  getScaleFactors( my_eleP4.Pt(),
-							       my_tauP4.Pt(),
-							       eleSCEta->at(EleIndex),
-							       //my_eleP4.Eta(),
-							       my_tauP4.Eta(),
-							       tau_DecayMode->at(TauIndex),
-							       myGenMaching(TauIndex),
-							       false  /// this is set to true for fake bakground
-							       );
-				  
-				  // if(debug)cout<<" sf : "<<getScaleFactors( EleIndex[0] , TauIndex[0] , false , is_MC , debug ) <<endl;
-				  event_weight = event_weight * applySf;
-				  makeTestPlot("f", 0,0,0,event_weight);
-				  if( thirdLeptonVeto(EleIndex , TauIndex)  )
+				  nGoodMuTauPassed+=event_weight;
+			       
+				  if(debug)cout<<"this worked Line 538"<<endl;
+			       
+				  makeTestPlot("e", 0,0,0,event_weight);
+				  if ( MatchTriggerFilter(EleIndex, TauIndex) )
 				    {
-				      nPassedThirdLepVeto+=event_weight;
-				      makeTestPlot("g", 0,0,0,event_weight);
-				      if( pass_bjet_veto )
+				      if(debug)cout<<"this worked Line 534"<<endl;
+				      applySf=1.0;
+				      if(is_MC)
+					applySf=  getScaleFactors( my_eleP4.Pt(),
+								   my_tauP4.Pt(),
+								   eleSCEta->at(EleIndex),
+								   //my_eleP4.Eta(),
+								   my_tauP4.Eta(),
+								   tau_DecayMode->at(TauIndex),
+								   myGenMaching(TauIndex),
+								   false  /// this is set to true for fake bakground
+								   );
+				  
+				      // if(debug)cout<<" sf : "<<getScaleFactors( EleIndex[0] , TauIndex[0] , false , is_MC , debug ) <<endl;
+				      event_weight = event_weight * applySf;
+				      makeTestPlot("f", 0,0,0,event_weight);
+				      if( thirdLeptonVeto(EleIndex , TauIndex)  )
 					{
-					  nPassedBjetVeto+=event_weight;
-					  makeTestPlot("h", 0,0,0,event_weight);
-					  //if(tau_DecayMode->at(TauIndex)==5 || tau_DecayMode->at(TauIndex)==6) continue;
-					  
-					  double deltaR = my_eleP4.DeltaR(my_tauP4);
-					  if(deltaR > 0.5 )
+					  nPassedThirdLepVeto+=event_weight;
+					  makeTestPlot("g", 0,0,0,event_weight);
+					  if( pass_bjet_veto )
 					    {
-					      nDeltaRPassed+=event_weight;
-					      if(is_MC==false)event_weight=1.0;
-					      if(debug)cout<<"this worked Line 558"<<endl;
-					      fillHist("5", EleIndex, TauIndex, false, event_weight);
-					      makeTestPlot("i", 0,0,0,event_weight);
-					      double mT_eleMet = TMass_F( my_eleP4.Pt(), my_eleP4.Phi(),
-									  my_metP4.Pt(), my_metP4.Phi() );
-					      if( mT_eleMet < 50 )
+					      nPassedBjetVeto+=event_weight;
+					      makeTestPlot("h", 0,0,0,event_weight);
+					      //if(tau_DecayMode->at(TauIndex)==5 || tau_DecayMode->at(TauIndex)==6) continue;
+					  
+					      double deltaR = my_eleP4.DeltaR(my_tauP4);
+					      if(deltaR > 0.5 )
 						{
-						  fillHist("6", EleIndex, TauIndex, false, event_weight);
-						  makeTestPlot("j", 0,0,0,event_weight);
+						  nDeltaRPassed+=event_weight;
+						  if(is_MC==false)event_weight=1.0;
+						  if(debug)cout<<"this worked Line 558"<<endl;
+						  fillHist("5", EleIndex, TauIndex, false, event_weight);
+						  makeTestPlot("i", 0,0,0,event_weight);
+						  double mT_eleMet = TMass_F( my_eleP4.Pt(), my_eleP4.Phi(),
+									      my_metP4.Pt(), my_metP4.Phi() );
+						  if( mT_eleMet < 50 )
+						    {
+						      fillHist("6", EleIndex, TauIndex, false, event_weight);
+						      makeTestPlot("j", 0,0,0,event_weight);
+						    }
 						}
 					    }
 					}
@@ -447,73 +450,100 @@ void etau_analyzer::Loop(Long64_t maxEvents, int reportEvery, string SampleName)
 			  ) Ztt_selector=true;
 		      else Ztt_selector=false;
 			   
-		      if(Ztt_selector) 
-			{
-			   
-			  if (  eleCharge->at(EleIndex) * tau_Charge->at(TauIndex) < 0 ) 
+		      if ( TriggerSelection(my_eleP4, my_tauP4) )
+                        {
+			  if(Ztt_selector) 
 			    {
-			      nGoodMuTauPassed_fr+=event_weight;
-			      makeTestPlot("e_fr", 0,0,0,event_weight);
-			      if ( MatchTriggerFilter(EleIndex, TauIndex) )
+			   
+			      if (  eleCharge->at(EleIndex) * tau_Charge->at(TauIndex) < 0 ) 
 				{
-
-				  // my_metP4=my_metP4+my_tauP4*getTauFES(TauIndex)-my_tauP4;  /// met after  applying tau fake ES correction
-				  // my_tauP4 = my_tauP4*getTauFES(TauIndex);
-				  applySf=1.0;
-				  if(is_MC)
-				    applySf=  getScaleFactors( my_eleP4.Pt(),
-							       my_tauP4.Pt(),
-							       eleSCEta->at(EleIndex),
-							       //my_eleP4.Eta(),
-							       my_tauP4.Eta(),
-							       tau_DecayMode->at(TauIndex),
-							       myGenMaching(TauIndex),
-							       true  /// this is set to true for fake bakground
-							       );
-				  
-				  event_weight = event_weight * applySf;
-				  
-				  //event_weight = event_weight* getFR(TauIndex);
-				  double mt=TMass_F(my_eleP4.Pt(),my_eleP4.Phi()
-						    ,my_metP4.Pt(), my_metP4.Phi());
-				  double mvis=(my_eleP4+my_tauP4).M();
-				  double higgsPt = pTvecsum_F(my_eleP4, my_tauP4, my_metP4);
-				  double frac_tt=0.01; double frac_qcd=0.24; double frac_w=0.75; 
-				  int category=eventCategory(EleIndex , TauIndex, higgsPt) ;
-				  getFractions(category, mvis, frac_qcd, frac_w, frac_tt); /// this assigns right values for qcd, w and tt fractions
-				  float my_fakefactor = get_ff( my_tauP4.Pt(), mt, mvis, my_njets
-								, frac_tt, frac_qcd, frac_w
-								, ff_qcd_0jet, ff_qcd_1jet
-								, ff_w_0jet, ff_w_1jet
-								, ff_tt_0jet
-								, mvisclosure_qcd, mvisclosure_w, mvisclosure_tt, mtclosure_w, osssclosure_qcd);
-				  //cout<<" smhtt_fakefactor="<<my_fakefactor<<endl;
-				  event_weight = event_weight*my_fakefactor;
-				  makeTestPlot("f_fr", 0,0,0,event_weight);
-				  if( thirdLeptonVeto(EleIndex , TauIndex) )
+				  nGoodMuTauPassed_fr+=event_weight;
+				  makeTestPlot("e_fr", 0,0,0,event_weight);
+				  if ( MatchTriggerFilter(EleIndex, TauIndex) )
 				    {
-				      nPassedThirdLepVeto_fr+=event_weight;
-				      makeTestPlot("g_fr", 0,0,0,event_weight);
-				      if( pass_bjet_veto )
+
+				      // my_metP4=my_metP4+my_tauP4*getTauFES(TauIndex)-my_tauP4;  /// met after  applying tau fake ES correction
+				      // my_tauP4 = my_tauP4*getTauFES(TauIndex);
+				      applySf=1.0;
+				      if(is_MC)
+					applySf=  getScaleFactors( my_eleP4.Pt(),
+								   my_tauP4.Pt(),
+								   eleSCEta->at(EleIndex),
+								   //my_eleP4.Eta(),
+								   my_tauP4.Eta(),
+								   tau_DecayMode->at(TauIndex),
+								   myGenMaching(TauIndex),
+								   true  /// this is set to true for fake bakground
+								   );
+				  
+				      event_weight = event_weight * applySf;
+				  
+				      //event_weight = event_weight* getFR(TauIndex);
+				      double mt=TMass_F(my_eleP4.Pt(),my_eleP4.Phi()
+							,my_metP4.Pt(), my_metP4.Phi());
+				      double mvis=(my_eleP4+my_tauP4).M();
+				      double higgsPt = pTvecsum_F(my_eleP4, my_tauP4, my_metP4);
+				      double frac_tt=0.01; double frac_qcd=0.24; double frac_w=0.75; 
+				      int category=eventCategory(EleIndex , TauIndex, higgsPt) ;
+				      getFractions(category, mvis, frac_qcd, frac_w, frac_tt); /// this assigns right values for qcd, w and tt fractions
+				      // float my_fakefactor = get_ff( my_tauP4.Pt(), mt, mvis, my_njets
+				      // 				    , frac_tt, frac_qcd, frac_w
+				      // 				    , ff_qcd_0jet, ff_qcd_1jet
+				      // 				    , ff_w_0jet, ff_w_1jet
+				      // 				    , ff_tt_0jet
+				      // 				    , mvisclosure_qcd, mvisclosure_w, mvisclosure_tt, mtclosure_w, osssclosure_qcd);
+				      //float get_ff(float pt, float mt, float mvis, float msv, float lpt, float met, int njets, bool xtrg, float frac_tt, float frac_qcd, float frac_w, TString shift)
+				      bool xtrg = false;
+				      if( passCrossTrigger && my_eleP4.Pt()<28.0) xtrg=true;
+				      else if ( my_eleP4.Pt()>28.0) xtrg=false;
+				      double newFF = FF_weights_withlpt.get_ff( my_tauP4.Pt(), mt, mvis
+										, 0 , my_eleP4.Pt(), my_metP4.Pt()
+										, my_njets, xtrg
+										, frac_tt, frac_qcd, frac_w
+										, TString(" "));
+				      
+				      // printTabSeparated(//"my_fakefactor" , my_fakefactor
+				      // 			"newFF" , newFF
+				      // 			, "tauPt",  my_tauP4.Pt()
+				      // 			, "mt", mt
+				      // 			, "mvis", mvis
+				      // 			, "elept", my_eleP4.Pt()
+				      // 			, "my_njets" , my_njets
+				      // 			, "passCrossTrigger", passCrossTrigger
+				      // 			);
+				      // printTabSeparated("category", category
+				      // 			, "mvis", mvis
+				      // 			, frac_tt, frac_qcd, frac_w 
+				      // 			);
+				      event_weight = event_weight*newFF;
+				      // if( newFF ==0 )
+				      // 	event_weight = event_weight*my_fakefactor;
+				      makeTestPlot("f_fr", 0,0,0,event_weight);
+				      if( thirdLeptonVeto(EleIndex , TauIndex) )
 					{
-					  nPassedBjetVeto_fr+=event_weight;
-					  makeTestPlot("h_fr", 0,0,0,event_weight);
-					  //if(tau_DecayMode->at(TauIndex)==5 || tau_DecayMode->at(TauIndex)==6) continue;
-					   
-					  double deltaR = my_eleP4.DeltaR(my_tauP4);
-					  if(deltaR > 0.5 )
+					  nPassedThirdLepVeto_fr+=event_weight;
+					  makeTestPlot("g_fr", 0,0,0,event_weight);
+					  if( pass_bjet_veto )
 					    {
-					      nDeltaRPassed_fr+=event_weight;
-					      makeTestPlot("i_fr", 0,0,0,event_weight);
-					      if(debug)cout<<"this worked Line 442"<<endl;
-					      fillHist("5_fr", EleIndex, TauIndex, true, event_weight);
-					      double mT_eleMet = TMass_F( my_eleP4.Pt(), my_eleP4.Phi(),
-									  my_metP4.Pt(), my_metP4.Phi() );
-					      if( mT_eleMet < 50 )
+					      nPassedBjetVeto_fr+=event_weight;
+					      makeTestPlot("h_fr", 0,0,0,event_weight);
+					      //if(tau_DecayMode->at(TauIndex)==5 || tau_DecayMode->at(TauIndex)==6) continue;
+					   
+					      double deltaR = my_eleP4.DeltaR(my_tauP4);
+					      if(deltaR > 0.5 )
 						{
-						  fillHist("6_fr", EleIndex, TauIndex, true, event_weight);
-						  makeTestPlot("j_fr", 0,0,0,event_weight);
-						}			      
+						  nDeltaRPassed_fr+=event_weight;
+						  makeTestPlot("i_fr", 0,0,0,event_weight);
+						  if(debug)cout<<"this worked Line 442"<<endl;
+						  fillHist("5_fr", EleIndex, TauIndex, true, event_weight);
+						  double mT_eleMet = TMass_F( my_eleP4.Pt(), my_eleP4.Phi(),
+									      my_metP4.Pt(), my_metP4.Phi() );
+						  if( mT_eleMet < 50 )
+						    {
+						      fillHist("6_fr", EleIndex, TauIndex, true, event_weight);
+						      makeTestPlot("j_fr", 0,0,0,event_weight);
+						    }			      
+						}
 					    }
 					}
 				    }
@@ -524,7 +554,6 @@ void etau_analyzer::Loop(Long64_t maxEvents, int reportEvery, string SampleName)
 		}
 	    }
 	}
-     
       ////// fake rate anti isolated region end
       report_test = nentriesToCheck/20;
       while (report_test>10)
@@ -677,7 +706,7 @@ std::vector<int> etau_analyzer::getEleCand(double elePtCut, double eleEtaCut){
 	  || ( HLTTau>>1&1 == 1 && dau1.Pt() > 25.0  && dau1.Pt() < 28.0 && fabs(dau1.Eta())< 2.1 )
 	  
 	  ) trigger = true;
-      if( kinematic && electronId && relative_iso && trigger ){
+      if( kinematic && electronId && relative_iso ){
 	tmpCand.push_back(iEle);
       }	
     }                           
@@ -725,7 +754,7 @@ std::vector<int> etau_analyzer::getTauCand(double tauPtCut, double tauEtaCut){
 	  && tauIsolation==true 
 	  && tau_reject==true   
 	  && newDecayModeFinding==true
-	  && trigger==true
+	  //&& trigger==true
      	  )
 	{
 	  tmpCand.push_back(iTau);
@@ -772,7 +801,7 @@ std::vector<int> etau_analyzer::getAISRTauCand(double tauPtCut, double tauEtaCut
 	  && tauIsolation==true 
 	  && tau_reject==true   
 	  && newDecayModeFinding==true
-	  && trigger==true
+	  //&& trigger==true
      	  )
 	{
 	  tmpCand.push_back(iTau);
@@ -1025,7 +1054,7 @@ vector<int> etau_analyzer::bJet_medium(int eleIndex, int tauIndex)
     else if (jetPt->at(iJets) > 50 )
       passLoosePUID=true;
     
-    if(particles_separated && kinematic && passLoosePUID)
+    if(particles_separated && kinematic )
       tmpJetCand.push_back(iJets);
   }
   return tmpJetCand;
@@ -1067,7 +1096,7 @@ vector<int> etau_analyzer::bJet_loose(int eleIndex, int tauIndex)
     else if (jetPt->at(iJets) > 50 )
       passLoosePUID=true;
     
-    if(particles_separated && kinematic && passLoosePUID)
+    if(particles_separated && kinematic )
       tmpJetCand.push_back(iJets);
     
   }
@@ -1532,14 +1561,43 @@ double etau_analyzer::getScaleFactors(  double elept, double taupt, double eleet
   else
     e_trg24_sf = 1.0;
     
-  sf_htt_workspace=  e_trk_sf * e_idiso_sf *  e_trg24_sf * e_trg_sf * zptmass_weight ;
-  rv_sf = eleEffSF_corr * sf_tauidSF_m * sf_tauTrg * sf_fakeEle * sf_fakeMu * higgPt_weight * btag_sf * sf_htt_workspace ;
+  sf_htt_workspace=  e_trk_sf * e_idiso_sf *  e_trg24_sf * e_trg_sf * zptmass_weight;
+  rv_sf = eleEffSF_corr * sf_tauidSF_m * sf_tauTrg * sf_fakeEle * sf_fakeMu  * sf_htt_workspace * higgPt_weight * btag_sf * top_pt_weight;
+
+  // sf_htt_workspace=  e_trk_sf * e_idiso_sf *  e_trg24_sf * e_trg_sf * zptmass_weight;
+  // rv_sf = eleEffSF_corr * sf_tauidSF_m * sf_tauTrg * sf_fakeEle * sf_fakeMu  * sf_htt_workspace * higgPt_weight * btag_sf * top_pt_weight;
+
   if(isFakebkg)
     rv_sf=rv_sf*sf_tauidSF_vvvl;
   if(rv_sf>0)
     return rv_sf;
   else
     return 1.0;
+
+}
+bool etau_analyzer::TriggerSelection(TLorentzVector eleP4, TLorentzVector tauP4){
+  // if( 
+  //    ( HLTEleMuX>>3&1 == 1 && eleP4.Pt() > 28.0 && tauP4.Pt()>30.0 )
+  //    || ( HLTEleMuX>>61&1 == 1 && eleP4.Pt() > 33.0 && tauP4.Pt()>30.0 )
+  //    || ( HLTEleMuX>>5&1 == 1 && eleP4.Pt() > 36.0 && tauP4.Pt()>30.0 )
+  //    || ( HLTTau>>1&1 == 1 && eleP4.Pt() > 25.0 && tauP4.Pt()>35.0  && eleP4.Pt() < 28.0 && fabs(eleP4.Eta())< 2.1  && fabs(tauP4.Eta())< 2.1)
+  //     )
+  //   return true;
+  // return false;
+  if(eleP4.Pt() > 25.0 && eleP4.Pt() < 28.0 && tauP4.Pt()>35.0  && fabs(eleP4.Eta())< 2.1  && fabs(tauP4.Eta())< 2.1 ){
+    if( HLTTau>>1&1 == 1)
+      return true;
+    else
+      return false;
+  }
+  if (
+      ( HLTEleMuX>>3&1 == 1 && eleP4.Pt() > 28.0 && tauP4.Pt()>30.0 )
+      || ( HLTEleMuX>>61&1 == 1 && eleP4.Pt() > 33.0 && tauP4.Pt()>30.0 )
+      || ( HLTEleMuX>>5&1 == 1 && eleP4.Pt() > 36.0 && tauP4.Pt()>30.0 )
+      )
+    return true;
+  else
+    return false;
 
 }
 bool etau_analyzer::MatchTriggerFilter(int eleIndex, int tauIndex)
@@ -1632,7 +1690,7 @@ void etau_analyzer::fillHist( string histNumber , int eleIndex, int tauIndex, bo
 
   plotFill("nJet_"+hNumber,  my_njets , 8, 0, 8,  event_weight);
   plotFill("met_"+hNumber, my_metP4.Pt() , 20, 0, 100,  event_weight);
-  plotFill("metLongXaxis_"+hNumber, my_metP4.Pt() , 60, 0, 300,  event_weight);
+  plotFill("metLongXaxis_"+hNumber, my_metP4.Pt() , 40, 0, 200,  event_weight);
   plotFill("metPhi_"+hNumber, my_metP4.Phi() , 30, -3.14, 3.14,  event_weight);
   double mT_eleMet = TMass_F( my_eleP4.Pt(),my_eleP4.Phi(), my_metP4.Pt(), my_metP4.Phi() );
   plotFill("mT_eleMet_"+hNumber, mT_eleMet , 30, 0, 150,  event_weight);
