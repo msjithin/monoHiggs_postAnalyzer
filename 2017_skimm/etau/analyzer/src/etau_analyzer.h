@@ -52,7 +52,7 @@
 //#include "makeHisto.h"
 #include "RecoilCorrector.cc"
 #include "BtagCSV.C"
-
+#include "applyFF_w_lpt.cc"
 using namespace std;
 
 class etau_analyzer {
@@ -146,6 +146,7 @@ public :
   TGraph *gr_NNLOPSratio_pt_mcatnlo_3jet=(TGraph*) f_HiggsPtReweighting->Get("gr_NNLOPSratio_pt_mcatnlo_3jet");
   // Fixed size dimensions of array or collections stored in the TTree if any.
   RecoilCorrector recoilPFMetCorrector;
+  applyFF_w_lpt FF_weights_withlpt;
   bool is_MC;
   
   //BTagCSV* btag_csv = (BTagCSV*)("sf_files/RootFiles/btag/DeepCSV_94XSF_WP_V4_B_F.csv");
@@ -966,6 +967,7 @@ public :
    float EletriggerSF(float pt, float eta);
    double getScaleFactors(  double elept, double taupt, double eleeta, double taueta, int taudm, int tauGenMatch, bool isFakebkg);
    bool MatchTriggerFilter(int eleIndex, int tauIndex);
+   bool TriggerSelection(TLorentzVector eleP4, TLorentzVector tauP4);
    void makeTestPlot( string histNumber , int eleIndex, int ele2Index, int tauIndex, float event_weight);
    bool passDiElectronVeto(int eleIndex);
    bool eVetoZTTp001dxyz(int eleIndex, int tauIndex);
@@ -1001,7 +1003,8 @@ etau_analyzer::etau_analyzer(const char* file1, const char* file2, string isMC, 
 
 etau_analyzer::~etau_analyzer()
 {
-   if (!fChain) return;
+  //std::cout<<"etau_analyzer destructor called"<<std::endl;
+  if (!fChain) return;
    delete fChain->GetCurrentFile();
    fileName->cd();
    fileName->Write();
@@ -1026,6 +1029,8 @@ etau_analyzer::~etau_analyzer()
    fmvisclosure->Close();
    fosssclosure->Close();
    f_HiggsPtReweighting->Close();
+   //~recoilPFMetCorrector();
+   //~FF_weights_withlpt();
 }
 
 Int_t etau_analyzer::GetEntry(Long64_t entry)

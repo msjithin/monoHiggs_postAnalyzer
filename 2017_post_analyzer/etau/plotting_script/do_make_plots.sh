@@ -17,7 +17,7 @@ do
 	#echo "$hist"
 	#python ~/monoHiggs_2018_wDnn/CMSSW_10_2_18/src/analysis/MacrosAndScripts/makeplot.py -in $inFile -name $i -cat 0 -ch etau -xaxis $i -year 2017 
 	python makeplot.py -in $inFile -name $hist -cat 0 -ch etau -xaxis $hist -year 2017 &
-	python makeplot_fbkg.py -in $inFile -name $hist -cat 0 -ch etau -xaxis $hist -year 2017 &
+	python makeplot_fbkg.py -in $inFile -name $hist -cat 0 -ch etau -xaxis $hist -year 2017 & 
     done
     wait
 done
