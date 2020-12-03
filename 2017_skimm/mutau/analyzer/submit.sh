@@ -45,6 +45,11 @@ mkdir $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_00.root ST_tW_antitop_5f_inclusiveDecays_TuneCP5_00.root -1 1000 2017 MC ST_tW_antitop_5f_inclusiveDecays_TuneCP5_00 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/ST_tW_top_5f_inclusiveDecays_TuneCP5_00.root ST_tW_top_5f_inclusiveDecays_TuneCP5_00.root -1 1000 2017 MC ST_tW_top_5f_inclusiveDecays_TuneCP5_00 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/TTTo2L2Nu_TuneCP5_00.root TTTo2L2Nu_TuneCP5_00.root -1 1000 2017 MC TTTo2L2Nu_TuneCP5_00 $outDir
+./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/TTTo2L2Nu_TuneCP5_01.root TTTo2L2Nu_TuneCP5_01.root -1 1000 2017 MC TTTo2L2Nu_TuneCP5_01 $outDir
+./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/TTTo2L2Nu_TuneCP5_02.root TTTo2L2Nu_TuneCP5_02.root -1 1000 2017 MC TTTo2L2Nu_TuneCP5_02 $outDir
+./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/TTTo2L2Nu_TuneCP5_03.root TTTo2L2Nu_TuneCP5_03.root -1 1000 2017 MC TTTo2L2Nu_TuneCP5_03 $outDir
+./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/TTTo2L2Nu_TuneCP5_04.root TTTo2L2Nu_TuneCP5_04.root -1 1000 2017 MC TTTo2L2Nu_TuneCP5_04 $outDir
+./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/TTTo2L2Nu_TuneCP5_05.root TTTo2L2Nu_TuneCP5_05.root -1 1000 2017 MC TTTo2L2Nu_TuneCP5_05 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/TTToHadronic_TuneCP5_00.root TTToHadronic_TuneCP5_00.root -1 1000 2017 MC TTToHadronic_TuneCP5_00 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/TTToHadronic_TuneCP5_01.root TTToHadronic_TuneCP5_01.root -1 1000 2017 MC TTToHadronic_TuneCP5_01 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/TTToHadronic_TuneCP5_02.root TTToHadronic_TuneCP5_02.root -1 1000 2017 MC TTToHadronic_TuneCP5_02 $outDir
@@ -110,18 +115,9 @@ mkdir $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/ZZTo4L_TuneCP5_02.root ZZTo4L_TuneCP5_02.root -1 1000 2017 MC ZZTo4L_TuneCP5_02 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/ZZZ_TuneCP5_00.root ZZZ_TuneCP5_00.root -1 1000 2017 MC ZZZ_TuneCP5_00 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/ZZ_TuneCP5_00.root ZZ_TuneCP5_00.root -1 1000 2017 MC ZZ_TuneCP5_00 $outDir
-# ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/ggZH_HToTauTau_ZToLL_M125_00.root ggZH_HToTauTau_ZToLL_M125_00.root -1 1000 2017 MC ggZH_HToTauTau_ZToLL_M125_00 $outDir
-# ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/ggZH_HToTauTau_ZToNuNu_M125_00.root ggZH_HToTauTau_ZToNuNu_M125_00.root -1 1000 2017 MC ggZH_HToTauTau_ZToNuNu_M125_00 $outDir
-# ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/ttHToTauTau_M125_TuneCP5_00.root ttHToTauTau_M125_TuneCP5_00.root -1 1000 2017 MC ttHToTauTau_M125_TuneCP5_00 $outDir
-# ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/ttHToTauTau_M125_TuneCP5_01.root ttHToTauTau_M125_TuneCP5_01.root -1 1000 2017 MC ttHToTauTau_M125_TuneCP5_01 $outDir
-# ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/ttHToTauTau_M125_TuneCP5_02.root ttHToTauTau_M125_TuneCP5_02.root -1 1000 2017 MC ttHToTauTau_M125_TuneCP5_02 $outDir
-# ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/ttHToTauTau_M125_TuneCP5_03.root ttHToTauTau_M125_TuneCP5_03.root -1 1000 2017 MC ttHToTauTau_M125_TuneCP5_03 $outDir
-# ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/ttHToTauTau_M125_TuneCP5_04.root ttHToTauTau_M125_TuneCP5_04.root -1 1000 2017 MC ttHToTauTau_M125_TuneCP5_04 $outDir
-
-
 ###########################  DATA #########################
 
-./rootcom mutau_analyzer analyze_mutau  
+#./rootcom mutau_analyzer analyze_mutau  
 
 
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/SingleMuon_EraB_00.root SingleMuon_EraB_00.root -1 1000 2017 DATA SingleMuon_EraB_00 $outDir
@@ -152,6 +148,3 @@ mkdir $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/SingleMuon_EraF_06.root SingleMuon_EraF_06.root -1 1000 2017 DATA SingleMuon_EraF_06 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/SingleMuon_EraF_07.root SingleMuon_EraF_07.root -1 1000 2017 DATA SingleMuon_EraF_07 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2017_skimmed/mutau/SingleMuon_EraF_08.root SingleMuon_EraF_08.root -1 1000 2017 DATA SingleMuon_EraF_08 $outDir
-
-
-condor_q

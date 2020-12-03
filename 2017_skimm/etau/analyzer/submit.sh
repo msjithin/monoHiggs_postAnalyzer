@@ -45,6 +45,11 @@ mkdir $outDir
 ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_00.root ST_tW_antitop_5f_inclusiveDecays_TuneCP5_00.root -1 1000 2017 MC ST_tW_antitop_5f_inclusiveDecays_TuneCP5_00 $outDir
 ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/ST_tW_top_5f_inclusiveDecays_TuneCP5_00.root ST_tW_top_5f_inclusiveDecays_TuneCP5_00.root -1 1000 2017 MC ST_tW_top_5f_inclusiveDecays_TuneCP5_00 $outDir
 ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/TTTo2L2Nu_TuneCP5_00.root TTTo2L2Nu_TuneCP5_00.root -1 1000 2017 MC TTTo2L2Nu_TuneCP5_00 $outDir
+./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/TTTo2L2Nu_TuneCP5_01.root TTTo2L2Nu_TuneCP5_01.root -1 1000 2017 MC TTTo2L2Nu_TuneCP5_01 $outDir
+./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/TTTo2L2Nu_TuneCP5_02.root TTTo2L2Nu_TuneCP5_02.root -1 1000 2017 MC TTTo2L2Nu_TuneCP5_02 $outDir
+./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/TTTo2L2Nu_TuneCP5_03.root TTTo2L2Nu_TuneCP5_03.root -1 1000 2017 MC TTTo2L2Nu_TuneCP5_03 $outDir
+./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/TTTo2L2Nu_TuneCP5_04.root TTTo2L2Nu_TuneCP5_04.root -1 1000 2017 MC TTTo2L2Nu_TuneCP5_04 $outDir
+./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/TTTo2L2Nu_TuneCP5_05.root TTTo2L2Nu_TuneCP5_05.root -1 1000 2017 MC TTTo2L2Nu_TuneCP5_05 $outDir
 ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/TTToHadronic_TuneCP5_00.root TTToHadronic_TuneCP5_00.root -1 1000 2017 MC TTToHadronic_TuneCP5_00 $outDir
 ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/TTToHadronic_TuneCP5_01.root TTToHadronic_TuneCP5_01.root -1 1000 2017 MC TTToHadronic_TuneCP5_01 $outDir
 ./MakeCondorFiles.csh analyze_etau /hdfs/store/user/jmadhusu/2017_skimmed/etau/TTToHadronic_TuneCP5_02.root TTToHadronic_TuneCP5_02.root -1 1000 2017 MC TTToHadronic_TuneCP5_02 $outDir

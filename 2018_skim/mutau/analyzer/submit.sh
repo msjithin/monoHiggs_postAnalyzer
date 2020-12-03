@@ -16,19 +16,18 @@ mkdir $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DY2JetsToLL_01.root DY2JetsToLL_01.root -1 1000 2018_test MC DY2JetsToLL_01 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DY2JetsToLL_02.root DY2JetsToLL_02.root -1 1000 2018_test MC DY2JetsToLL_02 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DY3JetsToLL_00.root DY3JetsToLL_00.root -1 1000 2018_test MC DY3JetsToLL_00 $outDir
-
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DY4JetsToLL_00.root DY4JetsToLL_00.root -1 1000 2018_test MC DY4JetsToLL_00 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DYJetsToLL_00.root DYJetsToLL_00.root -1 1000 2018_test MC DYJetsToLL_00 $outDir
-#./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DYJetsToLL_00.root DYJetsToLL_Incl_HT_00.root -1 1000 2018_test MC DYJetsToLL_Incl_HT_00 $outDir
+./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DYJetsToLL_00.root DYJetsToLL_Incl_HT_00.root -1 1000 2018_test MC DYJetsToLL_Incl_HT_00 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DYJetsToLL_01.root DYJetsToLL_01.root -1 1000 2018_test MC DYJetsToLL_01 $outDir
-#./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DYJetsToLL_01.root DYJetsToLL_Incl_HT_01.root -1 1000 2018_test MC DYJetsToLL_Incl_HT_01 $outDir
+./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DYJetsToLL_01.root DYJetsToLL_Incl_HT_01.root -1 1000 2018_test MC DYJetsToLL_Incl_HT_01 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DYJetsToLL_02.root DYJetsToLL_02.root -1 1000 2018_test MC DYJetsToLL_02 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DYJetsToLL_03.root DYJetsToLL_03.root -1 1000 2018_test MC DYJetsToLL_03 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DYJetsToLL_04.root DYJetsToLL_04.root -1 1000 2018_test MC DYJetsToLL_04 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DYJetsToLL_05.root DYJetsToLL_05.root -1 1000 2018_test MC DYJetsToLL_05 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DYJetsToLL_06.root DYJetsToLL_06.root -1 1000 2018_test MC DYJetsToLL_06 $outDir
-#./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DYJetsToLL_0J_Incl_00.root DYJetsToLL_0J_Incl_00.root -1 1000 2018_test MC DYJetsToLL_0J_Incl_00 $outDir
-#./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DYJetsToLL_0J_Incl_01.root DYJetsToLL_0J_Incl_01.root -1 1000 2018_test MC DYJetsToLL_0J_Incl_01 $outDir
+# ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DYJetsToLL_0J_Incl_00.root DYJetsToLL_0J_Incl_00.root -1 1000 2018_test MC DYJetsToLL_0J_Incl_00 $outDir
+# ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DYJetsToLL_0J_Incl_01.root DYJetsToLL_0J_Incl_01.root -1 1000 2018_test MC DYJetsToLL_0J_Incl_01 $outDir
 # ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DYJetsToLL_0J_Incl_02.root DYJetsToLL_0J_Incl_02.root -1 1000 2018_test MC DYJetsToLL_0J_Incl_02 $outDir
 # ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DYJetsToLL_0J_Incl_03.root DYJetsToLL_0J_Incl_03.root -1 1000 2018_test MC DYJetsToLL_0J_Incl_03 $outDir
 # ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DYJetsToLL_0J_Incl_04.root DYJetsToLL_0J_Incl_04.root -1 1000 2018_test MC DYJetsToLL_0J_Incl_04 $outDir
@@ -56,10 +55,10 @@ mkdir $outDir
 # ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DYJetsToLL_HT70-100_00.root DYJetsToLL_HT70-100_00.root -1 1000 2018_test MC DYJetsToLL_HT70-100_00 $outDir
 # ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DYJetsToLL_HT70-100_01.root DYJetsToLL_HT70-100_01.root -1 1000 2018_test MC DYJetsToLL_HT70-100_01 $outDir
 # ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DYJetsToLL_HT800-1200_00.root DYJetsToLL_HT800-1200_00.root -1 1000 2018_test MC DYJetsToLL_HT800-1200_00 $outDir
-# ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DYJetsToLL_M10to50_00.root DYJetsToLL_M10to50_00.root -1 1000 2018_test MC DYJetsToLL_M10to50_00 $outDir
-# ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DYJetsToLL_M10to50_01.root DYJetsToLL_M10to50_01.root -1 1000 2018_test MC DYJetsToLL_M10to50_01 $outDir
-# ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DYJetsToLL_M10to50_02.root DYJetsToLL_M10to50_02.root -1 1000 2018_test MC DYJetsToLL_M10to50_02 $outDir
-# ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DYJetsToLL_M10to50_03.root DYJetsToLL_M10to50_03.root -1 1000 2018_test MC DYJetsToLL_M10to50_03 $outDir
+./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DYJetsToLL_M10to50_00.root DYJetsToLL_M10to50_00.root -1 1000 2018_test MC DYJetsToLL_M10to50_00 $outDir
+./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DYJetsToLL_M10to50_01.root DYJetsToLL_M10to50_01.root -1 1000 2018_test MC DYJetsToLL_M10to50_01 $outDir
+./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DYJetsToLL_M10to50_02.root DYJetsToLL_M10to50_02.root -1 1000 2018_test MC DYJetsToLL_M10to50_02 $outDir
+./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/DYJetsToLL_M10to50_03.root DYJetsToLL_M10to50_03.root -1 1000 2018_test MC DYJetsToLL_M10to50_03 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/EWKWMinus2Jets_WToLNu_00.root EWKWMinus2Jets_WToLNu_00.root -1 1000 2018_test MC EWKWMinus2Jets_WToLNu_00 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/EWKWPlus2Jets_WToLNu_00.root EWKWPlus2Jets_WToLNu_00.root -1 1000 2018_test MC EWKWPlus2Jets_WToLNu_00 $outDir
 ./MakeCondorFiles.csh analyze_mutau /hdfs/store/user/jmadhusu/2018_skimmed/mutau/EWKZ2Jets_ZToLL_00.root EWKZ2Jets_ZToLL_00.root -1 1000 2018_test MC EWKZ2Jets_ZToLL_00 $outDir

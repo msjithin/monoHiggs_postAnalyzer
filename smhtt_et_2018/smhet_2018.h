@@ -109,6 +109,12 @@ public :
    TFile *fosssclosure  = TFile::Open("sf_files/ComputeFF2018/ff_files_et_2018/FF_QCDcorrectionOSSS.root");
    TF1* osssclosure_qcd=(TF1*) fosssclosure->Get("closure_OSSS_mvis_et_qcd");
    TF1* mtclosure_w=(TF1*) fosssclosure->Get("closure_mt_et_w");
+   
+   TFile *f_HiggsPtReweighting = TFile::Open("sf_files/NNLOPS_reweight.root");
+   TGraph *gr_NNLOPSratio_pt_mcatnlo_0jet=(TGraph*) f_HiggsPtReweighting->Get("gr_NNLOPSratio_pt_mcatnlo_0jet");
+   TGraph *gr_NNLOPSratio_pt_mcatnlo_1jet=(TGraph*) f_HiggsPtReweighting->Get("gr_NNLOPSratio_pt_mcatnlo_1jet");
+   TGraph *gr_NNLOPSratio_pt_mcatnlo_2jet=(TGraph*) f_HiggsPtReweighting->Get("gr_NNLOPSratio_pt_mcatnlo_2jet");
+   TGraph *gr_NNLOPSratio_pt_mcatnlo_3jet=(TGraph*) f_HiggsPtReweighting->Get("gr_NNLOPSratio_pt_mcatnlo_3jet");
 
 
    // Declaration of leaf types

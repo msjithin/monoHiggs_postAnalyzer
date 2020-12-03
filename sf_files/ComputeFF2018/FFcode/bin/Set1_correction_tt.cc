@@ -28,6 +28,7 @@
 #include "ComputeFF2018/FFcode/interface/tt_Tree.h"
 #include "ComputeFF2018/FFcode/interface/LumiReweightingStandAlone.h"
 #include "TauAnalysisTools/TauTriggerSFs/interface/TauTriggerSFs2017.h"
+#include "TauAnalysisTools/TauTriggerSFs/interface/SFProvider.h"
 #include "RooWorkspace.h"
 #include "RooRealVar.h"
 #include "RooFunctor.h"
@@ -481,9 +482,13 @@ int main(int argc, char** argv) {
    TFile ftau2closure ("FF_corrections_1.root");
    TF1* tau2closure=(TF1*) ftau2closure.Get("closure_tau2pt_tt_qcd");
 
-   TauTriggerSFs2017* etsf=new TauTriggerSFs2017(string(std::getenv("CMSSW_BASE"))+"/src/TauAnalysisTools/TauTriggerSFs/data/tauTriggerEfficiencies2018.root","ditau", "2018", "tight", "MVAv2");
-   if (year=="2017") etsf=new TauTriggerSFs2017(string(std::getenv("CMSSW_BASE"))+"/src/TauAnalysisTools/TauTriggerSFs/data/tauTriggerEfficiencies2017.root","ditau", "2017", "loose", "MVAv2");
-   else if (year=="2016") etsf=new TauTriggerSFs2017(string(std::getenv("CMSSW_BASE"))+"/src/TauAnalysisTools/TauTriggerSFs/data/tauTriggerEfficiencies2017.root","ditau", "2016", "tight", "MVAv2");
+   //   TauTriggerSFs2017* etsf=new TauTriggerSFs2017(string(std::getenv("CMSSW_BASE"))+"/src/TauAnalysisTools/TauTriggerSFs/data/tauTriggerEfficiencies2018.root","ditau", "2018", "tight", "MVAv2");
+   //   if (year=="2017") etsf=new TauTriggerSFs2017(string(std::getenv("CMSSW_BASE"))+"/src/TauAnalysisTools/TauTriggerSFs/data/tauTriggerEfficiencies2017.root","ditau", "2017", "loose", "MVAv2");
+   //   else if (year=="2016") etsf=new TauTriggerSFs2017(string(std::getenv("CMSSW_BASE"))+"/src/TauAnalysisTools/TauTriggerSFs/data/tauTriggerEfficiencies2017.root","ditau", "2016", "tight", "MVAv2");
+   using namespace tau_trigger;
+   SFProvider* etsf=new SFProvider("~/CMSSW_10_2_15/src/TauAnalysisTools/TauTriggerSFs/data/2018_tauTriggerEff_DeepTau2017v2p1.root","ditau", "Medium");
+   if (year=="2017") etsf=new SFProvider("~/CMSSW_10_2_15/src/TauAnalysisTools/TauTriggerSFs/data/2017_tauTriggerEff_DeepTau2017v2p1.root","ditau", "Medium");
+   if (year=="2016") etsf=new SFProvider("~/CMSSW_10_2_15/src/TauAnalysisTools/TauTriggerSFs/data/2016_tauTriggerEff_DeepTau2017v2p1.root","ditau", "Medium");
 
    Int_t nentries_wtn = (Int_t) arbre->GetEntries();
    for (Int_t i = 0; i < nentries_wtn; i++) {
@@ -653,7 +658,8 @@ int main(int argc, char** argv) {
 	  if (sample=="DY") aweight=aweight*zptweight;
           if (mydm2>10) mydm2=10;
           if (mydm1>10) mydm1=10;
-	  aweight=aweight*etsf->getTriggerScaleFactor(mytau1.Pt(), mytau1.Eta(), mytau1.Phi(), mydm1)*etsf->getTriggerScaleFactor(mytau2.Pt(), mytau2.Eta(), mytau2.Phi(), mydm2);
+	  //aweight=aweight*etsf->getTriggerScaleFactor(mytau1.Pt(), mytau1.Eta(), mytau1.Phi(), mydm1)*etsf->getTriggerScaleFactor(mytau2.Pt(), mytau2.Eta(), mytau2.Phi(), mydm2);
+	  aweight=aweight*etsf->getSF(mytau1.Pt(), mydm1,0)*etsf->getSF(mytau2.Pt(), mydm2,0);
 	}
 
 	//************************* Fill histograms **********************

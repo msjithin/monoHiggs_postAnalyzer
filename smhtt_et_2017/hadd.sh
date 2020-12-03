@@ -2,7 +2,7 @@
 
 
 count=`ls *.root | wc -l`
-if [ $count == 66 ]
+if [ $count == 63 ]
 then 
     echo true
     rm mine_rootfile/*.root
@@ -10,10 +10,17 @@ then
     echo "root files moved"
 
     cd mine_rootfile/
-    hadd DY.root DYJetsToLL_M-50*00.root DYJetsToLL_M-50*01.root DYJetsToLL_M-50*02.root DYJetsToLL_M-50*03.root DYJetsToLL_M-50*04.root DYJetsToLL_M-50*05.root
-    hadd DY_fbkg.root DYJetsToLL_M-50*_fbkg_.root
-    hadd Data.root SingleElectron_*00.root  SingleElectron_*01.root SingleElectron_*02.root SingleElectron_*03.root SingleElectron_*04.root SingleElectron_*05.root
-    hadd Data_fbkg.root SingleElectron_*_fbkg_.root
+    hadd DY1.root DY1JetsToLL_M*.root
+    hadd DY2.root DY2JetsToLL_M*.root
+    hadd DY3.root DY3JetsToLL_M*.root
+    hadd DY4.root DY4JetsToLL_M*.root
+    hadd DY.root  DYJetsToLL_M*.root
+    hadd Data.root SingleElectron*.root
+    hadd TTTo2L2Nu.root TTTo2L2Nu_TuneCP5*.root
+    hadd TTToHadronic.root TTToHadronic_TuneCP5_*.root
+    hadd TTToSemiLeptonic.root TTToSemiLeptonic_TuneCP5_*.root
+
+
     cd ..
 fi    
 cd plotting_script/

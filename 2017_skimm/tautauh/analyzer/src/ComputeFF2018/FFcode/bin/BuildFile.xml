@@ -1,0 +1,18 @@
+<use name ="root"/>
+<use name ="python"/>
+<use name ="roofit"/>
+<use name ="TauAnalysisTools/TauTriggerSFs"/>
+<use name ="TauPOG/TauIDSFs"/>
+<flags CXXFLAGS="-Wno-unused-variable -Wno-unused-but-set-variable"/>
+<bin file="RawFF_mt.cc" name="RawFF_mt"/>
+<bin file="RawFF_et.cc" name="RawFF_et"/>
+<bin file="RawFF_tt.cc" name="RawFF_tt"/>
+<bin file="OSSScorrection_mt.cc" name="OSSScorrection_mt"/>
+<bin file="OSSScorrection_et.cc" name="OSSScorrection_et"/>
+<bin file="OSSScorrection_tt.cc" name="OSSScorrection_tt"/>
+<bin file="Set1_correction_mt.cc" name="Set1_correction_mt"/>
+<bin file="Set1_correction_et.cc" name="Set1_correction_et"/>
+<bin file="Set1_correction_tt.cc" name="Set1_correction_tt"/>
+<bin file="ControlPlots_tt.cc" name="ControlPlots_tt"/>
+
+

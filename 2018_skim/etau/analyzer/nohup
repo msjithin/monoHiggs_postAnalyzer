@@ -1,0 +1,1833 @@
+analyze_etau_test exists, removing file
+dy sample analysis.....
+All files added.
+Initializing chain.
+from Init MC
+****************** dyjet sample found
+.... MC file ..... 
+Coming in: 
+nentries:406146
+Running over 10000 events.
+Finished entry 0/9999
+pileup_sf = 	0.9679	
+inputs	32.6151	43.3477	-1.69714	-1.03459	1	5	
+sf_htt_workspace	0.986639	0.955626	0.978022	1	1	
+rv_sf	0.750978	1.0062	0.986639	0.937431	
+tau stuff	0.978014	0.94522	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.976177	
+eletrigger	0.969713	0.551059	0.448849	
+
+	
+Finished entry 500/9999
+pileup_sf = 	1.30191	
+inputs	30.6002	58.4942	-1.21373	-1.68153	10	5	
+sf_htt_workspace	0.987526	0.944762	0.952084	1	1	
+rv_sf	0.715824	0.945017	0.987526	0.963636	
+tau stuff	1.01575	0.997706	1	1	
+general	0.981044	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.950789	
+eletrigger	0.947971	0.315932	0.302078	
+
+	
+Finished entry 1000/9999
+pileup_sf = 	1.04863	
+inputs	25.0774	45.7037	-0.122675	-1.17782	10	5	
+sf_htt_workspace	0.98968	0.988625	0.863685	1	1	
+rv_sf	0.536193	0.945652	0.98968	0.980527	
+tau stuff	1.01575	0.963331	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.932907	
+eletrigger	0.757446	1	1	
+
+	
+Finished entry 1500/9999
+pileup_sf = 	0.9679	
+inputs	30.2105	41.5575	-0.99691	0.386825	11	5	
+sf_htt_workspace	0.99177	0.944907	0.951557	1	1	
+rv_sf	0.661055	0.945017	0.99177	0.963636	
+tau stuff	0.987947	1.00379	1	1	
+general	0.973981	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.953663	
+kit stuff	
+eleidiso	0.944486	
+eletrigger	0.943454	0.433467	0	
+
+	
+pileup_sf = 	1.10579	
+inputs	26.7359	43.7207	0.52082	0.289946	1	5	
+sf_htt_workspace	0.998968	0.988625	0.921331	1	1	
+rv_sf	0.650478	0.95969	0.998968	0.980704	
+tau stuff	0.978014	0.944178	1	1	
+general	0.966259	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.936811	
+eletrigger	0.909639	1	1	
+
+	
+pileup_sf = 	1.40057	
+inputs	26.6468	35.5691	-0.777403	-1.63771	0	5	
+sf_htt_workspace	0.99177	0.988625	0.921331	1	1	
+rv_sf	0.726361	0.945652	0.99177	0.980527	
+tau stuff	1.11491	0.926844	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	1.05599	
+kit stuff	
+eleidiso	0.936606	
+eletrigger	0.903421	1	1	
+
+	
+Finished entry 2000/9999
+pileup_sf = 	1.08787	
+inputs	25.6743	45.6641	-1.26178	0.641688	1	1	
+sf_htt_workspace	0.987526	0.998045	0.743222	1	1	
+rv_sf	0.381504	0.945017	0.987526	0.963636	
+tau stuff	1	0.942316	0.85	1	
+general	1	1	1	
+l->tau miss rate	1.47	1	
+sf_tauidSF_vvvl	1	
+kit stuff	
+eleidiso	0.94254	
+eletrigger	0.767124	1	1	
+
+	
+pileup_sf = 	1.08787	
+inputs	25.5439	38.3004	2.10485	-0.0226302	1	1	
+sf_htt_workspace	0.983556	1.00948	0.717838	1	1	
+rv_sf	0.592316	1.14179	0.983556	0.918089	
+tau stuff	1	0.990105	0.85	1	
+general	0.93858	1	1	
+l->tau miss rate	1.47	1	
+sf_tauidSF_vvvl	1	
+kit stuff	
+eleidiso	1.02044	
+eletrigger	1	1	1	
+
+	
+Finished entry 2500/9999
+Finished entry 3000/9999
+pileup_sf = 	1.20727	
+inputs	26.3047	35.3534	-0.741677	-1.0685	11	5	
+sf_htt_workspace	0.99177	0.988625	0.921331	1	1	
+rv_sf	0.643891	0.945652	0.99177	0.980527	
+tau stuff	0.987947	1.00541	1	1	
+general	0.99598	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.953663	
+kit stuff	
+eleidiso	0.935812	
+eletrigger	0.877891	1	1	
+
+	
+pileup_sf = 	0.238108	
+inputs	27.6204	39.0537	0.204513	0.798422	10	5	
+sf_htt_workspace	0.996894	0.988625	0.948722	1	1	
+rv_sf	0.785482	0.95969	0.996894	0.980704	
+tau stuff	1.01575	1.00728	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.938828	
+eletrigger	0.932122	1	1	
+
+	
+Finished entry 3500/9999
+pileup_sf = 	0.238108	
+inputs	26.0496	72.4079	2.00631	0.778593	1	5	
+sf_htt_workspace	0.983556	0.989875	0.891479	1	1	
+rv_sf	0.647996	1.14179	0.983556	0.918089	
+tau stuff	0.978014	0.950842	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.977414	
+eletrigger	0.796672	1	1	
+
+	
+pileup_sf = 	0.321431	
+inputs	32.591	61.1821	-2.09165	-1.65607	10	5	
+sf_htt_workspace	0.986556	0.955626	0.978022	1	1	
+rv_sf	0.904361	1.16262	0.986556	0.92622	
+tau stuff	1.01575	1.02363	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.976181	
+eletrigger	0.969604	0.550253	0.449416	
+
+	
+pileup_sf = 	1.08231	
+inputs	25.2881	44.8977	-0.557271	0.308981	10	5	
+sf_htt_workspace	0.99177	0.988625	0.863685	1	1	
+rv_sf	0.504633	0.945652	0.99177	0.980527	
+tau stuff	1.01575	0.969169	1	1	
+general	0.961082	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.933412	
+eletrigger	0.782169	1	1	
+
+	
+Finished entry 4000/9999
+pileup_sf = 	1.06201	
+inputs	26.5517	51.7605	0.803881	0.0131561	1	5	
+sf_htt_workspace	0.998968	0.988625	0.921331	1	1	
+rv_sf	0.652014	0.952797	0.998968	0.963429	
+tau stuff	0.978014	0.95168	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.936386	
+eletrigger	0.896595	1	1	
+
+	
+Finished entry 4500/9999
+pileup_sf = 	0.874259	
+inputs	25.3512	40.1849	-0.911411	-1.61912	0	5	
+sf_htt_workspace	0.99177	0.988625	0.863685	1	1	
+rv_sf	0.573875	0.945017	0.99177	0.963636	
+tau stuff	1.11491	0.94139	1	1	
+general	0.970333	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	1.05599	
+kit stuff	
+eleidiso	0.933563	
+eletrigger	0.789192	1	1	
+
+	
+Finished entry 5000/9999
+pileup_sf = 	1.12091	
+inputs	26.1747	38.9987	-0.72866	-0.75078	10	5	
+sf_htt_workspace	0.99177	0.988625	0.921331	1	1	
+rv_sf	0.643572	0.945652	0.99177	0.980527	
+tau stuff	1.01575	1.00728	1	1	
+general	0.994623	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.935508	
+eletrigger	0.867436	1	1	
+
+	
+pileup_sf = 	0.553244	
+inputs	27.1188	35.107	1.82118	0.521925	1	5	
+sf_htt_workspace	0.98768	0.989875	0.93357	1	1	
+rv_sf	0.677939	1.01104	0.98768	0.942794	
+tau stuff	0.978014	0.978589	1	1	
+general	0.928811	1	0.977771	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.977201	
+eletrigger	0.928863	0.248924	1	
+
+	
+pileup_sf = 	1.46289	
+inputs	32.7339	40.4018	0.59737	0.75158	1	5	
+sf_htt_workspace	0.998968	0.944907	0.949082	1	1	
+rv_sf	0.680502	0.95969	0.998968	0.980704	
+tau stuff	0.978014	0.982787	1	1	
+general	0.933087	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.94967	
+eletrigger	0.948561	0.690232	0.944504	
+
+	
+pileup_sf = 	1.17059	
+inputs	28.0289	63.3727	-0.554627	-0.839086	1	5	
+sf_htt_workspace	0.99177	0.988625	0.944424	1	1	
+rv_sf	0.69521	0.945652	0.99177	0.980527	
+tau stuff	0.978014	0.949655	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.939744	
+eletrigger	0.935371	1	1	
+
+	
+Finished entry 5500/9999
+pileup_sf = 	1.04863	
+inputs	30.7567	45.6655	-0.33092	-0.349623	0	5	
+sf_htt_workspace	0.98968	0.944907	0.951557	1	1	
+rv_sf	0.715257	0.945652	0.98968	0.980527	
+tau stuff	1.11491	0.946306	1	1	
+general	0.930344	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	1.05599	
+kit stuff	
+eleidiso	0.945635	
+eletrigger	0.943669	0.430555	0	
+
+	
+pileup_sf = 	1.12091	
+inputs	28.9642	36.1609	-0.934599	-1.88384	1	5	
+sf_htt_workspace	0.99177	0.988625	0.944424	1	1	
+rv_sf	0.702045	0.945017	0.99177	0.963636	
+tau stuff	0.978014	0.999312	1	1	
+general	0.967416	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.941808	
+eletrigger	0.942693	1	1	
+
+	
+pileup_sf = 	1.14206	
+inputs	25.6834	63.3847	-1.93021	-2.06352	0	5	
+sf_htt_workspace	0.986639	0.989875	0.703145	1	1	
+rv_sf	0.459697	1.0062	0.986639	0.937431	
+tau stuff	1.11491	0.962471	1	1	
+general	0.927743	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	1.05599	
+kit stuff	
+eleidiso	0.977488	
+eletrigger	0.739161	1	1	
+
+	
+pileup_sf = 	1.0026	
+inputs	32.6872	40.8884	0.705863	1.84036	10	5	
+sf_htt_workspace	0.998968	0.944907	0.949082	1	1	
+rv_sf	0.746066	0.95969	0.998968	0.980704	
+tau stuff	1.01575	0.990973	1	1	
+general	0.977068	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.949577	
+eletrigger	0.948436	0.689965	0.942934	
+
+	
+Finished entry 6000/9999
+pileup_sf = 	1.17059	
+inputs	27.0803	72.0509	0.733297	1.13824	11	5	
+sf_htt_workspace	0.998968	0.988625	0.948722	1	1	
+rv_sf	0.802839	0.95969	0.998968	0.980704	
+tau stuff	0.987947	1.06045	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.953663	
+kit stuff	
+eleidiso	0.937602	
+eletrigger	0.927777	1	1	
+
+	
+pileup_sf = 	1.08787	
+inputs	29.6662	73.7503	0.805857	0.246868	1	5	
+sf_htt_workspace	0.998968	0.988625	0.951471	1	1	
+rv_sf	0.581399	0.952797	0.998968	0.963429	
+tau stuff	0.978014	0.948411	1	1	
+general	0.817522	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.943326	
+eletrigger	0.943237	0.441121	0	
+
+	
+pileup_sf = 	1.09525	
+inputs	32.8155	38.3994	0.412854	0.767659	1	5	
+sf_htt_workspace	0.996894	0.944907	0.949082	1	1	
+rv_sf	0.682469	0.95969	0.996894	0.980704	
+tau stuff	0.978014	0.989268	1	1	
+general	0.933149	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.949832	
+eletrigger	0.948781	0.690666	0.947069	
+
+	
+pileup_sf = 	1.40057	
+inputs	29.97	38.5928	-2.0504	-0.878397	1	5	
+sf_htt_workspace	0.986556	0.989875	0.955185	1	1	
+rv_sf	0.87466	1.16262	0.986556	0.92622	
+tau stuff	0.978014	0.988473	1	1	
+general	0.994844	1	0.982994	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.976655	
+eletrigger	0.955916	0.279193	1	
+
+	
+pileup_sf = 	1.30191	
+inputs	29.8437	43.1085	-0.876015	-0.247238	1	5	
+sf_htt_workspace	0.99177	0.988625	0.951471	1	1	
+rv_sf	0.694048	0.945017	0.99177	0.963636	
+tau stuff	0.978014	0.946134	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.943706	
+eletrigger	0.943308	0.43754	0	
+
+	
+Finished entry 6500/9999
+pileup_sf = 	1.04863	
+inputs	29.2574	40.7481	-1.56705	-1.15061	11	5	
+sf_htt_workspace	0.986639	1.08225	0.923157	1	1	
+rv_sf	0.779901	1.0062	0.986639	0.937431	
+tau stuff	0.987947	1.00151	1	1	
+general	0.969629	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.953663	
+kit stuff	
+eleidiso	1.01212	
+eletrigger	0.918058	0.273731	0.256495	
+
+	
+pileup_sf = 	1.02925	
+inputs	29.7474	37.8248	1.66134	0.184612	10	5	
+sf_htt_workspace	0.98768	0.989875	0.955185	1	1	
+rv_sf	0.797829	1.01104	0.98768	0.942794	
+tau stuff	1.01575	0.958269	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.976696	
+eletrigger	0.954528	0.278879	1	
+
+	
+pileup_sf = 	1.06201	
+inputs	32.9837	41.196	1.27209	1.42817	0	5	
+sf_htt_workspace	0.9875	0.944762	0.959188	1	1	
+rv_sf	0.716745	0.952797	0.9875	0.963429	
+tau stuff	1.11491	0.952724	1	1	
+general	0.862568	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	1.05599	
+kit stuff	
+eleidiso	0.9545	
+eletrigger	0.956777	0.536799	0.580339	
+
+	
+Finished entry 7000/9999
+pileup_sf = 	0.816767	
+inputs	25.631	50.7261	0.980017	0.201085	11	5	
+sf_htt_workspace	0.998968	0.988625	0.863685	1	1	
+rv_sf	0.585453	0.952797	0.998968	0.963429	
+tau stuff	0.987947	1.03906	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.953663	
+kit stuff	
+eleidiso	0.934228	
+eletrigger	0.81839	1	1	
+
+	
+pileup_sf = 	1.08787	
+inputs	30.2593	57.4319	-0.325607	-0.129978	10	5	
+sf_htt_workspace	0.98968	0.944907	0.951557	1	1	
+rv_sf	0.689616	0.945652	0.98968	0.980527	
+tau stuff	1.01575	0.988488	1	1	
+general	0.943779	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.944589	
+eletrigger	0.943473	0.433104	0	
+
+	
+Finished entry 7500/9999
+pileup_sf = 	0.754005	
+inputs	29.159	36.6049	-0.839183	-0.718417	1	5	
+sf_htt_workspace	0.99177	0.988625	0.951471	1	1	
+rv_sf	0.733277	0.945017	0.99177	0.963636	
+tau stuff	0.978014	1.00147	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.942232	
+eletrigger	0.943034	0.495408	0	
+
+	
+pileup_sf = 	1.40057	
+inputs	28.5488	48.0226	-0.862369	-0.413111	1	5	
+sf_htt_workspace	0.99177	0.988625	0.944424	1	1	
+rv_sf	0.646837	0.945017	0.99177	0.963636	
+tau stuff	0.978014	0.961947	1	1	
+general	0.930046	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.940897	
+eletrigger	0.939461	1	1	
+
+	
+pileup_sf = 	0.924974	
+inputs	28.3813	45.9097	-0.420469	0.456463	1	5	
+sf_htt_workspace	0.98968	0.988625	0.944424	1	1	
+rv_sf	0.689764	0.945652	0.98968	0.980527	
+tau stuff	0.978014	0.942612	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.940527	
+eletrigger	0.938149	1	1	
+
+	
+pileup_sf = 	1.07096	
+inputs	27.5749	38.9012	-0.714786	-0.00911561	1	5	
+sf_htt_workspace	0.99177	0.988625	0.948722	1	1	
+rv_sf	0.721529	0.945652	0.99177	0.980527	
+tau stuff	0.978014	0.986017	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.938725	
+eletrigger	0.931758	1	1	
+
+	
+pileup_sf = 	1.07096	
+inputs	31.2217	66.1422	-1.98795	-2.06144	0	1	
+sf_htt_workspace	0.986639	0.955626	0.974058	1	1	
+rv_sf	0.626828	1.0062	0.986639	0.937431	
+tau stuff	1	0.986497	0.8	1	
+general	0.987974	1	1	
+l->tau miss rate	0.66	1	
+sf_tauidSF_vvvl	1	
+kit stuff	
+eleidiso	0.976425	
+eletrigger	0.963306	0.400865	0.684789	
+
+	
+Finished entry 8000/9999
+pileup_sf = 	1.10579	
+inputs	28.9196	36.1218	-0.373362	0.200098	1	5	
+sf_htt_workspace	0.98968	0.988625	0.944424	1	1	
+rv_sf	0.735451	0.945652	0.98968	0.980527	
+tau stuff	0.978014	0.999312	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.941711	
+eletrigger	0.942347	1	1	
+
+	
+Finished entry 8500/9999
+pileup_sf = 	1.07096	
+inputs	25.7616	42.8078	-1.34886	-1.73407	1	5	
+sf_htt_workspace	0.987526	0.998045	0.743222	1	1	
+rv_sf	0.424153	0.945017	0.987526	0.963636	
+tau stuff	0.978014	0.948386	1	1	
+general	0.946298	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.942694	
+eletrigger	0.778172	1	1	
+
+	
+pileup_sf = 	0.816767	
+inputs	26.1019	53.9362	-1.27703	-1.22526	10	5	
+sf_htt_workspace	0.987526	0.998045	0.863822	1	1	
+rv_sf	0.550516	0.945017	0.987526	0.963636	
+tau stuff	1.01575	0.978935	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.94329	
+eletrigger	0.817156	1	1	
+
+	
+pileup_sf = 	1.17059	
+inputs	29.7942	38.4553	-0.18416	0.386314	1	5	
+sf_htt_workspace	0.98968	0.988625	0.951471	1	1	
+rv_sf	0.735698	0.945652	0.98968	0.980527	
+tau stuff	0.978014	0.989268	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.943601	
+eletrigger	0.943288	0.438376	0	
+
+	
+Finished entry 9000/9999
+pileup_sf = 	1.35354	
+inputs	25.5794	46.0524	-0.646087	-1.34661	11	5	
+sf_htt_workspace	0.99177	0.988625	0.863685	1	1	
+rv_sf	0.58913	0.945652	0.99177	0.980527	
+tau stuff	0.987947	1.03396	1	1	
+general	0.974926	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.953663	
+kit stuff	
+eleidiso	0.934106	
+eletrigger	0.813221	1	1	
+
+	
+pileup_sf = 	1.12091	
+inputs	30.4035	37.6227	-0.994684	-0.977414	1	5	
+sf_htt_workspace	0.99177	0.944907	0.951557	1	1	
+rv_sf	0.66298	0.945017	0.99177	0.963636	
+tau stuff	0.978014	0.996494	1	1	
+general	0.947423	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.944894	
+eletrigger	0.94353	0.432179	0	
+
+	
+pileup_sf = 	1.07717	
+inputs	25.3486	67.1716	0.683697	0.529414	1	5	
+sf_htt_workspace	0.998968	0.988625	0.863685	1	1	
+rv_sf	0.532101	0.95969	0.998968	0.980704	
+tau stuff	0.978014	0.956832	1	1	
+general	0.978244	1	0.984108	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.933556	
+eletrigger	0.788904	1	1	
+
+	
+Finished entry 9500/9999
+pileup_sf = 	1.06201	
+inputs	31.5124	40.0926	1.94261	1.88009	1	5	
+sf_htt_workspace	0.98768	0.955626	0.974058	1	1	
+rv_sf	0.786487	1.01104	0.98768	0.942794	
+tau stuff	0.978014	0.986436	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.976373	
+eletrigger	0.964653	0.470191	0.529639	
+
+	
+pileup_sf = 	1.08231	
+inputs	31.1846	35.1719	-0.822818	-0.141851	1	5	
+sf_htt_workspace	0.99177	0.944907	0.947508	1	1	
+rv_sf	0.686005	0.945017	0.99177	0.963636	
+tau stuff	0.978014	0.978589	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.946524	
+eletrigger	0.944287	0.628451	0.627411	
+
+	
+pileup_sf = 	0.488586	
+inputs	28.498	36.0812	-0.325008	-0.0457232	1	5	
+sf_htt_workspace	0.98968	0.988625	0.944424	1	1	
+rv_sf	0.73147	0.945652	0.98968	0.980527	
+tau stuff	0.978014	0.998359	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.940785	
+eletrigger	0.939063	1	1	
+
+	
+Finished entry 9999/9999
+All events checked.
+*******************************************
+******************Jithin's original*************************
+    Initial entries 10000.000000
+   Passing smikking 0.000000
+Inspected genWeightd 10000.000000   % change= 0.000000
+   METFiltersPassed 9802.104781   % change= 1.978952
+    SingleTrgPassed 7044.628163   % change= 28.131475
+     GoodMuonPassed 6138.246912   % change= 12.866275
+      GoodTauPassed 148.688166   % change= 97.577677
+         opp charge 88.983825   % change= 40.154064
+ PassedThirdLepVeto 87.666585   % change= 1.480315
+     PassedBjetVeto 82.485547   % change= 5.909935
+       DeltaRPassed 82.485547   % change= 0.000000
+      Total change :99.175145
+*******************************************
+*******************************************
+Number of events inspected: 10000
+Number of events inspected (minus negative gen. weights): 10000.000000
+ Outpt written to DY1JetsToLL_00_test.root
+Real time 0:00:20, CP time 18.080
+wjets sample analysis.....
+All files added.
+Initializing chain.
+from Init MC
+****************** wjet sample found
+.... MC file ..... 
+Coming in: 
+nentries:12341
+Running over 10000 events.
+Finished entry 0/9999
+pileup_sf = 	1.07717	
+inputs	25.4327	77.4025	-1.72645	-1.50323	11	5	
+sf_htt_workspace	0.986639	0.989875	0.703145	1	1	
+rv_sf	0.451116	1.0062	0.986639	0.937431	
+tau stuff	0.987947	1.04847	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.953663	
+kit stuff	
+eleidiso	0.97754	
+eletrigger	0.6971	1	1	
+
+	
+pileup_sf = 	1.06201	
+inputs	30.4355	39.4178	-0.903904	-0.141969	11	5	
+sf_htt_workspace	0.99177	0.944907	0.951557	1	1	
+rv_sf	0.655065	0.945017	0.99177	0.963636	
+tau stuff	0.987947	0.996376	1	1	
+general	0.97176	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.953663	
+kit stuff	
+eleidiso	0.944961	
+eletrigger	0.943543	0.431999	0	
+
+	
+Finished entry 500/9999
+pileup_sf = 	0.427748	
+inputs	28.6114	37.1884	0.971257	1.19225	10	5	
+sf_htt_workspace	0.998968	0.988625	0.944424	1	1	
+rv_sf	0.619014	0.952797	0.998968	0.963429	
+tau stuff	1.01575	0.925615	1	1	
+general	0.927674	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.941035	
+eletrigger	0.93995	1	1	
+
+	
+pileup_sf = 	1.0026	
+inputs	25.9503	38.4315	-0.370883	0.89111	11	5	
+sf_htt_workspace	0.98968	0.988625	0.863685	1	1	
+rv_sf	0.575539	0.945652	0.98968	0.980527	
+tau stuff	0.987947	0.99318	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.953663	
+kit stuff	
+eleidiso	0.934982	
+eletrigger	0.848296	1	1	
+
+	
+pileup_sf = 	1.08787	
+inputs	32.894	41.9205	0.845022	0.636499	10	5	
+sf_htt_workspace	0.998968	0.944907	0.949082	1	1	
+rv_sf	0.692066	0.952797	0.998968	0.963429	
+tau stuff	1.01575	0.989785	1	1	
+general	0.990759	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.949988	
+eletrigger	0.948992	0.69105	0.949337	
+
+	
+Finished entry 1000/9999
+pileup_sf = 	1.07717	
+inputs	32.4895	50.7458	0.457648	1.85739	1	5	
+sf_htt_workspace	0.996894	0.944907	0.949082	1	1	
+rv_sf	0.616882	0.95969	0.996894	0.980704	
+tau stuff	0.978014	0.956547	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.949181	
+eletrigger	0.947901	0.688659	0.935268	
+
+	
+pileup_sf = 	0.9679	
+inputs	31.2866	67.4115	-1.37323	-0.250829	1	5	
+sf_htt_workspace	0.987526	0.944762	0.959055	1	1	
+rv_sf	0.562437	0.945017	0.987526	0.963636	
+tau stuff	0.978014	0.956824	1	1	
+general	0.959312	1	0.984803	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.951875	
+eletrigger	0.950633	0.469759	0.47678	
+
+	
+Finished entry 1500/9999
+pileup_sf = 	0.620255	
+inputs	26.713	37.1024	-0.491395	-0.789464	10	5	
+sf_htt_workspace	0.98968	0.988625	0.921331	1	1	
+rv_sf	0.62064	0.945652	0.98968	0.980527	
+tau stuff	1.01575	0.925615	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.936758	
+eletrigger	0.908054	1	1	
+
+	
+pileup_sf = 	1.07717	
+inputs	27.9267	39.6638	1.91873	1.40529	10	5	
+sf_htt_workspace	0.98768	0.989875	0.93357	1	1	
+rv_sf	0.806445	1.01104	0.98768	0.942794	
+tau stuff	1.01575	1.00799	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.977042	
+eletrigger	0.938148	0.248924	1	
+
+	
+pileup_sf = 	0.874259	
+inputs	30.5817	35.1937	0.112644	-1.14998	10	5	
+sf_htt_workspace	0.996894	0.944907	0.951557	1	1	
+rv_sf	0.568574	0.95969	0.996894	0.980704	
+tau stuff	1.01575	0.848001	1	1	
+general	0.938025	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.945268	
+eletrigger	0.9436	0.431269	0	
+
+	
+pileup_sf = 	0.816767	
+inputs	27.0568	39.9115	-0.27994	-1.89672	10	5	
+sf_htt_workspace	0.98968	0.988625	0.948722	1	1	
+rv_sf	0.709078	0.945652	0.98968	0.980527	
+tau stuff	1.01575	1.00451	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.937548	
+eletrigger	0.927587	1	1	
+
+	
+pileup_sf = 	0.874259	
+inputs	30.763	36.8726	-0.648222	-1.53025	1	5	
+sf_htt_workspace	0.99177	0.944907	0.951557	1	1	
+rv_sf	0.716662	0.945652	0.99177	0.980527	
+tau stuff	0.978014	1.00134	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.945648	
+eletrigger	0.943672	0.430532	0	
+
+	
+Finished entry 2000/9999
+pileup_sf = 	1.30191	
+inputs	28.6334	35.9095	-1.30558	1.43266	1	5	
+sf_htt_workspace	0.987526	0.998045	0.938958	1	1	
+rv_sf	0.717986	0.945017	0.987526	0.963636	
+tau stuff	0.978014	0.997178	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.947593	
+eletrigger	0.933535	0.193087	1	
+
+	
+pileup_sf = 	1.10579	
+inputs	30.4682	42.6288	1.28199	-0.569748	10	5	
+sf_htt_workspace	0.9875	0.944762	0.952084	1	1	
+rv_sf	0.633374	0.952797	0.9875	0.963429	
+tau stuff	1.01575	0.988718	1	1	
+general	0.927078	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.950578	
+eletrigger	0.947435	0.315503	0.302078	
+
+	
+pileup_sf = 	0.687832	
+inputs	32.0097	35.5432	-0.611122	1.9816	0	5	
+sf_htt_workspace	0.99177	0.944907	0.949082	1	1	
+rv_sf	0.75861	0.945652	0.99177	0.980527	
+tau stuff	1.11491	0.926844	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	1.05599	
+kit stuff	
+eleidiso	0.948214	
+eletrigger	0.946589	0.683492	0.905412	
+
+	
+pileup_sf = 	1.44968	
+inputs	28.3446	46.9655	1.32186	-0.563051	1	5	
+sf_htt_workspace	0.9875	0.998045	0.938958	1	1	
+rv_sf	0.557852	0.952797	0.9875	0.963429	
+tau stuff	0.978014	0.949117	1	1	
+general	0.933664	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.947113	
+eletrigger	0.927241	0.193087	1	
+
+	
+pileup_sf = 	1.46289	
+inputs	32.2503	38.2168	-1.77237	0.860795	10	5	
+sf_htt_workspace	0.986639	0.955626	0.978022	1	1	
+rv_sf	0.754764	1.0062	0.986639	0.937431	
+tau stuff	1.01575	0.976646	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.976241	
+eletrigger	0.968048	0.53629	0.459801	
+
+	
+pileup_sf = 	1.4479	
+inputs	28.8851	87.1409	0.593484	-0.640709	11	5	
+sf_htt_workspace	0.998968	0.988625	0.944424	1	1	
+rv_sf	0.647556	0.95969	0.998968	0.980704	
+tau stuff	0.987947	1.04044	1	1	
+general	0.862758	1	0.984239	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.953663	
+kit stuff	
+eleidiso	0.941635	
+eletrigger	0.942079	1	1	
+
+	
+Finished entry 2500/9999
+pileup_sf = 	0.553244	
+inputs	26.2567	35.217	-1.83242	-1.63426	1	5	
+sf_htt_workspace	0.986639	0.989875	0.891479	1	1	
+rv_sf	0.534978	1.0062	0.986639	0.937431	
+tau stuff	0.978014	0.982038	1	1	
+general	0.973022	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.977372	
+eletrigger	0.827309	1	1	
+
+	
+pileup_sf = 	1.02925	
+inputs	29.4558	38.6691	1.09271	0.499575	10	5	
+sf_htt_workspace	0.9875	0.998045	0.96126	1	1	
+rv_sf	0.728565	0.952797	0.9875	0.963429	
+tau stuff	1.01575	0.994628	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.948945	
+eletrigger	0.943278	0.304984	0.302078	
+
+	
+pileup_sf = 	1.08231	
+inputs	30.304	53.8883	-1.13855	-0.524973	11	5	
+sf_htt_workspace	0.987526	0.944762	0.952084	1	1	
+rv_sf	0.690104	0.945017	0.987526	0.963636	
+tau stuff	0.987947	1.03348	1	1	
+general	0.986107	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.953663	
+kit stuff	
+eleidiso	0.950315	
+eletrigger	0.946768	0.314854	0.302078	
+
+	
+pileup_sf = 	0.620255	
+inputs	29.7645	57.4421	1.41932	0.869178	11	5	
+sf_htt_workspace	0.9875	0.998045	0.96126	1	1	
+rv_sf	0.710393	0.952797	0.9875	0.963429	
+tau stuff	0.987947	1.03121	1	1	
+general	0.949383	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.953663	
+kit stuff	
+eleidiso	0.949446	
+eletrigger	0.944556	0.310912	0.302078	
+
+	
+Finished entry 3000/9999
+pileup_sf = 	0.371808	
+inputs	25.4449	38.2685	-0.0453367	1.19493	0	5	
+sf_htt_workspace	0.98968	0.988625	0.863685	1	1	
+rv_sf	0.574953	0.945652	0.98968	0.980527	
+tau stuff	1.11491	0.908076	1	1	
+general	0.929143	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	1.05599	
+kit stuff	
+eleidiso	0.933786	
+eletrigger	0.799309	1	1	
+
+	
+pileup_sf = 	1.14206	
+inputs	29.053	43.0615	-2.02459	0.0968343	1	5	
+sf_htt_workspace	0.986556	0.989875	0.955185	1	1	
+rv_sf	0.727944	1.16262	0.986556	0.92622	
+tau stuff	0.978014	0.946744	1	1	
+general	1	1	0.978278	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.976827	
+eletrigger	0.950166	0.26774	1	
+
+	
+pileup_sf = 	1.08787	
+inputs	31.2496	65.5772	1.57744	1.31036	1	5	
+sf_htt_workspace	0.98768	0.960511	0.936213	1	1	
+rv_sf	0.744574	1.01104	0.98768	0.942794	
+tau stuff	0.978014	0.955684	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	1.00812	
+eletrigger	0.945022	0.428843	0.4658	
+
+	
+pileup_sf = 	1.02925	
+inputs	29.2328	55.8575	-1.41293	-0.437193	1	5	
+sf_htt_workspace	0.987526	0.998045	0.96126	1	1	
+rv_sf	0.696933	0.945017	0.987526	0.963636	
+tau stuff	0.978014	0.951553	1	1	
+general	0.983301	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.94858	
+eletrigger	0.942348	0.293047	0.302078	
+
+	
+pileup_sf = 	1.09525	
+inputs	27.3347	58.8118	1.37849	-0.738346	10	5	
+sf_htt_workspace	0.9875	0.998045	0.919513	1	1	
+rv_sf	0.58775	0.952797	0.9875	0.963429	
+tau stuff	1.01575	1.00167	1	1	
+general	0.892114	1	0.982741	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.945413	
+eletrigger	0.904359	0.193087	1	
+
+	
+Finished entry 3500/9999
+pileup_sf = 	1.44968	
+inputs	31.7882	41.0101	-0.995503	-1.306	10	5	
+sf_htt_workspace	0.99177	0.944907	0.947508	1	1	
+rv_sf	0.677589	0.945017	0.99177	0.963636	
+tau stuff	1.01575	0.989003	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.947763	
+eletrigger	0.945976	0.679147	0.880868	
+
+	
+pileup_sf = 	0.754005	
+inputs	31.1076	48.1057	-1.73434	0.445839	11	5	
+sf_htt_workspace	0.986639	0.955626	0.974058	1	1	
+rv_sf	0.726342	1.0062	0.986639	0.937431	
+tau stuff	0.987947	1.04237	1	1	
+general	0.920457	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.953663	
+kit stuff	
+eleidiso	0.976446	
+eletrigger	0.962776	0.351825	0.974776	
+
+	
+Finished entry 4000/9999
+pileup_sf = 	1.30191	
+inputs	26.207	45.1062	-1.08879	0.12221	1	5	
+sf_htt_workspace	0.987526	0.998045	0.863822	1	1	
+rv_sf	0.449951	0.945017	0.987526	0.963636	
+tau stuff	0.978014	0.942525	1	1	
+general	0.934012	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.943473	
+eletrigger	0.828023	1	1	
+
+	
+pileup_sf = 	0.238108	
+inputs	27.5994	39.7243	-0.912057	-0.643067	1	5	
+sf_htt_workspace	0.99177	0.988625	0.948722	1	1	
+rv_sf	0.586336	0.945017	0.99177	0.963636	
+tau stuff	0.978014	0.98711	1	1	
+general	0.945701	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.93878	
+eletrigger	0.931954	1	1	
+
+	
+pileup_sf = 	1.35354	
+inputs	30.1633	90.9487	-1.28041	-0.11217	10	5	
+sf_htt_workspace	0.987526	0.944762	0.952084	1	1	
+rv_sf	0.631892	0.945017	0.987526	0.963636	
+tau stuff	1.01575	0.951064	1	1	
+general	0.970954	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.95009	
+eletrigger	0.946194	0.31416	0.302078	
+
+	
+pileup_sf = 	1.20727	
+inputs	27.7426	55.9139	0.492144	0.49298	1	0	
+sf_htt_workspace	0.996894	0.988625	0.948722	1	1	
+rv_sf	0.728655	0.95969	0.996894	0.980704	
+tau stuff	1	0.951415	1	1	
+general	0.996264	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	1	
+kit stuff	
+eleidiso	0.939103	
+eletrigger	0.933097	1	1	
+
+	
+pileup_sf = 	1.50016	
+inputs	31.2374	35.0145	1.83877	0.756563	1	5	
+sf_htt_workspace	0.98768	0.955626	0.974058	1	1	
+rv_sf	0.776068	1.01104	0.98768	0.942794	
+tau stuff	0.978014	0.974607	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.976422	
+eletrigger	0.963378	0.406216	0.666754	
+
+	
+Finished entry 4500/9999
+pileup_sf = 	1.09525	
+inputs	26.7206	47.5044	0.14447	0.0472328	1	5	
+sf_htt_workspace	0.996894	0.988625	0.921331	1	1	
+rv_sf	0.548982	0.95969	0.996894	0.980704	
+tau stuff	0.978014	0.956265	1	1	
+general	0.926495	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.936776	
+eletrigger	0.90858	1	1	
+
+	
+pileup_sf = 	1.12091	
+inputs	32.6548	45.4732	-0.813311	1.04931	11	5	
+sf_htt_workspace	0.99177	0.944907	0.949082	1	1	
+rv_sf	0.675315	0.945017	0.99177	0.963636	
+tau stuff	0.987947	1.02683	1	1	
+general	0.965041	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.953663	
+kit stuff	
+eleidiso	0.949512	
+eletrigger	0.948348	0.689772	0.941796	
+
+	
+pileup_sf = 	1.30191	
+inputs	31.7946	85.1392	-0.0544914	-0.190257	11	5	
+sf_htt_workspace	0.98968	0.944907	0.947508	1	1	
+rv_sf	0.685633	0.945652	0.98968	0.980527	
+tau stuff	0.987947	1.04038	1	1	
+general	0.95945	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.953663	
+kit stuff	
+eleidiso	0.947776	
+eletrigger	0.945994	0.679306	0.881756	
+
+	
+pileup_sf = 	0.238108	
+inputs	26.0239	41.5778	1.44365	1.56688	10	5	
+sf_htt_workspace	0.9875	0.998045	0.863822	1	1	
+rv_sf	0.551477	0.952797	0.9875	0.963429	
+tau stuff	1.01575	0.988783	1	1	
+general	0.932769	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.943153	
+eletrigger	0.808749	1	1	
+
+	
+Finished entry 5000/9999
+pileup_sf = 	0.816767	
+inputs	28.4104	40.0847	1.15461	0.383188	1	0	
+sf_htt_workspace	0.9875	0.998045	0.938958	1	1	
+rv_sf	0.727914	0.952797	0.9875	0.963429	
+tau stuff	1	0.986436	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	1	
+kit stuff	
+eleidiso	0.947223	
+eletrigger	0.928686	0.193087	1	
+
+	
+pileup_sf = 	1.07096	
+inputs	26.6733	50.0259	0.39992	-0.787646	10	5	
+sf_htt_workspace	0.996894	0.988625	0.921331	1	1	
+rv_sf	0.571218	0.95969	0.996894	0.980704	
+tau stuff	1.01575	0.979438	1	1	
+general	0.847224	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.936667	
+eletrigger	0.905285	1	1	
+
+	
+pileup_sf = 	1.40057	
+inputs	25.8438	36.5032	1.20586	0.0326779	10	5	
+sf_htt_workspace	0.9875	0.998045	0.743222	1	1	
+rv_sf	0.412665	0.952797	0.9875	0.963429	
+tau stuff	1.01575	0.893948	1	1	
+general	1	1	0.981811	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.942838	
+eletrigger	0.788162	1	1	
+
+	
+Finished entry 5500/9999
+pileup_sf = 	1.4479	
+inputs	31.4257	115.222	1.11601	0.161173	11	5	
+sf_htt_workspace	0.9875	0.944762	0.959055	1	1	
+rv_sf	0.723091	0.952797	0.9875	0.963429	
+tau stuff	0.987947	1.04491	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.953663	
+kit stuff	
+eleidiso	0.952093	
+eletrigger	0.951143	0.4899	0.505721	
+
+	
+pileup_sf = 	0.276887	
+inputs	28.4299	61.6297	-0.193923	-0.267758	10	5	
+sf_htt_workspace	0.98968	0.988625	0.944424	1	1	
+rv_sf	0.732758	0.945652	0.98968	0.980527	
+tau stuff	1.01575	1.02723	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.940635	
+eletrigger	0.93853	1	1	
+
+	
+pileup_sf = 	1.10579	
+inputs	31.8852	41.4317	0.95524	-0.495447	1	5	
+sf_htt_workspace	0.998968	0.944907	0.947508	1	1	
+rv_sf	0.608402	0.952797	0.998968	0.963429	
+tau stuff	0.978014	0.967782	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.947961	
+eletrigger	0.946245	0.6813	0.892966	
+
+	
+pileup_sf = 	1.04863	
+inputs	27.107	46.5991	-1.83409	0.285536	1	5	
+sf_htt_workspace	0.986639	0.989875	0.93357	1	1	
+rv_sf	0.58033	1.0062	0.986639	0.937431	
+tau stuff	0.978014	0.946004	1	1	
+general	0.932218	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.977203	
+eletrigger	0.928724	0.248924	1	
+
+	
+pileup_sf = 	1.04863	
+inputs	30.6354	42.7076	-0.897353	-0.155741	10	5	
+sf_htt_workspace	0.99177	0.944907	0.951557	1	1	
+rv_sf	0.676624	0.945017	0.99177	0.963636	
+tau stuff	1.01575	0.98833	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.945381	
+eletrigger	0.943622	0.431034	0	
+
+	
+pileup_sf = 	1.25174	
+inputs	29.3403	48.1865	1.62231	1.61353	10	5	
+sf_htt_workspace	0.98768	1.08225	0.923157	1	1	
+rv_sf	0.798522	1.01104	0.98768	0.942794	
+tau stuff	1.01575	0.969533	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	1.01195	
+eletrigger	0.919389	0.284597	0.277439	
+
+	
+pileup_sf = 	1.20727	
+inputs	32.1582	35.6985	1.16102	0.334887	1	5	
+sf_htt_workspace	0.9875	0.944762	0.959188	1	1	
+rv_sf	0.626549	0.952797	0.9875	0.963429	
+tau stuff	0.978014	0.994148	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.953234	
+eletrigger	0.953808	0.525771	0.561805	
+
+	
+Finished entry 6000/9999
+pileup_sf = 	0.620255	
+inputs	30.7665	59.378	1.0472	0.257121	1	5	
+sf_htt_workspace	0.9875	0.944762	0.952084	1	1	
+rv_sf	0.572876	0.952797	0.9875	0.963429	
+tau stuff	0.978014	0.940187	1	1	
+general	1	1	0.981574	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.951053	
+eletrigger	0.948642	0.316384	0.302078	
+
+	
+pileup_sf = 	1.07096	
+inputs	30.6459	38.7689	-0.203641	1.74366	10	5	
+sf_htt_workspace	0.98968	0.944907	0.951557	1	1	
+rv_sf	0.692119	0.945652	0.98968	0.980527	
+tau stuff	1.01575	0.998498	1	1	
+general	0.99855	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.945403	
+eletrigger	0.943626	0.430989	0	
+
+	
+Finished entry 6500/9999
+pileup_sf = 	1.09525	
+inputs	25.1846	38.7945	1.32683	2.0429	11	5	
+sf_htt_workspace	0.9875	0.998045	0.743222	1	1	
+rv_sf	0.399891	0.952797	0.9875	0.963429	
+tau stuff	0.987947	0.99396	1	1	
+general	0.982324	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.953663	
+kit stuff	
+eleidiso	0.941674	
+eletrigger	0.695225	1	1	
+
+	
+pileup_sf = 	0.9679	
+inputs	26.6534	38.3849	-1.74261	1.07361	1	5	
+sf_htt_workspace	0.986639	0.989875	0.891479	1	1	
+rv_sf	0.552701	1.0062	0.986639	0.937431	
+tau stuff	0.978014	0.990105	1	1	
+general	0.934722	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.977293	
+eletrigger	0.882562	1	1	
+
+	
+pileup_sf = 	1.07096	
+inputs	32.5457	35.8451	-1.05639	0.381723	10	5	
+sf_htt_workspace	0.987526	0.944762	0.959188	1	1	
+rv_sf	0.563754	0.945017	0.987526	0.963636	
+tau stuff	1.01575	0.863923	1	1	
+general	0.93396	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.953831	
+eletrigger	0.955206	0.532278	0.572663	
+
+	
+Finished entry 7000/9999
+pileup_sf = 	0.427748	
+inputs	28.8109	37.9825	-1.96119	-0.728075	10	5	
+sf_htt_workspace	0.986639	0.989875	0.948748	1	1	
+rv_sf	0.732465	1.0062	0.986639	0.937431	
+tau stuff	1.01575	0.962734	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.976873	
+eletrigger	0.947824	0.248924	1	
+
+	
+pileup_sf = 	1.25174	
+inputs	29.794	117.355	-1.39015	-0.0915641	10	5	
+sf_htt_workspace	0.987526	0.998045	0.96126	1	1	
+rv_sf	0.67537	0.945017	0.987526	0.963636	
+tau stuff	1.01575	1.00461	1	1	
+general	0.866041	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.949494	
+eletrigger	0.944678	0.311256	0.302078	
+
+	
+pileup_sf = 	1.02925	
+inputs	31.8458	48.1534	-0.873589	-0.372397	0	5	
+sf_htt_workspace	0.99177	0.944907	0.947508	1	1	
+rv_sf	0.80759	0.945017	0.99177	0.963636	
+tau stuff	1.11491	0.953761	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	1.05599	
+kit stuff	
+eleidiso	0.947881	
+eletrigger	0.946136	0.68048	0.888345	
+
+	
+pileup_sf = 	1.4366	
+inputs	28.9288	48.3372	0.483119	0.364198	11	5	
+sf_htt_workspace	0.996894	0.988625	0.944424	1	1	
+rv_sf	0.756155	0.95969	0.996894	0.980704	
+tau stuff	0.987947	1.04226	1	1	
+general	0.993507	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.953663	
+kit stuff	
+eleidiso	0.941731	
+eletrigger	0.942418	1	1	
+
+	
+pileup_sf = 	1.08787	
+inputs	31.7956	39.9	-1.28902	-1.59983	10	5	
+sf_htt_workspace	0.987526	0.944762	0.959055	1	1	
+rv_sf	0.6989	0.945017	0.987526	0.963636	
+tau stuff	1.01575	1.00451	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.952671	
+eletrigger	0.952492	0.514898	0.544148	
+
+	
+pileup_sf = 	1.40057	
+inputs	29.7329	47.5968	-1.83383	-2.005	1	5	
+sf_htt_workspace	0.986639	0.989875	0.955185	1	1	
+rv_sf	0.636508	1.0062	0.986639	0.937431	
+tau stuff	0.978014	0.956265	1	1	
+general	0.962464	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.976699	
+eletrigger	0.954438	0.278852	1	
+
+	
+pileup_sf = 	1.04863	
+inputs	29.3234	38.4507	-1.17423	-1.09794	1	5	
+sf_htt_workspace	0.987526	0.998045	0.96126	1	1	
+rv_sf	0.601634	0.945017	0.987526	0.963636	
+tau stuff	0.978014	0.989268	1	1	
+general	0.933955	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.948728	
+eletrigger	0.942727	0.299553	0.302078	
+
+	
+pileup_sf = 	1.12091	
+inputs	28.2194	42.2429	-1.68257	-1.0877	10	5	
+sf_htt_workspace	0.986639	0.989875	0.948748	1	1	
+rv_sf	0.748035	1.0062	0.986639	0.937431	
+tau stuff	1.01575	0.989788	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.976986	
+eletrigger	0.941405	0.248924	1	
+
+	
+Finished entry 7500/9999
+pileup_sf = 	0.874259	
+inputs	27.7765	64.3221	-1.67189	-1.78996	0	5	
+sf_htt_workspace	0.986639	0.989875	0.93357	1	1	
+rv_sf	0.841144	1.0062	0.986639	0.937431	
+tau stuff	1.11491	0.971738	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	1.05599	
+kit stuff	
+eleidiso	0.977072	
+eletrigger	0.936455	0.248924	1	
+
+	
+pileup_sf = 	1.4479	
+inputs	32.9999	37.9951	-0.973378	1.03901	0	5	
+sf_htt_workspace	0.99177	0.944907	0.949082	1	1	
+rv_sf	0.774231	0.945017	0.99177	0.963636	
+tau stuff	1.11491	0.90761	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	1.05599	
+kit stuff	
+eleidiso	0.950198	
+eletrigger	0.949275	0.691522	0.95213	
+
+	
+pileup_sf = 	1.08231	
+inputs	30.281	41.7845	0.62914	2.04571	10	5	
+sf_htt_workspace	0.998968	0.944907	0.951557	1	1	
+rv_sf	0.576161	0.95969	0.998968	0.980704	
+tau stuff	1.01575	0.989304	1	1	
+general	0.761784	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.944635	
+eletrigger	0.943482	0.432951	0	
+
+	
+pileup_sf = 	1.02925	
+inputs	25.8963	42.4416	-0.847205	1.2146	1	5	
+sf_htt_workspace	0.99177	0.988625	0.863685	1	1	
+rv_sf	0.490967	0.945017	0.99177	0.963636	
+tau stuff	0.978014	0.952694	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.934855	
+eletrigger	0.843469	1	1	
+
+	
+Finished entry 8000/9999
+pileup_sf = 	1.07717	
+inputs	26.1309	77.4754	-1.37256	0.108134	11	5	
+sf_htt_workspace	0.987526	0.998045	0.863822	1	1	
+rv_sf	0.580298	0.945017	0.987526	0.963636	
+tau stuff	0.987947	1.04847	1	1	
+general	0.991629	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.953663	
+kit stuff	
+eleidiso	0.94334	
+eletrigger	0.820207	1	1	
+
+	
+pileup_sf = 	1.17059	
+inputs	31.4385	38.9372	-1.89823	0.0543245	11	5	
+sf_htt_workspace	0.986639	0.955626	0.974058	1	1	
+rv_sf	0.705205	1.0062	0.986639	0.937431	
+tau stuff	0.987947	0.994583	1	1	
+general	0.935176	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.953663	
+kit stuff	
+eleidiso	0.976386	
+eletrigger	0.964311	0.457146	0.549571	
+
+	
+pileup_sf = 	1.08231	
+inputs	31.1522	38.1396	1.47029	-0.879727	11	5	
+sf_htt_workspace	0.973193	0.944762	0.959055	1	1	
+rv_sf	0.697102	1	0.973193	1	
+tau stuff	0.987947	0.992661	1	1	
+general	0.960575	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.953663	
+kit stuff	
+eleidiso	0.951664	
+eletrigger	0.95014	0.433183	0.42831	
+
+	
+pileup_sf = 	0.687832	
+inputs	27.5252	39.157	-1.34072	-0.530392	1	5	
+sf_htt_workspace	0.987526	0.998045	0.919513	1	1	
+rv_sf	0.675337	0.945017	0.987526	0.963636	
+tau stuff	0.978014	0.985797	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.945736	
+eletrigger	0.908783	0.193087	1	
+
+	
+pileup_sf = 	0.321431	
+inputs	26.024	46.5919	1.05949	0.586093	10	5	
+sf_htt_workspace	0.9875	0.998045	0.863822	1	1	
+rv_sf	0.540122	0.952797	0.9875	0.963429	
+tau stuff	1.01575	0.962899	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.943154	
+eletrigger	0.808758	1	1	
+
+	
+pileup_sf = 	1.14206	
+inputs	26.6998	56.8023	1.69394	1.20684	0	5	
+sf_htt_workspace	0.98768	0.989875	0.891479	1	1	
+rv_sf	0.797334	1.01104	0.98768	0.942794	
+tau stuff	1.11491	0.95024	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	1.05599	
+kit stuff	
+eleidiso	0.977284	
+eletrigger	0.888748	1	1	
+
+	
+pileup_sf = 	1.46171	
+inputs	31.5086	83.5776	1.11199	1.94871	1	5	
+sf_htt_workspace	0.9875	0.944762	0.959055	1	1	
+rv_sf	0.589555	0.952797	0.9875	0.963429	
+tau stuff	0.978014	0.938897	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.952223	
+eletrigger	0.951446	0.497916	0.517728	
+
+	
+Finished entry 8500/9999
+pileup_sf = 	1.35354	
+inputs	29.4544	35.1842	-1.73525	-1.32263	11	5	
+sf_htt_workspace	0.986639	0.989875	0.955185	1	1	
+rv_sf	0.753507	1.0062	0.986639	0.937431	
+tau stuff	0.987947	1.0041	1	1	
+general	0.985906	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.953663	
+kit stuff	
+eleidiso	0.976751	
+eletrigger	0.952694	0.278031	1	
+
+	
+pileup_sf = 	1.40057	
+inputs	25.6541	38.466	-1.8401	-0.897627	1	5	
+sf_htt_workspace	0.986639	0.989875	0.703145	1	1	
+rv_sf	0.443863	1.0062	0.986639	0.937431	
+tau stuff	0.978014	0.989268	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.977494	
+eletrigger	0.73436	1	1	
+
+	
+pileup_sf = 	1.02925	
+inputs	30.4149	40.904	0.334793	-0.48471	10	5	
+sf_htt_workspace	0.996894	0.944907	0.951557	1	1	
+rv_sf	0.707217	0.95969	0.996894	0.980704	
+tau stuff	1.01575	0.989845	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.944918	
+eletrigger	0.943535	0.432114	0	
+
+	
+pileup_sf = 	0.924974	
+inputs	32.3127	54.0341	0.158835	0.50878	1	5	
+sf_htt_workspace	0.996894	0.944907	0.949082	1	1	
+rv_sf	0.604088	0.95969	0.996894	0.980704	
+tau stuff	0.978014	0.951562	1	1	
+general	0.98526	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.948826	
+eletrigger	0.947419	0.687173	0.926606	
+
+	
+Finished entry 9000/9999
+pileup_sf = 	1.02925	
+inputs	30.2323	41.3688	0.795916	0.178656	10	5	
+sf_htt_workspace	0.998968	0.944907	0.951557	1	1	
+rv_sf	0.68818	0.95969	0.998968	0.980704	
+tau stuff	1.01575	0.98845	1	1	
+general	0.970885	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.944532	
+eletrigger	0.943462	0.433302	0	
+
+	
+pileup_sf = 	1.40057	
+inputs	27.6052	40.0374	1.97877	-0.839572	1	5	
+sf_htt_workspace	0.98768	0.989875	0.93357	1	1	
+rv_sf	0.713453	1.01104	0.98768	0.942794	
+tau stuff	0.978014	0.986436	1	1	
+general	0.942503	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.873734	
+kit stuff	
+eleidiso	0.977105	
+eletrigger	0.934505	0.248924	1	
+
+	
+pileup_sf = 	1.12091	
+inputs	31.5981	46.7353	0.138709	1.03696	10	5	
+sf_htt_workspace	0.996894	0.944907	0.947508	1	1	
+rv_sf	0.66699	0.95969	0.996894	0.980704	
+tau stuff	1.01575	0.963374	1	1	
+general	0.968686	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.947375	
+eletrigger	0.945448	0.673115	0.847603	
+
+	
+pileup_sf = 	1.10579	
+inputs	27.9244	70.5489	1.04706	1.83275	11	5	
+sf_htt_workspace	0.9875	0.998045	0.919513	1	1	
+rv_sf	0.69918	0.952797	0.9875	0.963429	
+tau stuff	0.987947	1.06267	1	1	
+general	1	1	0.978563	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.953663	
+kit stuff	
+eleidiso	0.94641	
+eletrigger	0.91789	0.193087	1	
+
+	
+pileup_sf = 	0.620255	
+inputs	28.1833	39.3775	0.711544	1.8074	10	5	
+sf_htt_workspace	0.998968	0.988625	0.944424	1	1	
+rv_sf	0.742725	0.95969	0.998968	0.980704	
+tau stuff	1.01575	1.00948	1	1	
+general	1	1	1	
+l->tau miss rate	1	1	
+sf_tauidSF_vvvl	0.938111	
+kit stuff	
+eleidiso	0.940088	
+eletrigger	0.936591	1	1	
+
+	
+Finished entry 9500/9999
+Finished entry 9999/9999
+All events checked.
+*******************************************
+******************Jithin's original*************************
+    Initial entries 10000.000000
+   Passing smikking 0.000000
+Inspected genWeightd 9998.000000   % change= 0.020000
+   METFiltersPassed 9762.346656   % change= 2.357005
+    SingleTrgPassed 5415.394507   % change= 44.527738
+     GoodMuonPassed 4519.378524   % change= 16.545719
+      GoodTauPassed 246.980581   % change= 94.535076
+         opp charge 147.647376   % change= 40.219034
+ PassedThirdLepVeto 147.647376   % change= 0.000000
+     PassedBjetVeto 145.507112   % change= 1.449579
+       DeltaRPassed 145.507112   % change= 0.000000
+      Total change :98.544929
+*******************************************
+*******************************************
+Number of events inspected: 10000
+Number of events inspected (minus negative gen. weights): 9998.000000
+ Outpt written to WJetsToLNu_Incl_00_test.root
+Real time 0:00:22, CP time 20.410
+data sample analysis.....
+All files added.
+Initializing chain.
+from Init DATA
+.... DATA file ..... 
+Coming in: 
+nentries:589236
+Running over 10000 events.
+Finished entry 0/9999
+Finished entry 500/9999
+Finished entry 1000/9999
+Finished entry 1500/9999
+Finished entry 2000/9999
+Finished entry 2500/9999
+Finished entry 3000/9999
+Finished entry 3500/9999
+Finished entry 4000/9999
+Finished entry 4500/9999
+Finished entry 5000/9999
+Finished entry 5500/9999
+Finished entry 6000/9999
+Finished entry 6500/9999
+Finished entry 7000/9999
+Finished entry 7500/9999
+Finished entry 8000/9999
+Finished entry 8500/9999
+Finished entry 9000/9999
+Finished entry 9500/9999
+Finished entry 9999/9999
+All events checked.
+*******************************************
+******************Jithin's original*************************
+    Initial entries 10000.000000
+   Passing smikking 0.000000
+Inspected genWeightd 10000.000000   % change= 0.000000
+   METFiltersPassed 9965.000000   % change= 0.350000
+    SingleTrgPassed 5630.000000   % change= 43.502258
+     GoodMuonPassed 3005.000000   % change= 46.625222
+      GoodTauPassed 134.000000   % change= 95.540765
+         opp charge 102.000000   % change= 23.880597
+ PassedThirdLepVeto 100.000000   % change= 1.960784
+     PassedBjetVeto 81.000000   % change= 19.000000
+       DeltaRPassed 81.000000   % change= 0.000000
+      Total change :99.190000
+*******************************************
+*******************************************
+Number of events inspected: 10000
+Number of events inspected (minus negative gen. weights): 10000.000000
+ Outpt written to EGamma2018A_04_test.root
+Real time 0:00:10, CP time 10.150
+Runtime = 62
+Elapsed: 0hrs 1min 2sec
+"echo "Elapsed: $(($runtime / 3600))hrs $((($runtime / 60) % 60))min $(($runtime % 60))sec"" command filed with exit code 0.

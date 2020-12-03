@@ -161,24 +161,24 @@ void skimm_mt_2017::Loop(Long64_t maxEvents, int reportEvery, string SampleName,
        // 	     }
        // 	 }
        //if(HLTTau>>0&1==1 )
-       if(HLTEleMuX>>60&1==1)
-	 {
-	   //cout<<" "<<endl;
-	   triggerPassed++;
-	   for(int imu=0; imu<nMu; imu++)
-	     {
-	       //cout<<" "<<endl;
-	       //cout<<"  muon:"<<imu<<endl;
-	       for(int i=33; i<56; i++)
-		 {
-		   if(muFiredTrgs->at(imu)>>i&1==1)
-		     {
-		       trgFilterPass++;
-		       //cout<<"  filter: "<<i<<" ";
-		     }
-		 }
-	     }
-	 }
+       // if(HLTEleMuX>>60&1==1)
+       // 	 {
+       // 	   //cout<<" "<<endl;
+       // 	   triggerPassed++;
+       // 	   for(int imu=0; imu<nMu; imu++)
+       // 	     {
+       // 	       //cout<<" "<<endl;
+       // 	       //cout<<"  muon:"<<imu<<endl;
+       // 	       for(int i=33; i<56; i++)
+       // 		 {
+       // 		   if(muFiredTrgs->at(imu)>>i&1==1)
+       // 		     {
+       // 		       trgFilterPass++;
+       // 		       //cout<<"  filter: "<<i<<" ";
+       // 		     }
+       // 		 }
+       // 	     }
+       // 	 }
        
        report_test = nentriesToCheck/20;
        while (report_test>10)

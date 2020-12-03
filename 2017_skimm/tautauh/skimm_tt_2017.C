@@ -186,7 +186,7 @@ bool skimm_tt_2017::skimming_Htt(){
   std::vector<int> tmpTau2Cand;    tmpTau2Cand.clear();
 
   for(int iTau=0; iTau<nTau;iTau++){
-    if( tau_Pt->at(iTau) > 29.5           
+    if( tau_Pt->at(iTau) > 39.5           
 	&& fabs( tau_Eta->at(iTau))< 2.1
 	&& (tau_DecayMode->at(iTau) !=5 && tau_DecayMode->at(iTau)!=6) 
 	//&& (tau_IDbits->at(iTau)>>2&1==1 || tau_byVLooseDeepTau2017v2p1VSmu->at(iTau)==1 ) 
@@ -212,33 +212,22 @@ bool skimm_tt_2017::skimming_Htt(){
       tmpTau2Cand.push_back(iTau);
     }
   }
-  for(int iTau1=0; iTau1<tmpTau1Cand.size();iTau1++){
-    for(int iTau2=0; iTau2<tmpTau2Cand.size();iTau2++){
-      double deltaR = dR(tmpTau1Cand[iTau1], tmpTau2Cand[iTau2]); 
-      if(deltaR > 0.3 )
-	drCutPassed=true;
-    }
-  }
+  // for(int iTau1=0; iTau1<tmpTau1Cand.size();iTau1++){
+  //   for(int iTau2=0; iTau2<tmpTau2Cand.size();iTau2++){
+  //     double deltaR = dR(tmpTau1Cand[iTau1], tmpTau2Cand[iTau2]); 
+  //     if(deltaR > 0.3 )
+  // 	drCutPassed=true;
+  //   }
+  // }
+  double deltaR = 0.0;
+  if (tmpTau1Cand.size()>0 && tmpTau2Cand.size()>0)
+    deltaR = dR(tmpTau1Cand[0], tmpTau2Cand[0]);
+  if(deltaR > 0.3 )   drCutPassed=true;
   if(tau1Found==true && tau2Found == true && drCutPassed==true)
     tmpCand=true;
   return tmpCand;
 }
 
-std::vector<int> skimm_tt_2017::skimmed_Mu(){
-  std::vector<int> tmpCand;    tmpCand.clear();
-  for(int iMu=0; iMu<nMu;iMu++){
-    float relMuIso = ( muPFChIso->at(iMu) + max( muPFNeuIso->at(iMu) + muPFPhoIso->at(iMu) - 0.5 *muPFPUIso->at(iMu) , 0.0 )) / (muPt->at(iMu));
-    if(fabs(muDz->at(iMu)) < 0.2 &&
-       fabs(muD0->at(iMu))<0.045 &&
-       muPt->at(iMu) > 19.5      &&
-       fabs(muEta->at(iMu))< 2.4 &&
-       ( muIDbit->at(iMu)>>8&1==1  || relMuIso < 0.15)
-       ) {
-      tmpCand.push_back(iMu);
-    }
-  }
-  return tmpCand; 
-}
 
 std::vector<int> skimm_tt_2017::skimmed_Tau(){
   std::vector<int> tmpCand;    tmpCand.clear();

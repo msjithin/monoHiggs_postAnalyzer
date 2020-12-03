@@ -1,9 +1,9 @@
 
 #!/bin/bash 
 set -e 
-if [ -f "f_mutau_initial.root" ]; then
+if [ -f "f_etau_initial.root" ]; then
     echo "deleting existing f_mutau_initial.root file ....."
-    rm f_mutau_initial.root
+    rm f_etau_initial.root
 fi
 if [ "$(ls -A files_nominal)" ]; then
     echo "deleting existing files in directory files_nominal ....."
@@ -95,7 +95,7 @@ fi
 ./_postAnalyzer_mutau.exe ../files_initial/ZJetsToNuNu_HT800-1200_final.root files_nominal/ZJetsToNuNu_HT800-1200_final.root ZJetsToNuNu_HT800-1200 ZJetsToNuNu 0 
 ./_postAnalyzer_mutau.exe ../files_initial/ZZTo2L2Q_final.root files_nominal/ZZTo2L2Q_final.root ZZTo2L2Q VV 0 
 
-hadd -f f_mutau_initial.root files_nominal/*.root 
+hadd -f f_etau_initial.root files_nominal/*.root 
 echo "*************** root file made ***************" 
 sh do_make_plots.sh 
 echo "*************** plots made ***************" 

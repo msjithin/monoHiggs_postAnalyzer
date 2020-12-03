@@ -1,184 +1,1070 @@
+          
+elePt_j,DY3
+monoH   ,2747.587
+SMHtt_et,5089.391, ,difference=,-2341.804
+**********
+          
+elePt_j,TTTo2L2Nu
+monoH   ,1626.68
+SMHtt_et,1487.018, ,difference=,139.662
+**********
+          
+elePt_j,DY4
+monoH   ,1238.437
+SMHtt_et,1241.717, ,difference=,-3.281
+**********
+          
+elePt_j,TTToHadronic
+monoH   ,3.204
+SMHtt_et,3.204, ,difference=,0.0
+**********
+          
+elePt_j,DY2
+monoH   ,5990.605
+SMHtt_et,9473.736, ,difference=,-3483.131
+**********
+          
 elePt_j,DY
-monoH   ,44534.736125946045
-SMHtt_et,44865.58186340332,40302.4254025,difference=,4563.156460903323
+monoH   ,77222.585
+SMHtt_et,78182.164, ,difference=,-959.579
 **********
+          
+elePt_j,TTToSemiLeptonic
+monoH   ,584.278
+SMHtt_et,23.035, ,difference=,561.243
+**********
+          
+elePt_j,DY1
+monoH   ,12315.852
+SMHtt_et,14079.051, ,difference=,-1763.198
+**********
+          
+mT_eMet_j,DY3
+monoH   ,2872.744
+SMHtt_et,5337.75, ,difference=,-2465.006
+**********
+          
+mT_eMet_j,DY1
+monoH   ,12415.011
+SMHtt_et,14185.89, ,difference=,-1770.879
+**********
+          
+mT_eMet_j,TTToHadronic
+monoH   ,3.204
+SMHtt_et,3.204, ,difference=,0.0
+**********
+          
+mT_eMet_j,TTTo2L2Nu
+monoH   ,1822.157
+SMHtt_et,1668.152, ,difference=,154.005
+**********
+          
 mT_eMet_j,DY
-monoH   ,45043.881591796875
-SMHtt_et,45361.16357421875,40302.4254025,difference=,5058.738171718753
+monoH   ,78044.563
+SMHtt_et,78971.554, ,difference=,-926.99
 **********
+          
+mT_eMet_j,DY4
+monoH   ,1354.079
+SMHtt_et,1353.259, ,difference=,0.82
+**********
+          
+mT_eMet_j,DY2
+monoH   ,6126.486
+SMHtt_et,9688.617, ,difference=,-3562.131
+**********
+          
+mT_eMet_j,TTToSemiLeptonic
+monoH   ,680.294
+SMHtt_et,27.987, ,difference=,652.307
+**********
+          
 tauDecayMode_j,DY
-monoH   ,45043.882080078125
-SMHtt_et,45361.142822265625,40302.4254025,difference=,5058.717419765628
+monoH   ,78044.562
+SMHtt_et,78971.554, ,difference=,-926.992
 **********
+          
+tauDecayMode_j,DY1
+monoH   ,12415.01
+SMHtt_et,14185.89, ,difference=,-1770.88
+**********
+          
+tauDecayMode_j,TTToSemiLeptonic
+monoH   ,680.294
+SMHtt_et,27.987, ,difference=,652.307
+**********
+          
+tauDecayMode_j,TTTo2L2Nu
+monoH   ,1822.157
+SMHtt_et,1668.152, ,difference=,154.005
+**********
+          
+tauDecayMode_j,DY4
+monoH   ,1354.079
+SMHtt_et,1353.259, ,difference=,0.82
+**********
+          
+tauDecayMode_j,TTToHadronic
+monoH   ,3.204
+SMHtt_et,3.204, ,difference=,0.0
+**********
+          
+tauDecayMode_j,DY2
+monoH   ,6126.486
+SMHtt_et,9688.617, ,difference=,-3562.131
+**********
+          
+tauDecayMode_j,DY3
+monoH   ,2872.744
+SMHtt_et,5337.749, ,difference=,-2465.006
+**********
+          
 nJet_j,DY
-monoH   ,45041.56375551224
-SMHtt_et,45358.87271404266,40302.4254025,difference=,5056.447311542666
+monoH   ,78040.943
+SMHtt_et,78967.933, ,difference=,-926.989
 **********
+          
+nJet_j,DY1
+monoH   ,12415.01
+SMHtt_et,14185.89, ,difference=,-1770.879
+**********
+          
+nJet_j,DY3
+monoH   ,2872.744
+SMHtt_et,5337.75, ,difference=,-2465.006
+**********
+          
+nJet_j,TTTo2L2Nu
+monoH   ,1821.091
+SMHtt_et,1667.251, ,difference=,153.841
+**********
+          
+nJet_j,TTToHadronic
+monoH   ,3.204
+SMHtt_et,3.204, ,difference=,0.0
+**********
+          
+nJet_j,DY4
+monoH   ,1354.079
+SMHtt_et,1353.259, ,difference=,0.82
+**********
+          
+nJet_j,DY2
+monoH   ,6126.486
+SMHtt_et,9688.618, ,difference=,-3562.131
+**********
+          
+nJet_j,TTToSemiLeptonic
+monoH   ,679.003
+SMHtt_et,27.987, ,difference=,651.016
+**********
+          
+mass1_j,DY4
+monoH   ,645.463
+SMHtt_et,636.442, ,difference=,9.022
+**********
+          
+mass1_j,TTToSemiLeptonic
+monoH   ,303.98
+SMHtt_et,12.702, ,difference=,291.278
+**********
+          
+mass1_j,DY3
+monoH   ,1351.304
+SMHtt_et,2472.828, ,difference=,-1121.524
+**********
+          
+mass1_j,DY2
+monoH   ,3008.338
+SMHtt_et,4740.818, ,difference=,-1732.48
+**********
+          
+mass1_j,DY1
+monoH   ,6085.653
+SMHtt_et,6984.36, ,difference=,-898.707
+**********
+          
+mass1_j,TTTo2L2Nu
+monoH   ,827.888
+SMHtt_et,781.416, ,difference=,46.472
+**********
+          
 mass1_j,DY
-monoH   ,21819.321603775024
-SMHtt_et,22426.94953727722,40302.4254025,difference=,-17875.475865222776
+monoH   ,37821.903
+SMHtt_et,39100.135, ,difference=,-1278.232
 **********
+          
+mass1_j,TTToHadronic
+monoH   ,1.349
+SMHtt_et,1.349, ,difference=,0.0
+**********
+          
+mass2_j,DY2
+monoH   ,6122.536
+SMHtt_et,9685.457, ,difference=,-3562.921
+**********
+          
+mass2_j,TTTo2L2Nu
+monoH   ,1820.354
+SMHtt_et,1666.923, ,difference=,153.431
+**********
+          
+mass2_j,TTToHadronic
+monoH   ,3.204
+SMHtt_et,3.204, ,difference=,-0.0
+**********
+          
+mass2_j,TTToSemiLeptonic
+monoH   ,679.003
+SMHtt_et,27.987, ,difference=,651.016
+**********
+          
+mass2_j,DY4
+monoH   ,1353.259
+SMHtt_et,1352.439, ,difference=,0.82
+**********
+          
+mass2_j,DY3
+monoH   ,2871.766
+SMHtt_et,5336.772, ,difference=,-2465.006
+**********
+          
+mass2_j,DY1
+monoH   ,12408.027
+SMHtt_et,14180.303, ,difference=,-1772.276
+**********
+          
 mass2_j,DY
-monoH   ,45030.54210329056
-SMHtt_et,45350.8043088913,40302.4254025,difference=,5048.378906391299
+monoH   ,78022.838
+SMHtt_et,78953.449, ,difference=,-930.611
 **********
+          
+genmatch1_j,TTToSemiLeptonic
+monoH   ,680.294
+SMHtt_et,27.987, ,difference=,652.308
+**********
+          
 genmatch1_j,DY
-monoH   ,45043.85046386719
-SMHtt_et,45361.15805053711,40302.4254025,difference=,5058.732648037112
+monoH   ,78044.565
+SMHtt_et,78971.556, ,difference=,-926.99
 **********
+          
+genmatch1_j,DY2
+monoH   ,6126.486
+SMHtt_et,9688.617, ,difference=,-3562.131
+**********
+          
+genmatch1_j,DY4
+monoH   ,1354.079
+SMHtt_et,1353.259, ,difference=,0.82
+**********
+          
+genmatch1_j,TTTo2L2Nu
+monoH   ,1822.157
+SMHtt_et,1668.152, ,difference=,154.005
+**********
+          
+genmatch1_j,TTToHadronic
+monoH   ,3.204
+SMHtt_et,3.204, ,difference=,-0.0
+**********
+          
+genmatch1_j,DY3
+monoH   ,2872.744
+SMHtt_et,5337.749, ,difference=,-2465.005
+**********
+          
+genmatch1_j,DY1
+monoH   ,12415.011
+SMHtt_et,14185.89, ,difference=,-1770.88
+**********
+          
+genmatch2_j,DY1
+monoH   ,12415.011
+SMHtt_et,14185.89, ,difference=,-1770.879
+**********
+          
+genmatch2_j,TTToHadronic
+monoH   ,3.204
+SMHtt_et,3.204, ,difference=,0.0
+**********
+          
 genmatch2_j,DY
-monoH   ,45043.848019599915
-SMHtt_et,45361.14507007599,40302.4254025,difference=,5058.7196675759915
+monoH   ,78044.56
+SMHtt_et,78971.556, ,difference=,-926.996
 **********
+          
+genmatch2_j,TTToSemiLeptonic
+monoH   ,680.294
+SMHtt_et,27.987, ,difference=,652.307
+**********
+          
+genmatch2_j,DY4
+monoH   ,1354.079
+SMHtt_et,1353.259, ,difference=,0.82
+**********
+          
+genmatch2_j,DY3
+monoH   ,2872.744
+SMHtt_et,5337.75, ,difference=,-2465.006
+**********
+          
+genmatch2_j,TTTo2L2Nu
+monoH   ,1822.157
+SMHtt_et,1668.152, ,difference=,154.005
+**********
+          
+genmatch2_j,DY2
+monoH   ,6126.486
+SMHtt_et,9688.617, ,difference=,-3562.131
+**********
+          
+met_j,TTTo2L2Nu
+monoH   ,1532.097
+SMHtt_et,1392.353, ,difference=,139.744
+**********
+          
+met_j,DY4
+monoH   ,1043.24
+SMHtt_et,1037.498, ,difference=,5.741
+**********
+          
+met_j,DY2
+monoH   ,5645.373
+SMHtt_et,8918.363, ,difference=,-3272.989
+**********
+          
+met_j,TTToSemiLeptonic
+monoH   ,570.715
+SMHtt_et,24.758, ,difference=,545.958
+**********
+          
 met_j,DY
-monoH   ,43329.711334228516
-SMHtt_et,43595.14343261719,40302.4254025,difference=,3292.71803011719
+monoH   ,75191.173
+SMHtt_et,76074.71, ,difference=,-883.537
 **********
+          
+met_j,TTToHadronic
+monoH   ,3.204
+SMHtt_et,3.035, ,difference=,0.169
+**********
+          
+met_j,DY3
+monoH   ,2465.984
+SMHtt_et,4519.34, ,difference=,-2053.357
+**********
+          
+met_j,DY1
+monoH   ,12029.551
+SMHtt_et,13743.17, ,difference=,-1713.619
+**********
+          
 metPhi_j,DY
-monoH   ,45033.67218017578
-SMHtt_et,45343.194396972656,40302.4254025,difference=,5040.768994472659
+monoH   ,78026.459
+SMHtt_et,78938.964, ,difference=,-912.505
 **********
+          
+metPhi_j,TTToSemiLeptonic
+monoH   ,680.079
+SMHtt_et,27.987, ,difference=,652.092
+**********
+          
+metPhi_j,TTTo2L2Nu
+monoH   ,1821.501
+SMHtt_et,1666.923, ,difference=,154.578
+**********
+          
+metPhi_j,TTToHadronic
+monoH   ,3.204
+SMHtt_et,3.204, ,difference=,0.0
+**********
+          
+metPhi_j,DY4
+monoH   ,1353.259
+SMHtt_et,1353.259, ,difference=,-0.0
+**********
+          
+metPhi_j,DY3
+monoH   ,2870.788
+SMHtt_et,5334.816, ,difference=,-2464.028
+**********
+          
+metPhi_j,DY2
+monoH   ,6124.906
+SMHtt_et,9687.037, ,difference=,-3562.131
+**********
+          
+metPhi_j,DY1
+monoH   ,12412.916
+SMHtt_et,14182.398, ,difference=,-1769.483
+**********
+          
+trigger_j,DY3
+monoH   ,6690.032
+SMHtt_et,11741.289, ,difference=,-5051.257
+**********
+          
+trigger_j,TTTo2L2Nu
+monoH   ,4886.105
+SMHtt_et,4109.361, ,difference=,776.744
+**********
+          
+trigger_j,TTToHadronic
+monoH   ,6.914
+SMHtt_et,6.745, ,difference=,0.169
+**********
+          
+trigger_j,DY1
+monoH   ,26096.73
+SMHtt_et,27932.551, ,difference=,-1835.82
+**********
+          
+trigger_j,TTToSemiLeptonic
+monoH   ,1913.005
+SMHtt_et,69.752, ,difference=,1843.253
+**********
+          
+trigger_j,DY4
+monoH   ,3354.442
+SMHtt_et,3149.402, ,difference=,205.039
+**********
+          
 trigger_j,DY
-monoH   ,87350.021484375
-SMHtt_et,87767.275390625,40302.4254025,difference=,47464.849988125
+monoH   ,164247.363
+SMHtt_et,153818.727, ,difference=,10428.637
 **********
+          
+trigger_j,DY2
+monoH   ,13656.021
+SMHtt_et,20277.84, ,difference=,-6621.82
+**********
+          
+tauPt_j,DY2
+monoH   ,5587.703
+SMHtt_et,8830.672, ,difference=,-3242.969
+**********
+          
+tauPt_j,TTTo2L2Nu
+monoH   ,1460.955
+SMHtt_et,1341.456, ,difference=,119.499
+**********
+          
+tauPt_j,DY3
+monoH   ,2496.295
+SMHtt_et,4604.408, ,difference=,-2108.113
+**********
+          
+tauPt_j,DY1
+monoH   ,11875.926
+SMHtt_et,13566.501, ,difference=,-1690.575
+**********
+          
+tauPt_j,DY4
+monoH   ,1087.528
+SMHtt_et,1085.068, ,difference=,2.46
+**********
+          
+tauPt_j,TTToHadronic
+monoH   ,2.867
+SMHtt_et,2.867, ,difference=,0.0
+**********
+          
+tauPt_j,TTToSemiLeptonic
+monoH   ,588.584
+SMHtt_et,25.403, ,difference=,563.18
+**********
+          
 tauPt_j,DY
-monoH   ,42948.21310424805
-SMHtt_et,43280.33445739746,40302.4254025,difference=,2977.9090548974636
+monoH   ,74666.122
+SMHtt_et,75622.079, ,difference=,-955.957
 **********
+          
+eleEta_j,DY1
+monoH   ,12415.01
+SMHtt_et,14185.89, ,difference=,-1770.879
+**********
+          
+eleEta_j,TTToHadronic
+monoH   ,3.204
+SMHtt_et,3.204, ,difference=,-0.0
+**********
+          
 eleEta_j,DY
-monoH   ,45043.88195800781
-SMHtt_et,45361.16613769531,40302.4254025,difference=,5058.740735195315
+monoH   ,78044.563
+SMHtt_et,78971.555, ,difference=,-926.991
 **********
+          
+eleEta_j,TTToSemiLeptonic
+monoH   ,680.294
+SMHtt_et,27.987, ,difference=,652.307
+**********
+          
+eleEta_j,DY4
+monoH   ,1354.079
+SMHtt_et,1353.259, ,difference=,0.82
+**********
+          
+eleEta_j,DY2
+monoH   ,6126.486
+SMHtt_et,9688.617, ,difference=,-3562.131
+**********
+          
+eleEta_j,DY3
+monoH   ,2872.744
+SMHtt_et,5337.75, ,difference=,-2465.006
+**********
+          
+eleEta_j,TTTo2L2Nu
+monoH   ,1822.157
+SMHtt_et,1668.152, ,difference=,154.005
+**********
+          
+tauEta_j,TTToHadronic
+monoH   ,3.204
+SMHtt_et,3.204, ,difference=,0.0
+**********
+          
+tauEta_j,TTToSemiLeptonic
+monoH   ,680.294
+SMHtt_et,27.987, ,difference=,652.307
+**********
+          
+tauEta_j,DY2
+monoH   ,6126.486
+SMHtt_et,9688.617, ,difference=,-3562.131
+**********
+          
 tauEta_j,DY
-monoH   ,45043.882751464844
-SMHtt_et,45361.17236328125,40302.4254025,difference=,5058.746960781253
+monoH   ,78044.564
+SMHtt_et,78971.553, ,difference=,-926.99
 **********
+          
+tauEta_j,TTTo2L2Nu
+monoH   ,1822.157
+SMHtt_et,1668.152, ,difference=,154.005
+**********
+          
+tauEta_j,DY4
+monoH   ,1354.079
+SMHtt_et,1353.259, ,difference=,0.82
+**********
+          
+tauEta_j,DY3
+monoH   ,2872.744
+SMHtt_et,5337.749, ,difference=,-2465.006
+**********
+          
+tauEta_j,DY1
+monoH   ,12415.01
+SMHtt_et,14185.89, ,difference=,-1770.88
+**********
+          
 elePhi_j,DY
-monoH   ,45023.20397949219
-SMHtt_et,45338.249267578125,40302.4254025,difference=,5035.823865078128
+monoH   ,78008.353
+SMHtt_et,78931.722, ,difference=,-923.368
 **********
+          
+elePhi_j,DY2
+monoH   ,6120.956
+SMHtt_et,9682.297, ,difference=,-3561.341
+**********
+          
+elePhi_j,TTToSemiLeptonic
+monoH   ,680.079
+SMHtt_et,27.987, ,difference=,652.092
+**********
+          
+elePhi_j,TTTo2L2Nu
+monoH   ,1821.419
+SMHtt_et,1667.66, ,difference=,153.759
+**********
+          
+elePhi_j,DY3
+monoH   ,2871.766
+SMHtt_et,5335.794, ,difference=,-2464.028
+**********
+          
+elePhi_j,TTToHadronic
+monoH   ,3.204
+SMHtt_et,3.204, ,difference=,0.0
+**********
+          
+elePhi_j,DY4
+monoH   ,1353.259
+SMHtt_et,1352.439, ,difference=,0.82
+**********
+          
+elePhi_j,DY1
+monoH   ,12408.027
+SMHtt_et,14177.51, ,difference=,-1769.483
+**********
+          
+tauPhi_j,DY1
+monoH   ,12409.424
+SMHtt_et,14179.605, ,difference=,-1770.181
+**********
+          
+tauPhi_j,DY2
+monoH   ,6123.326
+SMHtt_et,9682.297, ,difference=,-3558.971
+**********
+          
+tauPhi_j,DY4
+monoH   ,1354.079
+SMHtt_et,1353.259, ,difference=,0.82
+**********
+          
+tauPhi_j,TTTo2L2Nu
+monoH   ,1821.583
+SMHtt_et,1667.66, ,difference=,153.923
+**********
+          
+tauPhi_j,TTToSemiLeptonic
+monoH   ,680.294
+SMHtt_et,27.987, ,difference=,652.307
+**********
+          
+tauPhi_j,TTToHadronic
+monoH   ,3.204
+SMHtt_et,3.204, ,difference=,0.0
+**********
+          
 tauPhi_j,DY
-monoH   ,45030.61169433594
-SMHtt_et,45347.89392089844,40302.4254025,difference=,5045.46851839844
+monoH   ,78022.838
+SMHtt_et,78949.827, ,difference=,-926.989
 **********
+          
+tauPhi_j,DY3
+monoH   ,2872.744
+SMHtt_et,5337.75, ,difference=,-2465.006
+**********
+          
+deltaPhi_j,TTToSemiLeptonic
+monoH   ,679.648
+SMHtt_et,27.987, ,difference=,651.662
+**********
+          
+deltaPhi_j,TTTo2L2Nu
+monoH   ,1819.698
+SMHtt_et,1665.857, ,difference=,153.841
+**********
+          
+deltaPhi_j,DY3
+monoH   ,2870.788
+SMHtt_et,5337.75, ,difference=,-2466.961
+**********
+          
 deltaPhi_j,DY
-monoH   ,44745.18167114258
-SMHtt_et,45044.1262512207,40302.4254025,difference=,4741.700848720706
+monoH   ,77530.375
+SMHtt_et,78428.397, ,difference=,-898.021
 **********
+          
+deltaPhi_j,DY1
+monoH   ,12399.648
+SMHtt_et,14168.433, ,difference=,-1768.785
+**********
+          
+deltaPhi_j,DY4
+monoH   ,1354.079
+SMHtt_et,1353.259, ,difference=,0.82
+**********
+          
+deltaPhi_j,DY2
+monoH   ,6122.536
+SMHtt_et,9679.137, ,difference=,-3556.601
+**********
+          
+deltaPhi_j,TTToHadronic
+monoH   ,3.204
+SMHtt_et,3.204, ,difference=,0.0
+**********
+          
 deltaEta_j,DY
-monoH   ,44917.72721481323
-SMHtt_et,45258.27042007446,40302.4254025,difference=,4955.845017574466
+monoH   ,77816.437
+SMHtt_et,78786.879, ,difference=,-970.442
 **********
+          
+deltaEta_j,DY2
+monoH   ,6083.826
+SMHtt_et,9638.057, ,difference=,-3554.231
+**********
+          
+deltaEta_j,DY1
+monoH   ,12369.621
+SMHtt_et,14150.277, ,difference=,-1780.656
+**********
+          
+deltaEta_j,TTToHadronic
+monoH   ,3.035
+SMHtt_et,2.867, ,difference=,0.169
+**********
+          
+deltaEta_j,DY3
+monoH   ,2854.166
+SMHtt_et,5307.438, ,difference=,-2453.272
+**********
+          
+deltaEta_j,TTTo2L2Nu
+monoH   ,1752.654
+SMHtt_et,1603.567, ,difference=,149.087
+**********
+          
+deltaEta_j,DY4
+monoH   ,1337.676
+SMHtt_et,1340.136, ,difference=,-2.46
+**********
+          
+deltaEta_j,TTToSemiLeptonic
+monoH   ,643.05
+SMHtt_et,26.265, ,difference=,616.786
+**********
+          
+deltaR_j,DY2
+monoH   ,6126.486
+SMHtt_et,9688.617, ,difference=,-3562.131
+**********
+          
 deltaR_j,DY
-monoH   ,45043.879730820656
-SMHtt_et,45361.13640868664,40302.4254025,difference=,5058.711006186641
+monoH   ,78044.563
+SMHtt_et,78971.553, ,difference=,-926.99
 **********
+          
+deltaR_j,TTToHadronic
+monoH   ,3.204
+SMHtt_et,3.204, ,difference=,-0.0
+**********
+          
+deltaR_j,DY4
+monoH   ,1354.079
+SMHtt_et,1353.259, ,difference=,0.82
+**********
+          
+deltaR_j,DY1
+monoH   ,12415.01
+SMHtt_et,14185.89, ,difference=,-1770.879
+**********
+          
+deltaR_j,DY3
+monoH   ,2872.744
+SMHtt_et,5337.749, ,difference=,-2465.006
+**********
+          
+deltaR_j,TTTo2L2Nu
+monoH   ,1822.157
+SMHtt_et,1668.152, ,difference=,154.005
+**********
+          
+deltaR_j,TTToSemiLeptonic
+monoH   ,680.294
+SMHtt_et,27.987, ,difference=,652.307
+**********
+          
+nEvents_j,DY3
+monoH   ,2872.744
+SMHtt_et,5337.75, ,difference=,-2465.006
+**********
+          
+nEvents_j,DY4
+monoH   ,1354.079
+SMHtt_et,1353.259, ,difference=,0.82
+**********
+          
+nEvents_j,DY1
+monoH   ,12415.011
+SMHtt_et,14185.89, ,difference=,-1770.879
+**********
+          
+nEvents_j,DY2
+monoH   ,6126.486
+SMHtt_et,9688.617, ,difference=,-3562.131
+**********
+          
 nEvents_j,DY
-monoH   ,45043.875
-SMHtt_et,45361.0859375,40302.4254025,difference=,5058.660535000003
+monoH   ,78044.563
+SMHtt_et,78971.555, ,difference=,-926.992
 **********
+          
+nEvents_j,TTToHadronic
+monoH   ,3.204
+SMHtt_et,3.204, ,difference=,0.0
+**********
+          
+nEvents_j,TTTo2L2Nu
+monoH   ,1822.157
+SMHtt_et,1668.152, ,difference=,154.005
+**********
+          
+nEvents_j,TTToSemiLeptonic
+monoH   ,680.294
+SMHtt_et,27.987, ,difference=,652.307
+**********
+          
+eventWeight_j,DY3
+monoH   ,2872.744
+SMHtt_et,5337.75, ,difference=,-2465.006
+**********
+          
+eventWeight_j,TTToHadronic
+monoH   ,3.204
+SMHtt_et,3.204, ,difference=,0.0
+**********
+          
 eventWeight_j,DY
-monoH   ,53139.08006095886
-SMHtt_et,53381.39843559265,40302.4254025,difference=,13078.973033092654
+monoH   ,78044.563
+SMHtt_et,78971.555, ,difference=,-926.992
 **********
+          
+eventWeight_j,TTTo2L2Nu
+monoH   ,1822.157
+SMHtt_et,1668.152, ,difference=,154.005
+**********
+          
+eventWeight_j,DY4
+monoH   ,1354.079
+SMHtt_et,1353.259, ,difference=,0.82
+**********
+          
+eventWeight_j,DY2
+monoH   ,6126.486
+SMHtt_et,9688.617, ,difference=,-3562.131
+**********
+          
+eventWeight_j,TTToSemiLeptonic
+monoH   ,680.294
+SMHtt_et,27.987, ,difference=,652.307
+**********
+          
+eventWeight_j,DY1
+monoH   ,12415.011
+SMHtt_et,14185.89, ,difference=,-1770.879
+**********
+          
+higgsPt_j,DY2
+monoH   ,5913.975
+SMHtt_et,9338.645, ,difference=,-3424.67
+**********
+          
+higgsPt_j,TTToHadronic
+monoH   ,3.204
+SMHtt_et,3.204, ,difference=,0.0
+**********
+          
+higgsPt_j,TTTo2L2Nu
+monoH   ,1749.376
+SMHtt_et,1599.797, ,difference=,149.579
+**********
+          
+higgsPt_j,DY4
+monoH   ,1136.737
+SMHtt_et,1134.277, ,difference=,2.46
+**********
+          
+higgsPt_j,DY1
+monoH   ,12299.792
+SMHtt_et,14054.61, ,difference=,-1754.819
+**********
+          
+higgsPt_j,TTToSemiLeptonic
+monoH   ,659.412
+SMHtt_et,26.695, ,difference=,632.717
+**********
+          
+higgsPt_j,DY3
+monoH   ,2635.141
+SMHtt_et,4882.1, ,difference=,-2246.959
+**********
+          
 higgsPt_j,DY
-monoH   ,44206.97706604004
-SMHtt_et,44513.515396118164,40302.4254025,difference=,4211.089993618167
+monoH   ,76679.427
+SMHtt_et,77606.417, ,difference=,-926.99
 **********
+          
+fakefactor_j,DY2
+monoH   ,0.0
+SMHtt_et,0.0, ,difference=,0.0
+**********
+          
 fakefactor_j,DY
-monoH   ,51117.29813957214
-SMHtt_et,51318.00739860535,40302.4254025,difference=,11015.58199610535
+monoH   ,0.0
+SMHtt_et,0.0, ,difference=,0.0
 **********
+          
+fakefactor_j,DY3
+monoH   ,0.0
+SMHtt_et,0.0, ,difference=,0.0
+**********
+          
+fakefactor_j,TTToSemiLeptonic
+monoH   ,0.0
+SMHtt_et,0.0, ,difference=,0.0
+**********
+          
+fakefactor_j,DY4
+monoH   ,0.0
+SMHtt_et,0.0, ,difference=,0.0
+**********
+          
+fakefactor_j,TTTo2L2Nu
+monoH   ,0.0
+SMHtt_et,0.0, ,difference=,0.0
+**********
+          
+fakefactor_j,TTToHadronic
+monoH   ,0.0
+SMHtt_et,0.0, ,difference=,0.0
+**********
+          
+fakefactor_j,DY1
+monoH   ,0.0
+SMHtt_et,0.0, ,difference=,0.0
+**********
+          
 elePt_j,Data
-monoH   ,114087.0
-SMHtt_et,114404.0,81508.0,difference=,32896.0
+monoH   ,114049.0
+SMHtt_et,119318.0, ,difference=,-5269.0
 **********
+          
 mT_eMet_j,Data
-monoH   ,117093.0
-SMHtt_et,117337.0,81508.0,difference=,35829.0
+monoH   ,117081.0
+SMHtt_et,122251.0, ,difference=,-5170.0
 **********
+          
 tauDecayMode_j,Data
-monoH   ,117093.0
-SMHtt_et,117337.0,81508.0,difference=,35829.0
+monoH   ,117081.0
+SMHtt_et,122251.0, ,difference=,-5170.0
 **********
+          
 nJet_j,Data
-monoH   ,117091.0
-SMHtt_et,117333.0,81508.0,difference=,35825.0
+monoH   ,117079.0
+SMHtt_et,122247.0, ,difference=,-5168.0
 **********
+          
 mass1_j,Data
-monoH   ,55317.0
-SMHtt_et,56351.0,81508.0,difference=,-25157.0
+monoH   ,55314.0
+SMHtt_et,58816.0, ,difference=,-3502.0
 **********
+          
 mass2_j,Data
-monoH   ,117041.0
-SMHtt_et,117289.0,81508.0,difference=,35781.0
+monoH   ,117030.0
+SMHtt_et,122200.0, ,difference=,-5170.0
 **********
+          
 genmatch1_j,Data
-monoH   ,117093.0
-SMHtt_et,0.0,81508.0,difference=,-81508.0
+monoH   ,117081.0
+SMHtt_et,0.0, ,difference=,117081.0
 **********
+          
 genmatch2_j,Data
-monoH   ,117093.0
-SMHtt_et,0.0,81508.0,difference=,-81508.0
+monoH   ,117081.0
+SMHtt_et,0.0, ,difference=,117081.0
 **********
+          
 met_j,Data
-monoH   ,113652.0
-SMHtt_et,113862.0,81508.0,difference=,32354.0
+monoH   ,113629.0
+SMHtt_et,118657.0, ,difference=,-5028.0
 **********
+          
 metPhi_j,Data
-monoH   ,117050.0
-SMHtt_et,117291.0,81508.0,difference=,35783.0
+monoH   ,117039.0
+SMHtt_et,122204.0, ,difference=,-5165.0
 **********
+          
 trigger_j,Data
-monoH   ,243576.0
-SMHtt_et,277126.0,81508.0,difference=,195618.0
+monoH   ,191627.0
+SMHtt_et,277453.0, ,difference=,-85826.0
 **********
+          
 tauPt_j,Data
-monoH   ,110542.0
-SMHtt_et,110749.0,81508.0,difference=,29241.0
+monoH   ,110490.0
+SMHtt_et,115535.0, ,difference=,-5045.0
 **********
+          
 eleEta_j,Data
-monoH   ,117093.0
-SMHtt_et,117337.0,81508.0,difference=,35829.0
+monoH   ,117081.0
+SMHtt_et,122251.0, ,difference=,-5170.0
 **********
+          
 tauEta_j,Data
-monoH   ,117093.0
-SMHtt_et,117337.0,81508.0,difference=,35829.0
+monoH   ,117081.0
+SMHtt_et,122251.0, ,difference=,-5170.0
 **********
+          
 elePhi_j,Data
-monoH   ,117048.0
-SMHtt_et,117290.0,81508.0,difference=,35782.0
+monoH   ,117035.0
+SMHtt_et,122199.0, ,difference=,-5164.0
 **********
+          
 tauPhi_j,Data
-monoH   ,117028.0
-SMHtt_et,117273.0,81508.0,difference=,35765.0
+monoH   ,117014.0
+SMHtt_et,122187.0, ,difference=,-5173.0
 **********
+          
 deltaPhi_j,Data
-monoH   ,116589.0
-SMHtt_et,116818.0,81508.0,difference=,35310.0
+monoH   ,116576.0
+SMHtt_et,121709.0, ,difference=,-5133.0
 **********
+          
 deltaEta_j,Data
-monoH   ,112915.0
-SMHtt_et,113277.0,81508.0,difference=,31769.0
+monoH   ,112891.0
+SMHtt_et,118026.0, ,difference=,-5135.0
 **********
+          
 deltaR_j,Data
-monoH   ,117093.0
-SMHtt_et,117337.0,81508.0,difference=,35829.0
+monoH   ,117081.0
+SMHtt_et,122251.0, ,difference=,-5170.0
 **********
+          
 nEvents_j,Data
-monoH   ,117093.0
-SMHtt_et,117337.0,81508.0,difference=,35829.0
+monoH   ,117081.0
+SMHtt_et,122251.0, ,difference=,-5170.0
 **********
+          
 eventWeight_j,Data
-monoH   ,117093.0
-SMHtt_et,117337.0,81508.0,difference=,35829.0
+monoH   ,117081.0
+SMHtt_et,122251.0, ,difference=,-5170.0
 **********
+          
 higgsPt_j,Data
-monoH   ,115823.0
-SMHtt_et,116065.0,81508.0,difference=,34557.0
+monoH   ,115807.0
+SMHtt_et,120950.0, ,difference=,-5143.0
 **********
+          
 fakefactor_j,Data
 monoH   ,0.0
-SMHtt_et,0.0,81508.0,difference=,-81508.0
+SMHtt_et,0.0, ,difference=,0.0
+**********
+          
+filterEle35_1_j,DY
+monoH   ,203843.585
+SMHtt_et,78971.555, ,difference=,124872.031
+**********
+          
+filterEle35_1_j,Data
+monoH   ,151466.0
+SMHtt_et,122251.0, ,difference=,29215.0
+**********
+          
+filterEle32_1_j,DY
+monoH   ,259271.042
+SMHtt_et,78971.553, ,difference=,180299.49
+**********
+          
+filterEle32_1_j,Data
+monoH   ,168161.0
+SMHtt_et,122251.0, ,difference=,45910.0
+**********
+          
+filterEle27_1_j,DY
+monoH   ,301199.23
+SMHtt_et,78971.553, ,difference=,222227.677
+**********
+          
+filterEle27_1_j,Data
+monoH   ,4503.0
+SMHtt_et,122251.0, ,difference=,-117748.0
+**********
+          
+filterEle24Tau30_1_j,Data
+monoH   ,29315.0
+SMHtt_et,122251.0, ,difference=,-92936.0
 **********

@@ -229,7 +229,7 @@ void etau_analyzer::Loop(Long64_t maxEvents, int reportEvery, string SampleName)
 			  && mVetoZTTp001dxyz(EleIndex, TauIndex)
 			  ) Ztt_selector=true;
 		      else Ztt_selector=false;
-		     
+		      
 		      if ( TriggerSelection(my_eleP4, my_tauP4) )
 			{
 			  if(Ztt_selector) 
@@ -1519,17 +1519,10 @@ double etau_analyzer::getScaleFactors(  double elept, double taupt, double eleet
   if(taudm==11) sf_tauTrg= h_tauTrgSF_dm11->GetBinContent(h_tauTrgSF_dm11->GetXaxis()->FindBin(tauPtCheck));
   
   ///// btag efficiency
-  vector<int> looseBjet = bJet_loose(EleIndex , TauIndex);
-  if( looseBjet.size()>0 )
-    btag_sf =  btag_csv->EvalSF(0,"comb","central",1
-				,jetPt->at(looseBjet[0])
-				,jetEta->at(looseBjet[0])
-				);
-  //cout<<"btag_sf : "<<btag_sf<<endl;
+  double weight_btagSF = btag_sf;
+  //cout<<"btag_sf : "<<weight_btagSF<<endl;
 
-  
-
-
+ 
   //// ele trigger, id scale factors from RooWorkspace
   w->var("e_pt")->setVal(elept);
   w->var("e_eta")->setVal(eleeta);
@@ -1556,17 +1549,15 @@ double etau_analyzer::getScaleFactors(  double elept, double taupt, double eleet
 
 
 
-  if( elept<28.0 && taupt>35.0 && HLTTau>>1&1 == 1 )
-    e_trg_sf=1.0; 
-  else
-    e_trg24_sf = 1.0;
+  if( elept<28.0 ) e_trg_sf=1.0; 
+  //else  e_trg24_sf = 1.0; 
     
   sf_htt_workspace=  e_trk_sf * e_idiso_sf *  e_trg24_sf * e_trg_sf * zptmass_weight;
-  rv_sf = eleEffSF_corr * sf_tauidSF_m * sf_tauTrg * sf_fakeEle * sf_fakeMu  * sf_htt_workspace * higgPt_weight * btag_sf * top_pt_weight;
-
-  // sf_htt_workspace=  e_trk_sf * e_idiso_sf *  e_trg24_sf * e_trg_sf * zptmass_weight;
-  // rv_sf = eleEffSF_corr * sf_tauidSF_m * sf_tauTrg * sf_fakeEle * sf_fakeMu  * sf_htt_workspace * higgPt_weight * btag_sf * top_pt_weight;
-
+  rv_sf = eleEffSF_corr * sf_tauidSF_m * sf_tauTrg * sf_fakeEle * sf_fakeMu  * sf_htt_workspace * higgPt_weight * weight_btagSF * top_pt_weight;
+  // printTabSeparated(
+  // 		    e_trk_sf , e_idiso_sf ,  e_trg24_sf , e_trg_sf , zptmass_weight,
+  // 		    eleEffSF_corr , sf_tauidSF_m , sf_tauTrg , sf_fakeEle , sf_fakeMu  , sf_htt_workspace , higgPt_weight , weight_btagSF , top_pt_weight
+  // 		    );
   if(isFakebkg)
     rv_sf=rv_sf*sf_tauidSF_vvvl;
   if(rv_sf>0)
@@ -1576,25 +1567,18 @@ double etau_analyzer::getScaleFactors(  double elept, double taupt, double eleet
 
 }
 bool etau_analyzer::TriggerSelection(TLorentzVector eleP4, TLorentzVector tauP4){
-  // if( 
-  //    ( HLTEleMuX>>3&1 == 1 && eleP4.Pt() > 28.0 && tauP4.Pt()>30.0 )
-  //    || ( HLTEleMuX>>61&1 == 1 && eleP4.Pt() > 33.0 && tauP4.Pt()>30.0 )
-  //    || ( HLTEleMuX>>5&1 == 1 && eleP4.Pt() > 36.0 && tauP4.Pt()>30.0 )
-  //    || ( HLTTau>>1&1 == 1 && eleP4.Pt() > 25.0 && tauP4.Pt()>35.0  && eleP4.Pt() < 28.0 && fabs(eleP4.Eta())< 2.1  && fabs(tauP4.Eta())< 2.1)
-  //     )
-  //   return true;
-  // return false;
+
   if(eleP4.Pt() > 25.0 && eleP4.Pt() < 28.0 && tauP4.Pt()>35.0  && fabs(eleP4.Eta())< 2.1  && fabs(tauP4.Eta())< 2.1 ){
     if( HLTTau>>1&1 == 1)
       return true;
     else
       return false;
   }
-  if (
-      ( HLTEleMuX>>3&1 == 1 && eleP4.Pt() > 28.0 && tauP4.Pt()>30.0 )
-      || ( HLTEleMuX>>61&1 == 1 && eleP4.Pt() > 33.0 && tauP4.Pt()>30.0 )
-      || ( HLTEleMuX>>5&1 == 1 && eleP4.Pt() > 36.0 && tauP4.Pt()>30.0 )
-      )
+  else if (
+	   ( HLTEleMuX>>3&1 == 1 && eleP4.Pt() > 28.0 && tauP4.Pt()>30.0 )
+	   || ( HLTEleMuX>>61&1 == 1 && eleP4.Pt() > 33.0 && tauP4.Pt()>30.0 )
+	   || ( HLTEleMuX>>5&1 == 1 && eleP4.Pt() > 36.0 && tauP4.Pt()>30.0 )
+	   )
     return true;
   else
     return false;
@@ -1892,6 +1876,7 @@ int etau_analyzer::if_DY_Genmatching(int eleIndex, int tauIndex){
 int etau_analyzer::eventCategory(int eleIndex, int tauIndex, double higgsPt){
   int category=0;
   std::vector<int> jetCand;       jetCand.clear();
+  jetCand = getJetCand(eleIndex, tauIndex);
   int njets = jetCand.size();
   double mjj=0;
   TLorentzVector jet1P4, jet2P4;
@@ -1944,4 +1929,26 @@ double etau_analyzer::get_zptmass_weight(){
   }
   return weight;
 
+}
+double etau_analyzer::btag_sf_weight(int eleIndex , int tauIndex){
+  double weight = 1.0;
+  vector<int> looseBjet = bJet_loose(eleIndex , tauIndex);
+  vector<int> mediumBjet = bJet_medium(eleIndex , tauIndex);
+  if( mediumBjet.size()>0 )
+    {
+      weight =  btag_csv->EvalSF(0,"comb","central",1
+				  ,jetPt->at(mediumBjet[0])
+				  ,jetEta->at(mediumBjet[0])
+				  );
+      return weight;
+    }
+  if( looseBjet.size()>0  )
+    {
+      weight =  btag_csv->EvalSF(0,"comb","central",1
+				 ,jetPt->at(looseBjet[0])
+				 ,jetEta->at(looseBjet[0])
+				 );
+      return weight;
+    }
+  return 1.0;
 }

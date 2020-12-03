@@ -981,6 +981,7 @@ public :
    int if_DY_Genmatching(int eleIndex, int tauIndex);
    double getTauFES(int tauIndex);
    double get_zptmass_weight();
+   double btag_sf_weight(int eleIndex , int tauIndex);
 };
 #endif
 
@@ -1094,7 +1095,9 @@ void etau_analyzer::Init(TChain *tree, string _isMC_ , string sampleName)
        sample.Contains("DY1JetsToLL") ||
        sample.Contains("DY2JetsToLL") ||
        sample.Contains("DY3JetsToLL") ||
-       sample.Contains("DY4JetsToLL")  ) {
+       sample.Contains("DY4JetsToLL") || 
+       sample.Contains("EWKZ2Jets")
+       ) {
     found_DYjet_sample=true;
     cout<<"****************** dyjet sample found"<<endl;
   }
@@ -1863,7 +1866,7 @@ void etau_analyzer::setMyEleTau(int eleIndex, int tauIndex){
   my_genmatching_l1 = myGenMaching1(eleIndex);
   my_genmatching_l2 = myGenMaching(tauIndex);
   pass_bjet_veto = (bJet_medium(EleIndex, TauIndex).size()==0) && (bJet_loose(EleIndex, TauIndex).size()<2);
-
+  btag_sf=btag_sf_weight(EleIndex , TauIndex);
 }
 
 #endif // #ifdef etau_analyzer_cxx

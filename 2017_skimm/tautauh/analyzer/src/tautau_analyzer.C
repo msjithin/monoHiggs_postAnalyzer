@@ -1,4 +1,4 @@
-/////tautau_analyzer.C
+////tautau_analyzer.C
 //For use with Ntuples made from ggNtuplizer
 //Required arguments: 1 is folder containing input files, 2 is output file path, 3 is maxEvents (-1 to run over all events), 4 is reportEvery
 //
@@ -44,7 +44,13 @@
 #include "TRandom3.h"
 #include <TLorentzVector.h>
 #include "makeHisto.h" 
-#include "FakeFactor.h"
+#include "RooWorkspace.h"
+#include "RooRealVar.h"
+#include "RooFunctor.h"
+
+#include "commonFunctions.h"
+#include "fractions.C"
+#include "ApplyFF.h"
 
 using namespace std;
 using std::vector;
@@ -72,8 +78,8 @@ int main(int argc, const char* argv[])
     }
   //std::string SampleName = argv[5];
   
-  tautau_analyzer t(argv[1],argv[2], isMC);
-  t.Loop(maxEvents,reportEvery, SampleName , isMC);
+  tautau_analyzer t(argv[1],argv[2], isMC, SampleName);
+  t.Loop(maxEvents,reportEvery, SampleName );
   //delete myMap1;
   cout<<" Outpt written to "<<outputfile<<endl;
   sw.Stop();
@@ -81,7 +87,7 @@ int main(int argc, const char* argv[])
   return 0;
 }
 
-void tautau_analyzer::Loop(Long64_t maxEvents, int reportEvery, string SampleName, string _isMC_)
+void tautau_analyzer::Loop(Long64_t maxEvents, int reportEvery, string SampleName)
 {
   
   int nTotal;
@@ -94,571 +100,516 @@ void tautau_analyzer::Loop(Long64_t maxEvents, int reportEvery, string SampleNam
   double nInspected_genWeighted;  
   nInspected_genWeighted = 0.0; 
   bool debug=false;  
-  double netWeight = 1.0;
-  double afterSF1=0;
-  double afterSF2=0;     
-  double afterSF3=0;     
-  double afterSF4=0;     
-
+  if(debug) cout<<"******** debugging is on ******************"<<endl;
   if (fChain == 0) return;
-  int genMatching=0; 
-  int thirdLeptonIndex=-1;
-  std::vector<int> tau1Cand;       tau1Cand.clear();
-  std::vector<int> tau2Cand;       tau2Cand.clear();
-  std::vector<int> jetCand;       jetCand.clear();
-  std::vector<int> higgsCand;     higgsCand.clear();
-  std::vector<int> reco_tau1;       reco_tau1.clear();
-  std::vector<int> reco_tau2;       reco_tau2.clear();
-    
+  //std::vector<int> eleCand;        eleCand.clear();
+  std::vector<int> tauCand;        tauCand.clear();
+  std::vector<int> tau2Cand;        tau2Cand.clear();
   TString sample = TString(SampleName);
-  
   int nHiggs = 0;
-   int nHToMuTau = 0;
-   int found_mt = 0;
-   int muCand_1=0; int muCand_2=0;int muCand_3=0;
-   int tauCand_1=0; int tauCand_2=0;int tauCand_3=0;
-
-   bool fill_hist = false;
-   bool isMC = false;
-   if( _isMC_=="MC" ) { isMC=true; fill_hist=true; }
-   else if ( _isMC_=="DATA" ) { isMC=false; fill_hist=false; }
+  bool fill_hist = false;
   
-   Double_t  Pt_Bins[26]={0.0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300, 320, 340, 360, 380, 400, 450, 500, 600, 800, 1000};
-   Double_t  Pt_Bins_highPt[21]={100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300, 320, 340, 360, 380, 400, 450, 500, 600, 800, 1000};
+  Double_t  Pt_Bins[26]={0.0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300, 320, 340, 360, 380, 400, 450, 500, 600, 800, 1000};
+  Double_t  Pt_Bins_highPt[21]={100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300, 320, 340, 360, 380, 400, 450, 500, 600, 800, 1000};
+  
+  TH1F* h_cutflow=new TH1F("cutflow", "cutflow", 10, 0, 10); h_cutflow->Sumw2();
+  TH1F* h_cutflow_n=new TH1F("cutflow_n", "cutflow_n", 8, 0, 8);h_cutflow_n->Sumw2();
+  TH1F* h_cutflow_n_fr=new TH1F("cutflow_n_fr", "cutflow_n_fr", 8, 0, 8);h_cutflow_n_fr->Sumw2();
+  TH1F* h_cutflow_n_dyll=new TH1F("cutflow_n_dyll", "cutflow_n_dyll", 8, 0, 8);h_cutflow_n_dyll->Sumw2();
+  TH1F* h_cutflow_n_dyll_fr=new TH1F("cutflow_n_dyll_fr", "cutflow_n_dyll_fr", 8, 0, 8);h_cutflow_n_dyll_fr->Sumw2();
+  //TH1F* h_cutflow_Htt=new TH1F("cutflow_Htt", "cutflow_Htt", 11, 0, 11); h_cutflow_Htt->Sumw2();
+  
+  
+  Long64_t nentries = fChain->GetEntries();
+  if ( is_MC==true ) std::cout<<".... MC file ..... "<<std::endl;
+  else  std::cout<<".... DATA file ..... "<<std::endl;
 
-   //TH1F* h_cutflow=new TH1F("cutflow", "cutflow", 10, 0, 10); h_cutflow->Sumw2();
-   TH1F* h_cutflow_n=new TH1F("cutflow_n", "cutflow_n", 8, 0, 8);h_cutflow_n->Sumw2();
-   TH1F* h_cutflow_n_fr=new TH1F("cutflow_n_fr", "cutflow_n_fr", 8, 0, 8);h_cutflow_n_fr->Sumw2();
-   TH1F* h_cutflow_n_dyll=new TH1F("cutflow_n_dyll", "cutflow_n_dyll", 8, 0, 8);h_cutflow_n_dyll->Sumw2();
-   TH1F* h_cutflow_n_dyll_fr=new TH1F("cutflow_n_dyll_fr", "cutflow_n_dyll_fr", 8, 0, 8);h_cutflow_n_dyll_fr->Sumw2();
-   //TH1F* h_cutflow_Htt=new TH1F("cutflow_Htt", "cutflow_Htt", 11, 0, 11); h_cutflow_Htt->Sumw2();
-
-   TLorentzVector myMomTau, myTauh,  myNeu, myHiggs; 
-   bool found_Wjet_sample=false;
-   bool found_DYjet_sample=false;
-   int PID =0;
-   if ( sample.Contains("WJetsToLNu") ||
-	sample.Contains("W1JetsToLNu") ||
-	sample.Contains("W2JetsToLNu") ||
-	sample.Contains("W3JetsToLNu") ||
-	sample.Contains("W4JetsToLNu") 	) {
-     found_Wjet_sample=true;
-     PID = 24;
-     cout<<"****************** wjet sample found"<<endl;
-   }
-   if ( sample.Contains("DYJetsToLL") ||
-	sample.Contains("DY1JetsToLL") ||
-	sample.Contains("DY2JetsToLL") ||
-	sample.Contains("DY3JetsToLL") ||
-	sample.Contains("DY4JetsToLL")  ) {
-     found_DYjet_sample=true;
-     PID = 23;
-     cout<<"****************** dyjet sample found"<<endl;
-   }
-   if(debug)cout<<" setting up kFactor files ..."<<endl;
-   TH1F *NLO_QCD_EWK,*NLO_EWK,*NLO_QCD,*NNLO_QCD;
-   TFile* f_nnlo_qcd = TFile::Open("sf_files/RootFiles/theory/lindert_qcd_nnlo_sf.root");
-   TFile* f_nlo_qcd  = TFile::Open("sf_files/RootFiles/theory/2017_gen_v_pt_qcd_sf.root");
-   TFile* f_qcd_ewk;
-   if ( found_Wjet_sample ) {
-     f_qcd_ewk = TFile::Open("sf_files/RootFiles/theory/merged_kfactors_wjets.root");
-     NLO_QCD_EWK = (TH1F*)f_qcd_ewk->Get("kfactor_monojet_qcd_ewk");
-     NLO_EWK = (TH1F*)f_qcd_ewk->Get("kfactor_monojet_ewk");
-     NLO_QCD = (TH1F*)f_nlo_qcd->Get("wjet_dress_monojet");
-     NNLO_QCD = (TH1F*)f_nnlo_qcd->Get("evj");
-     
-   } else if ( found_DYjet_sample ) {
-     f_qcd_ewk = TFile::Open("sf_files/RootFiles/theory/merged_kfactors_zjets.root");
-     NLO_QCD_EWK = (TH1F*)f_qcd_ewk->Get("kfactor_monojet_qcd_ewk");
-     NLO_EWK = (TH1F*)f_qcd_ewk->Get("kfactor_monojet_ewk");
-     f_nlo_qcd = TFile::Open("sf_files/RootFiles/theory/kfac_dy_filter.root");
-     NLO_QCD = (TH1F*)f_nlo_qcd->Get("kfac_dy_filter");
-     NNLO_QCD = (TH1F*)f_nnlo_qcd->Get("eej");
-     
-   }
-   double ff_nom=1.0;
-   TFile* ff_file = TFile::Open("sf_files/tauHtauH/fakeFactors.root");
-   FakeFactor* ff1 = (FakeFactor*)ff_file->Get("ff_comb");
-   std::vector<double> inputs1(8);
-   FakeFactor* ff2 = (FakeFactor*)ff_file->Get("ff_comb");
-   std::vector<double> inputs2(8);
-   // if(debug)cout<<" setting up other files ..."<<endl;
+  std::cout<<"Coming in: "<<std::endl;
+  std::cout<<"nentries:"<<nentries<<std::endl;
+  //Look at up to maxEvents events, or all if maxEvents == -1.
+  Long64_t nentriesToCheck = nentries;
+  if (maxEvents != -1LL && nentries > maxEvents)
+    nentriesToCheck = maxEvents;
+  nTotal = nentriesToCheck;
+  Long64_t nbytes = 0, nb = 0;
    
-   TLorentzVector tau1P4;
-   TLorentzVector tau2P4;
+  std::cout<<"Running over "<<nTotal<<" events."<<std::endl;
+  //TStopwatch sw;
+  //sw.Start();
    
-   Long64_t nentries = fChain->GetEntries();
-   if ( isMC==true ) std::cout<<".... MC file ..... "<<std::endl;
-   else  std::cout<<".... DATA file ..... "<<std::endl;
+  for (Long64_t jentry=0; jentry<nentriesToCheck;jentry++)
+    {
+       	      
+      //eleCand.clear();
+      tauCand.clear();   tau2Cand.clear();
+       
+      Long64_t ientry = LoadTree(jentry);
+      if (ientry < 0) break;
+      nb = fChain->GetEntry(jentry);   nbytes += nb;
+      double inspected_event_weight = 1.0; 
+      if(is_MC)	 fabs(genWeight) > 0.0 ? inspected_event_weight *= genWeight/fabs(genWeight) : inspected_event_weight = 0.0;
+      nInspected_genWeighted += inspected_event_weight;  
+      nInspected += 1; 
+      double event_weight=1.0;
+      double weight=1.0;
+      double applySf=1.0;
+       
+      double pileup_sf = 1.0;
+      bool passTauTrigger=false;
+      int report_i=0;
+      bool Ztt_selector=false;
 
-   std::cout<<"Coming in: "<<std::endl;
-   std::cout<<"nentries:"<<nentries<<std::endl;
-   //Look at up to maxEvents events, or all if maxEvents == -1.
-   Long64_t nentriesToCheck = nentries;
-   if (maxEvents != -1LL && nentries > maxEvents)
-     nentriesToCheck = maxEvents;
-   nTotal = nentriesToCheck;
-   Long64_t nbytes = 0, nb = 0;
-   
-   std::cout<<"Running over "<<nTotal<<" events."<<std::endl;
-   //TStopwatch sw;
-   //sw.Start();
-   
-   for (Long64_t jentry=0; jentry<nentriesToCheck;jentry++)
-     {
-       if(debug) cout<<"event "<<jentry<<endl;
-       tau1Cand.clear();   tau2Cand.clear();
-       jetCand.clear();
-       higgsCand.clear();
-       reco_tau1.clear();   reco_tau2.clear();
+      numberOfEvents+=weight;
+      if(is_MC) weight=inspected_event_weight;
+      else weight=1.0;
+      if(is_MC)
+	pileup_sf = h_pileup->GetBinContent(h_pileup->GetXaxis()->FindBin(puTrue->at(0)));
+      weight = weight*pileup_sf;
+      if(is_MC)
+	weight=weight*prefiringweight;
+      if( isGoodVtx==false ) continue;
+       
 
+       
+      ////Trigger bit selection
+      // 5 : HLT_DoubleTightChargedIsoPFTau35_Trk1_TightID_eta2p1_Reg_v
+      // 6 : HLT_DoubleMediumChargedIsoPFTau40_Trk1_TightID_eta2p1_Reg_v
+      // 7 : HLT_DoubleTightChargedIsoPFTau40_Trk1_eta2p1_Reg_v
+      if(  HLTTau>>5&1==1 || HLTTau>>6&1==1 || HLTTau>>7&1==1  )
+	passTauTrigger=true;
+       
+      /////
+      if(debug)cout<<"entry # : "<<jentry<<endl;
+       
+      if(debug)cout<<"reco selections begin"<<endl;
+      tauCand.clear(); tau2Cand.clear();
+      ////// reco selection begin
+      if(debug)cout<<"signal region DY->ll -  isolated begin"<<endl;
+      ////// DY Z-> ll signal region -  isolated begin
+      bool dy_ll_genmatching=false;
+      //dy_ll_genmatching=true;
 
-       Long64_t ientry = LoadTree(jentry);
-       if (ientry < 0) break;
-       nb = fChain->GetEntry(jentry);   nbytes += nb;
-       double inspected_event_weight = 1.0; 
-       if(isMC)	 fabs(genWeight) > 0.0 ? inspected_event_weight *= genWeight/fabs(genWeight) : inspected_event_weight = 0.0;
-       nInspected_genWeighted += inspected_event_weight;  
-       nInspected += 1; 
-       //h_insEvents->SetBinContent(1, nInspected_genWeighted);
-       //=1.0 for real data
-       double event_weight=1.0;
-       double weight=1.0;
-       double muRC_sf = 1.0; double randomN = gRandom->Rndm();
-       
-       double pileup_sf = 1.0;
-       double kfactor = 1.0;
-       double nlo_ewk = 1.0;
-       double nlo_qcd_binned = 1.0;
-       double nlo_qcd = 1.0;
-       double nnlo_qcd =1.0;
-       int bosonPID;
-       double bosonPt=0.0;
-       bool Wfound = false;
-       bool passSingleTriggerPaths=false;
-       bool passCrossTrigger=false;
-       int report_i=0;
-       bool tauTriggerFilterMatch=false;
-       
-       bool tauTau_selector=false;
-       bool tauDoubleCount=false;
-       numberOfEvents+=weight;
-       weight=inspected_event_weight;
-       if (isMC) genMatching = gen_matching();
-       else genMatching = 0;
-       //cout<<"genMatch = "<<genMatching<<endl;
-       if(debug)cout<<"this worked Line 314"<<endl;
-       
-       if(isMC) weight=inspected_event_weight;
-       else weight=1.0;
-       int leading_tau = -1;     float leading_tPt=0;
-       int subleading_tau = -1;  float subleading_tPt=0;
-       
-       if(isMC)
-	 pileup_sf = h_pileup->GetBinContent(h_pileup->GetXaxis()->FindBin(puTrue->at(0)));
-       weight = weight*pileup_sf;
-       if( isGoodVtx==false ) continue;
-       //if( noisyJet2017()==true ) continue;
-       //if( found_DYjet_sample && !(genMatching<5))
-       //	 continue;
-
-       if( found_DYjet_sample && hasGenTau())
-	 tauTau_selector=true;
-       else if( found_DYjet_sample && !hasGenTau() )
-	 tauTau_selector=false;
-       else if ( !found_DYjet_sample )
-	 tauTau_selector=true;
-       
-       tauTau_selector=true;
-       /////Trigger bit selection
-       // if(HLTEleMuX>>21&1 == 1 || HLTEleMuX>>60&1 == 1 )
-       // 	 passSingleTriggerPaths=true;
-       if( HLTTau>>6&1==1 
-	   //|| HLTTau>>10&1==1 
-	   || HLTTau>>7&1==1 
-	   //|| HLTTau>>11&1==1
-	   || HLTTau>>5&1==1
-	   //|| HLTTau>>12&1==1
-	   )
-	 passCrossTrigger=true;
-       ////
-       if(isMC && (found_Wjet_sample || found_DYjet_sample)){
-	 if(debug)cout<<"check which mc particle is W boson"<<endl;
-	 for(int i=0; i<nMC;i++){
-	   if(abs((*mcPID)[i]) == PID){
-	     if(!( mcStatus->at(i) == 62)) continue;
-	     Wfound=true;
-	     bosonPID = (*mcPID)[i];
-	     bosonPt = (*mcPt)[i];
-	   }
-	 }
-	 if ( bosonPt > 0 ){
-	   if(debug)cout<<"Accessing nlo ewk, qcd"<<endl;
-	   nlo_ewk = NLO_EWK->GetBinContent(NLO_EWK->GetXaxis()->FindBin(bosonPt));
-	   nlo_qcd_binned=NLO_QCD->GetBinContent(NLO_QCD->GetXaxis()->FindBin(bosonPt));
-	   if (found_Wjet_sample) {
-	     nlo_qcd = exponential(bosonPt,1.053, 3.163e-3, 0.746);
-	   } else if (found_DYjet_sample) {
-	     //nlo_qcd = exponential(bosonPt,1.434, 2.210e-3, 0.443);
-	     nlo_qcd = NLO_QCD->GetBinContent(NLO_QCD->GetXaxis()->FindBin(bosonPt));
-	   } //else if (type == GJets) {
-	   //nlo_qcd = exponential(bosonPt,1.159, 1.944e-3, 1.0);
-	   // }
-	   
-	   if(debug)cout<<"Accessing nnlo qcd"<<endl;
-	   nnlo_qcd = NNLO_QCD->GetBinContent(NNLO_QCD->GetXaxis()->FindBin(bosonPt));
-	 }
-	 // if (isNLO) kfactor = nlo_ewk * nnlo_qcd;
-	 // else kfactor = nlo_ewk * nlo_qcd * nnlo_qcd;
-      	 if(debug) cout<<"apply kfactor"<<endl;
-	 if(nlo_ewk*nlo_qcd !=0 ) kfactor = nlo_ewk * nlo_qcd;
-	 
-       }
-       weight=weight*kfactor;
-       //cout<<" kfactor = "<<kfactor<<endl;
-       event_weight=weight;
-       if(debug)cout<<"reco selections begin"<<endl;
-       
-       tau1Cand.clear();   tau2Cand.clear();
-       event_weight=weight;
-       
-       ////// signal region -  isolated begin
-       if(tauTau_selector)
-	 {
-	   if(metFilters==0)
-	     {
-	       
-	       if(debug)cout<<"metfilters selected"<<endl;
-	       if(isMC) fabs(genWeight) > 0.0 ? event_weight *= genWeight/fabs(genWeight) : event_weight = 0;
-	       nMETFiltersPassed+=event_weight;
-	       if(debug)cout<<"genweight applied"<<endl;
-	       if(  passSingleTriggerPaths || passCrossTrigger )
-		 {
-		   nSingleTrgPassed+=event_weight;
-		   if(debug)cout<<"trigger selected"<<endl;
-		   tau1Cand = getTauCand(40,2.1);  ///// muons selected 
-		   if( tau1Cand.size() >0 ) 
-		     { 
-		       nGoodMuonPassed+=event_weight;
-		       if(debug)cout<<"this worked Line 284"<<endl;
-		       tau2Cand = getTau2Cand(40, 2.1, tau1Cand[0]);
-		       if( tau2Cand.size()>0 ) 
-			 {
-			   nGoodTauPassed+=event_weight;
-			   if(debug)cout<<"this worked Line 305"<<endl;
-
-			   reco_tau1.clear();reco_tau2.clear();
-			   reco_tau1=tau1Cand; reco_tau2=tau2Cand;
-			   //cout<<"tau 1 pt: "<<tau_Pt->at(reco_tau1[0])<< "   tau 2 pt: "<<tau_Pt->at(reco_tau2[0])<<endl;
-			   if ( MatchTriggerFilter(reco_tau1[0], reco_tau2[0]) )
-			     {
-			       if ( tau_Charge->at(reco_tau1[0]) * tau_Charge->at(reco_tau2[0]) < 0  ) 
-				 {
-				   nGoodMuTauPassed+=event_weight;
-				   tau1P4.SetPtEtaPhiE(tau_Pt->at(reco_tau1[0]), tau_Eta->at(reco_tau1[0]), tau_Phi->at(reco_tau1[0]), tau_Energy->at(reco_tau1[0]));
-				   tau2P4.SetPtEtaPhiE(tau_Pt->at(reco_tau2[0]), tau_Eta->at(reco_tau2[0]), tau_Phi->at(reco_tau2[0]), tau_Energy->at(reco_tau2[0]));
-				   if(debug)cout<<"this worked Line 314, SR opp charge passed"<<endl;
-				   std::vector<int> jetCand;       jetCand.clear();
-				   jetCand=getJetCand(reco_tau1[0], reco_tau2[0]);
-				   inputs1[0] = tau_Pt->at(reco_tau2[0]);
-				   inputs1[1] = tau_Pt->at(reco_tau1[0]);
-				   inputs1[2] = tau_DecayMode->at(reco_tau1[0]);
-				   inputs1[3] = jetCand.size();
-				   inputs1[4] = VisMass_F(tau1P4, tau2P4);
-				   inputs1[5] = 1;
-				   inputs1[6] = 0;
-				   inputs1[7] = 0;
-
-				   ff_nom = ff1->value(inputs1);
-				   cout<<"ff_weight = "<<ff_nom<<endl;
-				   if(debug)cout<<" sf : "<<getScaleFactors( reco_tau1[0] , reco_tau2[0] , false , isMC , debug ) <<endl;
-				   if (isMC) event_weight = event_weight * getScaleFactors( reco_tau1[0] , reco_tau2[0], false , isMC , debug );
-				   afterSF4+=event_weight;
-				   if( thirdLeptonVeto() < 0 )
-				     {
-				       nPassedThirdLepVeto+=event_weight;
-				       
-				       if( passBjetVeto() == true)
-					 {
-					   nPassedBjetVeto+=event_weight;
-					   
-					   double deltaR = delta_R(  tau1P4.Phi(), tau1P4.Eta(), tau2P4.Phi(), tau2P4.Eta());
-					   if(deltaR > 0.5 )
-					     {
-					       nDeltaRPassed+=event_weight;
-					       if(isMC==false)event_weight=1.0;
-					       if(debug)cout<<"this worked Line 374"<<endl;
-					       fillHist("5", tau1P4, tau2P4, reco_tau1[0], reco_tau2[0], event_weight);
-					       double mT_muMet = TMass_F( tau_Pt->at(reco_tau1[0]),  tau_Phi->at(reco_tau1[0]),pfMET,pfMETPhi  );
-					       if( mT_muMet < 50)
-						 {
-						   fillHist("6", tau1P4, tau2P4, reco_tau1[0], reco_tau2[0], event_weight);
-						 }
-					     }
-					 }
-				     }
-				 }
-			     }
-			 }
-		     }
-		 }
-	     }  //////// signal region end
-	   
-	   ////// fake background region - antiisolated begin
-	   if(debug)cout<<"moving to fake bkg"<<endl;
-	   event_weight=weight;
-	   tau1Cand.clear();   tau2Cand.clear();
-	   if(metFilters==0)
-	     {
-	       
-	       if(isMC) fabs(genWeight) > 0.0 ? event_weight *= genWeight/fabs(genWeight) : event_weight = 0;
-	       nMETFiltersPassed_fr+=event_weight;
-	       if(  passSingleTriggerPaths || passCrossTrigger  )
-		 {
-		   nSingleTrgPassed_fr+=event_weight;
-		   if(debug)cout<<"trigger selected"<<endl;
-		   tau1Cand = getTauCand(40,2.1);  ///// muons selected 
-		   if( tau1Cand.size() >0 ) 
-		     { 
-		       nGoodMuonPassed_fr+=event_weight;
-		       if(debug)cout<<"this worked Line 284"<<endl;
-		       tau2Cand = getAISRTau2Cand(40, 2.1, tau1Cand[0]);
-		       if( tau2Cand.size()>0 ) 
-			 {
-			   nGoodTauPassed_fr+=event_weight;
-			   if(debug)cout<<"this worked Line 305"<<endl;
-			   tauDoubleCount=true;
-			   reco_tau1.clear();reco_tau2.clear();
-			   reco_tau1=tau1Cand; reco_tau2=tau2Cand;
-			   //cout<<"tau 1 pt: "<<tau_Pt->at(reco_tau1[0])<< "   tau 2 pt: "<<tau_Pt->at(reco_tau2[0])<<endl;
-			   if ( MatchTriggerFilter(reco_tau1[0], reco_tau2[0]) )
-			     {
-			       if ( tau_Charge->at(reco_tau1[0]) * tau_Charge->at(reco_tau2[0]) < 0  ) 
-				 {
-				   nGoodMuTauPassed_fr+=event_weight;
-				   tau1P4.SetPtEtaPhiE(tau_Pt->at(reco_tau1[0]), tau_Eta->at(reco_tau1[0]), tau_Phi->at(reco_tau1[0]), tau_Energy->at(reco_tau1[0]));
-				   tau2P4.SetPtEtaPhiE(tau_Pt->at(reco_tau2[0]), tau_Eta->at(reco_tau2[0]), tau_Phi->at(reco_tau2[0]), tau_Energy->at(reco_tau2[0]));
-				   if(debug)cout<<"this worked Line 314, SR opp charge passed"<<endl;
+      if(!is_MC)
+	event_weight=1.0;
+      else
+	event_weight=weight;
+      if(metFilters==0 )
+	{
+	  if(debug)cout<<"metfilters selected"<<endl;
+	  if(is_MC) fabs(genWeight) > 0.0 ? event_weight *= genWeight/fabs(genWeight) : event_weight = 0;
+	  nMETFiltersPassed_dyll+=event_weight;
+	  //makeTestPlot("a_dyll", 0,0,0,event_weight);
+	  if(debug)cout<<"genweight applied"<<endl;
+	  if( passTauTrigger )
+	    {
+	      nSingleTrgPassed_dyll+=event_weight;
+	      if(debug)cout<<"trigger selected"<<endl;
+	      //makeTestPlot("b_dyll", 0,0,0,event_weight);
+	      tauCand = getTauCand(40.0,2.1);  ///// tau selected
+	      if( tauCand.size() >0 ) 
+		{ 
+		  nGoodMuonPassed_dyll+=event_weight;
+		  if(debug)cout<<"this worked Line 443"<<endl;
+		  //makeTestPlot("c_dyll", 0,0,0,event_weight);
+		   
+		  //tauCand = getTauCand(40.0,2.1);
+		  if( tauCand.size()>=2  ) 
+		    {
+		      nGoodTauPassed_dyll+=event_weight;
+		      if(debug)cout<<"this worked Line 424"<<endl;
+		      //makeTestPlot("d_dyll", 0,0,0,event_weight);
+		       
+		      setMyEleTau(tauCand[0], tauCand[1]); 
+		      // from here we can use my_eleP4, my_tauP4, my_metP4, etc
+		      
+		      if( eVetoZTTp001dxyz(Tau1Index, Tau2Index)
+			  && mVetoZTTp001dxyz(Tau1Index, Tau2Index)
+			  ) Ztt_selector=true;
+		      else Ztt_selector=false;
+		      
+		      if ( TriggerSelection(my_tau1P4, my_tau2P4) )
+			{
+			  if(Ztt_selector) 
+			    {
+			      if ( tau_Charge->at(Tau1Index)*tau_Charge->at(Tau2Index)<0  )
 				   
-				   event_weight = event_weight* getFR(reco_tau2[0]) * 0.5;
-				   //event_weight = event_weight* getFR(reco_tau2[0]);
-				   /////
-				   if(debug)cout<<" fake bkg sf : "<<getScaleFactors(  reco_tau1[0] , reco_tau2[0] , true , isMC , debug ) <<endl;
-				   if(isMC) event_weight = event_weight * getScaleFactors(  reco_tau1[0] , reco_tau2[0] , true , isMC , debug );
-				   /////
-				   if( thirdLeptonVeto() < 0 )
-				     {
-				       nPassedThirdLepVeto_fr+=event_weight;
-				       
-				       if( passBjetVeto() == true)
-					 {
-					   nPassedBjetVeto_fr+=event_weight;
-					   
-					   double deltaR = delta_R(  tau1P4.Phi(), tau1P4.Eta(), tau2P4.Phi(), tau2P4.Eta());
-					   if(deltaR > 0.5 )
-					     {
-					       nDeltaRPassed_fr+=event_weight;
-					       if(isMC==false)event_weight=1.0;
-					       if(debug)cout<<"this worked Line 374"<<endl;
-					       fillHist("5_fr", tau1P4, tau2P4, reco_tau1[0], reco_tau2[0], event_weight);
-					       double mT_muMet = TMass_F( tau_Pt->at(reco_tau1[0]),  tau_Phi->at(reco_tau1[0]),pfMET,pfMETPhi  );
-					       if( mT_muMet < 50)
-						 {
-						   fillHist("6_fr", tau1P4, tau2P4, reco_tau1[0], reco_tau2[0], event_weight);
-						 }
-					     }
-					 }
-				     }
-				 }
-			     }
-			 }
-		     }
-		 }
-	     }
+				{
+				  nGoodMuTauPassed_dyll+=event_weight;
+				  //makeTestPlot("e_dyll", 0,0,0,event_weight);
+				  
+				  if ( MatchTriggerFilter(Tau1Index, Tau2Index) )
+				    {
+			       
+				      if(debug)cout<<"this worked Line 314, SR opp charge passed"<<endl;
+				  
+				      applySf=1.0;
+				      if(is_MC)
+				      	applySf=  getScaleFactors( my_tau1P4.Pt(),
+				      				   my_tau2P4.Pt(),
+				      				   my_tau1P4.Eta(),				      				   
+				      				   my_tau2P4.Eta(),
+				      				   tau_DecayMode->at(Tau1Index),
+				      				   myGenMaching(Tau1Index),
+				      				   false  /// this is set to true for fake bakground
+				      				   );
+				   
+				      // if(debug)cout<<" sf : "<<getScaleFactors( EleIndex[0] , TauIndex[0] , false , is_MC , debug ) <<endl;
+				      event_weight = event_weight * applySf;
+				      
+				      //makeTestPlot("f_dyll", 0,0,0,event_weight);
+				      if( thirdLeptonVeto(Tau1Index, Tau2Index)  )
+					{
+					  nPassedThirdLepVeto_dyll+=event_weight;
+					  
+					  //if( pass_bjet_veto )
+					  {
+					  
+					    nPassedBjetVeto_dyll+=event_weight;
+					    //makeTestPlot("h_dyll", 0,0,0,event_weight);
+					    double deltaR =  my_tau1P4.DeltaR(my_tau2P4);
+					    if(deltaR > 0.5 )
+					      {
+						nDeltaRPassed_dyll+=event_weight;
+						if(is_MC==false)event_weight=1.0;
+						//makeTestPlot("i_dyll", 0,0,0,event_weight);
+						if(debug)cout<<"this worked Line 374"<<endl;
+						fillHist("5_dyll",  Tau1Index, Tau2Index, false, event_weight);
+					       
+						double mT_tauMet = TMass_F(my_tau2P4.Pt(),my_tau2P4.Phi(), my_metP4.Pt(), my_metP4.Phi() );
+				
+						if( mT_tauMet < 50 )
+						  {
+						    fillHist("6_dyll", Tau1Index, Tau2Index, false, event_weight);
+						    //makeTestPlot("j_dyll", 0,0,0,event_weight);
+						  }
+					      }
+					  }
+					}
+				    }
+				}
+			    }
+			}
+		    }
+		}
+	    }
+	}
+      
+      if(debug)cout<<"signal region -  isolated begin L523"<<endl;       
+      
+      Ztt_selector=false;
+      ////// signal region -  isolated begin
+      if(is_MC)
+	event_weight=weight;
+      else
+	event_weight=1.0;
+      tauCand.clear();   tau2Cand.clear();
 	   
-	   event_weight=weight;
-	   tau1Cand.clear();   tau2Cand.clear();
-	   
-	   if(metFilters==0)
-	     {
-	       
-	       if(isMC) fabs(genWeight) > 0.0 ? event_weight *= genWeight/fabs(genWeight) : event_weight = 0;
-	       nMETFiltersPassed_fr+=event_weight;
-	       if(  passSingleTriggerPaths || passCrossTrigger  )
-		 {
-		   nSingleTrgPassed_fr+=event_weight;
-		   if(debug)cout<<"trigger selected"<<endl;
-		   if( tauDoubleCount==false)
-		     tau1Cand = getAISRTauCand(40,2.1);  ///// taus selected 
-		   else
-		     tau1Cand = getTauCand(40,2.1);
-		   if( tau1Cand.size() >0 ) 
-		     { 
-		       nGoodMuonPassed_fr+=event_weight;
-		       if(debug)cout<<"this worked Line 284"<<endl;
-		       if( tauDoubleCount==false)
-			 tau2Cand = getTau2Cand(40, 2.1, tau1Cand[0]);
-		       else
-			 tau2Cand = getAISRTau2Cand(40, 2.1, tau1Cand[0]);
-		       if( tau2Cand.size()>0 ) 
-			 {
-			   nGoodTauPassed_fr+=event_weight;
-			   if(debug)cout<<"this worked Line 305"<<endl;
+      if(metFilters==0)
+	{
+	  if(debug)cout<<"metfilters selected"<<endl;
+	  if (is_MC) fabs(genWeight) > 0.0 ? event_weight *= genWeight/fabs(genWeight) : event_weight = 0;
+	  nMETFiltersPassed+=event_weight;
+	  //makeTestPlot("a", 0,0,0,event_weight);
+	  if(debug)cout<<"genweight applied"<<endl;
+	  if( passTauTrigger  )
+	    {
+	      nSingleTrgPassed+=event_weight;
+	      if(debug)cout<<"trigger selected"<<endl;
+	      //makeTestPlot("b", 0,0,0,event_weight);
+	      tauCand = getTauCand(40.0,2.1);  ///// tau selected
+	      if( tauCand.size() >0 ) 
+		{ 
+		  nGoodMuonPassed+=event_weight;
+		  if(debug)cout<<"this worked Line 526"<<endl;
+		       
+		  //makeTestPlot("c", 0,0,0,event_weight);
+		  if( tauCand.size() >=2 )
+		    {
+		      nGoodTauPassed+=event_weight;
+		      setMyEleTau(tauCand[0], tauCand[1]);
+		      //makeTestPlot("d", 0,0,0,event_weight);
 			   
-			   reco_tau1.clear();reco_tau2.clear();
-			   reco_tau1=tau1Cand; reco_tau2=tau2Cand;
-			   //cout<<"tau 1 pt: "<<tau_Pt->at(reco_tau1[0])<< "   tau 2 pt: "<<tau_Pt->at(reco_tau2[0])<<endl;
-			   if ( MatchTriggerFilter(reco_tau1[0], reco_tau2[0]) )
-			     {
-			       if ( tau_Charge->at(reco_tau1[0]) * tau_Charge->at(reco_tau2[0]) < 0  ) 
-				 {
-				   nGoodMuTauPassed_fr+=event_weight;
-				   tau1P4.SetPtEtaPhiE(tau_Pt->at(reco_tau1[0]), tau_Eta->at(reco_tau1[0]), tau_Phi->at(reco_tau1[0]), tau_Energy->at(reco_tau1[0]));
-				   tau2P4.SetPtEtaPhiE(tau_Pt->at(reco_tau2[0]), tau_Eta->at(reco_tau2[0]), tau_Phi->at(reco_tau2[0]), tau_Energy->at(reco_tau2[0]));
-				   if(debug)cout<<"this worked Line 314, SR opp charge passed"<<endl;
-				   if( tauDoubleCount==false)
-				     event_weight = event_weight* getFR(reco_tau1[0])*0.5;
-				   else
-				     event_weight = event_weight* getFR(reco_tau2[0])*0.5;
-				   /////
-				   if(debug)cout<<" fake bkg sf : "<<getScaleFactors(  reco_tau1[0] , reco_tau2[0] , true , isMC , debug ) <<endl;
-				   if(isMC) event_weight = event_weight * getScaleFactors(  reco_tau1[0] , reco_tau2[0] , true , isMC , debug );
-				   /////
-				   if( thirdLeptonVeto() < 0 )
-				     {
-				       nPassedThirdLepVeto_fr+=event_weight;
-				       
-				       if( passBjetVeto() == true)
-					 {
-					   nPassedBjetVeto_fr+=event_weight;
+		      if( eVetoZTTp001dxyz(Tau1Index, Tau2Index)
+                          && mVetoZTTp001dxyz(Tau1Index, Tau2Index)
+                          ) Ztt_selector=true;
+                      else Ztt_selector=false;			   
+			   
+		      if ( TriggerSelection(my_tau1P4, my_tau2P4) )
+                        {
+			  if(Ztt_selector) 
+			    {
+			   		   
+			      if ( tau_Charge->at(Tau1Index)*tau_Charge->at(Tau2Index)<0  )
+				
+				{
+				  nGoodMuTauPassed+=event_weight;
+			       
+				  if(debug)cout<<"this worked Line 538"<<endl;
+			       
+				  //makeTestPlot("e", 0,0,0,event_weight);
+				  if ( MatchTriggerFilter(Tau1Index, Tau2Index) )
+				    {
+				      if(debug)cout<<"this worked Line 534"<<endl;
+				      applySf=1.0;
+				      if(is_MC)
+					applySf=  getScaleFactors( my_tau1P4.Pt(),
+                                                                   my_tau2P4.Pt(),
+                                                                   my_tau1P4.Eta(),
+                                                                   my_tau2P4.Eta(),
+                                                                   tau_DecayMode->at(Tau1Index),
+                                                                   myGenMaching(Tau1Index),
+                                                                   false  /// this is set to true for fake bakground
+                                                                   );
+				      // if(debug)cout<<" sf : "<<getScaleFactors( EleIndex[0] , TauIndex[0] , false , is_MC , debug ) <<endl;
+				      event_weight = event_weight * applySf;
+				      //makeTestPlot("f", 0,0,0,event_weight);
+				      if( thirdLeptonVeto(Tau1Index, Tau2Index)  )
+					{
+					  nPassedThirdLepVeto+=event_weight;
+					  //makeTestPlot("g", 0,0,0,event_weight);
+					  //if( pass_bjet_veto )
+					  {
+					    nPassedBjetVeto+=event_weight;
+					    //makeTestPlot("h", 0,0,0,event_weight);
+					    //if(tau_DecayMode->at(TauIndex)==5 || tau_DecayMode->at(TauIndex)==6) continue;
+					    
+					    double deltaR = my_tau1P4.DeltaR(my_tau2P4);
+					    if(deltaR > 0.5 )
+					      {
+						nDeltaRPassed+=event_weight;
+						if(is_MC==false)event_weight=1.0;
+						if(debug)cout<<"this worked Line 558"<<endl;
+						fillHist("5",  Tau1Index, Tau2Index, false, event_weight);
+						//makeTestPlot("i", 0,0,0,event_weight);
+						double mT_tauMet = TMass_F(my_tau2P4.Pt(),my_tau2P4.Phi(), my_metP4.Pt(), my_metP4.Phi() );
+						  
+						if( mT_tauMet < 50 )
+						  {
+						    fillHist("6", Tau1Index, Tau2Index, false, event_weight);
+						    //makeTestPlot("j", 0,0,0,event_weight);
+						  }
+					      }
+					  }
+					}
+				    }
+				}
+			    }
+			}
+		    }
+		}
+	    }
+	}
+      //////// signal region end
+      if(debug)cout<<"fake background region - antiisolated begin 625"<<endl;
+      ///// fake background region - antiisolated begin
+      if(is_MC)
+	event_weight=weight;
+      else
+	event_weight=1.0;
+      tauCand.clear();   tau2Cand.clear();
+      if(metFilters==0)
+	{
+	  if (is_MC)fabs(genWeight) > 0.0 ? event_weight *= genWeight/fabs(genWeight) : event_weight = 0;
+	  nMETFiltersPassed_fr+=event_weight;
+	  //makeTestPlot("a_fr", 0,0,0,event_weight);
+	  if( passTauTrigger  )
+	    {
+	      nSingleTrgPassed_fr+=event_weight;
+	      if(debug)cout<<"trigger selected line 636"<<endl;
+	      //makeTestPlot("b_fr", 0,0,0,event_weight);
+	      bool tautauSelected=false;
+	      int leadingtau = -1; int subleadingtau = -1;
+	      tauCand = getTauCand_noID(40.0,2.1);  ///// taus selected
+	      if( tauCand.size()>0 )
+		{
+		  nGoodMuonPassed_fr+=event_weight;
+		  //makeTestPlot("c_fr", 0,0,0,event_weight);
+		  if(debug)cout<<"this worked Line "<<__LINE__<<endl;
+		  assignTauIndices(tauCand , leadingtau, subleadingtau);  // select iso and anti-iso taus -> subleading & leading taus
+		  if( tauCand.size()>=2 && leadingtau>-1 && subleadingtau>-1 ) 
+		    { 
+		      // cout<<"getTauCand_noID size ="<<tauCand.size()
+		      // 	  <<"  leadingtau :"<< tau_Pt->at(leadingtau)
+		      // 	  <<"  subleadingtau : " << tau_Pt->at(subleadingtau)
+		      // 	  << " leadingtau :"<<tau_byVVVLooseDeepTau2017v2p1VSjet->at(leadingtau)
+		      // 	  << tau_byMediumDeepTau2017v2p1VSjet->at(leadingtau)
+		      // 	  << " subleading tau : " << tau_byMediumDeepTau2017v2p1VSjet->at(subleadingtau)
+		      // 	  <<endl;
+		      
+		      //nGoodTauPassed_fr+=event_weight;
+		      //makeTestPlot("d_fr", 0,0,0,event_weight);
+		      
+		      setMyEleTau(leadingtau, subleadingtau); 
+		      double mt=TMass_F(my_tau2P4.Pt(),my_tau2P4.Phi()
+					,my_metP4.Pt(), my_metP4.Phi());
+		      double mvis=(my_tau1P4+my_tau2P4).M();
+		      double higgsPt = (my_tau1P4 + my_tau2P4 + my_metP4).Pt();
+		      double frac_tt=0.01; double frac_qcd=0.24; double frac_w=0.75; 
+		      int category=eventCategory(Tau1Index , Tau2Index, higgsPt) ;
+		      getFractions(category, mvis, frac_qcd, frac_w, frac_tt); /// this assigns right values for qcd, w and tt fractions
+		      float my_fakefactor = get_ff( my_tau1P4.Pt(), my_tau2P4.Pt(), mt, mvis, my_njets
+						    , frac_tt, frac_qcd, frac_w
+						    , ff_qcd_0jet, ff_qcd_1jet,ff_qcd_2jet
+						    , subleadingTauPt_correction
+						    , osssclosure_qcd);
+		      //printTabSeparated("my_fakefactor",my_fakefactor,
+		      //			"fractions",frac_qcd, frac_w, frac_tt
+		      //			);
+		      event_weight = event_weight*my_fakefactor;
+		      if( eVetoZTTp001dxyz(Tau1Index, Tau2Index)
+			  && mVetoZTTp001dxyz(Tau1Index, Tau2Index)
+			  ) Ztt_selector=true;
+		      else Ztt_selector=false;
+		      nGoodTauPassed_fr+=event_weight;
+		      if ( TriggerSelection(my_tau1P4, my_tau2P4) )
+			{
+			  if(Ztt_selector)
+			    {
+			      if ( tau_Charge->at(Tau1Index)*tau_Charge->at(Tau2Index)<0 )
+				{				  
+				  nGoodMuTauPassed_fr+=event_weight;
+				  //makeTestPlot("e_fr", 0,0,0,event_weight);
+				  if ( MatchTriggerFilter(Tau1Index, Tau2Index) )
+				    {
+				      
+				      applySf=1.0;
+				      if(is_MC)
+                                        applySf=  getScaleFactors( my_tau1P4.Pt(),
+                                                                   my_tau2P4.Pt(),
+                                                                   my_tau1P4.Eta(),
+                                                                   my_tau2P4.Eta(),
+                                                                   tau_DecayMode->at(Tau1Index),
+                                                                   myGenMaching(Tau1Index),
+                                                                   false  /// this is set to true for fake bakground
+                                                                   );
+				  
+				      event_weight = event_weight * applySf;
+				      
+				      //event_weight = event_weight* getFR(TauIndex);
+
+				      //makeTestPlot("f_fr", 0,0,0,event_weight);
+				      if( thirdLeptonVeto(Tau1Index, Tau2Index) )
+					{
+					  nPassedThirdLepVeto_fr+=event_weight;
+					  //makeTestPlot("g_fr", 0,0,0,event_weight);
+					  //if( pass_bjet_veto )
+					  {
+					    nPassedBjetVeto_fr+=event_weight;
+					    //makeTestPlot("h_fr", 0,0,0,event_weight);
+					    //if(tau_DecayMode->at(TauIndex)==5 || tau_DecayMode->at(TauIndex)==6) continue;
 					   
-					   double deltaR = delta_R(  tau1P4.Phi(), tau1P4.Eta(), tau2P4.Phi(), tau2P4.Eta());
-					   if(deltaR > 0.5 )
-					     {
-					       nDeltaRPassed_fr+=event_weight;
-					       if(isMC==false)event_weight=1.0;
-					       if(debug)cout<<"this worked Line 374"<<endl;
-					       fillHist("5_fr", tau1P4, tau2P4, reco_tau1[0], reco_tau2[0], event_weight);
-					       double mT_muMet = TMass_F( tau_Pt->at(reco_tau1[0]),  tau_Phi->at(reco_tau1[0]),pfMET,pfMETPhi  );
-					       if( mT_muMet < 50)
-						 {
-						   fillHist("6_fr", tau1P4, tau2P4, reco_tau1[0], reco_tau2[0], event_weight);
-						 }
-					     }
-					 }
-				     }
-				 }
-			     }
-			 }
-		     }
-		 }
-	     }
-	   
-	 }
-       ////// fake rate anti isolated region end
-
-       
-       report_test = nentriesToCheck/20;
-       while (report_test>10)
-	 {
-	   report_test=report_test/10;
-	   report_i++;
-	 }
-       if(nentriesToCheck>20)
-	 reportEvery = report_test*pow(10,report_i);
-       else 
-	 reportEvery = 1;
-       if (jentry%reportEvery == 0)
-	 {
-	   std::cout<<"Finished entry "<<jentry<<"/"<<(nentriesToCheck-1)<<std::endl;
-	 }
-     }
+					    double deltaR = my_tau1P4.DeltaR(my_tau2P4);
+					    if(deltaR > 0.5 )
+					      {
+						nDeltaRPassed_fr+=event_weight;
+						//makeTestPlot("i_fr", 0,0,0,event_weight);
+						if(debug)cout<<"this worked Line 442"<<endl;
+						fillHist("5_fr", Tau1Index, Tau2Index, true, event_weight);
+						//double mT_tauMet = TMass_F(my_tau2P4.Pt(),my_tau2P4.Phi(), my_metP4.Pt(), my_metP4.Phi() );
+						  
+						if( mt < 50 )
+						    
+						  {
+						    fillHist("6_fr", Tau1Index, Tau2Index, true, event_weight);
+						    //makeTestPlot("j_fr", 0,0,0,event_weight);
+						  }			      
+					      }
+					  }
+					}
+				    }
+				}
+			    }
+			}
+		    }
+		}
+	    }
+	}
+      ////// fake rate anti isolated region end
+      report_test = nentriesToCheck/20;
+      while (report_test>10)
+	{
+	  report_test=report_test/10;
+	  report_i++;
+	}
+      if(nentriesToCheck>20)
+	reportEvery = report_test*pow(10,report_i);
+      else 
+	reportEvery = 1;
+      if (jentry%reportEvery == 0) 
+	{
+	  std::cout<<"Finished entry "<<jentry<<"/"<<(nentriesToCheck-1)<<std::endl;
+	}
+    }
    
-   
+  std::cout.setf( std::ios::fixed, std:: ios::floatfield );
+  if((nentriesToCheck-1)%reportEvery != 0)
+    std::cout<<"Finished entry "<<(nentriesToCheck-1)<<"/"<<(nentriesToCheck-1)<<std::endl;
+  // sw.Stop();
+  std::cout<<"All events checked."<<std::endl;
+  std::cout<<"*******************************************"<<std::endl;
+  std::cout<<"******************Jithin's original*************************"<<std::endl;
+  std::cout<<std::setw(20) <<std::right <<"Initial entries "<<numberOfEvents<<std::endl;
+  std::cout<<std::setw(20) <<std::right <<"Passing smikking "<<nPassedSkimmed<<std::endl;
+  std::cout<<std::setw(20) <<std::right <<"Inspected genWeightd "<<nInspected_genWeighted<<std::setw(10) <<std::right << "   % change= "<<(numberOfEvents-nInspected_genWeighted)*100/numberOfEvents<<std::endl;
+  std::cout<<std::setw(20) <<std::right <<"METFiltersPassed "<<nMETFiltersPassed<<std::setw(10) <<std::right << "   % change= "<<(nInspected_genWeighted-nMETFiltersPassed)*100/nInspected_genWeighted<<std::endl;
 
-   std::cout.setf( std::ios::fixed, std:: ios::floatfield );
-   if((nentriesToCheck-1)%reportEvery != 0)
-     std::cout<<"Finished entry "<<(nentriesToCheck-1)<<"/"<<(nentriesToCheck-1)<<std::endl;
-   // sw.Stop();
-   std::cout<<"All events checked."<<std::endl;
-   std::cout<<"*******************************************"<<std::endl;
-   std::cout<<"******************Jithin's original*************************"<<std::endl;
-   std::cout<<std::setw(20) <<std::right <<"Initial entries "<<numberOfEvents<<std::endl;
-   std::cout<<std::setw(20) <<std::right <<"Passing smikking "<<nPassedSkimmed<<std::endl;
-   std::cout<<std::setw(20) <<std::right <<"Inspected genWeightd "<<nInspected_genWeighted<<std::setw(10) <<std::right << "   % change= "<<(numberOfEvents-nInspected_genWeighted)*100/numberOfEvents<<std::endl;
-   std::cout<<std::setw(20) <<std::right <<"METFiltersPassed "<<nMETFiltersPassed<<std::setw(10) <<std::right << "   % change= "<<(nInspected_genWeighted-nMETFiltersPassed)*100/nInspected_genWeighted<<std::endl;
+  std::cout<<std::setw(20) <<std::right <<"SingleTrgPassed "<<nSingleTrgPassed<<std::setw(10) <<std::right << "   % change= "<<(nMETFiltersPassed-nSingleTrgPassed)*100/nMETFiltersPassed<<std::endl;
 
-   std::cout<<std::setw(20) <<std::right <<"SingleTrgPassed "<<nSingleTrgPassed<<std::setw(10) <<std::right << "   % change= "<<(nMETFiltersPassed-nSingleTrgPassed)*100/nMETFiltersPassed<<std::endl;
+  std::cout<<std::setw(20) <<std::right <<"GoodMuonPassed "<<nGoodMuonPassed<<std::setw(10) <<std::right << "   % change= "<<(nSingleTrgPassed-nGoodMuonPassed)*100/nSingleTrgPassed<<std::endl;
+  std::cout<<std::setw(20) <<std::right <<"GoodTauPassed "<<nGoodTauPassed<<std::setw(10) <<std::right << "   % change= "<<(nGoodMuonPassed-nGoodTauPassed)*100/nGoodMuonPassed<<std::endl;
+  //   std::cout<<std::setw(20) <<std::right <<"TauIsoPassed "<<nTauIsoPassed<<std::setw(10) <<std::right << "   % change= "<<(nGoodTauPassed-nTauIsoPassed)*100/nGoodTauPassed<<std::endl;
+  //std::cout<<std::setw(20) <<std::right <<"TauDecayModePassed "<<nTauDecayModePassed<<std::setw(10) <<std::right << "   % change= "<<(nTauIsoPassed-nTauDecayModePassed)*100/nTauIsoPassed<<std::endl;
 
-   std::cout<<std::setw(20) <<std::right <<"GoodMuonPassed "<<nGoodMuonPassed<<std::setw(10) <<std::right << "   % change= "<<(nSingleTrgPassed-nGoodMuonPassed)*100/nSingleTrgPassed<<std::endl;
-   std::cout<<std::setw(20) <<std::right <<"GoodTauPassed "<<nGoodTauPassed<<std::setw(10) <<std::right << "   % change= "<<(nGoodMuonPassed-nGoodTauPassed)*100/nGoodMuonPassed<<std::endl;
-   //   std::cout<<std::setw(20) <<std::right <<"TauIsoPassed "<<nTauIsoPassed<<std::setw(10) <<std::right << "   % change= "<<(nGoodTauPassed-nTauIsoPassed)*100/nGoodTauPassed<<std::endl;
-   //std::cout<<std::setw(20) <<std::right <<"TauDecayModePassed "<<nTauDecayModePassed<<std::setw(10) <<std::right << "   % change= "<<(nTauIsoPassed-nTauDecayModePassed)*100/nTauIsoPassed<<std::endl;
-
-   std::cout<<std::setw(20) <<std::right <<"opp charge "<<nGoodMuTauPassed<<std::setw(10) <<std::right << "   % change= "<<(nGoodTauPassed-nGoodMuTauPassed)*100/nGoodTauPassed<<std::endl;
-
-   std::cout<<std::setw(20) <<std::right <<"after sf 1 "<<afterSF1<<std::setw(10) <<std::right << "   % change= "<<(nGoodTauPassed-nGoodMuTauPassed)*100/nGoodTauPassed<<std::endl;
-   std::cout<<std::setw(20) <<std::right <<"after sf 2 "<<afterSF2<<std::setw(10) <<std::right << "   % change= "<<(nGoodTauPassed-nGoodMuTauPassed)*100/nGoodTauPassed<<std::endl;
-   std::cout<<std::setw(20) <<std::right <<"after sf 3 "<<afterSF3<<std::setw(10) <<std::right << "   % change= "<<(nGoodTauPassed-nGoodMuTauPassed)*100/nGoodTauPassed<<std::endl;
-   std::cout<<std::setw(20) <<std::right <<"after sf 4 "<<afterSF4<<std::setw(10) <<std::right << "   % change= "<<(nGoodTauPassed-nGoodMuTauPassed)*100/nGoodTauPassed<<std::endl;
+  std::cout<<std::setw(20) <<std::right <<"opp charge "<<nGoodMuTauPassed<<std::setw(10) <<std::right << "   % change= "<<(nGoodTauPassed-nGoodMuTauPassed)*100/nGoodTauPassed<<std::endl;
 
    
-   std::cout<<std::setw(20) <<std::right <<"PassedThirdLepVeto "<<nPassedThirdLepVeto<<std::setw(10) <<std::right << "   % change= "<<(nGoodMuTauPassed-nPassedThirdLepVeto)*100/nGoodMuTauPassed<<std::endl;
-   std::cout<<std::setw(20) <<std::right <<"PassedBjetVeto "<<nPassedBjetVeto<<std::setw(10) <<std::right << "   % change= "<<(nPassedThirdLepVeto-nPassedBjetVeto)*100/nPassedThirdLepVeto<<std::endl;
-   std::cout<<std::setw(20) <<std::right <<"DeltaRPassed "<<nDeltaRPassed<<std::setw(10) <<std::right << "   % change= "<<(nPassedBjetVeto-nDeltaRPassed)*100/nPassedBjetVeto<<std::endl;
+  std::cout<<std::setw(20) <<std::right <<"PassedThirdLepVeto "<<nPassedThirdLepVeto<<std::setw(10) <<std::right << "   % change= "<<(nGoodMuTauPassed-nPassedThirdLepVeto)*100/nGoodMuTauPassed<<std::endl;
+  std::cout<<std::setw(20) <<std::right <<"PassedBjetVeto "<<nPassedBjetVeto<<std::setw(10) <<std::right << "   % change= "<<(nPassedThirdLepVeto-nPassedBjetVeto)*100/nPassedThirdLepVeto<<std::endl;
+  std::cout<<std::setw(20) <<std::right <<"DeltaRPassed "<<nDeltaRPassed<<std::setw(10) <<std::right << "   % change= "<<(nPassedBjetVeto-nDeltaRPassed)*100/nPassedBjetVeto<<std::endl;
 
 
-   std::cout<<std::setw(20) <<std::right <<"Total change :"<<(numberOfEvents-nDeltaRPassed)*100/numberOfEvents<<std::endl;
-   std::cout<<"*******************************************"<<std::endl;
-   std::cout<<"*******************************************"<<std::endl;
-   std::cout<<std::setw(20) <<std::right <<"Number of events inspected: " << nInspected <<std::endl;
-   std::cout<<std::setw(20) <<std::right << "Number of events inspected (minus negative gen. weights): " << nInspected_genWeighted << std::endl; 
+  std::cout<<std::setw(20) <<std::right <<"Total change :"<<(numberOfEvents-nDeltaRPassed)*100/numberOfEvents<<std::endl;
+  std::cout<<"*******************************************"<<std::endl;
+  std::cout<<"*******************************************"<<std::endl;
+  std::cout<<std::setw(20) <<std::right <<"Number of events inspected: " << nInspected <<std::endl;
+  std::cout<<std::setw(20) <<std::right << "Number of events inspected (minus negative gen. weights): " << nInspected_genWeighted << std::endl; 
    
 
-     
-   h_cutflow_n->SetBinContent(1,nInspected_genWeighted );
-   h_cutflow_n->SetBinContent(2, nSingleTrgPassed);
-   h_cutflow_n->SetBinContent(3, nGoodMuonPassed);
-   h_cutflow_n->SetBinContent(4, nGoodTauPassed);
-   h_cutflow_n->SetBinContent(5, nGoodMuTauPassed);
-   h_cutflow_n->SetBinContent(6, nPassedThirdLepVeto);
-   h_cutflow_n->SetBinContent(7, nPassedBjetVeto);
-   h_cutflow_n->SetBinContent(8, nDeltaRPassed);
+  h_cutflow_n->SetBinContent(1,nInspected_genWeighted );
+  h_cutflow_n->SetBinContent(2, nSingleTrgPassed);
+  h_cutflow_n->SetBinContent(3, nGoodMuonPassed);
+  h_cutflow_n->SetBinContent(4, nGoodTauPassed);
+  h_cutflow_n->SetBinContent(5, nGoodMuTauPassed);
+  h_cutflow_n->SetBinContent(6, nPassedThirdLepVeto);
+  h_cutflow_n->SetBinContent(7, nPassedBjetVeto);
+  h_cutflow_n->SetBinContent(8, nDeltaRPassed);
    
-   h_cutflow_n_fr->SetBinContent(1,nInspected_genWeighted );
-   h_cutflow_n_fr->SetBinContent(2, nSingleTrgPassed_fr);
-   h_cutflow_n_fr->SetBinContent(3, nGoodMuonPassed_fr);
-   h_cutflow_n_fr->SetBinContent(4, nGoodTauPassed_fr);
-   h_cutflow_n_fr->SetBinContent(5, nGoodMuTauPassed_fr);
-   h_cutflow_n_fr->SetBinContent(6, nPassedThirdLepVeto_fr);
-   h_cutflow_n_fr->SetBinContent(7, nPassedBjetVeto_fr);
-   h_cutflow_n_fr->SetBinContent(8, nDeltaRPassed_fr);
+  h_cutflow_n_fr->SetBinContent(1,nInspected_genWeighted );
+  h_cutflow_n_fr->SetBinContent(2, nSingleTrgPassed_fr);
+  h_cutflow_n_fr->SetBinContent(3, nGoodMuonPassed_fr);
+  h_cutflow_n_fr->SetBinContent(4, nGoodTauPassed_fr);
+  h_cutflow_n_fr->SetBinContent(5, nGoodMuTauPassed_fr);
+  h_cutflow_n_fr->SetBinContent(6, nPassedThirdLepVeto_fr);
+  h_cutflow_n_fr->SetBinContent(7, nPassedBjetVeto_fr);
+  h_cutflow_n_fr->SetBinContent(8, nDeltaRPassed_fr);
+   
+  /// dy Z->ll
+  h_cutflow_n_dyll->SetBinContent(1,nInspected_genWeighted );
+  h_cutflow_n_dyll->SetBinContent(2, nSingleTrgPassed_dyll);
+  h_cutflow_n_dyll->SetBinContent(3, nGoodMuonPassed_dyll);
+  h_cutflow_n_dyll->SetBinContent(4, nGoodTauPassed_dyll);
+  h_cutflow_n_dyll->SetBinContent(5, nGoodMuTauPassed_dyll);
+  h_cutflow_n_dyll->SetBinContent(6, nPassedThirdLepVeto_dyll);
+  h_cutflow_n_dyll->SetBinContent(7, nPassedBjetVeto_dyll);
+  h_cutflow_n_dyll->SetBinContent(8, nDeltaRPassed_dyll);
+   
+  ///
 
-   /// dy Z->ll
-   h_cutflow_n_dyll->SetBinContent(1,nInspected_genWeighted );
-   h_cutflow_n_dyll->SetBinContent(2, nSingleTrgPassed_dyll);
-   h_cutflow_n_dyll->SetBinContent(3, nGoodMuonPassed_dyll);
-   h_cutflow_n_dyll->SetBinContent(4, nGoodTauPassed_dyll);
-   h_cutflow_n_dyll->SetBinContent(5, nGoodMuTauPassed_dyll);
-   h_cutflow_n_dyll->SetBinContent(6, nPassedThirdLepVeto_dyll);
-   h_cutflow_n_dyll->SetBinContent(7, nPassedBjetVeto_dyll);
-   h_cutflow_n_dyll->SetBinContent(8, nDeltaRPassed_dyll);
-   
-   h_cutflow_n_dyll_fr->SetBinContent(1,nInspected_genWeighted );
-   h_cutflow_n_dyll_fr->SetBinContent(2, nSingleTrgPassed_dyll_fr);
-   h_cutflow_n_dyll_fr->SetBinContent(3, nGoodMuonPassed_dyll_fr);
-   h_cutflow_n_dyll_fr->SetBinContent(4, nGoodTauPassed_dyll_fr);
-   h_cutflow_n_dyll_fr->SetBinContent(5, nGoodMuTauPassed_dyll_fr);
-   h_cutflow_n_dyll_fr->SetBinContent(6, nPassedThirdLepVeto_dyll_fr);
-   h_cutflow_n_dyll_fr->SetBinContent(7, nPassedBjetVeto_dyll_fr);
-   h_cutflow_n_dyll_fr->SetBinContent(8, nDeltaRPassed_dyll_fr);
-   ///
-   
-   fileName->cd();
-   map<string, TH1F*>::const_iterator iMap1 = myMap1->begin();
-   map<string, TH1F*>::const_iterator jMap1 = myMap1->end();
-   for (; iMap1 != jMap1; ++iMap1)
-     nplot1(iMap1->first)->Write();
+  // fileName->cd();
+  // map<string, TH1F*>::const_iterator iMap1 = myMap1->begin();
+  // map<string, TH1F*>::const_iterator jMap1 = myMap1->end();
+  // for (; iMap1 != jMap1; ++iMap1)
+  //   nplot1(iMap1->first)->Write();
 }
 
 void tautau_analyzer::BookHistos(const char* file1, const char* file2)
@@ -668,9 +619,12 @@ void tautau_analyzer::BookHistos(const char* file1, const char* file2)
   
   //makeOutputTree(tree);
   fileName->cd();
-  //cout<<"cloning nEvents hist"<<endl;
   h_nEvents = (TH1F*)((TH1F*)file_in->Get("nEvents"))->Clone(TString("nEvents"));
   file_in->Close();
+  Float_t Pt_Bins[36]={0.0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 220, 240, 260, 280, 300, 320, 340, 360, 380, 400, 450, 500, 600, 800, 1000};
+  
+  Float_t MetBins[15]={0.0, 20, 40, 60, 80, 100, 120, 140, 160,180., 200, 300., 400., 600.0,800.0};
+  Float_t TrMassBins[24]={0.0, 20, 40, 60, 80, 100, 120, 140, 160,180., 200, 220, 240,260,280,300.,320,340,360,380, 400., 600.0,800.0, 1000.0};
   
 
 }
@@ -688,41 +642,160 @@ void tautau_analyzer::fillHistos(int histoNumber, double event_weight, int higgs
 
 
 
-std::vector<int> tautau_analyzer::getTauCand(double tauPtCut, double tauEtaCut){
+//---------------------------------------------------                                                                                                                                
+// get a electron candiate based on pt eta and isolation                                                                                                                               
+//----------------------------------------------------                                                                                                                               
+
+std::vector<int> tautau_analyzer::getEleCand(double elePtCut, double eleEtaCut){
   std::vector<int> tmpCand;
   tmpCand.clear();
+  TLorentzVector dau1;
+  //Loop over electrons                                                                     
+  for(int iEle=0;iEle<nEle;iEle++)
+    {
+      dau1.SetPtEtaPhiE(elePt->at(iEle), eleEta->at(iEle), elePhi->at(iEle), eleE->at(iEle));
+      //dau1 = dau1*(eleCalibE->at(iEle)/dau1.E());
+      applyEleESCorrections(dau1, iEle, dau1);
+
+      bool kinematic = false;
+      if( dau1.Pt() > elePtCut  
+	  && fabs(dau1.Eta())< eleEtaCut 
+	  && fabs(eleD0->at(iEle)) < 0.045
+	  && fabs(eleDz->at(iEle)) < 0.2
+	  && eleMissHits->at(iEle) <= 1 && eleConvVeto->at(iEle)==1
+	  ) kinematic = true;
+      bool electronId =false;
+      if( eleIDbit->at(iEle)>>8&1==1) electronId =true;
+      bool relative_iso = false;    
+      float relEleIso = ( elePFChIso->at(iEle) + max( elePFNeuIso->at(iEle) + elePFPhoIso->at(iEle) - 0.5 *elePFPUIso->at(iEle) , 0.0 )) / dau1.Pt();
+      if( relEleIso < 0.15 ) relative_iso = true;
+      bool trigger = false;
+      if( ( HLTEleMuX>>3&1 == 1 && dau1.Pt() > 28.0  ) 
+	  || ( HLTEleMuX>>61&1 == 1 && dau1.Pt() > 33.0  )
+	  || ( HLTEleMuX>>5&1 == 1 && dau1.Pt() > 36.0 )
+	  || ( HLTTau>>1&1 == 1 && dau1.Pt() > 25.0  && dau1.Pt() < 28.0 && fabs(dau1.Eta())< 2.1 )
+	  
+	  ) trigger = true;
+      if( kinematic && electronId && relative_iso ){
+	tmpCand.push_back(iEle);
+      }	
+    }                           
+  return tmpCand;
+  
+}
+
+std::vector<int> tautau_analyzer::getTauCand_noID(double tauPtCut, double tauEtaCut){
+  std::vector<int> tmpCand;
+  tmpCand.clear();
+  TLorentzVector dau2;
   //Loop over taus      
   for(int iTau=0;iTau<nTau;iTau++)
     {
+      dau2.SetPtEtaPhiE(tau_Pt->at(iTau),tau_Eta->at(iTau)
+			,tau_Phi->at(iTau), tau_Energy->at(iTau)
+			);
+      if(is_MC)
+	applyTauESCorrections(dau2, iTau, dau2);
       bool kinematic = false;
-      bool trigger = false;
       bool tauId = false;
       bool decayModeCut = false;
       bool tauIsolation = false;
       bool mutau_separation=false;
       bool newDecayModeFinding=false;
       bool tau_reject=false;
-      bool filter = false;
-      if( tau_Pt->at(iTau) > tauPtCut 
-	  && fabs( tau_Eta->at(iTau))< tauEtaCut
+      bool trigger = false;
+      if( dau2.Pt() > tauPtCut 
+	  && fabs( dau2.Eta() )< tauEtaCut 
 	  && tau_LeadChargedHadron_dz->at(iTau) < 0.2
-  	  )kinematic = true;
-      if( tau_byMediumDeepTau2017v2p1VSjet->at(iTau)==1 ) tauIsolation=true;
-      if( tau_IDbits->at(iTau)>>1&1==1 ) newDecayModeFinding=true;
-      //if( tau_DecayMode->at(iTau)==0 || tau_DecayMode->at(iTau)==1 || tau_DecayMode->at(iTau)==10 || tau_DecayMode->at(iTau)==11 ) decayModeCut=true;
-      if( tau_DecayMode->at(iTau)==0 || tau_DecayMode->at(iTau)==1 || tau_DecayMode->at(iTau)==10 ) decayModeCut=true;
+	  && fabs(tau_Charge->at(iTau))==1
+	  )kinematic = true;
+      if( tau_byVVVLooseDeepTau2017v2p1VSjet->at(iTau)==1 ) tauIsolation=true;
+      if( tau_DecayMode->at(iTau)==0 || tau_DecayMode->at(iTau)==1 || tau_DecayMode->at(iTau)==10 || tau_DecayMode->at(iTau)==11 ) decayModeCut=true;
       if( tau_byVVVLooseDeepTau2017v2p1VSe->at(iTau)==1 && tau_byVLooseDeepTau2017v2p1VSmu->at(iTau)==1)tau_reject=true;
+      if( tau_IDbits->at(iTau)>>1&1==1 ) newDecayModeFinding=true;
+      
+      if( kinematic==true    
+	  && decayModeCut==true   
+	  && tau_reject==true   
+	  && newDecayModeFinding==true
+	  && tauIsolation==true
+	  )
+	{
+	  tmpCand.push_back(iTau);
+    	}                                     
+    }                                                                                       
+  return tmpCand;
+  
+}
+void tautau_analyzer::assignTauIndices(vector<int> tauIndices , int& tau1 , int& tau2 ){
+  if( tauIndices.size()<2 )
+    {
+      tau1=-1; tau2=-1; return;
+    }
+  else if( tauIndices.size()==2 )
+    {      
+      if(tau_byVVVLooseDeepTau2017v2p1VSjet->at(tauIndices[0])==1
+	 && !(tau_byMediumDeepTau2017v2p1VSjet->at(tauIndices[0])==1)
+	 && tau_byMediumDeepTau2017v2p1VSjet->at(tauIndices[1])==1
+	 )
+ 	{ tau1 = tauIndices[0]; tau2 = tauIndices[1]; return; }
+    }
+  else  if( tauIndices.size()>2 )
+    {
+      for(int ai=0; ai<tauIndices.size(); ai++)
+	{
+	  for(int i=0; i<tauIndices.size(); i++)
+	    {
+	      if( tau_byVVVLooseDeepTau2017v2p1VSjet->at(tauIndices[ai])==1 
+		  && !(tau_byMediumDeepTau2017v2p1VSjet->at(tauIndices[ai])==1)
+		  && tau_byMediumDeepTau2017v2p1VSjet->at(tauIndices[i])==1
+		  && tau_Pt->at(tauIndices[ai]) > tau_Pt->at(tauIndices[i])
+		  )
+		{
+		  tau1 = tauIndices[ai]; tau2 = tauIndices[i];
+		  return;
+		}
+	    }
+	}
+    }
+  return;
+}
 
-      if(  HLTTau>>6&1 == 1 
-      	   || HLTTau>>7&1 == 1
-	   || HLTTau>>5&1 == 1
-	  ) trigger=true;
+std::vector<int> tautau_analyzer::getTauCand(double tauPtCut, double tauEtaCut){
+  std::vector<int> tmpCand;
+  tmpCand.clear();
+  TLorentzVector dau2;
+  //Loop over taus      
+  for(int iTau=0;iTau<nTau;iTau++)
+    {
+      dau2.SetPtEtaPhiE(tau_Pt->at(iTau),tau_Eta->at(iTau)
+			,tau_Phi->at(iTau), tau_Energy->at(iTau)
+			);
+      if(is_MC)
+	applyTauESCorrections(dau2, iTau, dau2);
+      bool kinematic = false;
+      bool tauId = false;
+      bool decayModeCut = false;
+      bool tauIsolation = false;
+      bool mutau_separation=false;
+      bool newDecayModeFinding=false;
+      bool tau_reject=false;
+      bool trigger = false;
+      if( dau2.Pt() > tauPtCut 
+	  && fabs( dau2.Eta() )< tauEtaCut 
+	  && tau_LeadChargedHadron_dz->at(iTau) < 0.2
+	  && fabs(tau_Charge->at(iTau))==1
+	  )kinematic = true;
+      if( tau_byMediumDeepTau2017v2p1VSjet->at(iTau)==1 ) tauIsolation=true; 
+      if( tau_DecayMode->at(iTau)==0 || tau_DecayMode->at(iTau)==1 || tau_DecayMode->at(iTau)==10 || tau_DecayMode->at(iTau)==11 ) decayModeCut=true;
+      if( tau_byVVVLooseDeepTau2017v2p1VSe->at(iTau)==1 && tau_byVLooseDeepTau2017v2p1VSmu->at(iTau)==1)tau_reject=true;
+      if( tau_IDbits->at(iTau)>>1&1==1 ) newDecayModeFinding=true;
+
       if( kinematic==true    
 	  && decayModeCut==true   
 	  && tauIsolation==true 
 	  && tau_reject==true   
 	  && newDecayModeFinding==true
-	  && trigger==true
 	  )
 	{
 	  tmpCand.push_back(iTau);
@@ -733,184 +806,148 @@ std::vector<int> tautau_analyzer::getTauCand(double tauPtCut, double tauEtaCut){
 }
 std::vector<int> tautau_analyzer::getAISRTauCand(double tauPtCut, double tauEtaCut){
   std::vector<int> tmpCand;  tmpCand.clear();
+  TLorentzVector dau2;
+  
   for(int iTau=0;iTau<nTau;iTau++) //Loop over taus
     {
+      dau2.SetPtEtaPhiE(tau_Pt->at(iTau),tau_Eta->at(iTau)
+                        ,tau_Phi->at(iTau), tau_Energy->at(iTau)
+                        );
+      if(is_MC)
+	applyTauESCorrections(dau2, iTau, dau2);
       bool kinematic = false;
-      bool trigger = false;
       bool tauId = false;
       bool decayModeCut = false;
       bool tauIsolation = false;
       bool mutau_separation=false;
       bool newDecayModeFinding=false;
       bool tau_reject=false;
-      bool filter = false;
-      if( tau_Pt->at(iTau) > tauPtCut 
-	  && fabs( tau_Eta->at(iTau))< tauEtaCut 
-	  && tau_LeadChargedHadron_dz->at(iTau) < 0.2
-  	  )kinematic = true;
-      if( tau_byVVVLooseDeepTau2017v2p1VSjet->at(iTau)==1 && tau_byMediumDeepTau2017v2p1VSjet->at(iTau)!=1 ) tauIsolation=true;
-      if( tau_IDbits->at(iTau)>>1&1==1 ) newDecayModeFinding=true;
-      //if( tau_DecayMode->at(iTau)==0 || tau_DecayMode->at(iTau)==1 || tau_DecayMode->at(iTau)==10 || tau_DecayMode->at(iTau)==11 ) decayModeCut=true;
-      if( tau_DecayMode->at(iTau)==0 || tau_DecayMode->at(iTau)==1 || tau_DecayMode->at(iTau)==10 ) decayModeCut=true;
-      if( tau_byVVVLooseDeepTau2017v2p1VSe->at(iTau)==1 && tau_byVLooseDeepTau2017v2p1VSmu->at(iTau)==1 )tau_reject=true;
-      
-      if(  HLTTau>>6&1 == 1 
-	   || HLTTau>>7&1 == 1
-	   || HLTTau>>5&1 == 1
-	  ) trigger=true;
-
-      if( kinematic==true    
-	  && decayModeCut==true   
-	  && tauIsolation==true 
-	  && tau_reject==true   
-	  && newDecayModeFinding==true
-	   && trigger==true
-     	  )
-	{
-	  tmpCand.push_back(iTau);
-    	}                                                           
-    }                                                                                       
-  return tmpCand;  
-}
-std::vector<int> tautau_analyzer::getTau2Cand(double tauPtCut, double tauEtaCut, int tau1Index){
-  std::vector<int> tmpCand;
-  tmpCand.clear();
-  //Loop over taus      
-  for(int iTau=0;iTau<nTau;iTau++)
-    {
-      if( iTau==tau1Index ) continue;  
-      bool kinematic = false;
       bool trigger = false;
-      bool tauId = false;
-      bool decayModeCut = false;
-      bool tauIsolation = false;
-      bool mutau_separation=false;
-      bool newDecayModeFinding=false;
-      bool tau_reject=false;
-      bool filter = false;
-      if( tau_Pt->at(iTau) > tauPtCut 
-	  && fabs( tau_Eta->at(iTau))< tauEtaCut
-	  && tau_LeadChargedHadron_dz->at(iTau) < 0.2
-  	  )kinematic = true;
-      if( tau_byMediumDeepTau2017v2p1VSjet->at(iTau)==1 ) tauIsolation=true;
-      if( tau_IDbits->at(iTau)>>1&1==1 ) newDecayModeFinding=true;
-      //if( tau_DecayMode->at(iTau)==0 || tau_DecayMode->at(iTau)==1 || tau_DecayMode->at(iTau)==10 || tau_DecayMode->at(iTau)==11 ) decayModeCut=true;
-      if( tau_DecayMode->at(iTau)==0 || tau_DecayMode->at(iTau)==1 || tau_DecayMode->at(iTau)==10 ) decayModeCut=true;
+      if( dau2.Pt() > tauPtCut
+          && fabs( dau2.Eta() )< tauEtaCut
+          && tau_LeadChargedHadron_dz->at(iTau) < 0.2
+          && fabs(tau_Charge->at(iTau))==1
+          )kinematic = true;
+      if(  tau_byVVVLooseDeepTau2017v2p1VSjet->at(iTau)==1 && !(tau_byMediumDeepTau2017v2p1VSjet->at(iTau)==1) ) tauIsolation=true;
+      if( tau_DecayMode->at(iTau)==0 || tau_DecayMode->at(iTau)==1 || tau_DecayMode->at(iTau)==10 || tau_DecayMode->at(iTau)==11 ) decayModeCut=true;
       if( tau_byVVVLooseDeepTau2017v2p1VSe->at(iTau)==1 && tau_byVLooseDeepTau2017v2p1VSmu->at(iTau)==1)tau_reject=true;
-
-      if(  HLTTau>>6&1 == 1 
-	   || HLTTau>>7&1 == 1
-	   || HLTTau>>5&1 == 1
-	  ) trigger=true;
-
+      if( tau_IDbits->at(iTau)>>1&1==1 ) newDecayModeFinding=true;
       if( kinematic==true    
 	  && decayModeCut==true   
 	  && tauIsolation==true 
 	  && tau_reject==true   
 	  && newDecayModeFinding==true
-	  && trigger==true
 	  )
 	{
 	  tmpCand.push_back(iTau);
     	}                                                           
     }                                                                                       
-  return tmpCand;
-  
-}
-std::vector<int> tautau_analyzer::getAISRTau2Cand(double tauPtCut, double tauEtaCut, int tau1Index){
-  std::vector<int> tmpCand;  tmpCand.clear();
-  for(int iTau=0;iTau<nTau;iTau++) //Loop over taus
-    {
-      if( iTau==tau1Index ) continue;
-      bool kinematic = false;
-      bool trigger = false;
-      bool tauId = false;
-      bool decayModeCut = false;
-      bool tauIsolation = false;
-      bool mutau_separation=false;
-      bool newDecayModeFinding=false;
-      bool tau_reject=false;
-      bool filter = false;
-      if( tau_Pt->at(iTau) > tauPtCut 
-	  && fabs( tau_Eta->at(iTau))< tauEtaCut 
-	  && tau_LeadChargedHadron_dz->at(iTau) < 0.2
-  	  )kinematic = true;
-      if( tau_byVVVLooseDeepTau2017v2p1VSjet->at(iTau)==1 && tau_byMediumDeepTau2017v2p1VSjet->at(iTau)!=1 ) tauIsolation=true;
-      if( tau_IDbits->at(iTau)>>1&1==1 ) newDecayModeFinding=true;
-      //if( tau_DecayMode->at(iTau)==0 || tau_DecayMode->at(iTau)==1 || tau_DecayMode->at(iTau)==10 || tau_DecayMode->at(iTau)==11 ) decayModeCut=true;
-      if( tau_DecayMode->at(iTau)==0 || tau_DecayMode->at(iTau)==1 || tau_DecayMode->at(iTau)==10 ) decayModeCut=true;
-      if( tau_byVVVLooseDeepTau2017v2p1VSe->at(iTau)==1 && tau_byVLooseDeepTau2017v2p1VSmu->at(iTau)==1 )tau_reject=true;
-      if(  HLTTau>>6&1 == 1 
-       	   || HLTTau>>7&1 == 1
-	   || HLTTau>>5&1 == 1
-	   ) trigger=true;
-      
-      
-      if( kinematic==true    
-	  && decayModeCut==true   
-	  && tauIsolation==true 
-	  && tau_reject==true   
-	  && newDecayModeFinding==true
-	   && trigger==true
-     	  )
-	{
-	  tmpCand.push_back(iTau);
-    	}                                                           
-    }                                                                                       
   return tmpCand;  
+}
+int tautau_analyzer::getZCand()
+{
+  if(!is_MC)
+    return -1;
+  for(int iMC=0;iMC<nMC;iMC++) //Loop over mc
+    {
+      if(fabs(mcPID->at(iMC))==23 && mcStatus->at(iMC)==62)
+	return iMC;
+    }
+  return -1;
+}
+int tautau_analyzer::get_t_Cand()
+{
+  if(!is_MC)
+    return -1;
+  for(int iMC=0;iMC<nMC;iMC++) //Loop over mc
+    {
+      if(mcPID->at(iMC)==6 && mcStatus->at(iMC)==62)
+	return iMC;
+    }
+  return -1;
+}
+int tautau_analyzer::get_tbar_Cand()
+{
+  if(!is_MC)
+    return -1;
+  for(int iMC=0;iMC<nMC;iMC++) //Loop over mc
+    {
+      if(mcPID->at(iMC)==-6 && mcStatus->at(iMC)==62)
+        return iMC;
+    }
+  return -1;
 }
 std::vector<int> tautau_analyzer::getJetCand(int tau1Index, int tau2Index){
   std::vector<int> tmpCand;  tmpCand.clear();
   for(int iJet=0;iJet<nJet;iJet++) //Loop over jets
     {
-      bool kinematic30 = false;
-      bool kinematic50 = false; bool kinematic50Loose = false;
+      bool kinematic30 = false; bool foundNoisyJets=false;
+      bool kinematic50 = false; bool passLoosePUID=false;
       bool jet_id = false; bool drPassed=false;
-      if( jetPt->at(iJet) > 50 
-	  && abs(jetEta->at(iJet))<2.65
-	  && abs(jetEta->at(iJet))>3.139
-	  && (jetID->at(iJet)>>0&1)==1
-	  ) kinematic50=true;
-      // else if( jetPt->at(iJet) < 50  
-      // 	       && jetPUFullID->at(iJet)>>1&1==1 
-      // 	       ) kinematic50Loose=true;
-      else if( jetPt->at(iJet) > 30
-	       && abs(jetEta->at(iJet))<4.7
-	       && (jetID->at(iJet)>>0&1)==1
-	       ) kinematic30=true;
-                  
-      double dr_jetTau1=delta_R( jetPhi->at(iJet), jetEta->at(iJet) , tau_Phi->at(tau1Index), tau_Eta->at(tau1Index) );
-      double dr_jetTau2=delta_R( jetPhi->at(iJet), jetEta->at(iJet) , tau_Phi->at(tau2Index), tau_Eta->at(tau2Index) );
-      if( dr_jetTau1>0.5 && dr_jetTau2>0.5 )
-	drPassed=true;
-	  
-      if( (kinematic50 || kinematic30 ) && drPassed==true &&  jetPUFullID->at(iJet)>>1&1==1)
-	tmpCand.push_back(iJet);
+      if( jetPt->at(iJet) > 30
+          && abs(jetEta->at(iJet))<4.7
+          && (jetID->at(iJet)>>0&1)==1
+          //&& jetPUFullID->at(iJet)>>1&1==1
+          ) kinematic30=true;
+      if(jetPt->at(iJet) < 50
+         && abs(jetEta->at(iJet))>2.65
+         && abs(jetEta->at(iJet))<3.139
+         //&& (jetID->at(iJet)>>0&1)==1
+         ) foundNoisyJets=true;
+
+      if( jetPt->at(iJet) < 50 )
+        {
+          if(jetPUFullID->at(iJet)>>1&1==1 )
+            passLoosePUID=true;
+          else
+            passLoosePUID=false;
+        }
+      else if (jetPt->at(iJet) > 50 )
+        passLoosePUID=true;
+      
+      double lepton1Phi=tau_Phi->at(tau1Index);
+      double lepton1Eta= tau_Eta->at(tau1Index);
+      double lepton2Phi=0;double lepton2Eta=0;
+      lepton2Phi= tau_Phi->at(tau2Index); lepton2Eta=tau_Eta->at(tau2Index);
+      double dr_jetEle=delta_R( jetPhi->at(iJet), jetEta->at(iJet) , lepton1Phi, lepton1Eta );
+      double dr_jetTau=delta_R( jetPhi->at(iJet), jetEta->at(iJet) , lepton2Phi, lepton2Eta);
+      if( dr_jetEle>0.5 && dr_jetTau>0.5 )
+        drPassed=true;
+
+      if(kinematic30 && !foundNoisyJets && passLoosePUID && drPassed==true)
+        tmpCand.push_back(iJet);
     }
   return tmpCand;
 }
-//The noisy jets are defined as: 20 < pt < 50 && abs(eta) > 2.65 && abs(eta) < 3.139. 
-bool tautau_analyzer::noisyJet2017(){
 
-  bool noisyJet = false;
-  for(int iJet=0;iJet<nJet;iJet++) //Loop over jets
+int tautau_analyzer::thirdLeptonVeto(){
+  std::vector<int> tmpCand;
+  tmpCand.clear();
+  int thirdLepIndex = -1;
+  bool thirdLepVeto=true;
+  for(int iMu=0; iMu < nMu;iMu++)
     {
       bool kinematic = false;
-      if( jetRawPt->at(iJet) > 20 
-	  && jetRawPt->at(iJet) < 50
-	  && abs(jetEta->at(iJet)) > 2.65
-          && abs(jetEta->at(iJet)) < 3.139
-	  ) kinematic=true;
-
-      if( kinematic )
-        noisyJet=true;
-    }
-  return noisyJet;
+      if( (*muPt)[iMu] > 10.0  && fabs((*muEta)[iMu])< 2.4 && (*muD0)[iMu] < 0.045 && (*muDz)[iMu] < 0.2 ) kinematic = true;
+      bool muonId =false;
+      if( muIDbit->at(iMu)>>1&1==1) muonId =true;
+      bool relative_iso = false;
+      float relMuIso = ( muPFChIso->at(iMu) + max( muPFNeuIso->at(iMu) + muPFPhoIso->at(iMu) - 0.5 *muPFPUIso->at(iMu) , 0.0 )) / (muPt->at(iMu));
+      if( relMuIso < 0.3 ) relative_iso = true;
+      if(muonId==true && kinematic==true && relative_iso==true){
+	tmpCand.push_back(iMu);
+      }                   
+    }          
+  if(tmpCand.size() > 0){ thirdLepIndex = tmpCand[0]; thirdLepVeto=false;}
+  return thirdLepIndex;
+  
 }
-int tautau_analyzer::thirdLeptonVeto(){
-  std::vector<int> tmpCandMu; tmpCandMu.clear();
-  std::vector<int> tmpCandEl; tmpCandEl.clear();
+bool tautau_analyzer::thirdLeptonVeto(int tau1Index, int tau2Index){
+  std::vector<int> tmpCand; 
+  tmpCand.clear();
   int thirdLepIndex = -1;
+  std::vector<int> tmpEleCand;
+  tmpEleCand.clear();
   bool thirdLepVeto=true;
   for(int iEle=0; iEle < nEle;iEle++)
     {
@@ -927,9 +964,19 @@ int tautau_analyzer::thirdLeptonVeto(){
       float relEleIso = ( elePFChIso->at(iEle) + max( elePFNeuIso->at(iEle) + elePFPhoIso->at(iEle) - 0.5 *elePFPUIso->at(iEle) , 0.0 )) / (elePt->at(iEle));
       if( relEleIso < 0.3 ) relative_iso = true;
       if(electronId==true && kinematic==true && relative_iso==true){
-	tmpCandEl.push_back(iEle);
-      }                                                           
-    }             
+	tmpEleCand.push_back(iEle);
+      }                                                                                      
+    }                                                          
+  double deltaRm1=0; double deltaRm2=0;
+  if(tmpEleCand.size() > 0 )
+    { 
+      deltaRm1 = delta_R(tau_Phi->at(tau1Index),tau_Eta->at(tau1Index), elePhi->at(tmpEleCand[0]),  eleEta->at(tmpEleCand[0]));
+      deltaRm2 = delta_R(tau_Phi->at(tau1Index),tau_Eta->at(tau1Index), elePhi->at(tmpEleCand[0]),  eleEta->at(tmpEleCand[0]));
+      if(deltaRm1>0.5 || deltaRm2>0.5 ){
+	return false;
+      }
+    }
+  
   for(int iMu=0; iMu < nMu;iMu++)
     {
       bool kinematic = false;
@@ -939,29 +986,56 @@ int tautau_analyzer::thirdLeptonVeto(){
       bool relative_iso = false;
       float relMuIso = ( muPFChIso->at(iMu) + max( muPFNeuIso->at(iMu) + muPFPhoIso->at(iMu) - 0.5 *muPFPUIso->at(iMu) , 0.0 )) / (muPt->at(iMu));
       if( relMuIso < 0.3 ) relative_iso = true;
-      //if( muIDbit->at(iMu)>>6&1==1) relative_iso =true;
       if(muonId==true && kinematic==true && relative_iso==true){
-	tmpCandMu.push_back(iMu);
+	tmpCand.push_back(iMu);
       }                   
-    }          
-
-  if(tmpCandEl.size() > 0 || tmpCandMu.size()>0 ){ thirdLepIndex = 1; thirdLepVeto=false;}
-  return thirdLepIndex;
+    } 
+  deltaRm1=0;  deltaRm2=0;
+  if(tmpCand.size() > 0 )
+    { 
+      deltaRm1 = delta_R(tau_Phi->at(tau1Index),tau_Eta->at(tau1Index), muPhi->at(tmpCand[0]),  muEta->at(tmpCand[0]));
+      deltaRm2 = delta_R(tau_Phi->at(tau2Index),tau_Eta->at(tau2Index), muPhi->at(tmpCand[0]),  muEta->at(tmpCand[0]));
+      if(deltaRm1>0.5 || deltaRm2>0.5 ){
+	return false;
+      }
+    }
+  
+  return true;
   
 }
-
-
-double tautau_analyzer::dR(int mu_index, int tau_index)
-{
-  double deltaeta = abs(muEta->at(mu_index) - tau_Eta->at(tau_index));
-  double muonPhi = muPhi->at(mu_index);
-  double tauPhi = tau_Phi->at(tau_index);
-
-  double deltaphi = DeltaPhi(muonPhi, tauPhi);
-  double deltar = sqrt(deltaeta*deltaeta + deltaphi*deltaphi);
-  return deltar;
+bool tautau_analyzer::thirdLeptonVeto(int eleIndex, int tauIndex, int ele2Index){
+  std::vector<int> tmpCand;
+  tmpCand.clear();
+  int thirdLepIndex = -1;
+  bool thirdLepVeto=true;
+  for(int iMu=0; iMu < nMu;iMu++)
+    {
+      bool kinematic = false;
+      if( (*muPt)[iMu] > 10.0  && fabs((*muEta)[iMu])< 2.4 && (*muD0)[iMu] < 0.045 && (*muDz)[iMu] < 0.2 ) kinematic = true;
+      bool muonId =false;
+      if( muIDbit->at(iMu)>>1&1==1) muonId =true;
+      bool relative_iso = false;
+      float relMuIso = ( muPFChIso->at(iMu) + max( muPFNeuIso->at(iMu) + muPFPhoIso->at(iMu) - 0.5 *muPFPUIso->at(iMu) , 0.0 )) / (muPt->at(iMu));
+      if( relMuIso < 0.3 ) relative_iso = true;
+      if(muonId==true && kinematic==true && relative_iso==true){
+	tmpCand.push_back(iMu);
+      }                   
+    } 
+  double deltaRm1=0; double deltaRm2=0; double deltaRm3=0;
+  if(tmpCand.size() > 0 )
+    { 
+      deltaRm1 = delta_R(elePhi->at(eleIndex),eleEta->at(eleIndex), muPhi->at(tmpCand[0]),  muEta->at(tmpCand[0]));
+      deltaRm2 = delta_R(tau_Phi->at(tauIndex),tau_Eta->at(tauIndex), muPhi->at(tmpCand[0]),  muEta->at(tmpCand[0]));
+      deltaRm3 = delta_R(elePhi->at(ele2Index),eleEta->at(ele2Index), muPhi->at(tmpCand[0]),  muEta->at(tmpCand[0]));
+      if(deltaRm1>0.5 && deltaRm2>0.5 && deltaRm3>0.5){
+	return false;
+      }
+    }
+  else
+    return true;
   
 }
+                                                                                    
 
 double tautau_analyzer::delta_R(float phi1, float eta1, float phi2, float eta2)
 {
@@ -1005,326 +1079,822 @@ float tautau_analyzer::pTvecsum_F(float pt1, float pt2, float phi1, float phi2) 
   float pt_vecSum = sqrt( pow(pt1*cos(phi1) + pt2*cos(phi2), 2) + pow(pt1*sin(phi1) + pt2*sin(phi2), 2));
   return pt_vecSum;
 }
-float tautau_analyzer::pTvecsum_F(TLorentzVector a, TLorentzVector b, TLorentzVector met) {
-  float pt_vecSum = (a + b+ met).Pt();
+float tautau_analyzer::pTvecsum_F(TLorentzVector a, TLorentzVector b, TLorentzVector c) {
+  float pt_vecSum = (a + b+ c).Pt();
   return pt_vecSum;
 }
 
-bool tautau_analyzer::passBjetVeto()
+vector<int> tautau_analyzer::bJet_medium(int tau1Index, int tau2Index)
 {
   std::vector<int> tmpJetCand;
   tmpJetCand.clear();
   bool veto = true;
   bool foundBjet = false;
-  // for(int iJets=0; iJets<nJet ; iJets++){
-  //   if(jetCSV2BJetTags->at(iJets) > 0.8838) tmpCand++;
-  //   // CSV B jet tag for selecting bJets is medium WP (jetCSV2BJetTags > 0.8838.)
-  // }
+  double lepton1Phi=tau_Phi->at(tau1Index);
+  double lepton1Eta= tau_Eta->at(tau1Index);
+  double lepton2Phi= tau_Phi->at(tau2Index); double lepton2Eta=tau_Eta->at(tau2Index);   
+  double dr_jetEle=0.0; double dr_jetTau=0.0; 
+  
   for(int iJets=0; iJets<nJet ; iJets++){
-    if( jetPt->at(iJets) > 25  && abs(jetEta->at(iJets)) < 2.4 && jetID->at(iJets)>>0&1==1 ){
+    bool particles_separated=false;
+    bool kinematic = false;
+    bool passLoosePUID=false;
+    dr_jetEle =delta_R( jetPhi->at(iJets), jetEta->at(iJets) , lepton1Phi, lepton1Eta );
+    dr_jetTau =delta_R( jetPhi->at(iJets), jetEta->at(iJets) , lepton2Phi, lepton2Eta);
+    if( dr_jetEle>0.5 && dr_jetTau>0.5)
+      particles_separated=true;
+    if( jetPt->at(iJets) > 25
+	&& abs(jetEta->at(iJets)) < 2.4 
+	&& jetID->at(iJets)>>0&1==1 
+       	&& (jetDeepCSVTags_b->at(iJets) + jetDeepCSVTags_bb->at(iJets)) > 0.4941
+	)
+      kinematic=true;
+    if( jetPt->at(iJets)<50 )
+      {
+	if(jetPUFullID->at(iJets)>>1&1==1 )
+	  passLoosePUID=true;
+	else
+	  passLoosePUID=false;
+      }
+    else if (jetPt->at(iJets) > 50 )
+      passLoosePUID=true;
+    
+    if(particles_separated && kinematic )
       tmpJetCand.push_back(iJets);
-    }
   }
-  if(tmpJetCand.size() >=1 ){
-    // atleast one jet ==> events pass medium 
-    if( (jetDeepCSVTags_b->at(tmpJetCand[0]) + jetDeepCSVTags_bb->at(tmpJetCand[0])) > 0.4941  )
-      return false;
+  return tmpJetCand;
+}
+
+vector<int> tautau_analyzer::bJet_loose(int tau1Index, int tau2Index)
+{
+  std::vector<int> tmpJetCand;
+  tmpJetCand.clear();
+  bool veto = true;
+  bool foundBjet = false;
+  double lepton1Phi=tau_Phi->at(tau1Index);
+  double lepton1Eta= tau_Eta->at(tau1Index);
+  double lepton2Phi= tau_Phi->at(tau2Index); double lepton2Eta=tau_Eta->at(tau2Index);   
+  double dr_jetEle=0.0; double dr_jetTau=0.0; 
+  
+  for(int iJets=0; iJets<nJet ; iJets++){
+    bool kinematic = false;
+    bool passLoosePUID=false;
+    bool particles_separated=false;
+    dr_jetEle =delta_R( jetPhi->at(iJets), jetEta->at(iJets) , lepton1Phi, lepton1Eta );
+    dr_jetTau =delta_R( jetPhi->at(iJets), jetEta->at(iJets) , lepton2Phi, lepton2Eta);
+    if( dr_jetEle>0.5 && dr_jetTau>0.5)
+      particles_separated=true;
+      
+    if( jetPt->at(iJets) > 25
+	&& abs(jetEta->at(iJets)) < 2.4 
+	&& jetID->at(iJets)>>0&1==1 
+	&& (jetDeepCSVTags_b->at(iJets) + jetDeepCSVTags_bb->at(iJets)) > 0.1522 
+	)
+      kinematic=true;
+    if( jetPt->at(iJets)<50 )
+      {
+        if(jetPUFullID->at(iJets)>>1&1==1 )
+          passLoosePUID=true;
+        else
+          passLoosePUID=false;
+      }
+    else if (jetPt->at(iJets) > 50 )
+      passLoosePUID=true;
+    
+    if(particles_separated && kinematic )
+      tmpJetCand.push_back(iJets);
+    
   }
-  else if(tmpJetCand.size() >= 2){
-    // atleast 2 jets ==> events pass loose
-    if( (jetDeepCSVTags_b->at(tmpJetCand[0]) + jetDeepCSVTags_bb->at(tmpJetCand[0])) > 0.1522   )
-      return false;
-  }
+  return tmpJetCand;
+}
+
+bool passBjetVeto_medium(int eleIndex, int tauIndex){
   return true;
 }
-int tautau_analyzer::gen_matching(){
-  int tmpCand=-1;
-  std::vector<int> tmpGenMatch;
-  tmpGenMatch.clear();
+bool passBjetVeto_loose(int eleIndex, int tauIndex){
+  return true;
+}
+
+bool passBjetVeto(int eleIndex, int tauIndex){
+  return passBjetVeto_medium(eleIndex,tauIndex) && passBjetVeto_loose(eleIndex,tauIndex);
   
-  for(int imc=0; imc<nMC; imc++){
-    if( genMatch2->at(imc)>>1&1==1 ) tmpGenMatch.push_back(1);
-    if( genMatch2->at(imc)>>2&1==1 ) tmpGenMatch.push_back(2);
-    if( genMatch2->at(imc)>>3&1==1 ) tmpGenMatch.push_back(3);
-    if( genMatch2->at(imc)>>4&1==1 ) tmpGenMatch.push_back(4);
-    if( genMatch2->at(imc)>>5&1==1 ) tmpGenMatch.push_back(5);
-    if( genMatch2->at(imc)>>6&1==1 ) tmpGenMatch.push_back(6);
+}
+bool tautau_analyzer::passDiElectronVeto(int eleIndex)
+{
+  std::vector<int> tmpCand; int tmpEleIndex1=-1; int tmpEleIndex2=-1;
+  tmpCand.clear();
+  bool veto = true;
+  bool awayFromEverything=true;
+  for(int iEle=0;iEle<nEle;iEle++)
+    {
+      bool kinematic = false;
+      if( elePt->at(iEle) > 15
+	  && fabs(eleEta->at(iEle))< 2.5
+	  && fabs(eleD0->at(iEle)) < 0.045
+	  && fabs(eleDz->at(iEle)) < 0.2
+       	  ) kinematic = true;
+      bool electronId =false;
+      if( eleIDbit->at(iEle)>>3&1==1) electronId =true; // cut based electron id veto
+      bool relative_iso = false;    
+      float relEleIso = ( elePFChIso->at(iEle) + max( elePFNeuIso->at(iEle) + elePFPhoIso->at(iEle) - 0.5 *elePFPUIso->at(iEle) , 0.0 )) / (elePt->at(iEle));
+      if( relEleIso < 0.3 ) relative_iso = true;
+      if( kinematic && electronId && relative_iso ){
+	tmpCand.push_back(iEle);
+      }	
+    }
+  std::vector<int> iElePlus; iElePlus.clear(); 
+  std::vector<int> iEleMinus; iEleMinus.clear();
+  for(int i=0; i<tmpCand.size(); i++){
+    if(eleCharge->at(tmpCand[i]) < 0) iEleMinus.push_back(tmpCand[i]);
+    if(eleCharge->at(tmpCand[i]) > 0) iElePlus.push_back(tmpCand[i]);
   }
+  if(iElePlus.size()>0 && iEleMinus.size()>0){
+    double deltaR= delta_R(elePhi->at(iEleMinus[0]), eleEta->at(iEleMinus[0]), elePhi->at(iElePlus[0]), eleEta->at(iElePlus[0]));
+    if (deltaR > 0.15 && eleCharge->at(iElePlus[0])*eleCharge->at(iEleMinus[0])<0) {
+      return false;
+    }
+  }
+  return true;
   
-  if(tmpGenMatch.size() >0 )
-    tmpCand=tmpGenMatch[0];
-  return tmpCand; 
+}
+bool tautau_analyzer::eVetoZTTp001dxyz(int tau1Index, int tau2Index){
+  std::vector<int> tmpCand;  tmpCand.clear();
+  //std::vector<int> output;  output.clear();
+  bool awayFromEverything = true;   int tmpEleIndex=-1;
+  //Loop over electrons      
+  for(int iEle=0;iEle<nEle;iEle++)
+    {
+      //if(iEle==eleIndex)continue;
+      bool kinematic = false;
+      if( elePt->at(iEle) > 10
+	  && fabs(eleEta->at(iEle))< 2.5
+	  && fabs(eleD0->at(iEle)) < 0.045
+	  && fabs(eleDz->at(iEle)) < 0.2
+	  && eleConvVeto->at(iEle)==1 && eleConvVeto->at(iEle)==1
+       	  ) kinematic = true;
+      bool electronId =false;
+      if( eleIDbit->at(iEle)>>8&1==1) electronId =true; // cut based electron id veto
+      bool relative_iso = false;    
+      float relEleIso = ( elePFChIso->at(iEle) + max( elePFNeuIso->at(iEle) + elePFPhoIso->at(iEle) - 0.5 *elePFPUIso->at(iEle) , 0.0 )) / (elePt->at(iEle));
+      if( relEleIso < 0.3 ) relative_iso = true;
+      if( kinematic && electronId && relative_iso ){
+	tmpCand.push_back(iEle);
+      }	
+    }
+  if(tmpCand.size()>0)
+    {
+      double deltaR_et = delta_R(tau_Phi->at(tau1Index), tau_Eta->at(tau1Index), elePhi->at(tmpCand[0]), eleEta->at(tmpCand[0]));
+      double deltaR_ee = delta_R(tau_Phi->at(tau2Index), tau_Eta->at(tau2Index), elePhi->at(tmpCand[0]), eleEta->at(tmpCand[0]));
+      if(! (deltaR_et>0.0001 && deltaR_ee>0.0001))
+	return false;
+    }
+  else 
+    return true;
+    
+}
+bool tautau_analyzer::mVetoZTTp001dxyz(int tau1Index, int tau2Index){
+  std::vector<int> tmpCand;
+  tmpCand.clear();
+  bool awayFromEverything = true;   int tmpMuIndex=-1;
+  //Loop over muons
+  for(int iMu=0; iMu < nMu;iMu++)
+    {
+      bool kinematic = false;
+      if( (*muPt)[iMu] > 10.0  && fabs((*muEta)[iMu])< 2.4 && (*muD0)[iMu] < 0.045 && (*muDz)[iMu] < 0.2 ) kinematic = true;
+      bool muonId =false;
+      if( muIDbit->at(iMu)>>1&1==1) muonId =true;
+      bool relative_iso = false;
+      float relMuIso = ( muPFChIso->at(iMu) + max( muPFNeuIso->at(iMu) + muPFPhoIso->at(iMu) - 0.5 *muPFPUIso->at(iMu) , 0.0 )) / (muPt->at(iMu));
+      if( relMuIso < 0.3 ) relative_iso = true;
+      if(muonId==true && kinematic==true && relative_iso==true){
+	tmpCand.push_back(iMu);
+      }                   
+    } 
+  double deltaRm1=0.0; double deltaRm2=0.0;
+  if(tmpCand.size() > 0 )
+    { 
+      deltaRm1 = delta_R(tau_Phi->at(tau1Index), tau_Eta->at(tau1Index), muPhi->at(tmpCand[0]),  muEta->at(tmpCand[0]));
+      deltaRm2 = delta_R(tau_Phi->at(tau2Index), tau_Eta->at(tau2Index), muPhi->at(tmpCand[0]),  muEta->at(tmpCand[0]));
+      if(! (deltaRm1>0.0001 && deltaRm2>0.0001) )
+	return false;
+    }
+  else
+    return true;
+  
+}
+int tautau_analyzer::myGenMaching(int tauIndex)
+{
+  if(is_MC==false)
+    return 0;
+
+  double recotau_eta=tau_Eta->at(tauIndex);
+  double recotau_phi=tau_Phi->at(tauIndex);
+  double closestEle=999;  double closestMu=999;
+  double closestETau=999;  double closestMTau=999;  double closestHTau=999;  double closestDR=999;
+  double genLeptonEta=0;
+  double genLeptonPhi=0;
+  bool prompt_ele=false;  bool tau_ele=false; bool tau_mu=false; bool tau_tauh=false;
+  bool prompt_mu=false;
+  for(int imc=0; imc<nMC; imc++){
+    genLeptonEta=mcEta->at(imc);
+    genLeptonPhi=mcPhi->at(imc);
+    double mc_tau_dr= dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+    if(mc_tau_dr<closestDR)
+      closestDR=mc_tau_dr;
+  }
+
+
+  for(int imc=0; imc<nMC; imc++){
+    genLeptonEta=mcEta->at(imc);
+    genLeptonPhi=mcPhi->at(imc);
+    double dr_tau_lepton=dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+    //prompt_ele=false; prompt_mu=false; tau_ele=false; tau_mu=false; tau_tauh=false;
+    
+    ///// prompt electrons
+    if(mcPt->at(imc)>8 && abs(mcPID->at(imc))==11 && mcStatusFlag->at(imc)>>1&1==1)
+      {
+	//dr_tau_lepton= dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+	if( dr_tau_lepton<0.2 && closestEle>dr_tau_lepton)
+	  {closestEle=dr_tau_lepton; prompt_ele=true; }
+	
+      }
+    ///// prompt muons
+    if(mcPt->at(imc)>8 && abs(mcPID->at(imc))==13 && mcStatusFlag->at(imc)>>1&1==1)
+      {
+	//dr_tau_lepton= dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+        if( dr_tau_lepton<0.2 && closestMu>dr_tau_lepton)
+          {closestMu=dr_tau_lepton; prompt_mu=true; }
+      }
+    ///// tau -> electrons
+    if(mcPt->at(imc)>8 && abs(mcPID->at(imc))==11 && mcStatusFlag->at(imc)>>5&1==1)
+      {
+	//dr_tau_lepton= dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+        if( dr_tau_lepton<0.2 && closestETau>dr_tau_lepton)
+          {closestETau=dr_tau_lepton;  tau_ele=true; }
+      }
+    ///// tau -> muons
+    if(mcPt->at(imc)>8 && abs(mcPID->at(imc))==13 && mcStatusFlag->at(imc)>>5&1==1)
+      {
+	//dr_tau_lepton= dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+        if( dr_tau_lepton<0.2 && closestMTau>dr_tau_lepton)
+          {closestMTau=dr_tau_lepton;  tau_mu=true; }
+      }
+    ///// tau -> tau hadronic
+    if(mcPt->at(imc)>15 &&  abs(mcPID->at(imc))!=13 &&  abs(mcPID->at(imc))!=11 )
+      {
+	dr_tau_lepton= dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+        if( dr_tau_lepton<0.2 && closestHTau>dr_tau_lepton)
+          {closestHTau=dr_tau_lepton;   tau_tauh=true; }
+      } 
+  }
+  double closestLTau =  min(closestETau, closestMTau);
+  if(closestHTau < closestLTau)
+    closestLTau=closestHTau;
+  //closestDR = min(closestLTau, min(closestEle, closestMu) );
+  int genMatch=0;
+  //cout<<"closestDR: "<<closestDR<<" closestEle:"<<closestEle<<" closestMu:"<<closestMu<<" closestETau:"<<closestETau<<" closestMTau:"<<closestMTau<<" closestHTau:"<<closestHTau<<endl;
+  
+  if( (prompt_ele || prompt_mu))
+    {
+      if(closestEle<0.2 && prompt_ele)
+	//return 1;
+	genMatch=1;
+      else if(closestMu<0.2 && prompt_mu)				
+	//return 2;
+	genMatch=2;
+    }
+  else if(closestDR <= closestLTau)
+    {
+      if(closestETau<0.2 && closestETau< min(closestMTau, closestHTau) && tau_ele) //return 3;
+	genMatch=3;
+      else if(closestMTau<0.2 && closestMTau< min(closestETau, closestHTau) && tau_mu) //return 4;
+	genMatch=4;
+      else if(closestHTau<0.2 && closestHTau< min(closestETau, closestMTau) && tau_tauh) //return 5;
+	genMatch=5;
+    }
+  else
+    genMatch=6;
+
+
+  return genMatch;
+
+}
+int tautau_analyzer::myGenMaching1(int eleIndex)
+{
+  if(is_MC==false)
+    return 0;
+  double recotau_eta=eleEta->at(eleIndex);
+  double recotau_phi=elePhi->at(eleIndex);
+  double closestEle=999;  double closestMu=999;
+  double closestETau=999;  double closestMTau=999;  double closestHTau=999;  double closestDR=999;
+  double genLeptonEta=0;
+  double genLeptonPhi=0;
+  bool prompt_ele=false;  bool tau_ele=false; bool tau_mu=false; bool tau_tauh=false;
+  bool prompt_mu=false;
+  for(int imc=0; imc<nMC; imc++){
+    genLeptonEta=mcEta->at(imc);
+    genLeptonPhi=mcPhi->at(imc);
+    double mc_tau_dr= dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+    if(mc_tau_dr<closestDR)
+      closestDR=mc_tau_dr;
+  }
+
+
+  for(int imc=0; imc<nMC; imc++){
+    genLeptonEta=mcEta->at(imc);
+    genLeptonPhi=mcPhi->at(imc);
+    double dr_tau_lepton=dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+    //prompt_ele=false; prompt_mu=false; tau_ele=false; tau_mu=false; tau_tauh=false;
+    
+    ///// prompt electrons
+    if(mcPt->at(imc)>8 && abs(mcPID->at(imc))==11 && mcStatusFlag->at(imc)>>1&1==1)
+      {
+	//dr_tau_lepton= dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+	if( dr_tau_lepton<0.2 && closestEle>dr_tau_lepton)
+	  {closestEle=dr_tau_lepton; prompt_ele=true; }
+	
+      }
+    ///// prompt muons
+    if(mcPt->at(imc)>8 && abs(mcPID->at(imc))==13 && mcStatusFlag->at(imc)>>1&1==1)
+      {
+	//dr_tau_lepton= dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+        if( dr_tau_lepton<0.2 && closestMu>dr_tau_lepton)
+          {closestMu=dr_tau_lepton; prompt_mu=true; }
+      }
+    ///// tau -> electrons
+    if(mcPt->at(imc)>8 && abs(mcPID->at(imc))==11 && mcStatusFlag->at(imc)>>5&1==1)
+      {
+	//dr_tau_lepton= dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+        if( dr_tau_lepton<0.2 && closestETau>dr_tau_lepton)
+          {closestETau=dr_tau_lepton;  tau_ele=true; }
+      }
+    ///// tau -> muons
+    if(mcPt->at(imc)>8 && abs(mcPID->at(imc))==13 && mcStatusFlag->at(imc)>>5&1==1)
+      {
+	//dr_tau_lepton= dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+        if( dr_tau_lepton<0.2 && closestMTau>dr_tau_lepton)
+          {closestMTau=dr_tau_lepton;  tau_mu=true; }
+      }
+    ///// tau -> tau hadronic
+    if(mcPt->at(imc)>15 &&  abs(mcPID->at(imc))!=13 &&  abs(mcPID->at(imc))!=11 )
+      {
+	dr_tau_lepton= dR(recotau_eta, recotau_phi, genLeptonEta, genLeptonPhi);
+        if( dr_tau_lepton<0.2 && closestHTau>dr_tau_lepton)
+          {closestHTau=dr_tau_lepton;   tau_tauh=true; }
+      } 
+  }
+  double closestLTau =  min(closestETau, closestMTau);
+  if(closestHTau < closestLTau)
+    closestLTau=closestHTau;
+  //closestDR = min(closestLTau, min(closestEle, closestMu) );
+  int genMatch=0;
+  //cout<<"closestDR: "<<closestDR<<" closestEle:"<<closestEle<<" closestMu:"<<closestMu<<" closestETau:"<<closestETau<<" closestMTau:"<<closestMTau<<" closestHTau:"<<closestHTau<<endl;
+  
+  if( (prompt_ele || prompt_mu))
+    {
+      if(closestEle<0.2 && prompt_ele)
+	//return 1;
+	genMatch=1;
+      else if(closestMu<0.2 && prompt_mu)				
+	//return 2;
+	genMatch=2;
+    }
+  else if(closestDR <= closestLTau)
+    {
+      if(closestETau<0.2 && closestETau< min(closestMTau, closestHTau) && tau_ele) //return 3;
+	genMatch=3;
+      else if(closestMTau<0.2 && closestMTau< min(closestETau, closestHTau) && tau_mu) //return 4;
+	genMatch=4;
+      else if(closestHTau<0.2 && closestHTau< min(closestETau, closestMTau) && tau_tauh) //return 5;
+	genMatch=5;
+    }
+  else
+    genMatch=6;
+
+  
+  return genMatch;
+
 }
 std::vector<int> tautau_analyzer::getGenMu(){
   std::vector<int> tmpCand;
   tmpCand.clear();
   int count1=0; int count2=0;
   for(int imc=0; imc<nMC; imc++){
-    if( genMatch2->at(imc)>>2&1==1 || genMatch2->at(imc)>>4&1==1 ) { count1++;}
-    if( (genMatch2->at(imc)>>2&1==1 || genMatch2->at(imc)>>4&1==1) && fabs(mcPID->at(imc))==13 ){  tmpCand.push_back(imc); count2++;}
+    if( genMatch2->at(imc)>>2&1==1 || genMatch2->at(imc)>>4&1==1 ) {tmpCand.push_back(imc); count1++;}
+    if( (genMatch2->at(imc)>>2&1==1 || genMatch2->at(imc)>>4&1==1) && fabs(mcPID->at(imc))==13 ){count2++;}
   }
   //cout<<"count1:"<<count1<<"  count2:"<<count2<<endl;
   return tmpCand; 
 }
-bool tautau_analyzer::hasGenTau(){
-  bool found_genTau=false;
-  for(int imc=0; imc<nMC; imc++){
-    if( genMatch2->at(imc)>>5&1==1) {  found_genTau=true;}
-  }
-  return found_genTau;
-}
 float tautau_analyzer::exponential(float x,float a,float b,float c) {
   return a * TMath::Exp(-b * x) + c;
 }
-double tautau_analyzer::getScaleFactors( int tau1Index , int tau2Index, bool fakeBkg , bool isMC, bool debug)
+double tautau_analyzer::exponential( double pT) {
+  return TMath::Exp(0.088 - 0.00087*pT + 0.00000092*pow(pT,2) ) ; 
+}
+double tautau_analyzer::getScaleFactors(  double tau1pt, double tau2pt, double tau1eta, double tau2eta, int taudm, int tau1GenMatch, bool isFakebkg)
 {
+  bool debug=false;
   double rv_sf=1.0;
-  double sf_tauidSF_m = 1.0;
-  double sf_tauidSF_vvvl = 1.0;
-  double sf_tauesSF = 1.0;
+  double sf_tau1Trg = 1.0;  double sf_tau2Trg = 1.0;
+  double sf_htt_tau1=1.0;   double sf_htt_tau2=1.0;
+  double sf_tau1idSF_m = 1.0; double sf_tau2idSF_m = 1.0;
+  double sf_tau1idSF_vvvl = 1.0; double sf_tau2idSF_vvvl = 1.0;
   double sf_fakeEle = 1.0; double sf_fakeMu = 1.0;
+  double sf_fakeEleES = 1.0; double sf_fakeMuES = 1.0;
   double sf_taufesSF = 1.0;
-  int genMatchTau = 0;
-  if(isMC) genMatchTau = gen_matching();
-
-  sf_tauidSF_m = h_tauidSF_m->GetBinContent(h_tauidSF_m->GetXaxis()->FindBin(tau_DecayMode->at(tau1Index)));
-  sf_tauidSF_vvvl = h_tauidSF_vvvl->GetBinContent(h_tauidSF_vvvl->GetXaxis()->FindBin(tau_DecayMode->at(tau1Index)));
-  sf_tauesSF = h_tauesSF->GetBinContent(h_tauesSF->GetXaxis()->FindBin(tau_DecayMode->at(tau1Index)));
-
-  //if(genMatchTau==1 || genMatchTau==3)
-  //sf_fakeEle = h_tauFakeEleSF->GetBinContent(h_tauFakeEleSF->GetXaxis()->FindBin(abs(tau_Eta->at(tauIndex))));
-  //if(genMatchTau==2 || genMatchTau==4)
-  //sf_fakeMu = h_tauFakeMuSF->GetBinContent(h_tauFakeMuSF->GetXaxis()->FindBin(abs(tau_Eta->at(tauIndex))));
-  if(genMatchTau==2 || genMatchTau==4){
-    if(tau_DecayMode->at(tau1Index)==0)
-      {
-	if(abs(tau_Eta->at(tau1Index)) < 0.4 ) sf_fakeMu=1.14;
-	if(abs(tau_Eta->at(tau1Index)) > 0.4 
-	   && abs(tau_Eta->at(tau1Index)) < 0.8 ) sf_fakeMu=1.0;
-	if(abs(tau_Eta->at(tau1Index)) > 0.8
-           && abs(tau_Eta->at(tau1Index)) < 1.2 ) sf_fakeMu=0.87;
-	if(abs(tau_Eta->at(tau1Index)) > 1.2
-           && abs(tau_Eta->at(tau1Index)) < 1.7 ) sf_fakeMu=0.52;
-	if(abs(tau_Eta->at(tau1Index)) > 1.7
-           && abs(tau_Eta->at(tau1Index)) < 2.3 ) sf_fakeMu=1.47;
-      }
-    if(tau_DecayMode->at(tau1Index)==1)
-      {
-	if(abs(tau_Eta->at(tau1Index)) > 0.0
-           && abs(tau_Eta->at(tau1Index)) < 0.4 ) sf_fakeMu=0.69;
-      }
-  }
-  if(genMatchTau==1 || genMatchTau==3){
-    if(tau_DecayMode->at(tau1Index)==0)
-      {
-	if(abs(tau_Eta->at(tau1Index)) < 1.479 ) sf_fakeEle=0.98;
-	if(abs(tau_Eta->at(tau1Index)) > 1.479 ) sf_fakeEle=0.80;
-      }
-    if(tau_DecayMode->at(tau1Index)==1)
-      {
-	if(abs(tau_Eta->at(tau1Index)) < 1.479 ) sf_fakeEle=1.07;
-        if(abs(tau_Eta->at(tau1Index)) > 1.479 ) sf_fakeEle=0.64;
-      }
-  }
-  if(tau_DecayMode->at(tau1Index)==0 && abs(tau_Eta->at(tau1Index))<=1.4 ) sf_taufesSF = h_taufesSF->Eval(1);
-  if(tau_DecayMode->at(tau1Index)==0 && abs(tau_Eta->at(tau1Index))>1.4 )  sf_taufesSF = h_taufesSF->Eval(3);
-  if(tau_DecayMode->at(tau1Index)==1 && abs(tau_Eta->at(tau1Index))<=1.4 ) sf_taufesSF = h_taufesSF->Eval(5);
-  if(tau_DecayMode->at(tau1Index)==1 && abs(tau_Eta->at(tau1Index))>1.4 )  sf_taufesSF = h_taufesSF->Eval(7);
   
   
-  //event_weight=event_weight * sf_muID * sf_IsoEff * sf_muTrg * sf_tauidSF_m * sf_tauesSF * sf_fakeEle * (sf_fakeMu);
-  // if(fakeBkg)
-  //   rv_sf = sf_muID * sf_IsoEff * sf_muTrg * sf_tauidSF_m * sf_tauesSF * sf_fakeEle * sf_fakeMu * sf_taufesSF ;
-  // else
-  //   rv_sf = sf_muID * sf_IsoEff * sf_muTrg * sf_tauidSF_m * sf_tauidSF_vvvl * sf_tauesSF * sf_fakeEle * sf_fakeMu * sf_taufesSF ;
-  if(fakeBkg)
-    rv_sf = sf_tauidSF_m * sf_tauesSF * sf_fakeEle * sf_fakeMu * sf_taufesSF;
-  else
-    rv_sf = sf_tauidSF_m * sf_tauidSF_vvvl * sf_tauesSF * sf_fakeEle * sf_fakeMu * sf_taufesSF;
-  
-  return rv_sf;
-
-}
-
-bool tautau_analyzer::MatchTriggerFilter(int tau1Index, int tau2Index)
-{
-  std::vector<int> tmpJetCand;
-  tmpJetCand.clear();
-  bool passFilter = true;
-  bool tauTriggerFilterMatch=false;
-  int nTauTriggerFilterMatch=0;
-  for(int ifilter=0;ifilter<18;ifilter++)
+  if(  my_genmatching_l1>=5 )
     {
-      if(tauFiredTrgs->at(tau1Index)>>ifilter&1==1)
-	{
-	  tauTriggerFilterMatch=true;
-	  nTauTriggerFilterMatch++;
-	}
+      sf_tau1idSF_m = get_BinContent( h_tauidSF_m, tau1dm) ;
+      sf_tau1idSF_vvvl = get_BinContent( h_tauidSF_vvvl, tau1dm);
     }
+  if(  my_genmatching_l2>=5 )
+    {
+      sf_tau2idSF_m = get_BinContent( h_tauidSF_m, tau2dm) ;
+      sf_tau2idSF_vvvl = get_BinContent( h_tauidSF_vvvl, tau2dm);
+    }
+  
+  double higgsPt = pTvecsum_F(my_tau1P4, my_tau2P4, my_metP4);
+  double higgPt_weight=1.0;
+  if (my_njets==0)
+    higgPt_weight = gr_NNLOPSratio_pt_mcatnlo_0jet->Eval(min(higgsPt,125.0));
+  else if (my_njets==1)
+    higgPt_weight = gr_NNLOPSratio_pt_mcatnlo_1jet->Eval(min(higgsPt,625.0));
+  else if (my_njets==2)
+    higgPt_weight = gr_NNLOPSratio_pt_mcatnlo_2jet->Eval(min(higgsPt,800.0));
+  else if (my_njets>=3)
+    higgPt_weight = gr_NNLOPSratio_pt_mcatnlo_3jet->Eval(min(higgsPt,925.0));
+  else
+    higgPt_weight = 1.0;
+      
+  
+  double tau1PtCheck=tau1pt;
+  if(tau1pt > 450 ) tau1PtCheck = 450;
+  else if ( tau1pt < 20 )  tau1PtCheck = 20;
+  double tau2PtCheck=tau2pt;
+  if(tau2pt > 450 ) tau2PtCheck = 450;
+  else if ( tau2pt < 20 )  tau2PtCheck = 20;
+  //get_BinContent(TH1* histo, double xValue)
+  if(tau1dm==0 )  sf_tau1Trg= get_BinContent(h_tauTrgSF_dm0 , tau1PtCheck);
+  if(tau1dm==1 )  sf_tau1Trg= get_BinContent(h_tauTrgSF_dm1 , tau1PtCheck);
+  if(tau1dm==10)  sf_tau1Trg= get_BinContent(h_tauTrgSF_dm10, tau1PtCheck);
+  if(tau1dm==11)  sf_tau1Trg= get_BinContent(h_tauTrgSF_dm11 , tau1PtCheck);
 
-  if(  HLTTau>>6&1 == 1 
-       || HLTTau>>7&1 == 1
-       || HLTTau>>5&1 == 1
-       )  passFilter=true;
-    
-  return passFilter;
+  if(tau2dm==0 )  sf_tau2Trg= get_BinContent(h_tauTrgSF_dm0 , tau2PtCheck);
+  if(tau2dm==1 )  sf_tau2Trg= get_BinContent(h_tauTrgSF_dm1 , tau2PtCheck);
+  if(tau2dm==10)  sf_tau2Trg= get_BinContent(h_tauTrgSF_dm10, tau2PtCheck);
+  if(tau2dm==11)  sf_tau2Trg= get_BinContent(h_tauTrgSF_dm11 , tau2PtCheck);
+  ///// btag efficiency
+  //double weight_btagSF = btag_sf;
+  //cout<<"btag_sf : "<<weight_btagSF<<endl;
+
+ 
+  //// tau trigger, id scale factors from RooWorkspace
+  w->var("t_pt")->setVal(my_tau1P4.Pt());
+  w->var("t_eta")->setVal(my_tau1P4.Eta());
+  w->var("t_phi")->setVal(my_tau1P4.Phi());
+  w->var("t_dm")->setVal(tau1dm);
+  double t1_deeptauid = w->function("t_deeptauid_dm_medium")->getVal();
+  double t1_trg_pog = w->function("t_trg_pog_deeptau_medium_mutau_ratio")->getVal();
+  sf_htt_tau1 = t1_deeptauid*t1_trg_pog;
+  
+  w->var("t_pt")->setVal(my_tau2P4.Pt());
+  w->var("t_eta")->setVal(my_tau2P4.Eta());
+  w->var("t_phi")->setVal(my_tau2P4.Phi());
+  w->var("t_dm")->setVal(tau2dm);
+  double t2_deeptauid = w->function("t_deeptauid_dm_medium")->getVal();
+  double t2_trg_pog = w->function("t_trg_pog_deeptau_medium_mutau_ratio")->getVal();
+  sf_htt_tau2 = t2_deeptauid*t2_trg_pog;
+  
+
+  rv_sf = sf_htt_tau1 * sf_htt_tau2 * sf_tau1Trg * sf_tau2Trg * sf_tau1idSF_m * sf_tau2idSF_m * higgPt_weight ;
+  
+  if(isFakebkg)
+    rv_sf=rv_sf * sf_tau1idSF_vvvl;
+  // printTabSeparated("rv_sf :",rv_sf);
+  // printTabSeparated("sf_htt_tau : ",sf_htt_tau1 , sf_htt_tau2 );
+  // printTabSeparated("higgPt_weight ",higgPt_weight);
+
+  if(rv_sf>0)
+    return rv_sf;
+  else
+    return 1.0;
+
 }
+bool tautau_analyzer::TriggerSelection(TLorentzVector tau1P4, TLorentzVector tau2P4){
 
-
+  if(  HLTTau>>5&1==1 || HLTTau>>6&1==1 || HLTTau>>7&1==1  )
+    {
+      if(tau1P4.Pt()>40.0 && tau2P4.Pt()>40.0)
+        {
+          return true;
+        }
+    }
+  return false;
+}
+bool tautau_analyzer::MatchTriggerFilter(int eleIndex, int tauIndex)
+{
+  
+  return true;
+}
 
 double  tautau_analyzer::getFR(int tauIndex){
   double frWeight=1.0;
-  double tau_FR = 1.0;
-  double tauPt=0.0;
-  if( tau_Pt->at(tauIndex) < 120 )
-    tauPt=tau_Pt->at(tauIndex);
-  else
-    tauPt=119.0;
-  // if ( tau_DecayMode->at(tauIndex)==0 )
-  //   {
-  //     tau_FR = h_tauFR_0->Eval(tauPt);
-  //     frWeight = tau_FR/(1-tau_FR);
-  //   }
-  
-  // if ( tau_DecayMode->at(tauIndex)==1 )
-  //   {
-  //     tau_FR = h_tauFR_1->Eval(tauPt);
-  //     frWeight = tau_FR/(1-tau_FR);
-  //   }
-  
-  // if ( tau_DecayMode->at(tauIndex)==10 )
-  //   {
-  //     tau_FR = h_tauFR_10->Eval(tauPt);
-  //     frWeight = tau_FR/(1-tau_FR);
-  //   }
-  // if ( tau_DecayMode->at(tauIndex)==11 )
-  //   {
-  //     tau_FR = h_tauFR_11->Eval(tauPt);
-  //     frWeight = tau_FR/(1-tau_FR);
-  //   }
-  if ( tau_DecayMode->at(tauIndex)==0 )
-    {
-      tau_FR = h_tauFR_0->GetBinContent(h_tauFR_0->GetXaxis()->FindBin(tauPt));
-      frWeight = tau_FR/(1-tau_FR);
-    }
-  
-  if ( tau_DecayMode->at(tauIndex)==1 )
-    {
-      tau_FR = h_tauFR_1->GetBinContent(h_tauFR_1->GetXaxis()->FindBin(tauPt));
-      frWeight = tau_FR/(1-tau_FR);
-    }
-  
-  if ( tau_DecayMode->at(tauIndex)==10 )
-    {
-      tau_FR = h_tauFR_10->GetBinContent(h_tauFR_10->GetXaxis()->FindBin(tauPt));
-      frWeight = tau_FR/(1-tau_FR);
-    }
   return frWeight;
 }
-void tautau_analyzer::fillHist( string histNumber , int tau1Index, int tau2Index, float event_weight){
-  string hNumber = histNumber;
-  plotFill("tau1Pt_"+hNumber,  tau_Pt->at(tau1Index) , 25 , 30 , 80,  event_weight);
-  plotFill("tau1Eta_"+hNumber, tau_Eta->at(tau1Index), 45, -2.5, 2.5,  event_weight);
-  plotFill("tau1Phi_"+hNumber, tau_Phi->at(tau1Index), 30, -3.14, 3.14,  event_weight);
-  plotFill("tau1Iso_"+hNumber, tau_byMediumDeepTau2017v2p1VSjet->at(tau1Index), 6, -3, 3,  event_weight);
-  plotFill("tau1DecayMode_"+hNumber, tau_DecayMode->at(tau1Index) , 12, 0, 12,  event_weight);
-  plotFill("tau1Charge_"+hNumber, tau_Charge->at(tau1Index), 8, -2, 2 ,  event_weight);
-  plotFill("tau1AntiEle_"+hNumber, tau_byVVVLooseDeepTau2017v2p1VSe->at(tau1Index), 4, 0, 2,  event_weight );
-  plotFill("tau1AntiMu_"+hNumber,  tau_byVLooseDeepTau2017v2p1VSmu->at(tau1Index), 4, 0, 2 ,  event_weight);
 
-  plotFill("tau2Pt_"+hNumber,  tau_Pt->at(tau2Index) , 25 , 30 , 80,  event_weight);
-  plotFill("tau2Eta_"+hNumber, tau_Eta->at(tau2Index), 45, -2.5, 2.5,  event_weight);
-  plotFill("tau2Phi_"+hNumber, tau_Phi->at(tau2Index), 30, -3.14, 3.14,  event_weight);
-  plotFill("tau2Iso_"+hNumber, tau_byMediumDeepTau2017v2p1VSjet->at(tau2Index), 6, -3, 3,  event_weight);
+void tautau_analyzer::fillHist( string histNumber , int tau1Index, int tau2Index, bool isFakeBkg, float event_weight){
+  string hNumber = histNumber;
+  /// leading tau 
+  plotFill("tau1Pt_"+hNumber,  my_tau1P4.Pt() , 30 , 40 , 180,  event_weight);
+  plotFill("tau1Eta_"+hNumber, my_tau1P4.Eta(), 22, -2.1, 2.1,  event_weight);
+  plotFill("tau1Phi_"+hNumber, my_tau1P4.Phi(), 30, -3.14, 3.14,  event_weight);
+  plotFill("tau1Charge_"+hNumber, tau_Charge->at(tau1Index), 8, -2, 2 ,  event_weight);
+  plotFill("tau1Iso_"+hNumber, tau_byMediumDeepTau2017v2p1VSjet->at(tau1Index), 4, -2, 2,  event_weight);
+  plotFill("tau1DecayMode_"+hNumber, tau_DecayMode->at(tau1Index) , 12, 0, 12,  event_weight);
+  /// subleading tau
+  plotFill("tau2Pt_"+hNumber,  my_tau2P4.Pt() , 30 , 40 , 120,  event_weight);
+  plotFill("tau2Eta_"+hNumber, my_tau2P4.Eta(), 22, -2.1, 2.1,  event_weight);
+  plotFill("tau2Phi_"+hNumber, my_tau2P4.Phi(), 30, -3.14, 3.14,  event_weight);
+  plotFill("tau2Iso_"+hNumber, tau_byMediumDeepTau2017v2p1VSjet->at(tau2Index), 4, -2, 2,  event_weight);
   plotFill("tau2DecayMode_"+hNumber, tau_DecayMode->at(tau2Index) , 12, 0, 12,  event_weight);
   plotFill("tau2Charge_"+hNumber, tau_Charge->at(tau2Index), 8, -2, 2 ,  event_weight);
-  plotFill("tau2AntiEle_"+hNumber, tau_byVVVLooseDeepTau2017v2p1VSe->at(tau2Index), 4, 0, 2,  event_weight );
-  plotFill("tau2AntiMu_"+hNumber,  tau_byVLooseDeepTau2017v2p1VSmu->at(tau2Index), 4, 0, 2 ,  event_weight);
-  double deltaR = delta_R(tau_Phi->at(tau1Index), tau_Eta->at(tau1Index), tau_Phi->at(tau2Index), tau_Eta->at(tau2Index));
-  plotFill("deltaR_"+hNumber, deltaR , 40, 0, 6,  event_weight);
-  
-  std::vector<int> jetCand;       jetCand.clear();
-  jetCand=getJetCand(tau1Index, tau2Index);
-  plotFill("nJet_"+hNumber, jetCand.size() , 6, 0, 6,  event_weight);
-  
-  plotFill("met_"+hNumber, pfMET , 20, 0, 200,  event_weight);
-  
-  double mT_muMet = TMass_F( tau_Pt->at(tau1Index),  tau_Phi->at(tau1Index),pfMET,pfMETPhi  );
-  plotFill("mT_muMet_"+hNumber, mT_muMet , 20, 0, 200,  event_weight);
 
-  TLorentzVector myTau1; 
-  myTau1.SetPtEtaPhiE(tau_Pt->at(tau1Index),tau_Eta->at(tau1Index),tau_Phi->at(tau1Index), tau_Energy->at(tau1Index));
-  TLorentzVector myTau2; 
-  myTau2.SetPtEtaPhiE(tau_Pt->at(tau2Index),tau_Eta->at(tau2Index),tau_Phi->at(tau2Index), tau_Energy->at(tau2Index));
 
-  double visMass_mutau = VisMass_F(myTau1, myTau2);
-  plotFill("visMass_"+hNumber, visMass_mutau , 30, 50, 200,  event_weight);
+  double deltaR = my_tau1P4.DeltaR(my_tau2P4);
+  plotFill("deltaR_"+hNumber, deltaR , 30, 0, 6,  event_weight);
+  double deltaPhi = DeltaPhi(my_tau1P4.Phi(), my_tau2P4.Phi());
+  double deltaEta = fabs(my_tau1P4.Eta() - my_tau2P4.Eta());
+  plotFill("deltaPhi_"+hNumber, deltaPhi , 30, 0, 3.14,  event_weight);
+  plotFill("deltaEta_"+hNumber, deltaEta ,  25, 0, 2.5,  event_weight);
+
+  plotFill("nJet_"+hNumber,  my_njets , 8, 0, 8,  event_weight);
+  plotFill("met_"+hNumber, my_metP4.Pt() , 30, 0, 150,  event_weight);
+  plotFill("metLongXaxis_"+hNumber, my_metP4.Pt() , 40, 0, 200,  event_weight);
+  plotFill("metPhi_"+hNumber, my_metP4.Phi() , 30, -3.14, 3.14,  event_weight);
+  double mT_tauMet = TMass_F( my_tau2P4.Pt(),my_tau2P4.Phi(), my_metP4.Pt(), my_metP4.Phi() );
+  plotFill("mT_tauMet_"+hNumber, mT_tauMet , 30, 0, 150,  event_weight);
+
+  double visMass_mutau = (my_tau1P4+ my_tau2P4).M();
+  plotFill("visMass_"+hNumber, visMass_mutau , 30, 0, 300,  event_weight);
   
-  TLorentzVector myMet;
-  myMet.SetPtEtaPhiE(pfMET ,0,pfMETPhi,pfMET);
-  //double HiggsPt = pTvecsum_F(muPt->at(muIndex),tau_Pt->at(tauIndex),muPhi->at(muIndex),tau_Phi->at(tauIndex) );
-  double HiggsPt = pTvecsum_F(myTau1, myTau2, myMet);
-  plotFill("higgsPt_"+hNumber,HiggsPt , 40, 0, 400,  event_weight);
-  double tot_tr_mass = TotTMass_F(myTau1, myTau1, myMet );
+  double HiggsPt = (my_tau1P4+my_tau2P4+my_metP4).Pt();
+  plotFill("higgsPt_"+hNumber,HiggsPt , 30, 0, 230,  event_weight);
+
+  double tot_tr_mass = (my_tau1P4 + my_tau2P4 + my_metP4 ).M();
   plotFill("tot_TMass_"+hNumber, tot_tr_mass , 20, 0, 200,  event_weight);
+
+  int triggerBin1, triggerBin2, triggerBin3, triggerBin4;
+  triggerBin1=triggerBin2=triggerBin3=triggerBin4=0;
+  if( HLTTau>>7&1 == 1 )     triggerBin3=3;
+  if( HLTTau>>6&1 == 1 )     triggerBin2=2;
+  if( HLTTau>>5&1 == 1 )     triggerBin1=1;
+  if(triggerBin1>0)
+    plotFill("trigger_"+hNumber, triggerBin1 , 5, 0, 5,  event_weight);
+  if(triggerBin2>0)
+    plotFill("trigger_"+hNumber, triggerBin2 , 5, 0, 5,  event_weight);
+  if(triggerBin3>0)
+    plotFill("trigger_"+hNumber, triggerBin3 , 5, 0, 5,  event_weight);
+  if(triggerBin4>0)
+    plotFill("trigger_"+hNumber, triggerBin4 , 5, 0, 5,  event_weight);
   
-  int triggerBin=0;
-  if(  HLTTau>>6&1 == 1 ||  HLTTau>>10&1 == 1 ) triggerBin=1;
-  if(  HLTTau>>7&1 == 1 ||  HLTTau>>11&1 == 1 ) triggerBin=2;
-  if( HLTTau>>5&1 == 1 )     triggerBin=3;
-  plotFill("trigger_"+hNumber, triggerBin , 4, 0, 4,  event_weight);
-  //if(debug)cout <<"plots filled for "<<hNumber<<endl;
   
 }
-void tautau_analyzer::fillHist( string histNumber , TLorentzVector tau1P4, TLorentzVector tau2P4, int tau1Index, int tau2Index, float event_weight){
+
+
+float tautau_analyzer::EletriggerSF(float pt, float eta){
+  float sf = 1.0;
+  if(fabs(eta) >= 0.0   && fabs(eta) < 0.8)
+    {
+      if(pt > 40.0  && pt < 50) sf = 0.79;
+      if(pt > 50.0  && pt < 60) sf = 0.82;
+      if(pt > 60.0  && pt < 100) sf = 0.85;
+      if(pt > 100.0  && pt < 150) sf = 0.87;
+      if(pt > 150.0  && pt < 200) sf = 0.88;
+      if(pt > 200) sf = 0.89;
+    }
+  if(fabs(eta) >= 0.8   && fabs(eta) < 1.442 ) 
+    {
+      if(pt > 40.0  && pt < 50) sf = 0.77;
+      if(pt > 50.0  && pt < 60) sf = 0.81;
+      if(pt > 60.0  && pt < 100) sf = 0.85;
+      if(pt > 100.0  && pt < 150) sf = 0.87;
+      if(pt > 150.0  && pt < 300) sf = 0.89;
+      if(pt > 300.0) sf = 0.87;
+    }
+  if(fabs(eta) >= 1.442   && fabs(eta) < 1.56 ) 
+    {
+      if(pt > 40.0  && pt < 50) sf = 0.73;
+      if(pt > 50.0  && pt < 60) sf = 0.75;
+      if(pt > 60.0  && pt < 100) sf = 0.76;
+      if(pt > 100.0  && pt < 150) sf = 0.72;
+      if(pt > 150.0  && pt < 300) sf = 0.78;
+      if(pt > 300.0) sf = 0.67;
+    }
+  if(fabs(eta) >= 1.56   && fabs(eta) < 2.0 ) 
+    {
+      if(pt > 40.0  && pt < 50) sf = 0.80;
+      if(pt > 50.0  && pt < 60) sf = 0.84;
+      if(pt > 60.0  && pt < 100) sf = 0.87;
+      if(pt > 100.0  && pt < 150) sf = 0.88;
+      if(pt > 150.0  && pt < 300) sf = 0.89;
+      if(pt > 300.0) sf = 0.87;
+    }
+  if(fabs(eta) >= 2.0   && fabs(eta) < 2.5 ) 
+    {
+      if(pt > 40.0  && pt < 50) sf = 0.73;
+      if(pt > 50.0  && pt < 60) sf = 0.78;
+      if(pt > 60.0  && pt < 100) sf = 0.83;
+      if(pt > 100.0  && pt < 150) sf = 0.86;
+      if(pt > 150.0  && pt < 300) sf = 0.89;
+      if(pt > 300.0) sf = 0.86;
+    }
+  return sf;
+}
+void tautau_analyzer::makeTestPlot( string histNumber , int eleIndex, int ele2Index, int tauIndex, float event_weight){
   string hNumber = histNumber;
-  
-  plotFill("tau1Pt_"+hNumber,  tau_Pt->at(tau1Index) , 25 , 30 , 80,  event_weight);
-  plotFill("tau1Eta_"+hNumber, tau_Eta->at(tau1Index), 45, -2.5, 2.5,  event_weight);
-  plotFill("tau1Phi_"+hNumber, tau_Phi->at(tau1Index), 30, -3.14, 3.14,  event_weight);
-  plotFill("tau1Iso_"+hNumber, tau_byMediumDeepTau2017v2p1VSjet->at(tau1Index), 6, -3, 3,  event_weight);
-  plotFill("tau1DecayMode_"+hNumber, tau_DecayMode->at(tau1Index) , 12, 0, 12,  event_weight);
-  plotFill("tau1Charge_"+hNumber, tau_Charge->at(tau1Index), 8, -2, 2 ,  event_weight);
-  plotFill("tau1AntiEle_"+hNumber, tau_byVVVLooseDeepTau2017v2p1VSe->at(tau1Index), 4, 0, 2,  event_weight );
-  plotFill("tau1AntiMu_"+hNumber,  tau_byVLooseDeepTau2017v2p1VSmu->at(tau1Index), 4, 0, 2 ,  event_weight);
+  std::vector<int> tmpCand; tmpCand.clear();
+  for(int iTau=0;iTau<nTau;iTau++)
+    {
+      tmpCand.push_back(iTau);
+    }
+  plotFill("tauPt_"+hNumber,  tau_Pt->at(tmpCand[0]) , 38 , 24 , 100,  event_weight);
+  //cout<<"     elePt_"<<hNumber<<" = "<< elePt->at(tmpCand[0])<<endl;
+}
 
-  plotFill("tau2Pt_"+hNumber,  tau_Pt->at(tau2Index) , 25 , 30 , 80,  event_weight);
-  plotFill("tau2Eta_"+hNumber, tau_Eta->at(tau2Index), 45, -2.5, 2.5,  event_weight);
-  plotFill("tau2Phi_"+hNumber, tau_Phi->at(tau2Index), 30, -3.14, 3.14,  event_weight);
-  plotFill("tau2Iso_"+hNumber, tau_byMediumDeepTau2017v2p1VSjet->at(tau2Index), 6, -3, 3,  event_weight);
-  plotFill("tau2DecayMode_"+hNumber, tau_DecayMode->at(tau2Index) , 12, 0, 12,  event_weight);
-  plotFill("tau2Charge_"+hNumber, tau_Charge->at(tau2Index), 8, -2, 2 ,  event_weight);
-  plotFill("tau2AntiEle_"+hNumber, tau_byVVVLooseDeepTau2017v2p1VSe->at(tau2Index), 4, 0, 2,  event_weight );
-  plotFill("tau2AntiMu_"+hNumber,  tau_byVLooseDeepTau2017v2p1VSmu->at(tau2Index), 4, 0, 2 ,  event_weight);
-  double deltaR = delta_R(tau_Phi->at(tau1Index), tau_Eta->at(tau1Index), tau_Phi->at(tau2Index), tau_Eta->at(tau2Index));
-  plotFill("deltaR_"+hNumber, deltaR , 40, 0, 6,  event_weight);
-  
+
+TLorentzVector tautau_analyzer::MetRecoilCorrections(int eleIndex, int tauIndex, TLorentzVector mymet){
+  //// met recoil correction
+  TLorentzVector BosonP4, nuP4, nuP4tmp;
+  TLorentzVector nu1P4, gentau1P4;
+  TLorentzVector nu2P4, gentau2P4;
+  TLorentzVector visGenP4;
+  for(int i=0; i<nMC; i++)
+    {
+      if(mcPID->at(i)==23)
+	BosonP4.SetPtEtaPhiE(mcPt->at(i), mcEta->at(i) , mcPhi->at(i) , mcE->at(i) );
+    }
+  //visGenP4=BosonP4;
+  if(BosonP4.Pt()==0)
+    {
+      for(int i=0; i<nMC; i++)
+	{
+	  if(mcPID->at(i)==15)
+	    gentau1P4.SetPtEtaPhiE(mcPt->at(i), mcEta->at(i) , mcPhi->at(i) , mcE->at(i) );
+	  if(mcPID->at(i)==-15)
+	    gentau2P4.SetPtEtaPhiE(mcPt->at(i), mcEta->at(i) , mcPhi->at(i) , mcE->at(i) );
+	}
+      BosonP4=gentau1P4+gentau2P4;
+    }
+  visGenP4=BosonP4;
+  for(int i=0; i<nMC; i++)
+    {
+      if(abs(mcPID->at(i))==16 || abs(mcPID->at(i))==14 || abs(mcPID->at(i))==12)
+	{
+	  nuP4tmp.SetPtEtaPhiE(mcPt->at(i), mcEta->at(i) , mcPhi->at(i) , mcE->at(i) );
+	  visGenP4=visGenP4-nuP4tmp;
+	}
+    }
+  // apply recoil corrections on event-by-event basis (Type I PF MET)
+  float pfmet=mymet.Pt(); float pfmetPhi=mymet.Phi();
+  float pfmetcorr_ex=pfmet*cos(pfmetPhi); float pfmetcorr_ey=pfmet*sin(pfmetPhi);
   std::vector<int> jetCand;       jetCand.clear();
-  jetCand=getJetCand(tau1Index, tau2Index);
-  //if(jetCand.size()>0)
-  plotFill("nJet_"+hNumber, jetCand.size() , 6, 0, 6,  event_weight);
-  plotFill("met_"+hNumber, pfMET , 20, 0, 200,  event_weight);
+  jetCand=getJetCand(eleIndex, tauIndex);
   
-  double mT_muMet = TMass_F( tau_Pt->at(tau1Index),  tau_Phi->at(tau1Index),pfMET,pfMETPhi  );
-  plotFill("mT_muMet_"+hNumber, mT_muMet , 20, 0, 200,  event_weight);
+  recoilPFMetCorrector.CorrectByMeanResolution(pfmet*cos(pfmetPhi), // uncorrected type I pf met px (float)
+					       pfmet*sin(pfmetPhi), // uncorrected type I pf met py (float)
+					       BosonP4.Px(), // generator Z/W/Higgs px (float)
+					       BosonP4.Py(), // generator Z/W/Higgs py (float)
+					       visGenP4.Px(), // generator visible Z/W/Higgs px (float)
+					       visGenP4.Py(), // generator visible Z/W/Higgs py (float)
+					       jetCand.size(),  // number of jets (hadronic jet multiplicity) (int)
+					       pfmetcorr_ex, // corrected type I pf met px (float)
+					       pfmetcorr_ey  // corrected type I pf met py (float)
+					       );
+  
 
-  double visMass_mutau = VisMass_F(tau1P4, tau2P4);
-  plotFill("visMass_"+hNumber, visMass_mutau , 30, 50, 200,  event_weight);
+  mymet.SetPxPyPzE(pfmetcorr_ex,pfmetcorr_ey,0,sqrt(pfmetcorr_ex*pfmetcorr_ex + pfmetcorr_ey*pfmetcorr_ey));
+  return mymet;
+}
+
+void tautau_analyzer::applyTauESCorrections(TLorentzVector tauP4, int tauIndex, TLorentzVector& tauP4Corr)
+{
   
-  TLorentzVector myMet;
-  myMet.SetPtEtaPhiE(pfMET ,0,pfMETPhi,pfMET);
-  //double HiggsPt = pTvecsum_F(muPt->at(muIndex),tau_Pt->at(tauIndex),muPhi->at(muIndex),tau_Phi->at(tauIndex) );
-  double HiggsPt = pTvecsum_F(tau1P4, tau2P4, myMet);
-  plotFill("higgsPt_"+hNumber,HiggsPt , 40, 0, 400,  event_weight);
+  if(is_MC)
+  {
+    if (myGenMaching(tauIndex)>=5 && tau_DecayMode->at(tauIndex)==0) tauP4Corr=tauP4*1.007;
+    else if (myGenMaching(tauIndex)>=5 && tau_DecayMode->at(tauIndex)==1) tauP4Corr=tauP4*0.998;
+    else if (myGenMaching(tauIndex)>=5 && tau_DecayMode->at(tauIndex)==10) tauP4Corr=tauP4*1.001;
+    if (  (myGenMaching(tauIndex)==1 || myGenMaching(tauIndex)==3) && tau_DecayMode->at(tauIndex)==0 ) tauP4Corr=tauP4*1.003;
+    else if ( (myGenMaching(tauIndex)==1 || myGenMaching(tauIndex)==3) && tau_DecayMode->at(tauIndex)==1) tauP4Corr=tauP4*1.036;
+    
+    //tauP4Corr = tauP4Corr* get_zptmass_weight(); 
+  }
+  else
+    tauP4Corr = tauP4;
+}
+
+void tautau_analyzer::applyEleESCorrections(TLorentzVector eleP4, int eleIndex, TLorentzVector& eleP4Corr)
+{
+  eleP4Corr = eleP4*(eleCalibE->at(eleIndex)/eleP4.E());
+  // if(is_MC)
+  //   eleP4Corr = eleP4Corr * get_zptmass_weight();
   
-  double tot_tr_mass = TotTMass_F(tau1P4, tau2P4, myMet );
-  plotFill("tot_TMass_"+hNumber, tot_tr_mass , 20, 0, 200,  event_weight);
-  
-  int triggerBin=0;
-  if(  HLTTau>>6&1 == 1 ||  HLTTau>>10&1 == 1 ) triggerBin=1;
-  if(  HLTTau>>7&1 == 1 ||  HLTTau>>11&1 == 1 ) triggerBin=2;
-  if( HLTTau>>5&1 == 1 )     triggerBin=3;
-  plotFill("trigger_"+hNumber, triggerBin , 4, 0, 4,  event_weight);
-  //if(debug)cout <<"plots filled for "<<hNumber<<endl;
-   
+}
+
+int tautau_analyzer::if_DY_Genmatching(int eleIndex, int tauIndex){
+  // if(!is_MC)
+  //   return 1;
+  if( found_DYjet_sample==false )
+    return 1;
+  else if(found_DYjet_sample==true){
+    if(  myGenMaching(tauIndex)<5 &&  myGenMaching1(eleIndex)<5 ) // dy -> ll genmatched
+      return 2;
+    if (  myGenMaching(tauIndex)>=5 &&  myGenMaching1(eleIndex)<5 ) // dy -> ltau genmatched
+      return 3;
+  }
+  return 0;
+
+}
+
+int tautau_analyzer::eventCategory(int tau1Index, int tau2Index, double higgsPt){
+  int category=0;
+  std::vector<int> jetCand;       jetCand.clear();
+  jetCand = getJetCand(tau1Index, tau2Index);
+  int njets = jetCand.size();
+  double mjj=0;
+  TLorentzVector jet1P4, jet2P4;
+  if(njets>=2)
+    {
+      jet1P4.SetPtEtaPhiE(jetPt->at(jetCand[0]), jetEta->at(jetCand[0]), jetPhi->at(jetCand[0]), jetE->at(jetCand[0]));
+      jet2P4.SetPtEtaPhiE(jetPt->at(jetCand[1]), jetEta->at(jetCand[1]), jetPhi->at(jetCand[1]), jetE->at(jetCand[1]));
+      mjj = (jet1P4+ jet2P4).M();
+    }
+  ///////category selection
+  if(njets==0)
+    {
+      if( higgsPt<10)
+        return category=1;
+      else if (higgsPt>10)
+        return category=2;
+    }
+  if(njets>=2 && mjj > 350)
+    {
+      if      (higgsPt<200)
+        return category=5;
+      else if (higgsPt>200)
+        return category=6;
+    }
+  if(njets==1)
+    return category=3;
+  if(njets>=2 && mjj<350)
+    return category=4;
+}
+double tautau_analyzer::getTauFES(int tauIndex){
+  double sf_taufesSF=1.0;
+  if(tau_DecayMode->at(tauIndex)==0 && abs(tau_Eta->at(tauIndex))<=1.4 ) sf_taufesSF = h_taufesSF->Eval(1);
+  if(tau_DecayMode->at(tauIndex)==0 && abs(tau_Eta->at(tauIndex))>1.4 )  sf_taufesSF = h_taufesSF->Eval(3);
+  if(tau_DecayMode->at(tauIndex)==1 && abs(tau_Eta->at(tauIndex))<=1.4 ) sf_taufesSF = h_taufesSF->Eval(5);
+  if(tau_DecayMode->at(tauIndex)==1 && abs(tau_Eta->at(tauIndex))>1.4 )  sf_taufesSF = h_taufesSF->Eval(7);
+  return sf_taufesSF;
+
+}
+
+double tautau_analyzer::get_zptmass_weight(){
+  double weight = 1.0;
+  int genZCand= -1;
+  if(is_MC)
+    genZCand = getZCand();
+  if(genZCand>-1){
+    w->var("z_gen_pt")->setVal(mcPt->at(genZCand));
+    w->var("z_gen_mass")->setVal(mcMass->at(genZCand));
+    weight=w->function("zptmass_weight_nom")->getVal();
+    
+  }
+  return weight;
+
+}
+double tautau_analyzer::btag_sf_weight(int eleIndex , int tauIndex){
+  double weight = 1.0;
+  vector<int> looseBjet = bJet_loose(eleIndex , tauIndex);
+  vector<int> mediumBjet = bJet_medium(eleIndex , tauIndex);
+  if( mediumBjet.size()>0 )
+    {
+      weight =  btag_csv->EvalSF(0,"comb","central",1
+				  ,jetPt->at(mediumBjet[0])
+				  ,jetEta->at(mediumBjet[0])
+				  );
+      return weight;
+    }
+  if( looseBjet.size()>0  )
+    {
+      weight =  btag_csv->EvalSF(0,"comb","central",1
+				 ,jetPt->at(looseBjet[0])
+				 ,jetEta->at(looseBjet[0])
+				 );
+      return weight;
+    }
+  return 1.0;
 }

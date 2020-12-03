@@ -122,6 +122,7 @@ ZLL_hist     = OutFile.Get(dirname[3]+ZTTselect+"_"+histoname+"_dyll")
 EWKWMinus_hist = OutFile.Get(dirname[0]+"EWKWMinus_"+histoname)
 EWKWPlus_hist = OutFile.Get(dirname[0]+"EWKWPlus_"+histoname)
 EWKZ2Jets_hist = OutFile.Get(dirname[0]+"EWKZ2Jets_"+histoname)
+EWKZ2Jets_LL_hist = OutFile.Get(dirname[0]+"EWKZ2Jets_"+histoname+"_dyll")
 Wjets_hist   = OutFile.Get(dirname[0]+WJetselect+"_"+histoname)
 GluGluH_hist = OutFile.Get(dirname[0]+"GluGluH_"+histoname)
 ST_t_hist    = OutFile.Get(dirname[0]+"ST_t_"+histoname)
@@ -167,7 +168,10 @@ if( OutFile.Get(dirname[0]+"EWKWMinus_"+histoname) ) :
 if( OutFile.Get(dirname[0]+"EWKWPlus_"+histoname) ):
   GluGluH_hist.Add(EWKWPlus_hist)
 if( OutFile.Get(dirname[0]+"EWKZ2Jets_"+histoname) ):
-  GluGluH_hist.Add(EWKZ2Jets_hist)
+  ZTT_hist.Add(EWKZ2Jets_hist)
+if( OutFile.Get(dirname[0]+"EWKZ2Jets_"+histoname+"_dyll") ):
+  ZTT_hist.Add(EWKZ2Jets_LL_hist)
+
 if(  OutFile.Get(dirname[0]+"VBFH_"+histoname) ):
   GluGluH_hist.Add(VBFH_hist)
 if(OutFile.Get(dirname[0]+"WminusH_"+histoname)):

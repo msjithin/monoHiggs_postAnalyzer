@@ -834,7 +834,7 @@ public :
    virtual void BookHistos(const char* file2);
    virtual void fillHistos(int histoNumber, double event_weight,int higgs_index);
    virtual bool skimming_Htt();
-   virtual vector<int> skimmed_Mu(); 
+   
    virtual vector<int> skimmed_Tau();
    virtual void fillOutTree();
    virtual double DeltaPhi(double phi1, double phi2);

@@ -22,7 +22,6 @@ hadd $outDIR/DY4JetsToLL_M-50_TuneCP5_final.root rootFiles/DY4JetsToLL_M-50_Tune
 hadd $outDIR/DYJetsToLL_M-10to50_TuneCP5_final.root rootFiles/DYJetsToLL_M-10to50_TuneCP5_00.root rootFiles/DYJetsToLL_M-10to50_TuneCP5_01.root rootFiles/DYJetsToLL_M-10to50_TuneCP5_02.root rootFiles/DYJetsToLL_M-10to50_TuneCP5_03.root rootFiles/DYJetsToLL_M-10to50_TuneCP5_04.root 
 
 hadd $outDIR/DYJetsToLL_M-50_TuneCP5_ext1_v1_final.root rootFiles/DYJetsToLL_M-50_TuneCP5_ext1_v1_00.root rootFiles/DYJetsToLL_M-50_TuneCP5_ext1_v1_01.root rootFiles/DYJetsToLL_M-50_TuneCP5_ext1_v1_02.root rootFiles/DYJetsToLL_M-50_TuneCP5_ext1_v1_03.root rootFiles/DYJetsToLL_M-50_TuneCP5_ext1_v1_04.root rootFiles/DYJetsToLL_M-50_TuneCP5_ext1_v1_05.root rootFiles/DYJetsToLL_M-50_TuneCP5_v1_00.root rootFiles/DYJetsToLL_M-50_TuneCP5_v1_01.root rootFiles/DYJetsToLL_M-50_TuneCP5_v1_02.root rootFiles/DYJetsToLL_M-50_TuneCP5_v1_03.root rootFiles/DYJetsToLL_M-50_TuneCP5_v1_04.root rootFiles/DYJetsToLL_M-50_TuneCP5_v1_05.root 
-
 hadd $outDIR/EWKWMinus2Jets_WToLNu_M-50_TuneCP5_final.root rootFiles/EWKWMinus2Jets_WToLNu_M-50_TuneCP5_00.root 
 hadd $outDIR/EWKWPlus2Jets_WToLNu_M-50_TuneCP5_final.root rootFiles/EWKWPlus2Jets_WToLNu_M-50_TuneCP5_00.root 
 hadd $outDIR/EWKZ2Jets_ZToLL_M-50_TuneCP5_final.root rootFiles/EWKZ2Jets_ZToLL_M-50_TuneCP5_00.root 
@@ -38,7 +37,7 @@ hadd $outDIR/SingleMuon_EraC_final.root rootFiles/SingleMuon_EraC_00.root rootFi
 hadd $outDIR/SingleMuon_EraD_final.root rootFiles/SingleMuon_EraD_00.root rootFiles/SingleMuon_EraD_01.root rootFiles/SingleMuon_EraD_02.root 
 hadd $outDIR/SingleMuon_EraE_final.root rootFiles/SingleMuon_EraE_00.root rootFiles/SingleMuon_EraE_01.root rootFiles/SingleMuon_EraE_02.root rootFiles/SingleMuon_EraE_03.root rootFiles/SingleMuon_EraE_04.root rootFiles/SingleMuon_EraE_05.root 
 hadd $outDIR/SingleMuon_EraF_final.root rootFiles/SingleMuon_EraF_00.root rootFiles/SingleMuon_EraF_01.root rootFiles/SingleMuon_EraF_02.root rootFiles/SingleMuon_EraF_03.root rootFiles/SingleMuon_EraF_04.root rootFiles/SingleMuon_EraF_05.root rootFiles/SingleMuon_EraF_06.root rootFiles/SingleMuon_EraF_07.root rootFiles/SingleMuon_EraF_08.root 
-hadd $outDIR/TTTo2L2Nu_TuneCP5_final.root rootFiles/TTTo2L2Nu_TuneCP5_00.root 
+hadd $outDIR/TTTo2L2Nu_TuneCP5_final.root rootFiles/TTTo2L2Nu_TuneCP5_00.root rootFiles/TTTo2L2Nu_TuneCP5_01.root rootFiles/TTTo2L2Nu_TuneCP5_02.root rootFiles/TTTo2L2Nu_TuneCP5_03.root rootFiles/TTTo2L2Nu_TuneCP5_04.root rootFiles/TTTo2L2Nu_TuneCP5_05.root 
 hadd $outDIR/TTToHadronic_TuneCP5_final.root rootFiles/TTToHadronic_TuneCP5_00.root rootFiles/TTToHadronic_TuneCP5_01.root rootFiles/TTToHadronic_TuneCP5_02.root rootFiles/TTToHadronic_TuneCP5_03.root rootFiles/TTToHadronic_TuneCP5_04.root rootFiles/TTToHadronic_TuneCP5_05.root rootFiles/TTToHadronic_TuneCP5_06.root rootFiles/TTToHadronic_TuneCP5_07.root rootFiles/TTToHadronic_TuneCP5_08.root 
 hadd $outDIR/TTToSemiLeptonic_TuneCP5_final.root rootFiles/TTToSemiLeptonic_TuneCP5_00.root rootFiles/TTToSemiLeptonic_TuneCP5_01.root rootFiles/TTToSemiLeptonic_TuneCP5_02.root rootFiles/TTToSemiLeptonic_TuneCP5_03.root rootFiles/TTToSemiLeptonic_TuneCP5_04.root 
 hadd $outDIR/VBFHToTauTau_M125_final.root rootFiles/VBFHToTauTau_M125_00.root 

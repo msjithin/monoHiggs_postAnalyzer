@@ -47,25 +47,6 @@ Double_t Luminosity = 41520.0;//Lumi for inclusive
 bool debugOn=false;
 
 /////        add the name of histograms to be created     
-std::vector<string>  plotList = {
-  "cutflow_n","cutflow_n_fr", "cutflow_n_dyll",
-  "tau1Pt_5", "tau1Eta_5", "tau1Phi_5", "tau1Iso_5", "tau1DecayMode_5", "tau1Charge_5", "tau1AntiEle_5", "tau1AntiMu_5" ,"tau2Pt_5", "tau2Eta_5", "tau2Phi_5", "tau2Iso_5", "tau2DecayMode_5", "tau2Charge_5", "tau2AntiEle_5", "tau2AntiMu_5" , "deltaR_5", "higgsPt_5", "nJet_5",  "visMass_5", "mT_muMet_5",  "met_5",  "tot_TMass_5", "trigger_5",
-
-"tau1Pt_6", "tau1Eta_6", "tau1Phi_6", "tau1Iso_6", "tau1DecayMode_6", "tau1Charge_6", "tau1AntiEle_6", "tau1AntiMu_6" ,"tau2Pt_6", "tau2Eta_6", "tau2Phi_6", "tau2Iso_6", "tau2DecayMode_6", "tau2Charge_6", "tau2AntiEle_6", "tau2AntiMu_6" , "deltaR_6", "higgsPt_6", "nJet_6",  "visMass_6", "mT_muMet_6",  "met_6",  "tot_TMass_6", "trigger_6",
-
-  "tau1Pt_5_fr", "tau1Eta_5_fr", "tau1Phi_5_fr", "tau1Iso_5_fr", "tau1DecayMode_5_fr", "tau1Charge_5_fr", "tau1AntiEle_5_fr", "tau1AntiMu_5_fr" ,"tau2Pt_5_fr", "tau2Eta_5_fr", "tau2Phi_5_fr", "tau2Iso_5_fr", "tau2DecayMode_5_fr", "tau2Charge_5_fr", "tau2AntiEle_5_fr", "tau2AntiMu_5_fr" , "deltaR_5_fr", "higgsPt_5_fr", "nJet_5_fr",  "visMass_5_fr", "mT_muMet_5_fr",  "met_5_fr",  "tot_TMass_5_fr", "trigger_5_fr",
-
-"tau1Pt_6_fr", "tau1Eta_6_fr", "tau1Phi_6_fr", "tau1Iso_6_fr", "tau1DecayMode_6_fr", "tau1Charge_6_fr", "tau1AntiEle_6_fr", "tau1AntiMu_6_fr" ,"tau2Pt_6_fr", "tau2Eta_6_fr", "tau2Phi_6_fr", "tau2Iso_6_fr", "tau2DecayMode_6_fr", "tau2Charge_6_fr", "tau2AntiEle_6_fr", "tau2AntiMu_6_fr" , "deltaR_6_fr", "higgsPt_6_fr", "nJet_6_fr",  "visMass_6_fr", "mT_muMet_6_fr",  "met_6_fr",  "tot_TMass_6_fr", "trigger_6_fr",
-
-  "tau1Pt_5_dyll", "tau1Eta_5_dyll", "tau1Phi_5_dyll", "tau1Iso_5_dyll", "tau1DecayMode_5_dyll", "tau1Charge_5_dyll", "tau1AntiEle_5_dyll", "tau1AntiMu_5_dyll" ,"tau2Pt_5_dyll", "tau2Eta_5_dyll", "tau2Phi_5_dyll", "tau2Iso_5_dyll", "tau2DecayMode_5_dyll", "tau2Charge_5_dyll", "tau2AntiEle_5_dyll", "tau2AntiMu_5_dyll" , "deltaR_5_dyll", "higgsPt_5_dyll", "nJet_5_dyll",  "visMass_5_dyll", "mT_muMet_5_dyll",  "met_5_dyll",  "tot_TMass_5_dyll", "trigger_5_dyll",
-
-"tau1Pt_6_dyll", "tau1Eta_6_dyll", "tau1Phi_6_dyll", "tau1Iso_6_dyll", "tau1DecayMode_6_dyll", "tau1Charge_6_dyll", "tau1AntiEle_6_dyll", "tau1AntiMu_6_dyll" ,"tau2Pt_6_dyll", "tau2Eta_6_dyll", "tau2Phi_6_dyll", "tau2Iso_6_dyll", "tau2DecayMode_6_dyll", "tau2Charge_6_dyll", "tau2AntiEle_6_dyll", "tau2AntiMu_6_dyll" , "deltaR_6_dyll", "higgsPt_6_dyll", "nJet_6_dyll",  "visMass_6_dyll", "mT_muMet_6_dyll",  "met_6_dyll",  "tot_TMass_6_dyll", "trigger_6_dyll",
-
-  "tau1Pt_5_dyll_fr", "tau1Eta_5_dyll_fr", "tau1Phi_5_dyll_fr", "tau1Iso_5_dyll_fr", "tau1DecayMode_5_dyll_fr", "tau1Charge_5_dyll_fr", "tau1AntiEle_5_dyll_fr", "tau1AntiMu_5_dyll_fr" ,"tau2Pt_5_dyll_fr", "tau2Eta_5_dyll_fr", "tau2Phi_5_dyll_fr", "tau2Iso_5_dyll_fr", "tau2DecayMode_5_dyll_fr", "tau2Charge_5_dyll_fr", "tau2AntiEle_5_dyll_fr", "tau2AntiMu_5_dyll_fr" , "deltaR_5_dyll_fr", "higgsPt_5_dyll_fr", "nJet_5_dyll_fr",  "visMass_5_dyll_fr", "mT_muMet_5_dyll_fr",  "met_5_dyll_fr",  "tot_TMass_5_dyll_fr", "trigger_5_dyll_fr",
-
-"tau1Pt_6_dyll_fr", "tau1Eta_6_dyll_fr", "tau1Phi_6_dyll_fr", "tau1Iso_6_dyll_fr", "tau1DecayMode_6_dyll_fr", "tau1Charge_6_dyll_fr", "tau1AntiEle_6_dyll_fr", "tau1AntiMu_6_dyll_fr" ,"tau2Pt_6_dyll_fr", "tau2Eta_6_dyll_fr", "tau2Phi_6_dyll_fr", "tau2Iso_6_dyll_fr", "tau2DecayMode_6_dyll_fr", "tau2Charge_6_dyll_fr", "tau2AntiEle_6_dyll_fr", "tau2AntiMu_6_dyll_fr" , "deltaR_6_dyll_fr", "higgsPt_6_dyll_fr", "nJet_6_dyll_fr",  "visMass_6_dyll_fr", "mT_muMet_6_dyll_fr",  "met_6_dyll_fr",  "tot_TMass_6_dyll_fr", "trigger_6_dyll_fr",
-  
-}; 
 
 void make_hist(string input_file, string output_file, string histSaveName, string histname_string, string sample_name, TString directory_name ,  Double_t weight_lumi , bool isNLO)
 {
@@ -157,7 +138,7 @@ int main(int argc, char** argv)
   else if (sample=="TTToHadronic" ) {xs=377.96; weight=luminosity*xs/ngen;}
   else if (sample=="TTToSemiLeptonic" ) {xs=365.35; weight=luminosity*xs/ngen;}
 
-  else if (sample=="ZTTjet_inc"){ xs=LOtoNNLO_DY*4954.0; weight=2.447677534;}
+  else if (sample=="ZTTjet_inc"){ xs=LOtoNNLO_DY*4954.0; weight=2.447677534;} //2.447677534
   else if (sample=="ZTT1jet"){ xs=LOtoNNLO_DY*1012.5; weight=0.785055866;}
   else if (sample=="ZTT2jet"){ xs=LOtoNNLO_DY*332.8; weight=0.968954563;}
   else if (sample=="ZTT3jet"){ xs=LOtoNNLO_DY*101.8; weight=0.552080344;}
@@ -256,7 +237,7 @@ int main(int argc, char** argv)
     cout<<"Attention!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"<<endl;
     return 0;
   }
-  
+  cout<<"***********"<<sample.c_str()<<" weight="<<weight<<endl;
   cout.setf(ios::fixed, ios::floatfield);
   cout.precision(10);
   
@@ -267,16 +248,31 @@ int main(int argc, char** argv)
   f_output = new TFile(output_ , "RECREATE");
   std::vector<string> histnames;       histnames.clear();
   std::vector<TString> dirNames;      dirNames.clear();
-  for(int i = 0; i < plotList.size(); i++){
-    histnames.push_back(plotList[i]); //
-    dirNames.push_back(plotList[i]);
-    //TDirectory *dir_update = f_output->mkdir(plotList[i]);
+    TList* list = f_Double->GetListOfKeys() ;
+  if (!list) { printf("<E> No keys found in file\n") ; exit(1) ; }
+  TIter next(list) ;
+  TKey* key ;
+  TObject* obj ;
+  
+  while ( key = (TKey*)next() ) {
+    obj = key->ReadObj() ;
+    if (    (strcmp(obj->IsA()->GetName(),"TProfile")!=0)
+	    && (!obj->InheritsFrom("TH2"))
+	    && (!obj->InheritsFrom("TH1")) 
+	    ) {
+      printf("<W> Object %s is not 1D or 2D histogram : "
+             "will not be converted\n",obj->GetName()) ;
+    }
+    //printf("Histo name:%s title:%s\n",obj->GetName(),obj->GetTitle());
+    histnames.push_back(obj->GetName());
+    dirNames.push_back(obj->GetName());
   }
+
   if(debugOn==true)cout<<"This works too P2" << endl;
   f_output->Close();
   f_Double->Close();
   // if(debugOn==true)cout<<"This workks too before makehist" <<endl;
-  
+  //make_hist(input, output, "muPt_5_dyll", sample, dirName, weight, true, ngen , xs);
   for(int i = 0; i < histnames.size(); i++){
     make_hist(input, output, histSaveName, histnames[i] , sample, dirNames[i], weight, true );
   }

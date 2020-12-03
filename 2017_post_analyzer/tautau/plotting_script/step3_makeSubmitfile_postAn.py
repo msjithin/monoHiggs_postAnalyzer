@@ -17,6 +17,14 @@ sampleListDict = {
     'DYJetsToLL_M-50_TuneCP5_ext1_v1_stitch'  : ['ZTTjet_inc' , 'ZTTjet', '0'],
     'DYJetsToLL_M-50_TuneCP5_v1_stitch'  : ['ZTTjet_inc' , 'ZTTjet', '0'],
 
+    'ee_DY1JetsToLL_M-50_TuneCP5_stitch' : ['ZTT1jet', 'ZLLjet', '0'],
+    'ee_DY2JetsToLL_M-50_TuneCP5_stitch' : ['ZTT2jet', 'ZLLjet', '0'],
+    'ee_DY3JetsToLL_M-50_TuneCP5_ext1_stitch' : ['ZTT3jet', 'ZLLjet', '0'],
+    'ee_DY3JetsToLL_M-50_TuneCP5_v1_stitch' : ['ZTT3jet', 'ZLLjet', '0'],
+    'ee_DY4JetsToLL_M-50_TuneCP5_stitch' : ['ZTT4jet', 'ZLLjet', '0'],
+    'ee_DYJetsToLL_M-50_TuneCP5_ext1_v1_stitch'  : ['ZTTjet_inc' , 'ZLLjet', '0'],
+    'ee_DYJetsToLL_M-50_TuneCP5_v1_stitch'  : ['ZTTjet_inc' , 'ZLLjet', '0'],
+
     'EWKWMinus2Jets_WToLNu_M-50_TuneCP5' : ['EWKWMinus2Jets', 'EWKWMinus', '0'], 
     'EWKWPlus2Jets_WToLNu_M-50_TuneCP5' : ['EWKWPlus2Jets', 'EWKWPlus', '0'], 
     'EWKZ2Jets_ZToLL_M-50_TuneCP5' : ['EWKZ2Jets_ZToLL', 'EWKZ2Jets', '0'], 
@@ -27,11 +35,13 @@ sampleListDict = {
     'ST_t-channel_top_4f_inclusiveDecays_TuneCP5' : ['ST_t-channel_top', 'ST_t', '0'], 
     'ST_tW_antitop_5f_inclusiveDecays_TuneCP5' : ['ST_tW_antitop', 'ST_t', '0'], 
     'ST_tW_top_5f_inclusiveDecays_TuneCP5' : ['ST_tW_top', 'ST_t', '0'], 
+    
     'Tau_EraB' : ['data_obs', 'data_obs', '0'], 
     'Tau_EraC' : ['data_obs', 'data_obs', '0'], 
     'Tau_EraD' : ['data_obs', 'data_obs', '0'], 
     'Tau_EraE' : ['data_obs', 'data_obs', '0'], 
-    'Tau_EraF' : ['data_obs', 'data_obs', '0'], 
+    'Tau_EraF' : ['data_obs', 'data_obs', '0'],     
+
     'TTTo2L2Nu_TuneCP5' : ['TTTo2L2Nu', 'TT', '0'], 
     'TTToHadronic_TuneCP5' : ['TTToHadronic', 'TT', '0'], 
     'TTToSemiLeptonic_TuneCP5' : ['TTToSemiLeptonic', 'TT', '0'], 
@@ -94,9 +104,9 @@ outFile.write(
 """
 #!/bin/bash 
 set -e 
-if [ -f "f_mutau_initial.root" ]; then
-    echo "deleting existing f_mutau_initial.root file ....."
-    rm f_mutau_initial.root
+if [ -f "f_tautau_initial.root" ]; then
+    echo "deleting existing f_etau_initial.root file ....."
+    rm f_tautau_initial.root
 fi
 if [ "$(ls -A files_nominal)" ]; then
     echo "deleting existing files in directory files_nominal ....."
@@ -110,12 +120,16 @@ fi
 )
 for j in range(len(filelist)) :
     tmp = samplelist[j]
-    samplename=sampleListDict[tmp]
-    outoutFilename=filelist[j]
-    outFile.write('./_postAnalyzer_mutau.exe ../files_initial/{} files_nominal/{} {} {} {} \n'
-                  .format(filelist[j], outoutFilename, samplename[0], samplename[1], samplename[2]))
+    print('tmp = ',tmp)
+    #if 'ee_' not in tmp:
+    if tmp in sampleListDict :
+        samplename=sampleListDict[tmp]
+        outoutFilename=filelist[j]
+        outFile.write('./_postAnalyzer_mutau.exe ../files_initial/{} files_nominal/{} {} {} {} \n'
+                      .format(filelist[j], outoutFilename, samplename[0], samplename[1], samplename[2]))
     st_tmp=tmp+'_stitch'
     if st_tmp in sampleListDict :
+        print(st_tmp)
         samplename=sampleListDict[st_tmp]
         outoutFilename=samplelist[j]+'_stitch_final.root'
         outFile.write('./_postAnalyzer_mutau.exe ../files_initial/{} files_nominal/{} {} {} {} \n'
@@ -123,7 +137,7 @@ for j in range(len(filelist)) :
 
 outFile.write(
 """
-hadd -f f_mutau_initial.root files_nominal/*.root 
+hadd -f f_tautau_initial.root files_nominal/*.root 
 echo "*************** root file made ***************" 
 sh do_make_plots.sh
 echo "*************** plots made ***************" 

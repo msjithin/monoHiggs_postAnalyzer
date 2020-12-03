@@ -116,14 +116,53 @@ HistSelected = OutFile.Get(histoname)
 HistSelected_1 = OutFile_1.Get(histoname)
 Data_hist    = OutFile.Get(histoname)
 
-dy_norm=2.447677534
+weight_norm=2.447677534
 if(year_=='2017'):
-  dy_norm=2.447677534
+  if bkg_=="DY" :
+    weight_norm=2.44768
+  elif bkg_=="DY1":
+    weight_norm=0.785056
+  elif bkg_=="DY2":
+    weight_norm=0.968955
+  elif bkg_=="DY3":
+    weight_norm=0.55208
+  elif bkg_=="DY4":
+    weight_norm=0.498145
+  elif bkg_=="TTTo2L2Nu":
+    weight_norm=0.407311
+  elif bkg_=="TTToHadronic":
+    weight_norm=0.376066
+  elif bkg_=="TTToSemiLeptonic":
+    weight_norm=0.34867
+  elif bkg_=="VBFHToTauTau":
+    weight_norm=0.00330709
+  else:
+    weight=1.0
 elif(year_=='2018'):
-  dy_norm=3.621053408
-if(bkg_=="DY"):
-  HistSelected.Scale(dy_norm)
-  HistSelected_1.Scale(dy_norm)
+  if bkg_=="DY" :
+    weight_norm=3.621053408
+  elif bkg_=="DY1":
+    weight_norm=0.698296328
+  elif bkg_=="DY2":
+    weight_norm=0.790004668
+  elif bkg_=="DY3":
+    weight_norm=0.977788884
+  elif bkg_=="DY4":
+    weight_norm=0.820156851
+  elif bkg_=="TTTo2L2Nu":
+    weight_norm= 0.081961
+  elif bkg_=="TTToHadronic":
+    weight_norm= 0.168631
+  elif bkg_=="TTToSemiLeptonic":
+    weight_norm= 0.215283
+  elif bkg_=="VBFHToTauTau":
+    weight_norm=0.00330709
+  else:
+    weight=1.0
+
+if(bkg_ != "Data"):
+  HistSelected.Scale(weight_norm)
+  HistSelected_1.Scale(weight_norm)
   #Data_hist.Scale(dy_norm)
 
 #HistSelected.SetFillColor(ROOT.TColor.GetColor(color_ztt))
@@ -167,9 +206,10 @@ if(bkg_selected=='DY'):
 if (histoname[-1]=='j'):
   with open('eventYield.csv', mode=writeMode) as yield_file:
     yield_write = csv.writer(yield_file, delimiter=',', quotechar='"')
+    yield_write.writerow([' '*10])
     yield_write.writerow([ histoname, bkg_selected ])
-    yield_write.writerow(['monoH   ', Data_hist.Integral() ])
-    yield_write.writerow(['SMHtt_et', HistSelected_1.Integral(), expectedSmhtt,"difference=", difference ])  
+    yield_write.writerow(['monoH   ', round(float(Data_hist.Integral()), 3) ])
+    yield_write.writerow(['SMHtt_et', round(float(HistSelected_1.Integral()), 3)," " ,"difference=", round(float(Data_hist.Integral()-HistSelected_1.Integral()), 3) ])  
     yield_write.writerow(['*'*10])
 
 
@@ -340,5 +380,5 @@ c.cd()
 
 legende.Draw()
 c.Modified()
-c.SaveAs("plots/"+bkg_selected+"/plot_"+histoname+"_"+channel_+"_"+bkg_selected+".png")
+c.SaveAs("plots_2018/"+bkg_selected+"/plot_"+histoname+"_"+channel_+"_"+bkg_selected+".png")
 

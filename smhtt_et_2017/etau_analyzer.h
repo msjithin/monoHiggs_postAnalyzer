@@ -51,43 +51,45 @@
 #include "vector"
 //#include "makeHisto.h"
 #include "RecoilCorrector.cc"
+#include "BtagCSV.C"
+#include "applyFF_w_lpt.cc"
 
 using namespace std;
 
 class etau_analyzer {
-public :
-   TTree          *fChain;   //!pointer to the analyzed TTree or TChain
-   Int_t           fCurrent; //!current Tree number in a TChain
+ public :
+  TTree          *fChain;   //!pointer to the analyzed TTree or TChain
+  Int_t           fCurrent; //!current Tree number in a TChain
    
-   //TTree *outTree=new TTree("eventTree","eventTree");
-   TFile *fileName;
-   TTree *tree = new TTree("myTree", "A ROOT tree");
-   TH1F* h_nEvents ;
-   ofstream myfile_genmatch;
+  //TTree *outTree=new TTree("eventTree","eventTree");
+  TFile *fileName;
+  TTree *tree = new TTree("myTree", "A ROOT tree");
+  TH1F* h_nEvents ;
+  ofstream myfile_genmatch;
    
-   double nMETFiltersPassed_fr, nPassedSkimmed_fr , nSingleTrgPassed_fr, nGoodMuonPassed_fr, nGoodTauPassed_fr, nGoodMuTauPassed_fr, nPassedThirdLepVeto_fr, nPassedBjetVeto_fr, nDeltaRPassed_fr;
-   double nMETFiltersPassed, nPassedSkimmed, nSingleTrgPassed, nGoodMuonPassed, nGoodTauPassed, nGoodMuTauPassed, nPassedThirdLepVeto, nPassedBjetVeto, nDeltaRPassed;
+  double nMETFiltersPassed_fr, nPassedSkimmed_fr , nSingleTrgPassed_fr, nGoodMuonPassed_fr, nGoodTauPassed_fr, nGoodMuTauPassed_fr, nPassedThirdLepVeto_fr, nPassedBjetVeto_fr, nDeltaRPassed_fr;
+  double nMETFiltersPassed, nPassedSkimmed, nSingleTrgPassed, nGoodMuonPassed, nGoodTauPassed, nGoodMuTauPassed, nPassedThirdLepVeto, nPassedBjetVeto, nDeltaRPassed;
 
-   double nMETFiltersPassed_dyll_fr, nPassedSkimmed_dyll_fr , nSingleTrgPassed_dyll_fr, nGoodMuonPassed_dyll_fr, nGoodTauPassed_dyll_fr, nGoodMuTauPassed_dyll_fr, nPassedThirdLepVeto_dyll_fr, nPassedBjetVeto_dyll_fr, nDeltaRPassed_dyll_fr;
-   double nMETFiltersPassed_dyll, nPassedSkimmed_dyll, nSingleTrgPassed_dyll, nGoodMuonPassed_dyll, nGoodTauPassed_dyll, nGoodMuTauPassed_dyll, nPassedThirdLepVeto_dyll, nPassedBjetVeto_dyll, nDeltaRPassed_dyll;
+  double nMETFiltersPassed_dyll_fr, nPassedSkimmed_dyll_fr , nSingleTrgPassed_dyll_fr, nGoodMuonPassed_dyll_fr, nGoodTauPassed_dyll_fr, nGoodMuTauPassed_dyll_fr, nPassedThirdLepVeto_dyll_fr, nPassedBjetVeto_dyll_fr, nDeltaRPassed_dyll_fr;
+  double nMETFiltersPassed_dyll, nPassedSkimmed_dyll, nSingleTrgPassed_dyll, nGoodMuonPassed_dyll, nGoodTauPassed_dyll, nGoodMuTauPassed_dyll, nPassedThirdLepVeto_dyll, nPassedBjetVeto_dyll, nDeltaRPassed_dyll;
   
 
-// Fixed size dimensions of array or collections stored in the TTree if any.
-   TFile *f_pileup = new TFile("sf_files/2017/RootFiles/pileup/PU_Central.root");
-   TH1F* h_pileup = (TH1F*)f_pileup->Get("pileup");
+  // Fixed size dimensions of array or collections stored in the TTree if any.
+  TFile *f_pileup = new TFile("sf_files/2017/RootFiles/pileup/PU_Central.root");
+  TH1F* h_pileup = (TH1F*)f_pileup->Get("pileup");
    
-   TFile *f_eleReconstrucSF_highpt=new TFile("sf_files/2017/egammaEffi.txt_EGM2D_runBCDEF_passingRECO.root");
-   TFile *f_eleIDeffSF=new TFile("sf_files/2017/egammaEffi.txt_EGM2D_runBCDEF_passingTight94X.root");
-   TFile *f_eleIsoSF=new TFile("sf_files/2017/2017_ElectronMVA90noiso.root");
-   TFile *f_eleTrgSF_1=new TFile("sf_files/2017/trigger/electron_trigger_sf_2017.root");
-   TFile *f_eleTrgSF_2=new TFile("sf_files/2017/trigger/EleTriggSF.root");
-   TH2F *h_eleRecoSF_highpt=(TH2F*) f_eleReconstrucSF_highpt->Get("EGamma_SF2D");
-   TH2F *h_eleIDSF=(TH2F*) f_eleIDeffSF->Get("EGamma_SF2D");
-   TH2F *h_eleIsoSF=(TH2F*) f_eleIsoSF->Get("EGamma_SF2D");
-   TH2F *h_eleTrgSF_1=(TH2F*) f_eleTrgSF_1->Get("EGamma_SF2D");
-   TH2F *h_eleTrgSF_2=(TH2F*) f_eleTrgSF_2->Get("EGamma_SF2D");
+  TFile *f_eleReconstrucSF_highpt=new TFile("sf_files/2017/egammaEffi.txt_EGM2D_runBCDEF_passingRECO.root");
+  TFile *f_eleIDeffSF=new TFile("sf_files/2017/egammaEffi.txt_EGM2D_runBCDEF_passingTight94X.root");
+  TFile *f_eleIsoSF=new TFile("sf_files/2017/2017_ElectronMVA90noiso.root");
+  TFile *f_eleTrgSF_1=new TFile("sf_files/2017/trigger/electron_trigger_sf_2017.root");
+  TFile *f_eleTrgSF_2=new TFile("sf_files/2017/trigger/EleTriggSF.root");
+  TH2F *h_eleRecoSF_highpt=(TH2F*) f_eleReconstrucSF_highpt->Get("EGamma_SF2D");
+  TH2F *h_eleIDSF=(TH2F*) f_eleIDeffSF->Get("EGamma_SF2D");
+  TH2F *h_eleIsoSF=(TH2F*) f_eleIsoSF->Get("EGamma_SF2D");
+  TH2F *h_eleTrgSF_1=(TH2F*) f_eleTrgSF_1->Get("EGamma_SF2D");
+  TH2F *h_eleTrgSF_2=(TH2F*) f_eleTrgSF_2->Get("EGamma_SF2D");
 
-   TFile *f_tauidSF = new TFile("sf_files/TauIDSFs/data/TauID_SF_dm_DeepTau2017v2p1VSjet_2017ReReco.root");
+  TFile *f_tauidSF = new TFile("sf_files/TauIDSFs/data/TauID_SF_dm_DeepTau2017v2p1VSjet_2017ReReco.root");
   TH1F *h_tauidSF_m = (TH1F*)f_tauidSF->Get("Medium");
   TH1F *h_tauidSF_vvvl = (TH1F*)f_tauidSF->Get("VVVLoose");
   
@@ -113,848 +115,874 @@ public :
   TH1F  *h_tauTrgSF_dm10 = (TH1F*) f_tauTrgSf->Get("sf_etau_Medium_dm10_fitted");
   TH1F  *h_tauTrgSF_dm11 = (TH1F*) f_tauTrgSf->Get("sf_etau_Medium_dm11_fitted");
    
-   TFile *fw = TFile::Open("sf_files/htt_scalefactors_legacy_2017.root");
-   RooWorkspace *w = (RooWorkspace*)fw->Get("w");
+  TFile *fw = TFile::Open("sf_files/htt_scalefactors_legacy_2017.root");
+  RooWorkspace *w = (RooWorkspace*)fw->Get("w");
    
-   TFile * frawff = TFile::Open("sf_files/ComputeFF2018/ff_files_et_2017/uncorrected_fakefactors_et.root");
-   TF1* ff_qcd_0jet=(TF1*) frawff->Get("rawFF_et_qcd_0jet");
-   TF1* ff_qcd_1jet=(TF1*) frawff->Get("rawFF_et_qcd_1jet");
-   TF1* ff_w_0jet=(TF1*) frawff->Get("rawFF_et_w_0jet");
-   TF1* ff_w_1jet=(TF1*) frawff->Get("rawFF_et_w_1jet");
-   TF1* ff_tt_0jet=(TF1*) frawff->Get("mc_rawFF_et_tt");
+  /* TFile * frawff = TFile::Open("sf_files/ComputeFF2018/ff_files_et_2017/uncorrected_fakefactors_et.root"); */
+  /* TF1* ff_qcd_0jet=(TF1*) frawff->Get("rawFF_et_qcd_0jet"); */
+  /* TF1* ff_qcd_1jet=(TF1*) frawff->Get("rawFF_et_qcd_1jet"); */
+  /* TF1* ff_w_0jet=(TF1*) frawff->Get("rawFF_et_w_0jet"); */
+  /* TF1* ff_w_1jet=(TF1*) frawff->Get("rawFF_et_w_1jet"); */
+  /* TF1* ff_tt_0jet=(TF1*) frawff->Get("mc_rawFF_et_tt"); */
 
-   TFile *fmvisclosure = TFile::Open("sf_files/ComputeFF2018/ff_files_et_2017/FF_corrections_1.root");
-   TF1* mvisclosure_qcd=(TF1*) fmvisclosure->Get("closure_mvis_et_qcd");
-   TF1* mvisclosure_w=(TF1*) fmvisclosure->Get("closure_mvis_et_w");
-   TF1* mvisclosure_tt=(TF1*) fmvisclosure->Get("closure_mvis_et_ttmc");
+  /* TFile *fmvisclosure = TFile::Open("sf_files/ComputeFF2018/ff_files_et_2017/FF_corrections_1.root"); */
+  /* TF1* mvisclosure_qcd=(TF1*) fmvisclosure->Get("closure_mvis_et_qcd"); */
+  /* TF1* mvisclosure_w=(TF1*) fmvisclosure->Get("closure_mvis_et_w"); */
+  /* TF1* mvisclosure_tt=(TF1*) fmvisclosure->Get("closure_mvis_et_ttmc"); */
 
-   TFile *fosssclosure  = TFile::Open("sf_files/ComputeFF2018/ff_files_et_2017/FF_QCDcorrectionOSSS.root");
-   TF1* osssclosure_qcd=(TF1*) fosssclosure->Get("closure_OSSS_mvis_et_qcd");
-   TF1* mtclosure_w=(TF1*) fosssclosure->Get("closure_mt_et_w");
+  /* TFile *fosssclosure  = TFile::Open("sf_files/ComputeFF2018/ff_files_et_2017/FF_QCDcorrectionOSSS.root"); */
+  /* TF1* osssclosure_qcd=(TF1*) fosssclosure->Get("closure_OSSS_mvis_et_qcd"); */
+  /* TF1* mtclosure_w=(TF1*) fosssclosure->Get("closure_mt_et_w"); */
+  TFile *f_HiggsPtReweighting = TFile::Open("sf_files/NNLOPS_reweight.root");
+  TGraph *gr_NNLOPSratio_pt_mcatnlo_0jet=(TGraph*) f_HiggsPtReweighting->Get("gr_NNLOPSratio_pt_mcatnlo_0jet");
+  TGraph *gr_NNLOPSratio_pt_mcatnlo_1jet=(TGraph*) f_HiggsPtReweighting->Get("gr_NNLOPSratio_pt_mcatnlo_1jet");
+  TGraph *gr_NNLOPSratio_pt_mcatnlo_2jet=(TGraph*) f_HiggsPtReweighting->Get("gr_NNLOPSratio_pt_mcatnlo_2jet");
+  TGraph *gr_NNLOPSratio_pt_mcatnlo_3jet=(TGraph*) f_HiggsPtReweighting->Get("gr_NNLOPSratio_pt_mcatnlo_3jet");
+  // Fixed size dimensions of array or collections stored in the TTree if any.
+  RecoilCorrector recoilPFMetCorrector;
+  applyFF_w_lpt FF_weights_withlpt;
+  bool is_MC;
+  
+  //BTagCSV* btag_csv = (BTagCSV*)("sf_files/RootFiles/btag/DeepCSV_94XSF_WP_V4_B_F.csv");
+  BTagCSV* btag_csv =  new BTagCSV("sf_files/RootFiles/btag/DeepCSV_94XSF_WP_V4_B_F.csv");
 
-   //   RecoilCorrector recoilPFMetCorrector("sf_files/HTT-utilities/RecoilCorrections/data/Type1_PFMET_2017.root");
+  TLorentzVector my_tauP4;
+  TLorentzVector my_eleP4;
+  TLorentzVector my_metP4;
+  int EleIndex, TauIndex;
+  int my_njets;
+  int my_genmatching_l2;
+  int my_genmatching_l1;
+  double zptmass_weight;
+  double btag_sf;
+  bool found_Wjet_sample;
+  bool found_DYjet_sample;
+  bool found_TTbar_sample;
+  bool pass_bjet_veto;
+  // Declaration of leaf types
+  Int_t           run;
+  Long64_t        event;
+  Int_t           lumis;
+  Bool_t          isData;
+  Int_t           nVtx;
+  Float_t         vtxX;
+  Float_t         vtxY;
+  Float_t         vtxZ;
+  Int_t           vtxNtrks;
+  Bool_t          vtx_isFake;
+  Int_t           vtx_ndof;
+  Float_t         vtx_rho;
+  Bool_t          isGoodVtx;
+  Int_t           nGoodVtx;
+  Float_t         rho;
+  Float_t         rhoCentral;
+  Double_t        prefiringweight;
+  Double_t        prefiringweightup;
+  Double_t        prefiringweightdown;
+  ULong64_t       HLTEleMuX;
+  ULong64_t       HLTEleMuXIsPrescaled;
+  ULong64_t       HLTEleMuXRejectedByPS;
+  ULong64_t       HLTPho;
+  ULong64_t       HLTPhoIsPrescaled;
+  ULong64_t       HLTPhoRejectedByPS;
+  ULong64_t       HLTTau;
+  ULong64_t       HLTTauIsPrescaled;
+  ULong64_t       HLTTauRejectedByPS;
+  ULong64_t       HLTMet;
+  ULong64_t       HLTMetIsPrescaled;
+  ULong64_t       HLTMetRejectedByPS;
+  ULong64_t       HLTJet;
+  ULong64_t       HLTJetIsPrescaled;
+  ULong64_t       HLTJetRejectedByPS;
+  Int_t           nPho;
+  vector<float>   *phoE;
+  vector<float>   *phoEt;
+  vector<float>   *phoEta;
+  vector<float>   *phoPhi;
+  vector<float>   *phoUnCalibE;
+  vector<float>   *phoUnCalibESigma;
+  vector<float>   *phoCalibE;
+  vector<float>   *phoCalibESigma;
+  vector<float>   *phoCalibEt;
+  vector<float>   *phoEnergyScale;
+  vector<float>   *phoEnergySigma;
+  vector<float>   *phoSCE;
+  vector<float>   *phoSCRawE;
+  vector<float>   *phoSCEta;
+  vector<float>   *phoSCPhi;
+  vector<float>   *phoSCEtaWidth;
+  vector<float>   *phoSCPhiWidth;
+  vector<int>     *phohasPixelSeed;
+  vector<int>     *phoEleVeto;
+  vector<float>   *phoR9Full5x5;
+  vector<float>   *phoHoverE;
+  vector<float>   *phoSigmaIEtaIEtaFull5x5;
+  vector<float>   *phoSigmaIEtaIPhiFull5x5;
+  vector<float>   *phoSigmaIPhiIPhiFull5x5;
+  vector<float>   *phoPFChIso;
+  vector<float>   *phoPFChWorstIso;
+  vector<float>   *phoPFPhoIso;
+  vector<float>   *phoPFNeuIso;
+  vector<float>   *phoIDMVA;
+  vector<unsigned short> *phoIDbit;
+  vector<float>   *phoSeedTime;
+  vector<float>   *phoSeedEnergy;
+  vector<ULong64_t> *phoFiredSingleTrgs;
+  vector<ULong64_t> *phoFiredDoubleTrgs;
+  vector<ULong64_t> *phoFiredTripleTrgs;
+  vector<ULong64_t> *phoFiredL1Trgs;
+  vector<float>   *phoScale_up;
+  vector<float>   *phoScale_dn;
+  vector<float>   *phoScale_stat_up;
+  vector<float>   *phoScale_stat_dn;
+  vector<float>   *phoScale_syst_up;
+  vector<float>   *phoScale_syst_dn;
+  vector<float>   *phoScale_gain_up;
+  vector<float>   *phoScale_gain_dn;
+  vector<float>   *phoResol_up;
+  vector<float>   *phoResol_dn;
+  vector<float>   *phoResol_rho_up;
+  vector<float>   *phoResol_rho_dn;
+  vector<float>   *phoResol_phi_up;
+  vector<float>   *phoResol_phi_dn;
+  Int_t           nJet;
+  vector<float>   *jetPt;
+  vector<float>   *jetE;
+  vector<float>   *jetEta;
+  vector<float>   *jetPhi;
+  vector<float>   *jetRawPt;
+  vector<float>   *jetRawE;
+  vector<float>   *jetMt;
+  vector<float>   *jetArea;
+  vector<float>   *jetMass;
+  vector<float>   *jetMaxDistance;
+  vector<float>   *jetPhiPhiMoment;
+  vector<float>   *jetConstituentEtaPhiSpread;
+  vector<float>   *jetConstituentPtDistribution;
+  vector<float>   *jetPileup;
+  vector<unsigned short> *jetID;
+  vector<float>   *jetPUID;
+  vector<int>     *jetPUFullID;
+  vector<int>     *jetPartonID;
+  vector<int>     *jetHadFlvr;
+  vector<float>   *jetJECUnc;
+  vector<float>   *jetCEF;
+  vector<float>   *jetNEF;
+  vector<float>   *jetCHF;
+  vector<float>   *jetNHF;
+  vector<int>     *jetPhotonEnF;
+  vector<int>     *jetElectronEnF;
+  vector<float>   *jetMuonEnF;
+  vector<float>   *jetChargedMuonEnF;
+  vector<float>   *jetHFHAE;
+  vector<float>   *jetHFEME;
+  vector<int>     *jetNConst;
+  vector<int>     *jetNConstituents;
+  vector<int>     *jetNCharged;
+  vector<int>     *jetNNeutral;
+  vector<int>     *jetNChargedHad;
+  vector<int>     *jetNNeutralHad;
+  vector<int>     *jetNPhoton;
+  vector<int>     *jetNElectron;
+  vector<int>     *jetNMuon;
+  vector<float>   *jetCSV2BJetTags;
+  vector<float>   *jetDeepCSVTags_b;
+  vector<float>   *jetDeepCSVTags_bb;
+  vector<float>   *jetDeepCSVTags_c;
+  vector<float>   *jetDeepCSVTags_udsg;
+  vector<float>   *jetDeepFlavour_b;
+  vector<float>   *jetDeepFlavour_bb;
+  vector<float>   *jetDeepFlavour_lepb;
+  vector<float>   *jetDeepFlavour_c;
+  vector<float>   *jetDeepFlavour_uds;
+  vector<float>   *jetDeepFlavour_g;
+  vector<float>   *jetetaWidth;
+  vector<float>   *jetphiWidth;
+  vector<vector<float> > *jetConstPt;
+  vector<vector<float> > *jetConstEt;
+  vector<vector<float> > *jetConstEta;
+  vector<vector<float> > *jetConstPhi;
+  vector<vector<int> > *jetConstPdgId;
+  vector<float>   *jetGenJetE;
+  vector<float>   *jetGenJetPt;
+  vector<float>   *jetGenJetEta;
+  vector<float>   *jetGenJetPhi;
+  vector<int>     *jetGenPartonID;
+  vector<float>   *jetGenE;
+  vector<float>   *jetGenPt;
+  vector<float>   *jetGenEta;
+  vector<float>   *jetGenPhi;
+  vector<int>     *jetGenPartonMomID;
+  vector<float>   *jetP4Smear;
+  vector<float>   *jetP4SmearUp;
+  vector<float>   *jetP4SmearDo;
+  Int_t           nEle;
+  vector<float>   *elePt;
+  vector<float>   *eleEta;
+  vector<float>   *elePhi;
+  vector<float>   *eleR9Full5x5;
+  vector<float>   *eleE;
+  vector<int>     *eleCharge;
+  vector<int>     *eleChargeConsistent;
+  vector<float>   *eleD0;
+  vector<float>   *eleDz;
+  vector<float>   *eleSIP;
+  vector<float>   *eleUnCalibE;
+  vector<float>   *eleUnCalibESigma;
+  vector<float>   *eleCalibEecalonly;
+  vector<float>   *eleCalibE;
+  vector<float>   *eleCalibESigma;
+  vector<float>   *eleCalibEt;
+  vector<float>   *eleCalibEtSigma;
+  vector<float>   *eleEnergyScale;
+  vector<float>   *eleEnergySigma;
+  vector<float>   *eleSCRawE;
+  vector<float>   *eleSCE;
+  vector<float>   *eleSCEta;
+  vector<float>   *eleSCPhi;
+  vector<float>   *eleSCEtaWidth;
+  vector<float>   *eleSCPhiWidth;
+  vector<float>   *eleHoverE;
+  vector<float>   *eleEoverP;
+  vector<float>   *eleEoverPout;
+  vector<float>   *eleEoverPInv;
+  vector<float>   *eleBrem;
+  vector<float>   *eledEtaAtVtx;
+  vector<float>   *eledPhiAtVtx;
+  vector<float>   *eledEtaAtCalo;
+  vector<float>   *eledEtaseedAtVtx;
+  vector<float>   *eleSigmaIEtaIEtaFull5x5;
+  vector<float>   *eleSigmaIPhiIPhiFull5x5;
+  vector<int>     *eleConvVeto;
+  vector<int>     *eleMissHits;
+  vector<float>   *elePFChIso;
+  vector<float>   *elePFPhoIso;
+  vector<float>   *elePFNeuIso;
+  vector<float>   *elePFPUIso;
+  vector<float>   *elePFClusEcalIso;
+  vector<float>   *elePFClusHcalIso;
+  vector<ULong64_t> *eleFiredSingleTrgs;
+  vector<ULong64_t> *eleFiredDoubleTrgs;
+  vector<ULong64_t> *eleFiredL1Trgs;
+  vector<float>   *eleHEEPID;
+  vector<float>   *eleMVAIsoID;
+  vector<float>   *eleMVAnoIsoID;
+  vector<unsigned short> *eleIDbit;
+  vector<float>   *eleTrkdxy;
+  vector<float>   *eleKFHits;
+  vector<float>   *eleKFChi2;
+  vector<float>   *eleGSFChi2;
+  vector<float>   *eleScale_up;
+  vector<float>   *eleScale_dn;
+  vector<float>   *eleScale_stat_up;
+  vector<float>   *eleScale_stat_dn;
+  vector<float>   *eleScale_syst_up;
+  vector<float>   *eleScale_syst_dn;
+  vector<float>   *eleScale_gain_up;
+  vector<float>   *eleScale_gain_dn;
+  vector<float>   *eleResol_up;
+  vector<float>   *eleResol_dn;
+  vector<float>   *eleResol_rho_up;
+  vector<float>   *eleResol_rho_dn;
+  vector<float>   *eleResol_phi_up;
+  vector<float>   *eleResol_phi_dn;
+  Int_t           nMu;
+  vector<float>   *muPt;
+  vector<float>   *muE;
+  vector<float>   *muEta;
+  vector<float>   *muPhi;
+  vector<int>     *muCharge;
+  vector<int>     *muType;
+  vector<unsigned short> *muIDbit;
+  vector<float>   *muD0;
+  vector<float>   *muDz;
+  vector<float>   *muSIP;
+  vector<float>   *muChi2NDF;
+  vector<float>   *muInnerD0;
+  vector<float>   *muInnerDz;
+  vector<int>     *muTrkLayers;
+  vector<int>     *muPixelLayers;
+  vector<int>     *muPixelHits;
+  vector<int>     *muMuonHits;
+  vector<int>     *muStations;
+  vector<int>     *muMatches;
+  vector<int>     *muTrkQuality;
+  vector<float>   *muInnervalidFraction;
+  vector<float>   *muIsoTrk;
+  vector<float>   *muPFChIso;
+  vector<float>   *muPFPhoIso;
+  vector<float>   *muPFNeuIso;
+  vector<float>   *muPFPUIso;
+  vector<float>   *musegmentCompatibility;
+  vector<float>   *muchi2LocalPosition;
+  vector<float>   *mutrkKink;
+  vector<float>   *muBestTrkPtError;
+  vector<float>   *muBestTrkPt;
+  vector<int>     *muBestTrkType;
+  vector<ULong64_t> *muFiredTrgs;
+  vector<ULong64_t> *muFiredL1Trgs;
+  Int_t           nTau;
+  vector<float>   *tau_Pt;
+  vector<float>   *tau_Et;
+  vector<float>   *tau_Eta;
+  vector<float>   *tau_Phi;
+  vector<float>   *tau_Charge;
+  vector<int>     *tau_DecayMode;
+  vector<float>   *tau_P;
+  vector<float>   *tau_Vz;
+  vector<float>   *tau_Energy;
+  vector<float>   *tau_Mass;
+  vector<float>   *tau_Dxy;
+  vector<float>   *tau_ZImpact;
+  vector<float>   *tau_byCombinedIsolationDeltaBetaCorrRaw3Hits;
+  vector<float>   *tau_chargedIsoPtSum;
+  vector<float>   *tau_neutralIsoPtSum;
+  vector<float>   *tau_neutralIsoPtSumWeight;
+  vector<float>   *tau_footprintCorrection;
+  vector<float>   *tau_photonPtSumOutsideSignalCone;
+  vector<float>   *tau_puCorrPtSum;
+  vector<int>     *tau_NumSignalPFChargedHadrCands;
+  vector<int>     *tau_NumSignalPFNeutrHadrCands;
+  vector<int>     *tau_NumSignalPFGammaCands;
+  vector<int>     *tau_NumSignalPFCands;
+  vector<int>     *tau_NumIsolationPFChargedHadrCands;
+  vector<int>     *tau_NumIsolationPFNeutrHadrCands;
+  vector<int>     *tau_NumIsolationPFGammaCands;
+  vector<int>     *tau_NumIsolationPFCands;
+  vector<float>   *tau_LeadChargedHadronEta;
+  vector<float>   *tau_LeadChargedHadronPhi;
+  vector<float>   *tau_LeadChargedHadronPt;
+  vector<float>   *tau_LeadChargedHadron_dz;
+  vector<float>   *tau_LeadChargedHadron_dxy;
+  vector<unsigned int> *tau_IDbits;
+  vector<float>   *tau_byIsolationMVArun2017v2DBoldDMwLTraw2017;
+  vector<float>   *tau_byVVVLooseDeepTau2017v2p1VSjet;
+  vector<float>   *tau_byVVLooseDeepTau2017v2p1VSjet;
+  vector<float>   *tau_byVLooseDeepTau2017v2p1VSjet;
+  vector<float>   *tau_byLooseDeepTau2017v2p1VSjet;
+  vector<float>   *tau_byMediumDeepTau2017v2p1VSjet;
+  vector<float>   *tau_byTightDeepTau2017v2p1VSjet;
+  vector<float>   *tau_byVTightDeepTau2017v2p1VSjet;
+  vector<float>   *tau_byVVTightDeepTau2017v2p1VSjet;
+  vector<float>   *tau_byVVVLooseDeepTau2017v2p1VSe;
+  vector<float>   *tau_byVVLooseDeepTau2017v2p1VSe;
+  vector<float>   *tau_byVLooseDeepTau2017v2p1VSe;
+  vector<float>   *tau_byLooseDeepTau2017v2p1VSe;
+  vector<float>   *tau_byMediumDeepTau2017v2p1VSe;
+  vector<float>   *tau_byTightDeepTau2017v2p1VSe;
+  vector<float>   *tau_byVTightDeepTau2017v2p1VSe;
+  vector<float>   *tau_byVVTightDeepTau2017v2p1VSe;
+  vector<float>   *tau_byVLooseDeepTau2017v2p1VSmu;
+  vector<float>   *tau_byLooseDeepTau2017v2p1VSmu;
+  vector<float>   *tau_byMediumDeepTau2017v2p1VSmu;
+  vector<float>   *tau_byTightDeepTau2017v2p1VSmu;
+  vector<ULong64_t> *tauFiredTrgs;
+  vector<ULong64_t> *tauFiredL1Trgs;
+  Float_t         genMET;
+  Float_t         genMETPhi;
+  UShort_t        metFilters;
+  Float_t         caloMET;
+  Float_t         caloMETPhi;
+  Float_t         caloMETsumEt;
+  Float_t         pfMETCorr;
+  Float_t         pfMETPhiCorr;
+  Float_t         pfMET;
+  Float_t         pfMETPhi;
+  Float_t         pfMETsumEt;
+  Float_t         pfMETmEtSig;
+  Float_t         pfMETSig;
+  Float_t         pfMET_T1JERUp;
+  Float_t         pfMET_T1JERDo;
+  Float_t         pfMET_T1JESUp;
+  Float_t         pfMET_T1JESDo;
+  Float_t         pfMET_T1UESUp;
+  Float_t         pfMET_T1UESDo;
+  Float_t         pfMETPhi_T1JESUp;
+  Float_t         pfMETPhi_T1JESDo;
+  Float_t         pfMETPhi_T1UESUp;
+  Float_t         pfMETPhi_T1UESDo;
+  vector<float>   *pdf;
+  Float_t         pthat;
+  Float_t         processID;
+  Float_t         genWeight;
+  Float_t         genHT;
+  Float_t         pdfWeight;
+  vector<float>   *pdfSystWeight;
+  Int_t           nPUInfo;
+  vector<int>     *nPU;
+  vector<int>     *puBX;
+  vector<float>   *puTrue;
+  Int_t           nMC;
+  vector<int>     *mcPID;
+  vector<float>   *mcVtx;
+  vector<float>   *mcVty;
+  vector<float>   *mcVtz;
+  vector<float>   *mcPt;
+  vector<float>   *mcMass;
+  vector<float>   *mcEta;
+  vector<float>   *mcPhi;
+  vector<float>   *mcE;
+  vector<float>   *mcEt;
+  vector<int>     *mcStatus;
+  vector<unsigned short> *mcStatusFlag;
+  vector<int>     *mcIndex;
+  vector<int>     *mcDaughterPID;
+  vector<float>   *mcCharge;
+  vector<int>     *mcMotherPID;
+  vector<int>     *mcMotherIndex;
+  vector<int>     *mcMotherStatus;
+  vector<int>     *mcDaughterStatus;
+  vector<int>     *mcDaughterList;
+  vector<unsigned short> *mcTauDecayMode;
+  vector<unsigned short> *genMatch2;
+  // List of branches
+  TBranch        *b_run;   //!
+  TBranch        *b_event;   //!
+  TBranch        *b_lumis;   //!
+  TBranch        *b_isData;   //!
+  TBranch        *b_nVtx;   //!
+  TBranch        *b_vtxX;   //!
+  TBranch        *b_vtxY;   //!
+  TBranch        *b_vtxZ;   //!
+  TBranch        *b_vtxNtrks;   //!
+  TBranch        *b_vtx_isFake;   //!
+  TBranch        *b_vtx_ndof;   //!
+  TBranch        *b_vtx_rho;   //!
+  TBranch        *b_isGoodVtx;   //!
+  TBranch        *b_nGoodVtx;   //!
+  TBranch        *b_rho;   //!
+  TBranch        *b_rhoCentral;   //!
+  TBranch        *b_prefiringweight;   //!
+  TBranch        *b_prefiringweightup;   //!
+  TBranch        *b_prefiringweightdown;   //!
+  TBranch        *b_HLTEleMuX;   //!
+  TBranch        *b_HLTEleMuXIsPrescaled;   //!
+  TBranch        *b_HLTEleMuXRejectedByPS;   //!
+  TBranch        *b_HLTPho;   //!
+  TBranch        *b_HLTPhoIsPrescaled;   //!
+  TBranch        *b_HLTPhoRejectedByPS;   //!
+  TBranch        *b_HLTTau;   //!
+  TBranch        *b_HLTTauIsPrescaled;   //!
+  TBranch        *b_HLTTauRejectedByPS;   //!
+  TBranch        *b_HLTMet;   //!
+  TBranch        *b_HLTMetIsPrescaled;   //!
+  TBranch        *b_HLTMetRejectedByPS;   //!
+  TBranch        *b_HLTJet;   //!
+  TBranch        *b_HLTJetIsPrescaled;   //!
+  TBranch        *b_HLTJetRejectedByPS;   //!
+  TBranch        *b_nPho;   //!
+  TBranch        *b_phoE;   //!
+  TBranch        *b_phoEt;   //!
+  TBranch        *b_phoEta;   //!
+  TBranch        *b_phoPhi;   //!
+  TBranch        *b_phoUnCalibE;   //!
+  TBranch        *b_phoUnCalibESigma;   //!
+  TBranch        *b_phoCalibE;   //!
+  TBranch        *b_phoCalibESigma;   //!
+  TBranch        *b_phoCalibEt;   //!
+  TBranch        *b_phoEnergyScale;   //!
+  TBranch        *b_phoEnergySigma;   //!
+  TBranch        *b_phoSCE;   //!
+  TBranch        *b_phoSCRawE;   //!
+  TBranch        *b_phoSCEta;   //!
+  TBranch        *b_phoSCPhi;   //!
+  TBranch        *b_phoSCEtaWidth;   //!
+  TBranch        *b_phoSCPhiWidth;   //!
+  TBranch        *b_phohasPixelSeed;   //!
+  TBranch        *b_phoEleVeto;   //!
+  TBranch        *b_phoR9Full5x5;   //!
+  TBranch        *b_phoHoverE;   //!
+  TBranch        *b_phoSigmaIEtaIEtaFull5x5;   //!
+  TBranch        *b_phoSigmaIEtaIPhiFull5x5;   //!
+  TBranch        *b_phoSigmaIPhiIPhiFull5x5;   //!
+  TBranch        *b_phoPFChIso;   //!
+  TBranch        *b_phoPFChWorstIso;   //!
+  TBranch        *b_phoPFPhoIso;   //!
+  TBranch        *b_phoPFNeuIso;   //!
+  TBranch        *b_phoIDMVA;   //!
+  TBranch        *b_phoIDbit;   //!
+  TBranch        *b_phoSeedTime;   //!
+  TBranch        *b_phoSeedEnergy;   //!
+  TBranch        *b_phoFiredSingleTrgs;   //!
+  TBranch        *b_phoFiredDoubleTrgs;   //!
+  TBranch        *b_phoFiredTripleTrgs;   //!
+  TBranch        *b_phoFiredL1Trgs;   //!
+  TBranch        *b_phoScale_up;   //!
+  TBranch        *b_phoScale_dn;   //!
+  TBranch        *b_phoScale_stat_up;   //!
+  TBranch        *b_phoScale_stat_dn;   //!
+  TBranch        *b_phoScale_syst_up;   //!
+  TBranch        *b_phoScale_syst_dn;   //!
+  TBranch        *b_phoScale_gain_up;   //!
+  TBranch        *b_phoScale_gain_dn;   //!
+  TBranch        *b_phoResol_up;   //!
+  TBranch        *b_phoResol_dn;   //!
+  TBranch        *b_phoResol_rho_up;   //!
+  TBranch        *b_phoResol_rho_dn;   //!
+  TBranch        *b_phoResol_phi_up;   //!
+  TBranch        *b_phoResol_phi_dn;   //!
+  TBranch        *b_nJet;   //!
+  TBranch        *b_jetPt;   //!
+  TBranch        *b_jetE;   //!
+  TBranch        *b_jetEta;   //!
+  TBranch        *b_jetPhi;   //!
+  TBranch        *b_jetRawPt;   //!
+  TBranch        *b_jetRawE;   //!
+  TBranch        *b_jetMt;   //!
+  TBranch        *b_jetArea;   //!
+  TBranch        *b_jetMass;   //!
+  TBranch        *b_jetMaxDistance;   //!
+  TBranch        *b_jetPhiPhiMoment;   //!
+  TBranch        *b_jetConstituentEtaPhiSpread;   //!
+  TBranch        *b_jetConstituentPtDistribution;   //!
+  TBranch        *b_jetPileup;   //!
+  TBranch        *b_jetID;   //!
+  TBranch        *b_jetPUID;   //!
+  TBranch        *b_jetPUFullID;   //!
+  TBranch        *b_jetPartonID;   //!
+  TBranch        *b_jetHadFlvr;   //!
+  TBranch        *b_jetJECUnc;   //!
+  TBranch        *b_jetCEF;   //!
+  TBranch        *b_jetNEF;   //!
+  TBranch        *b_jetCHF;   //!
+  TBranch        *b_jetNHF;   //!
+  TBranch        *b_jetPhotonEnF;   //!
+  TBranch        *b_jetElectronEnF;   //!
+  TBranch        *b_jetMuonEnF;   //!
+  TBranch        *b_jetChargedMuonEnF;   //!
+  TBranch        *b_jetHFHAE;   //!
+  TBranch        *b_jetHFEME;   //!
+  TBranch        *b_jetNConst;   //!
+  TBranch        *b_jetNConstituents;   //!
+  TBranch        *b_jetNCharged;   //!
+  TBranch        *b_jetNNeutral;   //!
+  TBranch        *b_jetNChargedHad;   //!
+  TBranch        *b_jetNNeutralHad;   //!
+  TBranch        *b_jetNPhoton;   //!
+  TBranch        *b_jetNElectron;   //!
+  TBranch        *b_jetNMuon;   //!
+  TBranch        *b_jetCSV2BJetTags;   //!
+  TBranch        *b_jetDeepCSVTags_b;   //!
+  TBranch        *b_jetDeepCSVTags_bb;   //!
+  TBranch        *b_jetDeepCSVTags_c;   //!
+  TBranch        *b_jetDeepCSVTags_udsg;   //!
+  TBranch        *b_jetDeepFlavour_b;   //!
+  TBranch        *b_jetDeepFlavour_bb;   //!
+  TBranch        *b_jetDeepFlavour_lepb;   //!
+  TBranch        *b_jetDeepFlavour_c;   //!
+  TBranch        *b_jetDeepFlavour_uds;   //!
+  TBranch        *b_jetDeepFlavour_g;   //!
+  TBranch        *b_jetetaWidth;   //!
+  TBranch        *b_jetphiWidth;   //!
+  TBranch        *b_jetConstPt;   //!
+  TBranch        *b_jetConstEt;   //!
+  TBranch        *b_jetConstEta;   //!
+  TBranch        *b_jetConstPhi;   //!
+  TBranch        *b_jetConstPdgId;   //!
+  TBranch        *b_jetGenJetE;   //!
+  TBranch        *b_jetGenJetPt;   //!
+  TBranch        *b_jetGenJetEta;   //!
+  TBranch        *b_jetGenJetPhi;   //!
+  TBranch        *b_jetGenPartonID;   //!
+  TBranch        *b_jetGenE;   //!
+  TBranch        *b_jetGenPt;   //!
+  TBranch        *b_jetGenEta;   //!
+  TBranch        *b_jetGenPhi;   //!
+  TBranch        *b_jetGenPartonMomID;   //!
+  TBranch        *b_jetP4Smear;   //!
+  TBranch        *b_jetP4SmearUp;   //!
+  TBranch        *b_jetP4SmearDo;   //!
+  TBranch        *b_nEle;   //!
+  TBranch        *b_elePt;   //!
+  TBranch        *b_eleEta;   //!
+  TBranch        *b_elePhi;   //!
+  TBranch        *b_eleR9Full5x5;   //!
+  TBranch        *b_eleE;   //!
+  TBranch        *b_eleCharge;   //!
+  TBranch        *b_eleChargeConsistent;   //!
+  TBranch        *b_eleD0;   //!
+  TBranch        *b_eleDz;   //!
+  TBranch        *b_eleSIP;   //!
+  TBranch        *b_eleUnCalibE;   //!
+  TBranch        *b_eleUnCalibESigma;   //!
+  TBranch        *b_eleCalibEecalonly;   //!
+  TBranch        *b_eleCalibE;   //!
+  TBranch        *b_eleCalibESigma;   //!
+  TBranch        *b_eleCalibEt;   //!
+  TBranch        *b_eleCalibEtSigma;   //!
+  TBranch        *b_eleEnergyScale;   //!
+  TBranch        *b_eleEnergySigma;   //!
+  TBranch        *b_eleSCRawE;   //!
+  TBranch        *b_eleSCE;   //!
+  TBranch        *b_eleSCEta;   //!
+  TBranch        *b_eleSCPhi;   //!
+  TBranch        *b_eleSCEtaWidth;   //!
+  TBranch        *b_eleSCPhiWidth;   //!
+  TBranch        *b_eleHoverE;   //!
+  TBranch        *b_eleEoverP;   //!
+  TBranch        *b_eleEoverPout;   //!
+  TBranch        *b_eleEoverPInv;   //!
+  TBranch        *b_eleBrem;   //!
+  TBranch        *b_eledEtaAtVtx;   //!
+  TBranch        *b_eledPhiAtVtx;   //!
+  TBranch        *b_eledEtaAtCalo;   //!
+  TBranch        *b_eledEtaseedAtVtx;   //!
+  TBranch        *b_eleSigmaIEtaIEtaFull5x5;   //!
+  TBranch        *b_eleSigmaIPhiIPhiFull5x5;   //!
+  TBranch        *b_eleConvVeto;   //!
+  TBranch        *b_eleMissHits;   //!
+  TBranch        *b_elePFChIso;   //!
+  TBranch        *b_elePFPhoIso;   //!
+  TBranch        *b_elePFNeuIso;   //!
+  TBranch        *b_elePFPUIso;   //!
+  TBranch        *b_elePFClusEcalIso;   //!
+  TBranch        *b_elePFClusHcalIso;   //!
+  TBranch        *b_eleFiredSingleTrgs;   //!
+  TBranch        *b_eleFiredDoubleTrgs;   //!
+  TBranch        *b_eleFiredL1Trgs;   //!
+  TBranch        *b_eleHEEPID;   //!
+  TBranch        *b_eleMVAIsoID;   //!
+  TBranch        *b_eleMVAnoIsoID;   //!
+  TBranch        *b_eleIDbit;   //!
+  TBranch        *b_eleTrkdxy;   //!
+  TBranch        *b_eleKFHits;   //!
+  TBranch        *b_eleKFChi2;   //!
+  TBranch        *b_eleGSFChi2;   //!
+  TBranch        *b_eleScale_up;   //!
+  TBranch        *b_eleScale_dn;   //!
+  TBranch        *b_eleScale_stat_up;   //!
+  TBranch        *b_eleScale_stat_dn;   //!
+  TBranch        *b_eleScale_syst_up;   //!
+  TBranch        *b_eleScale_syst_dn;   //!
+  TBranch        *b_eleScale_gain_up;   //!
+  TBranch        *b_eleScale_gain_dn;   //!
+  TBranch        *b_eleResol_up;   //!
+  TBranch        *b_eleResol_dn;   //!
+  TBranch        *b_eleResol_rho_up;   //!
+  TBranch        *b_eleResol_rho_dn;   //!
+  TBranch        *b_eleResol_phi_up;   //!
+  TBranch        *b_eleResol_phi_dn;   //!
+  TBranch        *b_nMu;   //!
+  TBranch        *b_muPt;   //!
+  TBranch        *b_muE;   //!
+  TBranch        *b_muEta;   //!
+  TBranch        *b_muPhi;   //!
+  TBranch        *b_muCharge;   //!
+  TBranch        *b_muType;   //!
+  TBranch        *b_muIDbit;   //!
+  TBranch        *b_muD0;   //!
+  TBranch        *b_muDz;   //!
+  TBranch        *b_muSIP;   //!
+  TBranch        *b_muChi2NDF;   //!
+  TBranch        *b_muInnerD0;   //!
+  TBranch        *b_muInnerDz;   //!
+  TBranch        *b_muTrkLayers;   //!
+  TBranch        *b_muPixelLayers;   //!
+  TBranch        *b_muPixelHits;   //!
+  TBranch        *b_muMuonHits;   //!
+  TBranch        *b_muStations;   //!
+  TBranch        *b_muMatches;   //!
+  TBranch        *b_muTrkQuality;   //!
+  TBranch        *b_muInnervalidFraction;   //!
+  TBranch        *b_muIsoTrk;   //!
+  TBranch        *b_muPFChIso;   //!
+  TBranch        *b_muPFPhoIso;   //!
+  TBranch        *b_muPFNeuIso;   //!
+  TBranch        *b_muPFPUIso;   //!
+  TBranch        *b_musegmentCompatibility;   //!
+  TBranch        *b_muchi2LocalPosition;   //!
+  TBranch        *b_mutrkKink;   //!
+  TBranch        *b_muBestTrkPtError;   //!
+  TBranch        *b_muBestTrkPt;   //!
+  TBranch        *b_muBestTrkType;   //!
+  TBranch        *b_muFiredTrgs;   //!
+  TBranch        *b_muFiredL1Trgs;   //!
+  TBranch        *b_nTau;   //!
+  TBranch        *b_tau_Pt;   //!
+  TBranch        *b_tau_Et;   //!
+  TBranch        *b_tau_Eta;   //!
+  TBranch        *b_tau_Phi;   //!
+  TBranch        *b_tau_Charge;   //!
+  TBranch        *b_tau_DecayMode;   //!
+  TBranch        *b_tau_P;   //!
+  TBranch        *b_tau_Vz;   //!
+  TBranch        *b_tau_Energy;   //!
+  TBranch        *b_tau_Mass;   //!
+  TBranch        *b_tau_Dxy;   //!
+  TBranch        *b_tau_ZImpact;   //!
+  TBranch        *b_tau_byCombinedIsolationDeltaBetaCorrRaw3Hits;   //!
+  TBranch        *b_tau_chargedIsoPtSum;   //!
+  TBranch        *b_tau_neutralIsoPtSum;   //!
+  TBranch        *b_tau_neutralIsoPtSumWeight;   //!
+  TBranch        *b_tau_footprintCorrection;   //!
+  TBranch        *b_tau_photonPtSumOutsideSignalCone;   //!
+  TBranch        *b_tau_puCorrPtSum;   //!
+  TBranch        *b_tau_NumSignalPFChargedHadrCands;   //!
+  TBranch        *b_tau_NumSignalPFNeutrHadrCands;   //!
+  TBranch        *b_tau_NumSignalPFGammaCands;   //!
+  TBranch        *b_tau_NumSignalPFCands;   //!
+  TBranch        *b_tau_NumIsolationPFChargedHadrCands;   //!
+  TBranch        *b_tau_NumIsolationPFNeutrHadrCands;   //!
+  TBranch        *b_tau_NumIsolationPFGammaCands;   //!
+  TBranch        *b_tau_NumIsolationPFCands;   //!
+  TBranch        *b_tau_LeadChargedHadronEta;   //!
+  TBranch        *b_tau_LeadChargedHadronPhi;   //!
+  TBranch        *b_tau_LeadChargedHadronPt;   //!
+  TBranch        *b_tau_LeadChargedHadron_dz;   //!
+  TBranch        *b_tau_LeadChargedHadron_dxy;   //!
+  TBranch        *b_tau_IDbits;   //!
+  TBranch        *b_tau_byIsolationMVArun2017v2DBoldDMwLTraw2017;   //!
+  TBranch        *b_tau_byVVVLooseDeepTau2017v2p1VSjet;   //!
+  TBranch        *b_tau_byVVLooseDeepTau2017v2p1VSjet;   //!
+  TBranch        *b_tau_byVLooseDeepTau2017v2p1VSjet;   //!
+  TBranch        *b_tau_byLooseDeepTau2017v2p1VSjet;   //!
+  TBranch        *b_tau_byMediumDeepTau2017v2p1VSjet;   //!
+  TBranch        *b_tau_byTightDeepTau2017v2p1VSjet;   //!
+  TBranch        *b_tau_byVTightDeepTau2017v2p1VSjet;   //!
+  TBranch        *b_tau_byVVTightDeepTau2017v2p1VSjet;   //!
+  TBranch        *b_tau_byVVVLooseDeepTau2017v2p1VSe;   //!
+  TBranch        *b_tau_byVVLooseDeepTau2017v2p1VSe;   //!
+  TBranch        *b_tau_byVLooseDeepTau2017v2p1VSe;   //!
+  TBranch        *b_tau_byLooseDeepTau2017v2p1VSe;   //!
+  TBranch        *b_tau_byMediumDeepTau2017v2p1VSe;   //!
+  TBranch        *b_tau_byTightDeepTau2017v2p1VSe;   //!
+  TBranch        *b_tau_byVTightDeepTau2017v2p1VSe;   //!
+  TBranch        *b_tau_byVVTightDeepTau2017v2p1VSe;   //!
+  TBranch        *b_tau_byVLooseDeepTau2017v2p1VSmu;   //!
+  TBranch        *b_tau_byLooseDeepTau2017v2p1VSmu;   //!
+  TBranch        *b_tau_byMediumDeepTau2017v2p1VSmu;   //!
+  TBranch        *b_tau_byTightDeepTau2017v2p1VSmu;   //!
+  TBranch        *b_tauFiredTrgs;   //!
+  TBranch        *b_tauFiredL1Trgs;   //!
+  TBranch        *b_genMET;   //!
+  TBranch        *b_genMETPhi;   //!
+  TBranch        *b_metFilters;   //!
+  TBranch        *b_caloMET;   //!
+  TBranch        *b_caloMETPhi;   //!
+  TBranch        *b_caloMETsumEt;   //!
+  TBranch        *b_pfMETCorr;   //!
+  TBranch        *b_pfMETPhiCorr;   //!
+  TBranch        *b_pfMET;   //!
+  TBranch        *b_pfMETPhi;   //!
+  TBranch        *b_pfMETsumEt;   //!
+  TBranch        *b_pfMETmEtSig;   //!
+  TBranch        *b_pfMETSig;   //!
+  TBranch        *b_pfMET_T1JERUp;   //!
+  TBranch        *b_pfMET_T1JERDo;   //!
+  TBranch        *b_pfMET_T1JESUp;   //!
+  TBranch        *b_pfMET_T1JESDo;   //!
+  TBranch        *b_pfMET_T1UESUp;   //!
+  TBranch        *b_pfMET_T1UESDo;   //!
+  TBranch        *b_pfMETPhi_T1JESUp;   //!
+  TBranch        *b_pfMETPhi_T1JESDo;   //!
+  TBranch        *b_pfMETPhi_T1UESUp;   //!
+  TBranch        *b_pfMETPhi_T1UESDo;   //!
+  TBranch        *b_pdf;   //!
+  TBranch        *b_pthat;   //!
+  TBranch        *b_processID;   //!
+  TBranch        *b_genWeight;   //!
+  TBranch        *b_genHT;   //!
+  TBranch        *b_pdfWeight;   //!
+  TBranch        *b_pdfSystWeight;   //!
+  TBranch        *b_nPUInfo;   //!
+  TBranch        *b_nPU;   //!
+  TBranch        *b_puBX;   //!
+  TBranch        *b_puTrue;   //!
+  TBranch        *b_nMC;   //!
+  TBranch        *b_mcPID;   //!
+  TBranch        *b_mcVtx;   //!
+  TBranch        *b_mcVty;   //!
+  TBranch        *b_mcVtz;   //!
+  TBranch        *b_mcPt;   //!
+  TBranch        *b_mcMass;   //!
+  TBranch        *b_mcEta;   //!
+  TBranch        *b_mcPhi;   //!
+  TBranch        *b_mcE;   //!
+  TBranch        *b_mcEt;   //!
+  TBranch        *b_mcStatus;   //!
+  TBranch        *b_mcStatusFlag;   //!
+  TBranch        *b_mcIndex;   //!
+  TBranch        *b_mcDaughterPID;   //!
+  TBranch        *b_mcCharge;   //!
+  TBranch        *b_mcMotherPID;   //!
+  TBranch        *b_mcMotherIndex;   //!
+  TBranch        *b_mcMotherStatus;   //!
+  TBranch        *b_mcDaughterStatus;   //!
+  TBranch        *b_mcDaughterList;   //!
+  TBranch        *b_mcTauDecayMode;   //!
+  TBranch        *b_genMatch2;   //!
 
-   RecoilCorrector recoilPFMetCorrector;
-   bool is_MC;
-   TLorentzVector my_tauP4;
-   TLorentzVector my_eleP4;
-   TLorentzVector my_metP4;
-   int EleIndex, TauIndex;
-   int my_njets;
-   // Declaration of leaf types
-   Int_t           run;
-   Long64_t        event;
-   Int_t           lumis;
-   Bool_t          isData;
-   Int_t           nVtx;
-   Float_t         vtxX;
-   Float_t         vtxY;
-   Float_t         vtxZ;
-   Int_t           vtxNtrks;
-   Bool_t          vtx_isFake;
-   Int_t           vtx_ndof;
-   Float_t         vtx_rho;
-   Bool_t          isGoodVtx;
-   Int_t           nGoodVtx;
-   Float_t         rho;
-   Float_t         rhoCentral;
-   Double_t        prefiringweight;
-   Double_t        prefiringweightup;
-   Double_t        prefiringweightdown;
-   ULong64_t       HLTEleMuX;
-   ULong64_t       HLTEleMuXIsPrescaled;
-   ULong64_t       HLTEleMuXRejectedByPS;
-   ULong64_t       HLTPho;
-   ULong64_t       HLTPhoIsPrescaled;
-   ULong64_t       HLTPhoRejectedByPS;
-   ULong64_t       HLTTau;
-   ULong64_t       HLTTauIsPrescaled;
-   ULong64_t       HLTTauRejectedByPS;
-   ULong64_t       HLTMet;
-   ULong64_t       HLTMetIsPrescaled;
-   ULong64_t       HLTMetRejectedByPS;
-   ULong64_t       HLTJet;
-   ULong64_t       HLTJetIsPrescaled;
-   ULong64_t       HLTJetRejectedByPS;
-   Int_t           nPho;
-   vector<float>   *phoE;
-   vector<float>   *phoEt;
-   vector<float>   *phoEta;
-   vector<float>   *phoPhi;
-   vector<float>   *phoUnCalibE;
-   vector<float>   *phoUnCalibESigma;
-   vector<float>   *phoCalibE;
-   vector<float>   *phoCalibESigma;
-   vector<float>   *phoCalibEt;
-   vector<float>   *phoEnergyScale;
-   vector<float>   *phoEnergySigma;
-   vector<float>   *phoSCE;
-   vector<float>   *phoSCRawE;
-   vector<float>   *phoSCEta;
-   vector<float>   *phoSCPhi;
-   vector<float>   *phoSCEtaWidth;
-   vector<float>   *phoSCPhiWidth;
-   vector<int>     *phohasPixelSeed;
-   vector<int>     *phoEleVeto;
-   vector<float>   *phoR9Full5x5;
-   vector<float>   *phoHoverE;
-   vector<float>   *phoSigmaIEtaIEtaFull5x5;
-   vector<float>   *phoSigmaIEtaIPhiFull5x5;
-   vector<float>   *phoSigmaIPhiIPhiFull5x5;
-   vector<float>   *phoPFChIso;
-   vector<float>   *phoPFChWorstIso;
-   vector<float>   *phoPFPhoIso;
-   vector<float>   *phoPFNeuIso;
-   vector<float>   *phoIDMVA;
-   vector<unsigned short> *phoIDbit;
-   vector<float>   *phoSeedTime;
-   vector<float>   *phoSeedEnergy;
-   vector<ULong64_t> *phoFiredSingleTrgs;
-   vector<ULong64_t> *phoFiredDoubleTrgs;
-   vector<ULong64_t> *phoFiredTripleTrgs;
-   vector<ULong64_t> *phoFiredL1Trgs;
-   vector<float>   *phoScale_up;
-   vector<float>   *phoScale_dn;
-   vector<float>   *phoScale_stat_up;
-   vector<float>   *phoScale_stat_dn;
-   vector<float>   *phoScale_syst_up;
-   vector<float>   *phoScale_syst_dn;
-   vector<float>   *phoScale_gain_up;
-   vector<float>   *phoScale_gain_dn;
-   vector<float>   *phoResol_up;
-   vector<float>   *phoResol_dn;
-   vector<float>   *phoResol_rho_up;
-   vector<float>   *phoResol_rho_dn;
-   vector<float>   *phoResol_phi_up;
-   vector<float>   *phoResol_phi_dn;
-   Int_t           nJet;
-   vector<float>   *jetPt;
-   vector<float>   *jetE;
-   vector<float>   *jetEta;
-   vector<float>   *jetPhi;
-   vector<float>   *jetRawPt;
-   vector<float>   *jetRawE;
-   vector<float>   *jetMt;
-   vector<float>   *jetArea;
-   vector<float>   *jetMass;
-   vector<float>   *jetMaxDistance;
-   vector<float>   *jetPhiPhiMoment;
-   vector<float>   *jetConstituentEtaPhiSpread;
-   vector<float>   *jetConstituentPtDistribution;
-   vector<float>   *jetPileup;
-   vector<unsigned short> *jetID;
-   vector<float>   *jetPUID;
-   vector<int>     *jetPUFullID;
-   vector<int>     *jetPartonID;
-   vector<int>     *jetHadFlvr;
-   vector<float>   *jetJECUnc;
-   vector<float>   *jetCEF;
-   vector<float>   *jetNEF;
-   vector<float>   *jetCHF;
-   vector<float>   *jetNHF;
-   vector<int>     *jetPhotonEnF;
-   vector<int>     *jetElectronEnF;
-   vector<float>   *jetMuonEnF;
-   vector<float>   *jetChargedMuonEnF;
-   vector<float>   *jetHFHAE;
-   vector<float>   *jetHFEME;
-   vector<int>     *jetNConst;
-   vector<int>     *jetNConstituents;
-   vector<int>     *jetNCharged;
-   vector<int>     *jetNNeutral;
-   vector<int>     *jetNChargedHad;
-   vector<int>     *jetNNeutralHad;
-   vector<int>     *jetNPhoton;
-   vector<int>     *jetNElectron;
-   vector<int>     *jetNMuon;
-   vector<float>   *jetCSV2BJetTags;
-   vector<float>   *jetDeepCSVTags_b;
-   vector<float>   *jetDeepCSVTags_bb;
-   vector<float>   *jetDeepCSVTags_c;
-   vector<float>   *jetDeepCSVTags_udsg;
-   vector<float>   *jetDeepFlavour_b;
-   vector<float>   *jetDeepFlavour_bb;
-   vector<float>   *jetDeepFlavour_lepb;
-   vector<float>   *jetDeepFlavour_c;
-   vector<float>   *jetDeepFlavour_uds;
-   vector<float>   *jetDeepFlavour_g;
-   vector<float>   *jetetaWidth;
-   vector<float>   *jetphiWidth;
-   vector<vector<float> > *jetConstPt;
-   vector<vector<float> > *jetConstEt;
-   vector<vector<float> > *jetConstEta;
-   vector<vector<float> > *jetConstPhi;
-   vector<vector<int> > *jetConstPdgId;
-   vector<float>   *jetGenJetE;
-   vector<float>   *jetGenJetPt;
-   vector<float>   *jetGenJetEta;
-   vector<float>   *jetGenJetPhi;
-   vector<int>     *jetGenPartonID;
-   vector<float>   *jetGenE;
-   vector<float>   *jetGenPt;
-   vector<float>   *jetGenEta;
-   vector<float>   *jetGenPhi;
-   vector<int>     *jetGenPartonMomID;
-   vector<float>   *jetP4Smear;
-   vector<float>   *jetP4SmearUp;
-   vector<float>   *jetP4SmearDo;
-   Int_t           nEle;
-   vector<float>   *elePt;
-   vector<float>   *eleEta;
-   vector<float>   *elePhi;
-   vector<float>   *eleR9Full5x5;
-   vector<float>   *eleE;
-   vector<int>     *eleCharge;
-   vector<int>     *eleChargeConsistent;
-   vector<float>   *eleD0;
-   vector<float>   *eleDz;
-   vector<float>   *eleSIP;
-   vector<float>   *eleUnCalibE;
-   vector<float>   *eleUnCalibESigma;
-   vector<float>   *eleCalibEecalonly;
-   vector<float>   *eleCalibE;
-   vector<float>   *eleCalibESigma;
-   vector<float>   *eleCalibEt;
-   vector<float>   *eleCalibEtSigma;
-   vector<float>   *eleEnergyScale;
-   vector<float>   *eleEnergySigma;
-   vector<float>   *eleSCRawE;
-   vector<float>   *eleSCE;
-   vector<float>   *eleSCEta;
-   vector<float>   *eleSCPhi;
-   vector<float>   *eleSCEtaWidth;
-   vector<float>   *eleSCPhiWidth;
-   vector<float>   *eleHoverE;
-   vector<float>   *eleEoverP;
-   vector<float>   *eleEoverPout;
-   vector<float>   *eleEoverPInv;
-   vector<float>   *eleBrem;
-   vector<float>   *eledEtaAtVtx;
-   vector<float>   *eledPhiAtVtx;
-   vector<float>   *eledEtaAtCalo;
-   vector<float>   *eledEtaseedAtVtx;
-   vector<float>   *eleSigmaIEtaIEtaFull5x5;
-   vector<float>   *eleSigmaIPhiIPhiFull5x5;
-   vector<int>     *eleConvVeto;
-   vector<int>     *eleMissHits;
-   vector<float>   *elePFChIso;
-   vector<float>   *elePFPhoIso;
-   vector<float>   *elePFNeuIso;
-   vector<float>   *elePFPUIso;
-   vector<float>   *elePFClusEcalIso;
-   vector<float>   *elePFClusHcalIso;
-   vector<ULong64_t> *eleFiredSingleTrgs;
-   vector<ULong64_t> *eleFiredDoubleTrgs;
-   vector<ULong64_t> *eleFiredL1Trgs;
-   vector<float>   *eleHEEPID;
-   vector<float>   *eleMVAIsoID;
-   vector<float>   *eleMVAnoIsoID;
-   vector<unsigned short> *eleIDbit;
-   vector<float>   *eleTrkdxy;
-   vector<float>   *eleKFHits;
-   vector<float>   *eleKFChi2;
-   vector<float>   *eleGSFChi2;
-   vector<float>   *eleScale_up;
-   vector<float>   *eleScale_dn;
-   vector<float>   *eleScale_stat_up;
-   vector<float>   *eleScale_stat_dn;
-   vector<float>   *eleScale_syst_up;
-   vector<float>   *eleScale_syst_dn;
-   vector<float>   *eleScale_gain_up;
-   vector<float>   *eleScale_gain_dn;
-   vector<float>   *eleResol_up;
-   vector<float>   *eleResol_dn;
-   vector<float>   *eleResol_rho_up;
-   vector<float>   *eleResol_rho_dn;
-   vector<float>   *eleResol_phi_up;
-   vector<float>   *eleResol_phi_dn;
-   Int_t           nMu;
-   vector<float>   *muPt;
-   vector<float>   *muE;
-   vector<float>   *muEta;
-   vector<float>   *muPhi;
-   vector<int>     *muCharge;
-   vector<int>     *muType;
-   vector<unsigned short> *muIDbit;
-   vector<float>   *muD0;
-   vector<float>   *muDz;
-   vector<float>   *muSIP;
-   vector<float>   *muChi2NDF;
-   vector<float>   *muInnerD0;
-   vector<float>   *muInnerDz;
-   vector<int>     *muTrkLayers;
-   vector<int>     *muPixelLayers;
-   vector<int>     *muPixelHits;
-   vector<int>     *muMuonHits;
-   vector<int>     *muStations;
-   vector<int>     *muMatches;
-   vector<int>     *muTrkQuality;
-   vector<float>   *muInnervalidFraction;
-   vector<float>   *muIsoTrk;
-   vector<float>   *muPFChIso;
-   vector<float>   *muPFPhoIso;
-   vector<float>   *muPFNeuIso;
-   vector<float>   *muPFPUIso;
-   vector<float>   *musegmentCompatibility;
-   vector<float>   *muchi2LocalPosition;
-   vector<float>   *mutrkKink;
-   vector<float>   *muBestTrkPtError;
-   vector<float>   *muBestTrkPt;
-   vector<int>     *muBestTrkType;
-   vector<ULong64_t> *muFiredTrgs;
-   vector<ULong64_t> *muFiredL1Trgs;
-   Int_t           nTau;
-   vector<float>   *tau_Pt;
-   vector<float>   *tau_Et;
-   vector<float>   *tau_Eta;
-   vector<float>   *tau_Phi;
-   vector<float>   *tau_Charge;
-   vector<int>     *tau_DecayMode;
-   vector<float>   *tau_P;
-   vector<float>   *tau_Vz;
-   vector<float>   *tau_Energy;
-   vector<float>   *tau_Mass;
-   vector<float>   *tau_Dxy;
-   vector<float>   *tau_ZImpact;
-   vector<float>   *tau_byCombinedIsolationDeltaBetaCorrRaw3Hits;
-   vector<float>   *tau_chargedIsoPtSum;
-   vector<float>   *tau_neutralIsoPtSum;
-   vector<float>   *tau_neutralIsoPtSumWeight;
-   vector<float>   *tau_footprintCorrection;
-   vector<float>   *tau_photonPtSumOutsideSignalCone;
-   vector<float>   *tau_puCorrPtSum;
-   vector<int>     *tau_NumSignalPFChargedHadrCands;
-   vector<int>     *tau_NumSignalPFNeutrHadrCands;
-   vector<int>     *tau_NumSignalPFGammaCands;
-   vector<int>     *tau_NumSignalPFCands;
-   vector<int>     *tau_NumIsolationPFChargedHadrCands;
-   vector<int>     *tau_NumIsolationPFNeutrHadrCands;
-   vector<int>     *tau_NumIsolationPFGammaCands;
-   vector<int>     *tau_NumIsolationPFCands;
-   vector<float>   *tau_LeadChargedHadronEta;
-   vector<float>   *tau_LeadChargedHadronPhi;
-   vector<float>   *tau_LeadChargedHadronPt;
-   vector<float>   *tau_LeadChargedHadron_dz;
-   vector<float>   *tau_LeadChargedHadron_dxy;
-   vector<unsigned int> *tau_IDbits;
-   vector<float>   *tau_byIsolationMVArun2017v2DBoldDMwLTraw2017;
-   vector<float>   *tau_byVVVLooseDeepTau2017v2p1VSjet;
-   vector<float>   *tau_byVVLooseDeepTau2017v2p1VSjet;
-   vector<float>   *tau_byVLooseDeepTau2017v2p1VSjet;
-   vector<float>   *tau_byLooseDeepTau2017v2p1VSjet;
-   vector<float>   *tau_byMediumDeepTau2017v2p1VSjet;
-   vector<float>   *tau_byTightDeepTau2017v2p1VSjet;
-   vector<float>   *tau_byVTightDeepTau2017v2p1VSjet;
-   vector<float>   *tau_byVVTightDeepTau2017v2p1VSjet;
-   vector<float>   *tau_byVVVLooseDeepTau2017v2p1VSe;
-   vector<float>   *tau_byVVLooseDeepTau2017v2p1VSe;
-   vector<float>   *tau_byVLooseDeepTau2017v2p1VSe;
-   vector<float>   *tau_byLooseDeepTau2017v2p1VSe;
-   vector<float>   *tau_byMediumDeepTau2017v2p1VSe;
-   vector<float>   *tau_byTightDeepTau2017v2p1VSe;
-   vector<float>   *tau_byVTightDeepTau2017v2p1VSe;
-   vector<float>   *tau_byVVTightDeepTau2017v2p1VSe;
-   vector<float>   *tau_byVLooseDeepTau2017v2p1VSmu;
-   vector<float>   *tau_byLooseDeepTau2017v2p1VSmu;
-   vector<float>   *tau_byMediumDeepTau2017v2p1VSmu;
-   vector<float>   *tau_byTightDeepTau2017v2p1VSmu;
-   vector<ULong64_t> *tauFiredTrgs;
-   vector<ULong64_t> *tauFiredL1Trgs;
-   Float_t         genMET;
-   Float_t         genMETPhi;
-   UShort_t        metFilters;
-   Float_t         caloMET;
-   Float_t         caloMETPhi;
-   Float_t         caloMETsumEt;
-   Float_t         pfMETCorr;
-   Float_t         pfMETPhiCorr;
-   Float_t         pfMET;
-   Float_t         pfMETPhi;
-   Float_t         pfMETsumEt;
-   Float_t         pfMETmEtSig;
-   Float_t         pfMETSig;
-   Float_t         pfMET_T1JERUp;
-   Float_t         pfMET_T1JERDo;
-   Float_t         pfMET_T1JESUp;
-   Float_t         pfMET_T1JESDo;
-   Float_t         pfMET_T1UESUp;
-   Float_t         pfMET_T1UESDo;
-   Float_t         pfMETPhi_T1JESUp;
-   Float_t         pfMETPhi_T1JESDo;
-   Float_t         pfMETPhi_T1UESUp;
-   Float_t         pfMETPhi_T1UESDo;
-   vector<float>   *pdf;
-   Float_t         pthat;
-   Float_t         processID;
-   Float_t         genWeight;
-   Float_t         genHT;
-   Float_t         pdfWeight;
-   vector<float>   *pdfSystWeight;
-   Int_t           nPUInfo;
-   vector<int>     *nPU;
-   vector<int>     *puBX;
-   vector<float>   *puTrue;
-   Int_t           nMC;
-   vector<int>     *mcPID;
-   vector<float>   *mcVtx;
-   vector<float>   *mcVty;
-   vector<float>   *mcVtz;
-   vector<float>   *mcPt;
-   vector<float>   *mcMass;
-   vector<float>   *mcEta;
-   vector<float>   *mcPhi;
-   vector<float>   *mcE;
-   vector<float>   *mcEt;
-   vector<int>     *mcStatus;
-   vector<unsigned short> *mcStatusFlag;
-   vector<int>     *mcIndex;
-   vector<int>     *mcDaughterPID;
-   vector<float>   *mcCharge;
-   vector<int>     *mcMotherPID;
-   vector<int>     *mcMotherIndex;
-   vector<int>     *mcMotherStatus;
-   vector<int>     *mcDaughterStatus;
-   vector<int>     *mcDaughterList;
-   vector<unsigned short> *mcTauDecayMode;
-   vector<unsigned short> *genMatch2;
-   // List of branches
-   TBranch        *b_run;   //!
-   TBranch        *b_event;   //!
-   TBranch        *b_lumis;   //!
-   TBranch        *b_isData;   //!
-   TBranch        *b_nVtx;   //!
-   TBranch        *b_vtxX;   //!
-   TBranch        *b_vtxY;   //!
-   TBranch        *b_vtxZ;   //!
-   TBranch        *b_vtxNtrks;   //!
-   TBranch        *b_vtx_isFake;   //!
-   TBranch        *b_vtx_ndof;   //!
-   TBranch        *b_vtx_rho;   //!
-   TBranch        *b_isGoodVtx;   //!
-   TBranch        *b_nGoodVtx;   //!
-   TBranch        *b_rho;   //!
-   TBranch        *b_rhoCentral;   //!
-   TBranch        *b_prefiringweight;   //!
-   TBranch        *b_prefiringweightup;   //!
-   TBranch        *b_prefiringweightdown;   //!
-   TBranch        *b_HLTEleMuX;   //!
-   TBranch        *b_HLTEleMuXIsPrescaled;   //!
-   TBranch        *b_HLTEleMuXRejectedByPS;   //!
-   TBranch        *b_HLTPho;   //!
-   TBranch        *b_HLTPhoIsPrescaled;   //!
-   TBranch        *b_HLTPhoRejectedByPS;   //!
-   TBranch        *b_HLTTau;   //!
-   TBranch        *b_HLTTauIsPrescaled;   //!
-   TBranch        *b_HLTTauRejectedByPS;   //!
-   TBranch        *b_HLTMet;   //!
-   TBranch        *b_HLTMetIsPrescaled;   //!
-   TBranch        *b_HLTMetRejectedByPS;   //!
-   TBranch        *b_HLTJet;   //!
-   TBranch        *b_HLTJetIsPrescaled;   //!
-   TBranch        *b_HLTJetRejectedByPS;   //!
-   TBranch        *b_nPho;   //!
-   TBranch        *b_phoE;   //!
-   TBranch        *b_phoEt;   //!
-   TBranch        *b_phoEta;   //!
-   TBranch        *b_phoPhi;   //!
-   TBranch        *b_phoUnCalibE;   //!
-   TBranch        *b_phoUnCalibESigma;   //!
-   TBranch        *b_phoCalibE;   //!
-   TBranch        *b_phoCalibESigma;   //!
-   TBranch        *b_phoCalibEt;   //!
-   TBranch        *b_phoEnergyScale;   //!
-   TBranch        *b_phoEnergySigma;   //!
-   TBranch        *b_phoSCE;   //!
-   TBranch        *b_phoSCRawE;   //!
-   TBranch        *b_phoSCEta;   //!
-   TBranch        *b_phoSCPhi;   //!
-   TBranch        *b_phoSCEtaWidth;   //!
-   TBranch        *b_phoSCPhiWidth;   //!
-   TBranch        *b_phohasPixelSeed;   //!
-   TBranch        *b_phoEleVeto;   //!
-   TBranch        *b_phoR9Full5x5;   //!
-   TBranch        *b_phoHoverE;   //!
-   TBranch        *b_phoSigmaIEtaIEtaFull5x5;   //!
-   TBranch        *b_phoSigmaIEtaIPhiFull5x5;   //!
-   TBranch        *b_phoSigmaIPhiIPhiFull5x5;   //!
-   TBranch        *b_phoPFChIso;   //!
-   TBranch        *b_phoPFChWorstIso;   //!
-   TBranch        *b_phoPFPhoIso;   //!
-   TBranch        *b_phoPFNeuIso;   //!
-   TBranch        *b_phoIDMVA;   //!
-   TBranch        *b_phoIDbit;   //!
-   TBranch        *b_phoSeedTime;   //!
-   TBranch        *b_phoSeedEnergy;   //!
-   TBranch        *b_phoFiredSingleTrgs;   //!
-   TBranch        *b_phoFiredDoubleTrgs;   //!
-   TBranch        *b_phoFiredTripleTrgs;   //!
-   TBranch        *b_phoFiredL1Trgs;   //!
-   TBranch        *b_phoScale_up;   //!
-   TBranch        *b_phoScale_dn;   //!
-   TBranch        *b_phoScale_stat_up;   //!
-   TBranch        *b_phoScale_stat_dn;   //!
-   TBranch        *b_phoScale_syst_up;   //!
-   TBranch        *b_phoScale_syst_dn;   //!
-   TBranch        *b_phoScale_gain_up;   //!
-   TBranch        *b_phoScale_gain_dn;   //!
-   TBranch        *b_phoResol_up;   //!
-   TBranch        *b_phoResol_dn;   //!
-   TBranch        *b_phoResol_rho_up;   //!
-   TBranch        *b_phoResol_rho_dn;   //!
-   TBranch        *b_phoResol_phi_up;   //!
-   TBranch        *b_phoResol_phi_dn;   //!
-   TBranch        *b_nJet;   //!
-   TBranch        *b_jetPt;   //!
-   TBranch        *b_jetE;   //!
-   TBranch        *b_jetEta;   //!
-   TBranch        *b_jetPhi;   //!
-   TBranch        *b_jetRawPt;   //!
-   TBranch        *b_jetRawE;   //!
-   TBranch        *b_jetMt;   //!
-   TBranch        *b_jetArea;   //!
-   TBranch        *b_jetMass;   //!
-   TBranch        *b_jetMaxDistance;   //!
-   TBranch        *b_jetPhiPhiMoment;   //!
-   TBranch        *b_jetConstituentEtaPhiSpread;   //!
-   TBranch        *b_jetConstituentPtDistribution;   //!
-   TBranch        *b_jetPileup;   //!
-   TBranch        *b_jetID;   //!
-   TBranch        *b_jetPUID;   //!
-   TBranch        *b_jetPUFullID;   //!
-   TBranch        *b_jetPartonID;   //!
-   TBranch        *b_jetHadFlvr;   //!
-   TBranch        *b_jetJECUnc;   //!
-   TBranch        *b_jetCEF;   //!
-   TBranch        *b_jetNEF;   //!
-   TBranch        *b_jetCHF;   //!
-   TBranch        *b_jetNHF;   //!
-   TBranch        *b_jetPhotonEnF;   //!
-   TBranch        *b_jetElectronEnF;   //!
-   TBranch        *b_jetMuonEnF;   //!
-   TBranch        *b_jetChargedMuonEnF;   //!
-   TBranch        *b_jetHFHAE;   //!
-   TBranch        *b_jetHFEME;   //!
-   TBranch        *b_jetNConst;   //!
-   TBranch        *b_jetNConstituents;   //!
-   TBranch        *b_jetNCharged;   //!
-   TBranch        *b_jetNNeutral;   //!
-   TBranch        *b_jetNChargedHad;   //!
-   TBranch        *b_jetNNeutralHad;   //!
-   TBranch        *b_jetNPhoton;   //!
-   TBranch        *b_jetNElectron;   //!
-   TBranch        *b_jetNMuon;   //!
-   TBranch        *b_jetCSV2BJetTags;   //!
-   TBranch        *b_jetDeepCSVTags_b;   //!
-   TBranch        *b_jetDeepCSVTags_bb;   //!
-   TBranch        *b_jetDeepCSVTags_c;   //!
-   TBranch        *b_jetDeepCSVTags_udsg;   //!
-   TBranch        *b_jetDeepFlavour_b;   //!
-   TBranch        *b_jetDeepFlavour_bb;   //!
-   TBranch        *b_jetDeepFlavour_lepb;   //!
-   TBranch        *b_jetDeepFlavour_c;   //!
-   TBranch        *b_jetDeepFlavour_uds;   //!
-   TBranch        *b_jetDeepFlavour_g;   //!
-   TBranch        *b_jetetaWidth;   //!
-   TBranch        *b_jetphiWidth;   //!
-   TBranch        *b_jetConstPt;   //!
-   TBranch        *b_jetConstEt;   //!
-   TBranch        *b_jetConstEta;   //!
-   TBranch        *b_jetConstPhi;   //!
-   TBranch        *b_jetConstPdgId;   //!
-   TBranch        *b_jetGenJetE;   //!
-   TBranch        *b_jetGenJetPt;   //!
-   TBranch        *b_jetGenJetEta;   //!
-   TBranch        *b_jetGenJetPhi;   //!
-   TBranch        *b_jetGenPartonID;   //!
-   TBranch        *b_jetGenE;   //!
-   TBranch        *b_jetGenPt;   //!
-   TBranch        *b_jetGenEta;   //!
-   TBranch        *b_jetGenPhi;   //!
-   TBranch        *b_jetGenPartonMomID;   //!
-   TBranch        *b_jetP4Smear;   //!
-   TBranch        *b_jetP4SmearUp;   //!
-   TBranch        *b_jetP4SmearDo;   //!
-   TBranch        *b_nEle;   //!
-   TBranch        *b_elePt;   //!
-   TBranch        *b_eleEta;   //!
-   TBranch        *b_elePhi;   //!
-   TBranch        *b_eleR9Full5x5;   //!
-   TBranch        *b_eleE;   //!
-   TBranch        *b_eleCharge;   //!
-   TBranch        *b_eleChargeConsistent;   //!
-   TBranch        *b_eleD0;   //!
-   TBranch        *b_eleDz;   //!
-   TBranch        *b_eleSIP;   //!
-   TBranch        *b_eleUnCalibE;   //!
-   TBranch        *b_eleUnCalibESigma;   //!
-   TBranch        *b_eleCalibEecalonly;   //!
-   TBranch        *b_eleCalibE;   //!
-   TBranch        *b_eleCalibESigma;   //!
-   TBranch        *b_eleCalibEt;   //!
-   TBranch        *b_eleCalibEtSigma;   //!
-   TBranch        *b_eleEnergyScale;   //!
-   TBranch        *b_eleEnergySigma;   //!
-   TBranch        *b_eleSCRawE;   //!
-   TBranch        *b_eleSCE;   //!
-   TBranch        *b_eleSCEta;   //!
-   TBranch        *b_eleSCPhi;   //!
-   TBranch        *b_eleSCEtaWidth;   //!
-   TBranch        *b_eleSCPhiWidth;   //!
-   TBranch        *b_eleHoverE;   //!
-   TBranch        *b_eleEoverP;   //!
-   TBranch        *b_eleEoverPout;   //!
-   TBranch        *b_eleEoverPInv;   //!
-   TBranch        *b_eleBrem;   //!
-   TBranch        *b_eledEtaAtVtx;   //!
-   TBranch        *b_eledPhiAtVtx;   //!
-   TBranch        *b_eledEtaAtCalo;   //!
-   TBranch        *b_eledEtaseedAtVtx;   //!
-   TBranch        *b_eleSigmaIEtaIEtaFull5x5;   //!
-   TBranch        *b_eleSigmaIPhiIPhiFull5x5;   //!
-   TBranch        *b_eleConvVeto;   //!
-   TBranch        *b_eleMissHits;   //!
-   TBranch        *b_elePFChIso;   //!
-   TBranch        *b_elePFPhoIso;   //!
-   TBranch        *b_elePFNeuIso;   //!
-   TBranch        *b_elePFPUIso;   //!
-   TBranch        *b_elePFClusEcalIso;   //!
-   TBranch        *b_elePFClusHcalIso;   //!
-   TBranch        *b_eleFiredSingleTrgs;   //!
-   TBranch        *b_eleFiredDoubleTrgs;   //!
-   TBranch        *b_eleFiredL1Trgs;   //!
-   TBranch        *b_eleHEEPID;   //!
-   TBranch        *b_eleMVAIsoID;   //!
-   TBranch        *b_eleMVAnoIsoID;   //!
-   TBranch        *b_eleIDbit;   //!
-   TBranch        *b_eleTrkdxy;   //!
-   TBranch        *b_eleKFHits;   //!
-   TBranch        *b_eleKFChi2;   //!
-   TBranch        *b_eleGSFChi2;   //!
-   TBranch        *b_eleScale_up;   //!
-   TBranch        *b_eleScale_dn;   //!
-   TBranch        *b_eleScale_stat_up;   //!
-   TBranch        *b_eleScale_stat_dn;   //!
-   TBranch        *b_eleScale_syst_up;   //!
-   TBranch        *b_eleScale_syst_dn;   //!
-   TBranch        *b_eleScale_gain_up;   //!
-   TBranch        *b_eleScale_gain_dn;   //!
-   TBranch        *b_eleResol_up;   //!
-   TBranch        *b_eleResol_dn;   //!
-   TBranch        *b_eleResol_rho_up;   //!
-   TBranch        *b_eleResol_rho_dn;   //!
-   TBranch        *b_eleResol_phi_up;   //!
-   TBranch        *b_eleResol_phi_dn;   //!
-   TBranch        *b_nMu;   //!
-   TBranch        *b_muPt;   //!
-   TBranch        *b_muE;   //!
-   TBranch        *b_muEta;   //!
-   TBranch        *b_muPhi;   //!
-   TBranch        *b_muCharge;   //!
-   TBranch        *b_muType;   //!
-   TBranch        *b_muIDbit;   //!
-   TBranch        *b_muD0;   //!
-   TBranch        *b_muDz;   //!
-   TBranch        *b_muSIP;   //!
-   TBranch        *b_muChi2NDF;   //!
-   TBranch        *b_muInnerD0;   //!
-   TBranch        *b_muInnerDz;   //!
-   TBranch        *b_muTrkLayers;   //!
-   TBranch        *b_muPixelLayers;   //!
-   TBranch        *b_muPixelHits;   //!
-   TBranch        *b_muMuonHits;   //!
-   TBranch        *b_muStations;   //!
-   TBranch        *b_muMatches;   //!
-   TBranch        *b_muTrkQuality;   //!
-   TBranch        *b_muInnervalidFraction;   //!
-   TBranch        *b_muIsoTrk;   //!
-   TBranch        *b_muPFChIso;   //!
-   TBranch        *b_muPFPhoIso;   //!
-   TBranch        *b_muPFNeuIso;   //!
-   TBranch        *b_muPFPUIso;   //!
-   TBranch        *b_musegmentCompatibility;   //!
-   TBranch        *b_muchi2LocalPosition;   //!
-   TBranch        *b_mutrkKink;   //!
-   TBranch        *b_muBestTrkPtError;   //!
-   TBranch        *b_muBestTrkPt;   //!
-   TBranch        *b_muBestTrkType;   //!
-   TBranch        *b_muFiredTrgs;   //!
-   TBranch        *b_muFiredL1Trgs;   //!
-   TBranch        *b_nTau;   //!
-   TBranch        *b_tau_Pt;   //!
-   TBranch        *b_tau_Et;   //!
-   TBranch        *b_tau_Eta;   //!
-   TBranch        *b_tau_Phi;   //!
-   TBranch        *b_tau_Charge;   //!
-   TBranch        *b_tau_DecayMode;   //!
-   TBranch        *b_tau_P;   //!
-   TBranch        *b_tau_Vz;   //!
-   TBranch        *b_tau_Energy;   //!
-   TBranch        *b_tau_Mass;   //!
-   TBranch        *b_tau_Dxy;   //!
-   TBranch        *b_tau_ZImpact;   //!
-   TBranch        *b_tau_byCombinedIsolationDeltaBetaCorrRaw3Hits;   //!
-   TBranch        *b_tau_chargedIsoPtSum;   //!
-   TBranch        *b_tau_neutralIsoPtSum;   //!
-   TBranch        *b_tau_neutralIsoPtSumWeight;   //!
-   TBranch        *b_tau_footprintCorrection;   //!
-   TBranch        *b_tau_photonPtSumOutsideSignalCone;   //!
-   TBranch        *b_tau_puCorrPtSum;   //!
-   TBranch        *b_tau_NumSignalPFChargedHadrCands;   //!
-   TBranch        *b_tau_NumSignalPFNeutrHadrCands;   //!
-   TBranch        *b_tau_NumSignalPFGammaCands;   //!
-   TBranch        *b_tau_NumSignalPFCands;   //!
-   TBranch        *b_tau_NumIsolationPFChargedHadrCands;   //!
-   TBranch        *b_tau_NumIsolationPFNeutrHadrCands;   //!
-   TBranch        *b_tau_NumIsolationPFGammaCands;   //!
-   TBranch        *b_tau_NumIsolationPFCands;   //!
-   TBranch        *b_tau_LeadChargedHadronEta;   //!
-   TBranch        *b_tau_LeadChargedHadronPhi;   //!
-   TBranch        *b_tau_LeadChargedHadronPt;   //!
-   TBranch        *b_tau_LeadChargedHadron_dz;   //!
-   TBranch        *b_tau_LeadChargedHadron_dxy;   //!
-   TBranch        *b_tau_IDbits;   //!
-   TBranch        *b_tau_byIsolationMVArun2017v2DBoldDMwLTraw2017;   //!
-   TBranch        *b_tau_byVVVLooseDeepTau2017v2p1VSjet;   //!
-   TBranch        *b_tau_byVVLooseDeepTau2017v2p1VSjet;   //!
-   TBranch        *b_tau_byVLooseDeepTau2017v2p1VSjet;   //!
-   TBranch        *b_tau_byLooseDeepTau2017v2p1VSjet;   //!
-   TBranch        *b_tau_byMediumDeepTau2017v2p1VSjet;   //!
-   TBranch        *b_tau_byTightDeepTau2017v2p1VSjet;   //!
-   TBranch        *b_tau_byVTightDeepTau2017v2p1VSjet;   //!
-   TBranch        *b_tau_byVVTightDeepTau2017v2p1VSjet;   //!
-   TBranch        *b_tau_byVVVLooseDeepTau2017v2p1VSe;   //!
-   TBranch        *b_tau_byVVLooseDeepTau2017v2p1VSe;   //!
-   TBranch        *b_tau_byVLooseDeepTau2017v2p1VSe;   //!
-   TBranch        *b_tau_byLooseDeepTau2017v2p1VSe;   //!
-   TBranch        *b_tau_byMediumDeepTau2017v2p1VSe;   //!
-   TBranch        *b_tau_byTightDeepTau2017v2p1VSe;   //!
-   TBranch        *b_tau_byVTightDeepTau2017v2p1VSe;   //!
-   TBranch        *b_tau_byVVTightDeepTau2017v2p1VSe;   //!
-   TBranch        *b_tau_byVLooseDeepTau2017v2p1VSmu;   //!
-   TBranch        *b_tau_byLooseDeepTau2017v2p1VSmu;   //!
-   TBranch        *b_tau_byMediumDeepTau2017v2p1VSmu;   //!
-   TBranch        *b_tau_byTightDeepTau2017v2p1VSmu;   //!
-   TBranch        *b_tauFiredTrgs;   //!
-   TBranch        *b_tauFiredL1Trgs;   //!
-   TBranch        *b_genMET;   //!
-   TBranch        *b_genMETPhi;   //!
-   TBranch        *b_metFilters;   //!
-   TBranch        *b_caloMET;   //!
-   TBranch        *b_caloMETPhi;   //!
-   TBranch        *b_caloMETsumEt;   //!
-   TBranch        *b_pfMETCorr;   //!
-   TBranch        *b_pfMETPhiCorr;   //!
-   TBranch        *b_pfMET;   //!
-   TBranch        *b_pfMETPhi;   //!
-   TBranch        *b_pfMETsumEt;   //!
-   TBranch        *b_pfMETmEtSig;   //!
-   TBranch        *b_pfMETSig;   //!
-   TBranch        *b_pfMET_T1JERUp;   //!
-   TBranch        *b_pfMET_T1JERDo;   //!
-   TBranch        *b_pfMET_T1JESUp;   //!
-   TBranch        *b_pfMET_T1JESDo;   //!
-   TBranch        *b_pfMET_T1UESUp;   //!
-   TBranch        *b_pfMET_T1UESDo;   //!
-   TBranch        *b_pfMETPhi_T1JESUp;   //!
-   TBranch        *b_pfMETPhi_T1JESDo;   //!
-   TBranch        *b_pfMETPhi_T1UESUp;   //!
-   TBranch        *b_pfMETPhi_T1UESDo;   //!
-   TBranch        *b_pdf;   //!
-   TBranch        *b_pthat;   //!
-   TBranch        *b_processID;   //!
-   TBranch        *b_genWeight;   //!
-   TBranch        *b_genHT;   //!
-   TBranch        *b_pdfWeight;   //!
-   TBranch        *b_pdfSystWeight;   //!
-   TBranch        *b_nPUInfo;   //!
-   TBranch        *b_nPU;   //!
-   TBranch        *b_puBX;   //!
-   TBranch        *b_puTrue;   //!
-   TBranch        *b_nMC;   //!
-   TBranch        *b_mcPID;   //!
-   TBranch        *b_mcVtx;   //!
-   TBranch        *b_mcVty;   //!
-   TBranch        *b_mcVtz;   //!
-   TBranch        *b_mcPt;   //!
-   TBranch        *b_mcMass;   //!
-   TBranch        *b_mcEta;   //!
-   TBranch        *b_mcPhi;   //!
-   TBranch        *b_mcE;   //!
-   TBranch        *b_mcEt;   //!
-   TBranch        *b_mcStatus;   //!
-   TBranch        *b_mcStatusFlag;   //!
-   TBranch        *b_mcIndex;   //!
-   TBranch        *b_mcDaughterPID;   //!
-   TBranch        *b_mcCharge;   //!
-   TBranch        *b_mcMotherPID;   //!
-   TBranch        *b_mcMotherIndex;   //!
-   TBranch        *b_mcMotherStatus;   //!
-   TBranch        *b_mcDaughterStatus;   //!
-   TBranch        *b_mcDaughterList;   //!
-   TBranch        *b_mcTauDecayMode;   //!
-   TBranch        *b_genMatch2;   //!
+  //   etau_analyzer(TTree *tree=0);
+  etau_analyzer(const char* file1, const char* file2, string isMC, string SampleName);
+  ~etau_analyzer();
+  Int_t    Cut(Long64_t entry);
+  Int_t    GetEntry(Long64_t entry);
+  Long64_t LoadTree(Long64_t entry);
+  void     Init(TChain *tree, string isMC , string SampleName);
+  // void     Init(TTree *tree);
+  void     Loop(Long64_t maxEvents, int reportEvery, string SampleName);
+  Bool_t   Notify();
+  void     Show(Long64_t entry = -1);
+  void BookHistos(const char* file1, const char* file2);
+  void fillHistos(int histoNumber, double event_weight,int higgs_index);
+  double DeltaPhi(double phi1, double phi2);
+  vector<int> getEleCand(double pt, double eta);
+  vector<int> getTauCand(double pt, double eta);
+  vector<int> getAISRTauCand(double pt, double eta);
+  vector<int> getJetCand(int eleIndex, int tauIndex);
+  int getZCand();
+  int get_t_Cand();
+  int get_tbar_Cand();
+  void makeMyPlot( string histNumber , int eleIndex, int tauIndex, float event_weight);
+  // vector<int> gen_matching();
+  int myGenMaching(int tauIndex);
+  int myGenMaching1(int eleIndex);
+  // bool found_GenMatch(int genTau);
+  int thirdLeptonVeto();
+  bool thirdLeptonVeto(int eleIndex, int tauIndex);
+  bool thirdLeptonVeto(int eleIndex, int tauIndex, int ele2Index);
+  // double dR(int mu_index, int tau_index);
+  double delta_R(float phi1, float eta1, float phi2, float eta2);
+  float TMass_F(float LepPt, float LepPhi ,float met, float metPhi);
+  float TotTMass_F(TLorentzVector a, TLorentzVector b, TLorentzVector met);   
+  float VisMass_F(TLorentzVector a, TLorentzVector b);
+  float pTvecsum_F(float pt1, float pt2, float phi1, float phi2);
+  float pTvecsum_F(TLorentzVector a, TLorentzVector b, TLorentzVector met);
+  vector<int> bJet_medium(int eleIndex, int tauIndex);
+  vector<int> bJet_loose(int eleIndex, int tauIndex);
+  bool passBjetVeto_medium(int eleIndex, int tauIndex);
+  bool passBjetVeto_loose(int eleIndex, int tauIndex);
+  bool passBjetVeto(int eleIndex, int tauIndex);
+  void fillHist( string histNumber, int muIndex, int tauIndex, bool isFakeBkg,float event_weight);
+  vector<int> getGenMu();
+  // bool hasGenTau();
+  float exponential(float x,float a,float b,float c);
+  double exponential( double pT) ;
+  double getFR(int tauIndex);
+  float EletriggerSF(float pt, float eta);
+  double getScaleFactors(  double elept, double taupt, double eleeta, double taueta, int taudm, int tauGenMatch, bool isFakebkg);
+  bool MatchTriggerFilter(int eleIndex, int tauIndex);
+  bool TriggerSelection(TLorentzVector eleP4, TLorentzVector tauP4);
+  void makeTestPlot( string histNumber , int eleIndex, int ele2Index, int tauIndex, float event_weight);
+  bool passDiElectronVeto(int eleIndex);
+  bool eVetoZTTp001dxyz(int eleIndex, int tauIndex);
+  bool mVetoZTTp001dxyz(int eleIndex, int tauIndex);
+  TLorentzVector MetRecoilCorrections(int eleIndex, int tauIndex, TLorentzVector mymet);
+  void applyEleESCorrections(TLorentzVector eleP4, int eleIndex,TLorentzVector& eleP4Corr);
+  void applyTauESCorrections( TLorentzVector tauP4,int tauIndex,TLorentzVector& tauP4Corr);
 
-   //   etau_analyzer(TTree *tree=0);
-   etau_analyzer(const char* file1, const char* file2, string isMC);
-   virtual ~etau_analyzer();
-   virtual Int_t    Cut(Long64_t entry);
-   virtual Int_t    GetEntry(Long64_t entry);
-   virtual Long64_t LoadTree(Long64_t entry);
-   virtual void     Init(TChain *tree, string isMC);
-   //virtual void     Init(TTree *tree);
-   virtual void     Loop(Long64_t maxEvents, int reportEvery, string SampleName, string _isMC_);
-   virtual Bool_t   Notify();
-   virtual void     Show(Long64_t entry = -1);
-   virtual void BookHistos(const char* file1, const char* file2);
-   virtual void fillHistos(int histoNumber, double event_weight,int higgs_index);
-   virtual double DeltaPhi(double phi1, double phi2);
-   virtual vector<int> getEleCand(double pt, double eta);
-   //virtual vector<int> getEle2Cand(double pt, double eta, int ele1Index);
-   virtual vector<int> getTauCand(double pt, double eta);
-   virtual vector<int> getAISRTauCand(double pt, double eta);
-   virtual vector<int> getJetCand(int eleIndex, int tauIndex);
-   virtual vector<int> getZCand();
-   virtual vector<int> gen_matching();
-   virtual int myGenMaching(int tauIndex);
-   virtual int myGenMaching1(int eleIndex);
-   virtual bool found_GenMatch(int genTau);
-   virtual int thirdLeptonVeto(int eleIndex, int tauIndex);
-   //virtual double dR(int mu_index, int tau_index);
-   virtual double delta_R(float phi1, float eta1, float phi2, float eta2);
-   virtual float TMass_F(float LepPt, float LepPhi ,float met, float metPhi);
-   virtual float TotTMass_F(TLorentzVector a, TLorentzVector b, TLorentzVector met);   
-   virtual float VisMass_F(TLorentzVector a, TLorentzVector b);
-   virtual float pTvecsum_F(float pt1, float pt2, float phi1, float phi2);
-   virtual float pTvecsum_F(TLorentzVector a, TLorentzVector b, TLorentzVector met);
-   //   virtual bool electron_pass(int pho_index, float elePtCut);
-   //virtual bool relIso(int ele_index);
-   virtual bool passBjetVetoM(int eleIndex, int tauIndex);
-   virtual bool passBjetVetoL(int eleIndex, int tauIndex);
-   virtual void fillHist( string histNumber, int muIndex, int tauIndex, float event_weight);
-   virtual void fillHist( string histNumber, TLorentzVector eleP4, TLorentzVector tauP4, int muIndex, int tauIndex, float event_weight);
-   virtual void fillHist_dyll( string histNumber, int mu1Index, int mu2Index, int tauIndex, float event_weight);
-   virtual vector<int> getGenMu();
-   virtual bool hasGenTau();
-   virtual float exponential(float x,float a,float b,float c);
-   virtual double getFR(int tauIndex);
-   virtual float EletriggerSF(float pt, float eta);
-   virtual double getScaleFactors( double elept, double taupt, double eleeta, double taueta, int taudm, int gen_match_2);
-   virtual bool noisyJet2017();
-   virtual bool MatchTriggerFilter(int eleIndex, int tauIndex);
-   virtual void makeMyPlot( string histNumber , int eleIndex, int tauIndex, float event_weight);
-   virtual bool passDiElectronVeto(int eleIndex);
-   virtual bool eVetoZTTp001dxyz(int eleIndex, int tauIndex);
-   virtual bool mVetoZTTp001dxyz(int eleIndex, int tauIndex);
-   virtual TLorentzVector MetRecoilCorrections(int eleIndex, int tauIndex);
-   virtual void applyESCorrections(TLorentzVector eleP4, TLorentzVector tauP4, int eleIndex, int tauIndex, TLorentzVector& eleP4Corr, TLorentzVector& tauP4Corr);
-   virtual int eventCategory(int eleIndex, int tauIndex);
-   virtual void setMyEleTau(int eleIndex, int tauIndex);
+  int eventCategory(int eleIndex, int tauIndex,  double higgsPt);
+  void setMyEleTau(int eleIndex, int tauIndex);
+  int if_DY_Genmatching(int eleIndex, int tauIndex);
+  double getTauFES(int tauIndex);
+  double get_zptmass_weight();
+  double btag_sf_weight(int eleIndex , int tauIndex);
 
 };
 #endif
 
 #ifdef etau_analyzer_cxx
-etau_analyzer::etau_analyzer(const char* file1, const char* file2, string isMC)
+etau_analyzer::etau_analyzer(const char* file1, const char* file2, string isMC, string sampleName)
 {
   TChain *chain = new TChain("eventTree");
   
@@ -963,7 +991,7 @@ etau_analyzer::etau_analyzer(const char* file1, const char* file2, string isMC)
   
   std::cout<<"All files added."<<std::endl;
   std::cout<<"Initializing chain."<<std::endl;
-  Init(chain, isMC);
+  Init(chain, isMC, sampleName);
   BookHistos(file1, file2);
 
   //inspected_events->Write();
@@ -978,6 +1006,25 @@ etau_analyzer::~etau_analyzer()
    fileName->Write();
    //tree->Write();
    fileName->Close();
+   f_pileup->Close();
+   f_eleReconstrucSF_highpt->Close();
+   f_eleIDeffSF->Close();
+   f_eleIsoSF->Close();
+   f_eleTrgSF_1->Close();
+   f_eleTrgSF_2->Close();
+   //f_eleRecoSF_highpt->Close();
+   //f_eleIDSF->Close();
+   f_eleIsoSF->Close();
+   f_eleTrgSF_1->Close();
+   f_eleTrgSF_2->Close();
+   f_tauidSF->Close();
+   f_tauesSF->Close();
+   f_tauFakeMuSF->Close();
+   f_tauFakeEleSF->Close();
+   f_taufesSF->Close();
+   f_tauTrgSf->Close();
+   fw->Close();
+   f_HiggsPtReweighting->Close();
 
 }
 
@@ -1000,7 +1047,7 @@ Long64_t etau_analyzer::LoadTree(Long64_t entry)
    return centry;
 }
 
-void etau_analyzer::Init(TChain *tree, string _isMC_)
+void etau_analyzer::Init(TChain *tree, string _isMC_ , string sampleName)
 {
    // The Init() function is called when the selector needs to initialize
    // a new tree or chain. Typically here the branch addresses and branch
@@ -1014,20 +1061,50 @@ void etau_analyzer::Init(TChain *tree, string _isMC_)
    
   nMETFiltersPassed_dyll_fr = nPassedSkimmed_dyll_fr = nSingleTrgPassed_dyll_fr = nGoodMuonPassed_dyll_fr = nGoodTauPassed_dyll_fr = nGoodMuTauPassed_dyll_fr = nPassedThirdLepVeto_dyll_fr = nPassedBjetVeto_dyll_fr = nDeltaRPassed_dyll_fr=0;
   nMETFiltersPassed_dyll= nPassedSkimmed_dyll= nSingleTrgPassed_dyll= nGoodMuonPassed_dyll= nGoodTauPassed_dyll= nGoodMuTauPassed_dyll= nPassedThirdLepVeto_dyll= nPassedBjetVeto_dyll= nDeltaRPassed_dyll=0;
-  myfile_genmatch.open("genmatchCheck_.txt");
+  //myfile_genmatch.open("genmatchCheck_.txt");
   
   /* //RecoilCorrector recoilPFMetCorrector("sf_files/HTT-utilities/RecoilCorrections/data/Type1_PFMET_2017.root"); */
   
   //RecoilCorrector recoilPFMetCorrector("sf_files/HTT-utilities/RecoilCorrections/data/Type1_PFMET_2017.root");
-
-  
-  TString isMC = TString(_isMC_);
+    TString isMC = TString(_isMC_);
   cout<<"from Init "<<isMC<<endl;
-  if( _isMC_=="MC" ) 
+  if( _isMC_=="MC" )
     is_MC=true;
   else
     is_MC=false;
-  // Set object pointer
+   // Set object pointer
+  zptmass_weight = 1.0;
+  btag_sf=1.0;
+  pass_bjet_veto=false;
+  found_Wjet_sample=false;
+  found_DYjet_sample=false;
+  found_TTbar_sample=false;
+  TString sample = TString(sampleName);
+  if ( sample.Contains("WJetsToLNu") ||
+       sample.Contains("W1JetsToLNu") ||
+       sample.Contains("W2JetsToLNu") ||
+       sample.Contains("W3JetsToLNu") ||
+       sample.Contains("W4JetsToLNu") 	) {
+    found_Wjet_sample=true;
+    cout<<"****************** wjet sample found"<<endl;
+  }
+  if ( sample.Contains("DYJetsToLL") ||
+       sample.Contains("DY1JetsToLL") ||
+       sample.Contains("DY2JetsToLL") ||
+       sample.Contains("DY3JetsToLL") ||
+       sample.Contains("DY4JetsToLL") || 
+       sample.Contains("EWKZ2Jets")
+       ) {
+    found_DYjet_sample=true;
+    cout<<"****************** dyjet sample found"<<endl;
+  }
+  if ( sample.Contains("TTTo2L2Nu") ||
+       sample.Contains("TTToHadronic") ||
+       sample.Contains("TTToSemiLeptonic")
+       ) {
+    found_TTbar_sample=true;
+    cout<<"****************** ttbar sample found"<<endl;
+  }
    phoE = 0;
    phoEt = 0;
    phoEta = 0;
@@ -1774,13 +1851,10 @@ void etau_analyzer::setMyEleTau(int eleIndex, int tauIndex){
   my_tauP4.SetPtEtaPhiE(tau_Pt->at(tauIndex),tau_Eta->at(tauIndex)
                         ,tau_Phi->at(tauIndex), tau_Energy->at(tauIndex)
                         );
-  
-  TLorentzVector uncorrected_met; TLorentzVector uncorrectedMetPlusTau;
-  if(is_MC)
-    uncorrected_met=MetRecoilCorrections(eleIndex, tauIndex);
-  else
-    uncorrected_met.SetPtEtaPhiE(pfMET ,0,pfMETPhi,pfMET);
 
+  TLorentzVector uncorrected_met; TLorentzVector uncorrectedMetPlusTau;
+  TLorentzVector corrected_met;
+  uncorrected_met.SetPtEtaPhiE(pfMET ,0,pfMETPhi,pfMET);
   uncorrectedMetPlusTau=uncorrected_met+my_tauP4;
 
   /// ES corrections
@@ -1789,15 +1863,25 @@ void etau_analyzer::setMyEleTau(int eleIndex, int tauIndex){
     if (myGenMaching(tauIndex)>=5 && tau_DecayMode->at(tauIndex)==0) my_tauP4=my_tauP4*1.007;
     else if (myGenMaching(tauIndex)>=5 && tau_DecayMode->at(tauIndex)==1) my_tauP4=my_tauP4*0.998;
     else if (myGenMaching(tauIndex)>=5 && tau_DecayMode->at(tauIndex)==10) my_tauP4=my_tauP4*1.001;
-    if (  (myGenMaching(tauIndex)==1 || myGenMaching(tauIndex)==3) && tau_DecayMode->at(tauIndex)==0 ) 
+    if (  (myGenMaching(tauIndex)==1 || myGenMaching(tauIndex)==3) && tau_DecayMode->at(tauIndex)==0 )
       my_tauP4=my_tauP4*1.003;
-    else if ( (myGenMaching(tauIndex)==1 || myGenMaching(tauIndex)==3) && tau_DecayMode->at(tauIndex)==1) 
+    else if ( (myGenMaching(tauIndex)==1 || myGenMaching(tauIndex)==3) && tau_DecayMode->at(tauIndex)==1)
       my_tauP4=my_tauP4*1.036;
   }
-  my_metP4 = uncorrectedMetPlusTau - my_tauP4;
-
+  
+  corrected_met = uncorrectedMetPlusTau - my_tauP4;
+  if(is_MC)
+    my_metP4=MetRecoilCorrections(eleIndex, tauIndex, corrected_met);
+  else
+    my_metP4.SetPtEtaPhiE(pfMET ,0,pfMETPhi,pfMET);
+  
   std::vector<int> jetCand;       jetCand.clear();
   jetCand=getJetCand(eleIndex, tauIndex);
   my_njets=jetCand.size();
+  
+  my_genmatching_l1 = myGenMaching1(eleIndex);
+  my_genmatching_l2 = myGenMaching(tauIndex);
+  pass_bjet_veto = (bJet_medium(EleIndex, TauIndex).size()==0) && (bJet_loose(EleIndex, TauIndex).size()<2);
+  btag_sf=btag_sf_weight(EleIndex , TauIndex);
 }
 #endif // #ifdef etau_analyzer_cxx

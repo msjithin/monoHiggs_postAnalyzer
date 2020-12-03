@@ -256,7 +256,7 @@ int main(int argc, char** argv)
     cout<<"Attention!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"<<endl;
     return 0;
   }
-  
+  cout<<"***********"<<sample.c_str()<<" weight="<<weight<<endl;
   cout.setf(ios::fixed, ios::floatfield);
   cout.precision(10);
   

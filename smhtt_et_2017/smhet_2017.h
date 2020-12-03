@@ -94,22 +94,26 @@ public :
    TFile *fw = TFile::Open("sf_files/htt_scalefactors_legacy_2017.root");
    RooWorkspace *w = (RooWorkspace*)fw->Get("w");
    
-   TFile * frawff = TFile::Open("sf_files/ComputeFF2018/ff_files_et_2017/uncorrected_fakefactors_et.root");
-   TF1* ff_qcd_0jet=(TF1*) frawff->Get("rawFF_et_qcd_0jet");
-   TF1* ff_qcd_1jet=(TF1*) frawff->Get("rawFF_et_qcd_1jet");
-   TF1* ff_w_0jet=(TF1*) frawff->Get("rawFF_et_w_0jet");
-   TF1* ff_w_1jet=(TF1*) frawff->Get("rawFF_et_w_1jet");
-   TF1* ff_tt_0jet=(TF1*) frawff->Get("mc_rawFF_et_tt");
+   /* TFile * frawff = TFile::Open("sf_files/ComputeFF2018/ff_files_et_2017/uncorrected_fakefactors_et.root"); */
+   /* TF1* ff_qcd_0jet=(TF1*) frawff->Get("rawFF_et_qcd_0jet"); */
+   /* TF1* ff_qcd_1jet=(TF1*) frawff->Get("rawFF_et_qcd_1jet"); */
+   /* TF1* ff_w_0jet=(TF1*) frawff->Get("rawFF_et_w_0jet"); */
+   /* TF1* ff_w_1jet=(TF1*) frawff->Get("rawFF_et_w_1jet"); */
+   /* TF1* ff_tt_0jet=(TF1*) frawff->Get("mc_rawFF_et_tt"); */
 
-   TFile *fmvisclosure = TFile::Open("sf_files/ComputeFF2018/ff_files_et_2017/FF_corrections_1.root");
-   TF1* mvisclosure_qcd=(TF1*) fmvisclosure->Get("closure_mvis_et_qcd");
-   TF1* mvisclosure_w=(TF1*) fmvisclosure->Get("closure_mvis_et_w");
-   TF1* mvisclosure_tt=(TF1*) fmvisclosure->Get("closure_mvis_et_ttmc");
+   /* TFile *fmvisclosure = TFile::Open("sf_files/ComputeFF2018/ff_files_et_2017/FF_corrections_1.root"); */
+   /* TF1* mvisclosure_qcd=(TF1*) fmvisclosure->Get("closure_mvis_et_qcd"); */
+   /* TF1* mvisclosure_w=(TF1*) fmvisclosure->Get("closure_mvis_et_w"); */
+   /* TF1* mvisclosure_tt=(TF1*) fmvisclosure->Get("closure_mvis_et_ttmc"); */
 
-   TFile *fosssclosure  = TFile::Open("sf_files/ComputeFF2018/ff_files_et_2017/FF_QCDcorrectionOSSS.root");
-   TF1* osssclosure_qcd=(TF1*) fosssclosure->Get("closure_OSSS_mvis_et_qcd");
-   TF1* mtclosure_w=(TF1*) fosssclosure->Get("closure_mt_et_w");
-
+   /* TFile *fosssclosure  = TFile::Open("sf_files/ComputeFF2018/ff_files_et_2017/FF_QCDcorrectionOSSS.root"); */
+   /* TF1* osssclosure_qcd=(TF1*) fosssclosure->Get("closure_OSSS_mvis_et_qcd"); */
+   /* TF1* mtclosure_w=(TF1*) fosssclosure->Get("closure_mt_et_w"); */
+   TFile *f_HiggsPtReweighting = TFile::Open("sf_files/NNLOPS_reweight.root");
+   TGraph *gr_NNLOPSratio_pt_mcatnlo_0jet=(TGraph*) f_HiggsPtReweighting->Get("gr_NNLOPSratio_pt_mcatnlo_0jet");
+   TGraph *gr_NNLOPSratio_pt_mcatnlo_1jet=(TGraph*) f_HiggsPtReweighting->Get("gr_NNLOPSratio_pt_mcatnlo_1jet");
+   TGraph *gr_NNLOPSratio_pt_mcatnlo_2jet=(TGraph*) f_HiggsPtReweighting->Get("gr_NNLOPSratio_pt_mcatnlo_2jet");
+   TGraph *gr_NNLOPSratio_pt_mcatnlo_3jet=(TGraph*) f_HiggsPtReweighting->Get("gr_NNLOPSratio_pt_mcatnlo_3jet");
 
    // Declaration of leaf types
    Int_t           run;

@@ -93,11 +93,12 @@ void smhet_2018::Loop(Long64_t maxEvents, int reportEvery, string SampleName, st
       bool selectTrgEle35=(passEle35 && matchEle35_1 && filterEle35_1 && pt_1>36);
       bool selectTrgCross=(passEle24Tau30 
       			   && pt_1>25 && pt_1<33 && pt_2>35 && abs(eta_1)<2.1 && abs(eta_2)<2.1
-			   && !isMC && run< 317509
+			   && !isMC 
+			   //&& run< 317509
       			   );
       bool selectTrgCrossHPS=(passEle24HPSTau30 
 			      && pt_1>25 && pt_1<33 && pt_2>35 && abs(eta_1)<2.1 && abs(eta_2)<2.1
-			      
+			      //&& run >=317509
 			      );
       
       // bool selectTrgEle27=(passEle27 && matchEle27_1 && filterEle27_1 && pt_1>28);
@@ -136,7 +137,7 @@ void smhet_2018::Loop(Long64_t maxEvents, int reportEvery, string SampleName, st
 		      if(isMC)
 		      	applySf=getScaleFactors( pt_1, pt_2, eta_1, eta_2, l2_decayMode);
 		      
-		      eventWeight =  eventWeight*applySf;
+		      //eventWeight =  eventWeight*applySf;
 
 		      TLorentzVector dau1, dau2;
 		      dau1.SetPtEtaPhiE(pt_1, eta_1, phi_1, e_1);
@@ -335,7 +336,7 @@ double smhet_2018::getScaleFactors( double elept, double taupt, double eleeta, d
       sf_tauesSF = h_tauesSF->GetBinContent(h_tauesSF->GetXaxis()->FindBin(taudm));
     }
   
-  if(gen_match_2<5)
+  if(gen_match_2==1 || gen_match_2==3)
     {
       if(taudm==0)
 	{
@@ -348,10 +349,38 @@ double smhet_2018::getScaleFactors( double elept, double taupt, double eleeta, d
 	  if(abs(taueta) > 1.479 ) sf_fakeEle=0.64;
 	}
     }
-  if(taudm==0 && abs(taueta)<=1.4 ) sf_taufesSF = h_taufesSF->Eval(1);
-  if(taudm==0 && abs(taueta)>1.4 )  sf_taufesSF = h_taufesSF->Eval(3);
-  if(taudm==1 && abs(taueta)<=1.4 ) sf_taufesSF = h_taufesSF->Eval(5);
-  if(taudm==1 && abs(taueta)>1.4 )  sf_taufesSF = h_taufesSF->Eval(7);
+  if( gen_match_2==2 || gen_match_2==4 ){  ///  muons to pass deep tau 
+    if(taudm==0)
+      {
+	if(abs(taueta) < 0.4 ) sf_fakeMu=1.14;
+	if(abs(taueta) > 0.4 && abs(taueta) < 0.8 ) sf_fakeMu=1.0;
+	if(abs(taueta) > 0.8 && abs(taueta) < 1.2 ) sf_fakeMu=0.87;
+	if(abs(taueta) > 1.2 && abs(taueta) < 1.7 ) sf_fakeMu=0.52;
+	if(abs(taueta) > 1.7 && abs(taueta) < 2.3 ) sf_fakeMu=1.47;
+      }
+    if(taudm==1)
+      {
+	if(abs(taueta) > 0.0 && abs(taueta) < 0.4 ) sf_fakeMu=0.69;
+      }
+  }
+
+  TLorentzVector my_eleP4, my_tauP4, my_metP4;
+  my_eleP4.SetPtEtaPhiE(pt_1, eta_1, phi_1 , e_1);
+  my_tauP4.SetPtEtaPhiE(pt_2, eta_2, phi_2 , e_2);
+  my_metP4.SetPtEtaPhiE(met , 0    , metphi, met);
+
+  double higgsPt = pTvecsum_F(my_eleP4, my_tauP4, my_metP4);
+  double higgPt_weight=1.0;
+  if (njets==0)
+    higgPt_weight = gr_NNLOPSratio_pt_mcatnlo_0jet->Eval(min(higgsPt,125.0));
+  else if (njets==1)
+    higgPt_weight = gr_NNLOPSratio_pt_mcatnlo_1jet->Eval(min(higgsPt,625.0));
+  else if (njets==2)
+    higgPt_weight = gr_NNLOPSratio_pt_mcatnlo_2jet->Eval(min(higgsPt,800.0));
+  else if (njets>=3)
+    higgPt_weight = gr_NNLOPSratio_pt_mcatnlo_3jet->Eval(min(higgsPt,925.0));
+  else
+    higgPt_weight = 1.0;
   
   double tauPtCheck=taupt;
   if(taupt > 450 ) tauPtCheck = 450;
@@ -373,22 +402,24 @@ double smhet_2018::getScaleFactors( double elept, double taupt, double eleeta, d
   double t_trg_sf=w->function("t_trg_ic_deeptau_medium_mvadm_etau_ratio")->getVal();
   double t_deepid_tightvsele_sf=w->function("t_deeptauid_mvadm_medium_tightvsele")->getVal();
   double zptmass_weight = 1.0;
-  // if(genZCand.size()>0){
-  //   w->var("z_gen_pt")->setVal(mcPt->at(genZCand[0]));
-  //   w->var("z_gen_mass")->setVal(mcMass->at(genZCand[0]));
-  //   //cout<< "zptmass_weight_nom = "<<w->function("zptmass_weight_nom")->getVal();
-  //   zptmass_weight=w->function("zptmass_weight_nom")->getVal();
-  // }
-  if(  elept<33.0 )
-    e_trg_sf=1.0;
-  if(elept>33.0 && taupt<35.0)
-    e_trg24_sf=1.0;
+  // if(found_DYjet_sample)
+  //   zptmass_weight= get_zptmass_weight();
   
+  // double top_pt_weight=1.0;
+  // if(found_TTbar_sample){
+  //   int t_index = get_t_Cand(); int tbar_index = get_tbar_Cand();
+  //   if( t_index >-1 && tbar_index > -1 ){
+  //     top_pt_weight = sqrt( exponential(mcPt->at(t_index)) * exponential(mcPt->at(tbar_index)) );
+  //     //cout<<"top_pt_weight = "<<top_pt_weight<<endl;
+  //   } 
+  // }
+  
+  
+  if( elept<28.0 ) e_trg_sf=1.0;
   //sf_htt_workspace=sf_htt_workspace * e_trk_sf * e_idiso_sf * e_trg_sf * e_trg24_sf * t_trg_sf * t_deepid_tightvsele_sf;
   sf_htt_workspace=  e_trk_sf * e_idiso_sf *  e_trg24_sf * e_trg_sf;
-
   //  rv_sf = eleRecoSF_corr * eleEffSF_corr * sf_Zvtx * sf_tauidSF_m * sf_tauesSF *  sf_fakeMu * sf_taufesSF *sf_tauTrg* sf_htt_workspace;
-  rv_sf = sf_tauidSF_m * sf_tauTrg * sf_fakeEle* sf_htt_workspace;
+  rv_sf = eleEffSF_corr * sf_tauidSF_m * sf_tauTrg * sf_fakeEle * sf_fakeMu  * sf_htt_workspace * higgPt_weight ;
   if(rv_sf>0)
     return rv_sf;
   else

@@ -50,24 +50,21 @@ bool debugOn=false;
 std::vector<string>  plotList = {  
   "cutflow_n","cutflow_n_fr", "cutflow_n_dyll", "cutflow_n_dyll_fr",
   
-  "elePt_5", "eleEta_5", "elePhi_5", "eleDz_5", "eleD0_5", "electronID_5", "relEleIso_5", "eleCharge_5", "tauPt_5", "tauEta_5", "tauPhi_5", "tauIso_5", "tauDecayMode_5", "tauCharge_5", "tauAntiEle_5", "tauAntiMu_5","deltaR_5", "higgsPt_5", "nJet_5",  "visMass_5", "mT_eleMet_5",  "met_5",  "tot_TMass_5", "trigger_5", "genMatch_5","metPhi_5",
+  "elePt_5", "eleEta_5", "elePhi_5", "eleDz_5", "eleD0_5", "electronID_5", "relEleIso_5", "eleCharge_5", "tauPt_5", "tauEta_5", "tauPhi_5", "tauIso_5", "tauDecayMode_5", "tauCharge_5", "tauAntiEle_5", "tauAntiMu_5","deltaR_5", "higgsPt_5", "nJet_5",  "visMass_5", "mT_eleMet_5",  "met_5",  "tot_TMass_5", "trigger_5", "genMatch_5", "metPhi_5", "deltaPhi_5", "deltaEta_5", "metLongXaxis_5",
 				 
-  "elePt_5_fr", "eleEta_5_fr", "elePhi_5_fr", "eleDz_5_fr", "eleD0_5_fr", "electronID_5_fr", "relEleIso_5_fr", "eleCharge_5_fr", "tauPt_5_fr", "tauEta_5_fr", "tauPhi_5_fr", "tauIso_5_fr", "tauDecayMode_5_fr", "tauCharge_5_fr", "tauAntiEle_5_fr", "tauAntiMu_5_fr", "deltaR_5_fr", "higgsPt_5_fr", "nJet_5_fr", "visMass_5_fr", "mT_eleMet_5_fr", "met_5_fr", "tot_TMass_5_fr", "trigger_5_fr", "genMatch_5_fr", "metPhi_5_fr",
+  "elePt_5_fr", "eleEta_5_fr", "elePhi_5_fr", "eleDz_5_fr", "eleD0_5_fr", "electronID_5_fr", "relEleIso_5_fr", "eleCharge_5_fr", "tauPt_5_fr", "tauEta_5_fr", "tauPhi_5_fr", "tauIso_5_fr", "tauDecayMode_5_fr", "tauCharge_5_fr", "tauAntiEle_5_fr", "tauAntiMu_5_fr", "deltaR_5_fr", "higgsPt_5_fr", "nJet_5_fr", "visMass_5_fr", "mT_eleMet_5_fr", "met_5_fr", "tot_TMass_5_fr", "trigger_5_fr", "genMatch_5_fr", "metPhi_5_fr", "deltaPhi_5_fr", "deltaEta_5_fr","metLongXaxis_5_fr",
 				 
-  "elePt_6", "eleEta_6", "elePhi_6", "eleDz_6", "eleD0_6", "electronID_6", "relEleIso_6", "eleCharge_6", "tauPt_6", "tauEta_6", "tauPhi_6", "tauIso_6", "tauDecayMode_6", "tauCharge_6", "tauAntiEle_6", "tauAntiMu_6","deltaR_6", "higgsPt_6", "nJet_6",  "visMass_6", "mT_eleMet_6",  "met_6",  "tot_TMass_6",  "trigger_6",  "genMatch_6","metPhi_6",
+  "elePt_6", "eleEta_6", "elePhi_6", "eleDz_6", "eleD0_6", "electronID_6", "relEleIso_6", "eleCharge_6", "tauPt_6", "tauEta_6", "tauPhi_6", "tauIso_6", "tauDecayMode_6", "tauCharge_6", "tauAntiEle_6", "tauAntiMu_6","deltaR_6", "higgsPt_6", "nJet_6",  "visMass_6", "mT_eleMet_6",  "met_6",  "tot_TMass_6",  "trigger_6",  "genMatch_6", "metPhi_6", "deltaPhi_6", "deltaEta_6","metLongXaxis_6",
 				 
-  "elePt_6_fr", "eleEta_6_fr", "elePhi_6_fr", "eleDz_6_fr", "eleD0_6_fr", "electronID_6_fr", "relEleIso_6_fr", "eleCharge_6_fr", "tauPt_6_fr", "tauEta_6_fr", "tauPhi_6_fr", "tauIso_6_fr", "tauDecayMode_6_fr", "tauCharge_6_fr", "tauAntiEle_6_fr", "tauAntiMu_6_fr", "deltaR_6_fr", "higgsPt_6_fr", "nJet_6_fr", "visMass_6_fr", "mT_eleMet_6_fr", "met_6_fr", "tot_TMass_6_fr",  "trigger_6_fr", "genMatch_6_fr","metPhi_6_fr",
+  "elePt_6_fr", "eleEta_6_fr", "elePhi_6_fr", "eleDz_6_fr", "eleD0_6_fr", "electronID_6_fr", "relEleIso_6_fr", "eleCharge_6_fr", "tauPt_6_fr", "tauEta_6_fr", "tauPhi_6_fr", "tauIso_6_fr", "tauDecayMode_6_fr", "tauCharge_6_fr", "tauAntiEle_6_fr", "tauAntiMu_6_fr", "deltaR_6_fr", "higgsPt_6_fr", "nJet_6_fr", "visMass_6_fr", "mT_eleMet_6_fr", "met_6_fr", "tot_TMass_6_fr",  "trigger_6_fr", "genMatch_6_fr", "metPhi_6_fr","deltaPhi_6_fr", "deltaEta_6_fr","metLongXaxis_6_fr",
 
-  "elePt_5_dyll", "eleEta_5_dyll", "elePhi_5_dyll", "eleDz_5_dyll", "eleD0_5_dyll", "electronID_5_dyll", "relEleIso_5_dyll", "eleCharge_5_dyll", "tauPt_5_dyll", "tauEta_5_dyll", "tauPhi_5_dyll", "tauIso_5_dyll", "tauDecayMode_5_dyll", "tauCharge_5_dyll", "tauAntiEle_5_dyll", "tauAntiMu_5_dyll","deltaR_5_dyll", "higgsPt_5_dyll", "nJet_5_dyll",  "visMass_5_dyll", "mT_eleMet_5_dyll",  "met_5_dyll",  "tot_TMass_5_dyll", "trigger_5_dyll",  "genMatch_5_dyll","metPhi_5_dyll",
+  "elePt_5_dyll", "eleEta_5_dyll", "elePhi_5_dyll", "eleDz_5_dyll", "eleD0_5_dyll", "electronID_5_dyll", "relEleIso_5_dyll", "eleCharge_5_dyll", "tauPt_5_dyll", "tauEta_5_dyll", "tauPhi_5_dyll", "tauIso_5_dyll", "tauDecayMode_5_dyll", "tauCharge_5_dyll", "tauAntiEle_5_dyll", "tauAntiMu_5_dyll","deltaR_5_dyll", "higgsPt_5_dyll", "nJet_5_dyll",  "visMass_5_dyll", "mT_eleMet_5_dyll",  "met_5_dyll",  "tot_TMass_5_dyll", "trigger_5_dyll",  "genMatch_5_dyll",  "metPhi_5_dyll","deltaPhi_5_dyll", "deltaEta_5_dyll","metLongXaxis_5_dyll",
 				 
-  				 
-  "elePt_6_dyll", "eleEta_6_dyll", "elePhi_6_dyll", "eleDz_6_dyll", "eleD0_6_dyll", "electronID_6_dyll", "relEleIso_6_dyll", "eleCharge_6_dyll", "tauPt_6_dyll", "tauEta_6_dyll", "tauPhi_6_dyll", "tauIso_6_dyll", "tauDecayMode_6_dyll", "tauCharge_6_dyll", "tauAntiEle_6_dyll", "tauAntiMu_6_dyll","deltaR_6_dyll", "higgsPt_6_dyll", "nJet_6_dyll",  "visMass_6_dyll", "mT_eleMet_6_dyll",  "met_6_dyll",  "tot_TMass_6_dyll",  "trigger_6_dyll", "genMatch_6_dyll","metPhi_6_dyll",
+  "elePt_6_dyll", "eleEta_6_dyll", "elePhi_6_dyll", "eleDz_6_dyll", "eleD0_6_dyll", "electronID_6_dyll", "relEleIso_6_dyll", "eleCharge_6_dyll", "tauPt_6_dyll", "tauEta_6_dyll", "tauPhi_6_dyll", "tauIso_6_dyll", "tauDecayMode_6_dyll", "tauCharge_6_dyll", "tauAntiEle_6_dyll", "tauAntiMu_6_dyll","deltaR_6_dyll", "higgsPt_6_dyll", "nJet_6_dyll",  "visMass_6_dyll", "mT_eleMet_6_dyll",  "met_6_dyll",  "tot_TMass_6_dyll",  "trigger_6_dyll", "genMatch_6_dyll","metPhi_6_dyll","deltaPhi_6_dyll", "deltaEta_6_dyll","metLongXaxis_6_dyll",
 				 
-  
   "elePt_a", "elePt_b", "elePt_c", "elePt_d", "elePt_e", "elePt_f","elePt_g", "elePt_h", "elePt_i",  "elePt_j",
   "elePt_a_fr", "elePt_b_fr", "elePt_c_fr", "elePt_d_fr", "elePt_e_fr", "elePt_f_fr","elePt_g_fr", "elePt_h_fr", "elePt_i_fr",  "elePt_j_fr",
   "elePt_a_dyll", "elePt_b_dyll", "elePt_c_dyll", "elePt_d_dyll", "elePt_e_dyll", "elePt_f_dyll","elePt_g_dyll", "elePt_h_dyll", "elePt_i_dyll",  "elePt_j_dyll",
-
 }; 
 
 void make_hist(string input_file, string output_file, string histSaveName, string histname_string, string sample_name, TString directory_name ,  Double_t weight_lumi , bool isNLO)
@@ -259,7 +256,7 @@ int main(int argc, char** argv)
     cout<<"Attention!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"<<endl;
     return 0;
   }
-  
+  cout<<sample.c_str()<<"  "<<weight<<endl;
   cout.setf(ios::fixed, ios::floatfield);
   cout.precision(10);
   
@@ -270,11 +267,31 @@ int main(int argc, char** argv)
   f_output = new TFile(output_ , "RECREATE");
   std::vector<string> histnames;       histnames.clear();
   std::vector<TString> dirNames;      dirNames.clear();
-  for(int i = 0; i < plotList.size(); i++){
-    histnames.push_back(plotList[i]); //
-    dirNames.push_back(plotList[i]);
-    //TDirectory *dir_update = f_output->mkdir(plotList[i]);
+  // for(int i = 0; i < plotList.size(); i++){
+  //   histnames.push_back(plotList[i]); //
+  //   dirNames.push_back(plotList[i]);
+  //   //TDirectory *dir_update = f_output->mkdir(plotList[i]);
+  // }
+  TList* list = f_Double->GetListOfKeys() ;
+  if (!list) { printf("<E> No keys found in file\n") ; exit(1) ; }
+  TIter next(list) ;
+  TKey* key ;
+  TObject* obj ;
+  
+  while ( key = (TKey*)next() ) {
+    obj = key->ReadObj() ;
+    if (    (strcmp(obj->IsA()->GetName(),"TProfile")!=0)
+	    && (!obj->InheritsFrom("TH2"))
+	    && (!obj->InheritsFrom("TH1")) 
+	    ) {
+      printf("<W> Object %s is not 1D or 2D histogram : "
+             "will not be converted\n",obj->GetName()) ;
+    }
+    //printf("Histo name:%s title:%s\n",obj->GetName(),obj->GetTitle());
+    histnames.push_back(obj->GetName());
+    dirNames.push_back(obj->GetName());
   }
+
   if(debugOn==true)cout<<"This works too P2" << endl;
   f_output->Close();
   f_Double->Close();
