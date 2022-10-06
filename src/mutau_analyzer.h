@@ -1250,6 +1250,7 @@ mutau_analyzer::mutau_analyzer(const char *file1, const char *file2, string isMC
   fileName = new TFile(file2, "RECREATE");
   fileName->cd();
   //h_nEvents = (TH1F *)((TH1F *)file_in->Get("nEvents"))->Clone(TString("nEvents"));
+  delete fChain->GetCurrentFile();
   file_in->Close();
 
   // inspected_events->Write();
@@ -1267,6 +1268,9 @@ mutau_analyzer::~mutau_analyzer()
   fileName->Close();
   // f_tauFR->Close();
   // f_kfactors->Close();
+
+  delete tree;
+  delete btag_csv;
   f_pileup->Close();
   f_muIDSF->Close();
   f_muIsoSF->Close();

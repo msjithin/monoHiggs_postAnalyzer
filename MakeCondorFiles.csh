@@ -11,6 +11,8 @@ cd $CMSSW_RELEASE_BASE
 eval `scramv1 runtime -sh`
 cd \${_CONDOR_SCRATCH_DIR}
 
+start_time=\$(date +%s)
+
 xrdfs cmsxrootd.hep.wisc.edu ls ${2} >> filelist
 
 count=0
@@ -18,17 +20,27 @@ while IFS= read -r line
 do
   echo \$line
   count=\$((count+1))
-  ./${1} root://cmsxrootd.hep.wisc.edu:1094/\$line ${8}_\${count}.root ${4} ${5} ${6} ${7} ${8}
+  ./${1} root://cmsxrootd.hep.wisc.edu:1094/\$line ${8}_\${count}.root ${4} ${5} ${6} ${7} ${8} &
 
   #xrdcp ${8}_\${count}.root root://cmsxrootd.hep.wisc.edu:1094//store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/tautau/${8}/
   #rm ${8}_\${count}.root 
+  if (( \$count % 5 == 0 ))
+  then
+    sleep 30
+  fi
 
 done < "filelist"
 
-hadd ${8}.root ${8}_*.root
-rm  ${8}_*.root
+# sleep 60
+
+# hadd ${8}.root ${8}_*.root
+# rm  ${8}_*.root
 rm filelist
 
+end_time=\$(date +%s)
+
+duration=\$((\$end_time-\$start_time))
+echo "Total time \$((\$duration / 3600)) hours , \$((\$duration / 60)) minutes and \$((\$duration % 60)) seconds elapsed."
 
 EOF
 
@@ -44,8 +56,8 @@ Requirements = ( OpSysAndVer == "CENTOS7" && TARGET.Arch == "X86_64" && (MY.Requ
 on_exit_remove       = (ExitBySignal == FALSE && (ExitCode == 0 || ExitCode == 42 || NumJobStarts>3))
 +IsFastQueueJob      = True
 getenv               = True
-request_memory       = 4G
-request_disk         = 5G
+request_memory       = 10G
+request_disk         = 10G
 
 #OutputDestination = ${outdir}
 #Initialdir = Out_${8}         
