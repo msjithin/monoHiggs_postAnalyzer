@@ -1,0 +1,41 @@
+MET recoil corrections
+
+----- How to set up the MET Recoil Correction Interface ------
+
+> cd ${CMSSW_BASE}/src
+> cmsenv
+> git clone https://github.com/CMS-HTT/RecoilCorrections.git HTT-utilities/RecoilCorrections 
+> scram b 
+
+---- How to use the code ------------
+
+// add the header file to your source file
+#include "HTT-utilities/RecoilCorrections/interface/RecoilCorrector.h"
+
+...
+
+// create instances of class RecoilCorrection and
+// load recoil resolution functions before looping over events
+// the path to files is defined relative to #CMSSW_BASE/src directory
+
+// use this RooT file when correcting Type I PF MET
+// RecoilCorrector recoilPFMetCorrector("HTT-utilities/RecoilCorrections/data/TypeI-PFMet_Run2016_legacy.root"); // Type I PF MET 2016 (legacy)
+// RecoilCorrector recoilPFMetCorrector("HTT-utilities/RecoilCorrections/data/Type1_PFMET_2017.root"); // Type I PF MET 2017 (ReReco)
+RecoilCorrector recoilPFMetCorrector("HTT-utilities/RecoilCorrections/data/TypeI-PFMet_Run2018.root"); // Type I PF MET 2018 (ReReco)
+
+
+...
+
+// apply recoil corrections on event-by-event basis (Type I PF MET)
+recoilPFMetCorrector.CorrectByMeanResolution(
+    pfmet_ex, // uncorrected type I pf met px (float)
+    pfmet_ey, // uncorrected type I pf met py (float)
+    genPx, // generator Z/W/Higgs px (float)
+    genPy, // generator Z/W/Higgs py (float)
+    visPx, // generator visible Z/W/Higgs px (float)
+    visPy, // generator visible Z/W/Higgs py (float)
+    njets,  // number of jets (hadronic jet multiplicity) (int)
+    pfmetcorr_ex, // corrected type I pf met px (float)
+    pfmetcorr_ey  // corrected type I pf met py (float)
+);
+

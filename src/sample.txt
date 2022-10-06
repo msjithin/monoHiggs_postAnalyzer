@@ -1,0 +1,5 @@
+
+
+  string jetFakesUnc[15] = {"rawFF_mt_qcd_unc1_2017", "rawFF_mt_qcd_unc2_2017", "rawFF_mt_tt_unc1_2017", "rawFF_mt_tt_unc2_2017", "rawFF_mt_w_unc1_2017", "rawFF_mt_w_unc2_2017", "FF_closure_OSSS_mvis_mt_qcd_2017", "FF_closure_lpt_mt_qcd", "FF_closure_lpt_mt_tt", "FF_closure_lpt_mt_w", "FF_closure_lpt_xtrg_mt_qcd_2017", "FF_closure_lpt_xtrg_mt_tt_2017", "FF_closure_lpt_xtrg_mt_w_2017", "FF_closure_mt_mt_w_unc1_2017", "FF_closure_mt_mt_w_unc2_2017"};
+
+  string uncs[2] = {"up", "down"};

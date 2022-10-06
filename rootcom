@@ -1,0 +1,2 @@
+g++ -Wno-deprecated src/${1}.C -o ${2} -I$ROOTSYS/include -L$ROOTSYS/lib `root-config --cflags --glibs` `root-config --libs` -lFoam -lMathMore -lRooFit -lRooFitCore
+rm -f ${1}.o
