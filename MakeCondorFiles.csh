@@ -25,8 +25,8 @@ do
 
 done < "filelist"
 
-hadd ${8}.root ${8}_.root
-rm  ${8}_.root
+hadd ${8}.root ${8}_*.root
+rm  ${8}_*.root
 rm filelist
 
 
