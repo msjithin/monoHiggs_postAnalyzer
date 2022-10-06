@@ -12,10 +12,14 @@ mkdir $outDir
 """)
 
 for line in inputFile:
+    line = line.strip()
     line = line.replace( "/hdfs/store/","./MakeCondorFiles.csh analyze_mutau /store/")
     sample_name = line.split('/')[-1]
     print sample_name
-    line = line + ' ' + sample_name + ' MC ' +
+    if 'SingleMuon' in line:
+      line = line + ' ' + sample_name + ' -1 1000 2017 DATA ' + sample_name + ' $outDir \n'
+    else:
+      line = line + ' ' + sample_name + ' -1 1000 2017 MC ' + sample_name + ' $outDir \n'
     outFile.write(line)
 
 inputFile.close()

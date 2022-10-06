@@ -20,11 +20,13 @@ do
   count=\$((count+1))
   ./${1} root://cmsxrootd.hep.wisc.edu:1094/\$line ${8}_\${count}.root ${4} ${5} ${6} ${7} ${8}
 
-  xrdcp ${8}_\${count}.root root://cmsxrootd.hep.wisc.edu:1094//store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/tautau/${8}/
-  
-  rm ${8}_\${count}.root 
+  #xrdcp ${8}_\${count}.root root://cmsxrootd.hep.wisc.edu:1094//store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/tautau/${8}/
+  #rm ${8}_\${count}.root 
+
 done < "filelist"
 
+hadd ${8}.root ${8}_.root
+rm  ${8}_.root
 rm filelist
 
 
