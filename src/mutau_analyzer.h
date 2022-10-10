@@ -1249,7 +1249,7 @@ mutau_analyzer::mutau_analyzer(const char *file1, const char *file2, string isMC
   //////// create and open output file
   fileName = new TFile(file2, "RECREATE");
   fileName->cd();
-  //h_nEvents = (TH1F *)((TH1F *)file_in->Get("nEvents"))->Clone(TString("nEvents"));
+  h_nEvents = (TH1F *)((TH1F *)file_in->Get("nEvents"))->Clone(TString("nEvents"));
   delete fChain->GetCurrentFile();
   file_in->Close();
 
