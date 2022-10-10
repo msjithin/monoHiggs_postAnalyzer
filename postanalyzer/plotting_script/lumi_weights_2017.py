@@ -795,6 +795,8 @@ def get_lumiweight(sampleName="", ngen=1, isBlinded=False):
         sample = sampleListDict[sampleName+'_stitch'][0]
         saveName = sampleListDict[sampleName+'_stitch'][1]
         weight = xsex_mapping[sample]/blinding_ratio
+    elif sampleName not in sampleListDict:
+        return 1.0 , sampleName
     else:
         sample = sampleListDict[sampleName][0]
         saveName = sampleListDict[sampleName][1]
@@ -813,7 +815,7 @@ def get_lumiweight(sampleName="", ngen=1, isBlinded=False):
     if '2HDMa' in sampleName or 'Zpbaryonic' in sampleName:
        weight = weight * 0.06
 
-    print "\n for "+sampleName+"\nchecking sample "+sample+ "  weight = "+str(weight)
+    print ("\n for "+sampleName+"\nchecking sample "+sample+ "  weight = "+str(weight))
 
     return weight , saveName
 
