@@ -557,13 +557,13 @@ bool mutau_analyzer::mVetoZTTp001dxyz(int muIndex, int tauIndex)
   else
     return true;
 }
-int mutau_analyzer::myGenMaching(int tauIndex)
+int mutau_analyzer::myGenMaching(double recotau_eta, double recotau_phi)
 {
   if (is_MC == false)
     return 0;
 
-  double recotau_eta = tau_Eta->at(tauIndex);
-  double recotau_phi = tau_Phi->at(tauIndex);
+  // double recotau_eta = tau_Eta->at(tauIndex);
+  // double recotau_phi = tau_Phi->at(tauIndex);
   double closestEle = 999;
   double closestMu = 999;
   double closestETau = 999;

@@ -1161,7 +1161,7 @@ public:
   int get_t_Cand();
   int get_tbar_Cand();
   // virtual int gen_matching();
-  int myGenMaching(int tauIndex);
+  int myGenMaching(double recotau_eta, double recotau_phi);
   int myGenMaching1(int muIndex);
   // bool found_GenMatch(int genTau);
   bool thirdLeptonVeto();
@@ -2324,7 +2324,7 @@ void mutau_analyzer::setMyEleTau(int muIndex, int tauIndex, TLorentzVector event
     jetCand.clear();
     jetCand = getJetCand();
     my_njets = jetCand.size();
-    
+    my_genmatching_l2 = myGenMaching(my_tauP4.Eta(), my_tauP4.Phi());
     pass_bjet_veto = ((bJet_medium().size() == 0) && (bJet_loose().size() < 2));
 
     deltaR    = my_muP4.DeltaR(my_tauP4);
