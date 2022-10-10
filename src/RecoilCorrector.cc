@@ -72,9 +72,12 @@ RecoilCorrector::RecoilCorrector() {
   _epsabs = 5e-4;
   _range = 0.95;
 
+  delete file;
 }
 
 RecoilCorrector::~RecoilCorrector() {
+
+  // delete file;
 
 }
 

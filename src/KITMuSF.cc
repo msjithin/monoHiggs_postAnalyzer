@@ -53,6 +53,7 @@ void KITMuSF::init_ScaleFactors(string fileName){
     std::cout << "file " << fileName << " is not found...   quitting " << std::endl;
     exit(-1);
   }
+  delete file;
   fileIn = TFile::Open(fileName.c_str());
   etaBinsH=(TH1*) fileIn->Get("etaBinsH");
   etaBinsH->SetDirectory(0);

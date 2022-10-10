@@ -1280,6 +1280,23 @@ mutau_analyzer::~mutau_analyzer()
   f_tauFakeMuSF->Close();
   f_tauFakeEleSF->Close();
   f_taufesSF->Close();
+  f_tauesSF_highpt->Close();
+  f_HiggsPtReweighting->Close();
+
+  delete f_tauesSF;
+  delete f_tauesSF_highpt;
+  delete f_tauFakeMuSF;
+  delete f_tauFakeEleSF;
+  delete f_pileup;
+  delete f_muTrgSF;
+  delete f_tauidSF;
+  delete f_HiggsPtReweighting;
+  delete f_taufesSF;
+  delete f_tauTrgSf;
+  delete f_muIDSF;
+  delete f_muIsoSF;
+  delete fw;
+
 }
 
 Int_t mutau_analyzer::GetEntry(Long64_t entry)

@@ -82,7 +82,12 @@ class MEtSys {
     }
   }
 
-  ~MEtSys(){};
+  ~MEtSys(){
+
+    // delete file;
+    
+
+  };
 
   void ApplyMEtSys(float metPx,
 		   float metPy,

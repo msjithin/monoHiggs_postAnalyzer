@@ -1,102 +1,353 @@
 
 ./rootcom mutau_analyzer analyze_mutau
-outDir="Out_MC_$(date +"%d-%m-%Y_%H-%M")" 
+outDir="Out_$(date +"%d-%m-%Y_%H-%M")" 
 mkdir $outDir 
 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DY1JetsToLL_M-50_TuneCP5_00 DY1JetsToLL_M-50_TuneCP5_00 -1 1000 2017 MC DY1JetsToLL_M-50_TuneCP5_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DY1JetsToLL_M-50_TuneCP5_01 DY1JetsToLL_M-50_TuneCP5_01 -1 1000 2017 MC DY1JetsToLL_M-50_TuneCP5_01 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DY1JetsToLL_M-50_TuneCP5_02 DY1JetsToLL_M-50_TuneCP5_02 -1 1000 2017 MC DY1JetsToLL_M-50_TuneCP5_02 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DY1JetsToLL_M-50_TuneCP5_03 DY1JetsToLL_M-50_TuneCP5_03 -1 1000 2017 MC DY1JetsToLL_M-50_TuneCP5_03 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DY1JetsToLL_M-50_TuneCP5_04 DY1JetsToLL_M-50_TuneCP5_04 -1 1000 2017 MC DY1JetsToLL_M-50_TuneCP5_04 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DY1JetsToLL_M-50_TuneCP5_05 DY1JetsToLL_M-50_TuneCP5_05 -1 1000 2017 MC DY1JetsToLL_M-50_TuneCP5_05 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DY2JetsToLL_M-50_TuneCP5_00 DY2JetsToLL_M-50_TuneCP5_00 -1 1000 2017 MC DY2JetsToLL_M-50_TuneCP5_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DY3JetsToLL_M-50_TuneCP5_ext1_00 DY3JetsToLL_M-50_TuneCP5_ext1_00 -1 1000 2017 MC DY3JetsToLL_M-50_TuneCP5_ext1_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DY3JetsToLL_M-50_TuneCP5_v1_00 DY3JetsToLL_M-50_TuneCP5_v1_00 -1 1000 2017 MC DY3JetsToLL_M-50_TuneCP5_v1_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DY4JetsToLL_M-50_TuneCP5_00 DY4JetsToLL_M-50_TuneCP5_00 -1 1000 2017 MC DY4JetsToLL_M-50_TuneCP5_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DYJetsToLL_M-10to50_TuneCP5_00 DYJetsToLL_M-10to50_TuneCP5_00 -1 1000 2017 MC DYJetsToLL_M-10to50_TuneCP5_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DYJetsToLL_M-50_TuneCP5_ext1_v1_00 DYJetsToLL_M-50_TuneCP5_ext1_v1_00 -1 1000 2017 MC DYJetsToLL_M-50_TuneCP5_ext1_v1_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DYJetsToLL_M-50_TuneCP5_ext1_v1_01 DYJetsToLL_M-50_TuneCP5_ext1_v1_01 -1 1000 2017 MC DYJetsToLL_M-50_TuneCP5_ext1_v1_01 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DYJetsToLL_M-50_TuneCP5_ext1_v1_02 DYJetsToLL_M-50_TuneCP5_ext1_v1_02 -1 1000 2017 MC DYJetsToLL_M-50_TuneCP5_ext1_v1_02 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DYJetsToLL_M-50_TuneCP5_ext1_v1_03 DYJetsToLL_M-50_TuneCP5_ext1_v1_03 -1 1000 2017 MC DYJetsToLL_M-50_TuneCP5_ext1_v1_03 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DYJetsToLL_M-50_TuneCP5_ext1_v1_04 DYJetsToLL_M-50_TuneCP5_ext1_v1_04 -1 1000 2017 MC DYJetsToLL_M-50_TuneCP5_ext1_v1_04 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DYJetsToLL_M-50_TuneCP5_ext1_v1_05 DYJetsToLL_M-50_TuneCP5_ext1_v1_05 -1 1000 2017 MC DYJetsToLL_M-50_TuneCP5_ext1_v1_05 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DYJetsToLL_M-50_TuneCP5_ext1_v1_06 DYJetsToLL_M-50_TuneCP5_ext1_v1_06 -1 1000 2017 MC DYJetsToLL_M-50_TuneCP5_ext1_v1_06 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DYJetsToLL_M-50_TuneCP5_ext1_v1_07 DYJetsToLL_M-50_TuneCP5_ext1_v1_07 -1 1000 2017 MC DYJetsToLL_M-50_TuneCP5_ext1_v1_07 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DYJetsToLL_M-50_TuneCP5_ext1_v1_08 DYJetsToLL_M-50_TuneCP5_ext1_v1_08 -1 1000 2017 MC DYJetsToLL_M-50_TuneCP5_ext1_v1_08 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DYJetsToLL_M-50_TuneCP5_ext1_v1_09 DYJetsToLL_M-50_TuneCP5_ext1_v1_09 -1 1000 2017 MC DYJetsToLL_M-50_TuneCP5_ext1_v1_09 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DYJetsToLL_M-50_TuneCP5_v1_00 DYJetsToLL_M-50_TuneCP5_v1_00 -1 1000 2017 MC DYJetsToLL_M-50_TuneCP5_v1_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DYJetsToLL_M-50_TuneCP5_v1_01 DYJetsToLL_M-50_TuneCP5_v1_01 -1 1000 2017 MC DYJetsToLL_M-50_TuneCP5_v1_01 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DYJetsToLL_M-50_TuneCP5_v1_02 DYJetsToLL_M-50_TuneCP5_v1_02 -1 1000 2017 MC DYJetsToLL_M-50_TuneCP5_v1_02 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DYJetsToLL_M-50_TuneCP5_v1_03 DYJetsToLL_M-50_TuneCP5_v1_03 -1 1000 2017 MC DYJetsToLL_M-50_TuneCP5_v1_03 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DYJetsToLL_M-50_TuneCP5_v1_04 DYJetsToLL_M-50_TuneCP5_v1_04 -1 1000 2017 MC DYJetsToLL_M-50_TuneCP5_v1_04 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DYJetsToLL_M-50_TuneCP5_v1_05 DYJetsToLL_M-50_TuneCP5_v1_05 -1 1000 2017 MC DYJetsToLL_M-50_TuneCP5_v1_05 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DYJetsToLL_M-50_TuneCP5_v1_06 DYJetsToLL_M-50_TuneCP5_v1_06 -1 1000 2017 MC DYJetsToLL_M-50_TuneCP5_v1_06 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DYJetsToLL_M-50_TuneCP5_v1_07 DYJetsToLL_M-50_TuneCP5_v1_07 -1 1000 2017 MC DYJetsToLL_M-50_TuneCP5_v1_07 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DYJetsToLL_M-50_TuneCP5_v1_08 DYJetsToLL_M-50_TuneCP5_v1_08 -1 1000 2017 MC DYJetsToLL_M-50_TuneCP5_v1_08 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DYJetsToLL_M-50_TuneCP5_v1_09 DYJetsToLL_M-50_TuneCP5_v1_09 -1 1000 2017 MC DYJetsToLL_M-50_TuneCP5_v1_09 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DYJetsToLL_Pt-100To250_00 DYJetsToLL_Pt-100To250_00 -1 1000 2017 MC DYJetsToLL_Pt-100To250_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DYJetsToLL_Pt-100To250_01 DYJetsToLL_Pt-100To250_01 -1 1000 2017 MC DYJetsToLL_Pt-100To250_01 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DYJetsToLL_Pt-250To400_00 DYJetsToLL_Pt-250To400_00 -1 1000 2017 MC DYJetsToLL_Pt-250To400_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DYJetsToLL_Pt-400To650_00 DYJetsToLL_Pt-400To650_00 -1 1000 2017 MC DYJetsToLL_Pt-400To650_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DYJetsToLL_Pt-50To100_00 DYJetsToLL_Pt-50To100_00 -1 1000 2017 MC DYJetsToLL_Pt-50To100_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DYJetsToLL_Pt-50To100_01 DYJetsToLL_Pt-50To100_01 -1 1000 2017 MC DYJetsToLL_Pt-50To100_01 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DYJetsToLL_Pt-50To100_02 DYJetsToLL_Pt-50To100_02 -1 1000 2017 MC DYJetsToLL_Pt-50To100_02 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/DYJetsToLL_Pt-650ToInf_00 DYJetsToLL_Pt-650ToInf_00 -1 1000 2017 MC DYJetsToLL_Pt-650ToInf_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/EWKWMinus2Jets_WToLNu_M-50_TuneCP5_00 EWKWMinus2Jets_WToLNu_M-50_TuneCP5_00 -1 1000 2017 MC EWKWMinus2Jets_WToLNu_M-50_TuneCP5_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/EWKWPlus2Jets_WToLNu_M-50_TuneCP5_00 EWKWPlus2Jets_WToLNu_M-50_TuneCP5_00 -1 1000 2017 MC EWKWPlus2Jets_WToLNu_M-50_TuneCP5_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/EWKZ2Jets_ZToLL_M-50_TuneCP5_00 EWKZ2Jets_ZToLL_M-50_TuneCP5_00 -1 1000 2017 MC EWKZ2Jets_ZToLL_M-50_TuneCP5_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/EWKZ2Jets_ZToNuNu_TuneCP5_00 EWKZ2Jets_ZToNuNu_TuneCP5_00 -1 1000 2017 MC EWKZ2Jets_ZToNuNu_TuneCP5_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/GluGluHToTauTau_M125_00 GluGluHToTauTau_M125_00 -1 1000 2017 MC GluGluHToTauTau_M125_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/GluGluHToWWTo2L2Nu_M125_00 GluGluHToWWTo2L2Nu_M125_00 -1 1000 2017 MC GluGluHToWWTo2L2Nu_M125_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_00 ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_00 -1 1000 2017 MC ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/ST_t-channel_top_4f_inclusiveDecays_TuneCP5_00 ST_t-channel_top_4f_inclusiveDecays_TuneCP5_00 -1 1000 2017 MC ST_t-channel_top_4f_inclusiveDecays_TuneCP5_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_00 ST_tW_antitop_5f_inclusiveDecays_TuneCP5_00 -1 1000 2017 MC ST_tW_antitop_5f_inclusiveDecays_TuneCP5_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/ST_tW_top_5f_inclusiveDecays_TuneCP5_00 ST_tW_top_5f_inclusiveDecays_TuneCP5_00 -1 1000 2017 MC ST_tW_top_5f_inclusiveDecays_TuneCP5_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/SingleMuon_EraB_00 SingleMuon_EraB_00 -1 1000 2017 DATA SingleMuon_EraB_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/SingleMuon_EraB_01 SingleMuon_EraB_01 -1 1000 2017 DATA SingleMuon_EraB_01 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/SingleMuon_EraC_00 SingleMuon_EraC_00 -1 1000 2017 DATA SingleMuon_EraC_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/SingleMuon_EraC_01 SingleMuon_EraC_01 -1 1000 2017 DATA SingleMuon_EraC_01 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/SingleMuon_EraC_02 SingleMuon_EraC_02 -1 1000 2017 DATA SingleMuon_EraC_02 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/SingleMuon_EraC_03 SingleMuon_EraC_03 -1 1000 2017 DATA SingleMuon_EraC_03 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/SingleMuon_EraD_00 SingleMuon_EraD_00 -1 1000 2017 DATA SingleMuon_EraD_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/SingleMuon_EraD_01 SingleMuon_EraD_01 -1 1000 2017 DATA SingleMuon_EraD_01 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/SingleMuon_EraE_00 SingleMuon_EraE_00 -1 1000 2017 DATA SingleMuon_EraE_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/SingleMuon_EraE_01 SingleMuon_EraE_01 -1 1000 2017 DATA SingleMuon_EraE_01 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/SingleMuon_EraE_02 SingleMuon_EraE_02 -1 1000 2017 DATA SingleMuon_EraE_02 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/SingleMuon_EraF_00 SingleMuon_EraF_00 -1 1000 2017 DATA SingleMuon_EraF_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/SingleMuon_EraF_01 SingleMuon_EraF_01 -1 1000 2017 DATA SingleMuon_EraF_01 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/SingleMuon_EraF_02 SingleMuon_EraF_02 -1 1000 2017 DATA SingleMuon_EraF_02 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/SingleMuon_EraF_03 SingleMuon_EraF_03 -1 1000 2017 DATA SingleMuon_EraF_03 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/TTTo2L2Nu_TuneCP5_00 TTTo2L2Nu_TuneCP5_00 -1 1000 2017 MC TTTo2L2Nu_TuneCP5_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/TTToHadronic_TuneCP5_00 TTToHadronic_TuneCP5_00 -1 1000 2017 MC TTToHadronic_TuneCP5_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/TTToSemiLeptonic_TuneCP5_00 TTToSemiLeptonic_TuneCP5_00 -1 1000 2017 MC TTToSemiLeptonic_TuneCP5_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/VBFHToTauTau_M125_00 VBFHToTauTau_M125_00 -1 1000 2017 MC VBFHToTauTau_M125_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/VBFHToWWTo2L2Nu_M125_00 VBFHToWWTo2L2Nu_M125_00 -1 1000 2017 MC VBFHToWWTo2L2Nu_M125_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/VVTo2L2Nu_00 VVTo2L2Nu_00 -1 1000 2017 MC VVTo2L2Nu_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/W1JetsToLNu_TuneCP5_00 W1JetsToLNu_TuneCP5_00 -1 1000 2017 MC W1JetsToLNu_TuneCP5_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/W2JetsToLNu_TuneCP5_00 W2JetsToLNu_TuneCP5_00 -1 1000 2017 MC W2JetsToLNu_TuneCP5_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/W3JetsToLNu_TuneCP5_00 W3JetsToLNu_TuneCP5_00 -1 1000 2017 MC W3JetsToLNu_TuneCP5_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/W4JetsToLNu_TuneCP5_00 W4JetsToLNu_TuneCP5_00 -1 1000 2017 MC W4JetsToLNu_TuneCP5_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/WJetsToLNu_TuneCP5_00 WJetsToLNu_TuneCP5_00 -1 1000 2017 MC WJetsToLNu_TuneCP5_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/WWTo1L1Nu2Q_00 WWTo1L1Nu2Q_00 -1 1000 2017 MC WWTo1L1Nu2Q_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/WWToLNuQQ_NNPDF31_TuneCP5_00 WWToLNuQQ_NNPDF31_TuneCP5_00 -1 1000 2017 MC WWToLNuQQ_NNPDF31_TuneCP5_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/WWW_4F_TuneCP5_00 WWW_4F_TuneCP5_00 -1 1000 2017 MC WWW_4F_TuneCP5_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/WWZ_4F_TuneCP5_00 WWZ_4F_TuneCP5_00 -1 1000 2017 MC WWZ_4F_TuneCP5_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/WW_TuneCP5_00 WW_TuneCP5_00 -1 1000 2017 MC WW_TuneCP5_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/WZTo3LNu_TuneCP5_00 WZTo3LNu_TuneCP5_00 -1 1000 2017 MC WZTo3LNu_TuneCP5_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/WZZ_TuneCP5_00 WZZ_TuneCP5_00 -1 1000 2017 MC WZZ_TuneCP5_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/WZ_TuneCP5_00 WZ_TuneCP5_00 -1 1000 2017 MC WZ_TuneCP5_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/WminusHToTauTau_M125_00 WminusHToTauTau_M125_00 -1 1000 2017 MC WminusHToTauTau_M125_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/WplusHToTauTau_M125_00 WplusHToTauTau_M125_00 -1 1000 2017 MC WplusHToTauTau_M125_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/ZHToTauTau_M125_00 ZHToTauTau_M125_00 -1 1000 2017 MC ZHToTauTau_M125_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/ZJetsToNuNu_HT-100To200_00 ZJetsToNuNu_HT-100To200_00 -1 1000 2017 MC ZJetsToNuNu_HT-100To200_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/ZJetsToNuNu_HT-1200To2500_00 ZJetsToNuNu_HT-1200To2500_00 -1 1000 2017 MC ZJetsToNuNu_HT-1200To2500_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/ZJetsToNuNu_HT-200To400_00 ZJetsToNuNu_HT-200To400_00 -1 1000 2017 MC ZJetsToNuNu_HT-200To400_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/ZJetsToNuNu_HT-2500ToInf_00 ZJetsToNuNu_HT-2500ToInf_00 -1 1000 2017 MC ZJetsToNuNu_HT-2500ToInf_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/ZJetsToNuNu_HT-400To600_00 ZJetsToNuNu_HT-400To600_00 -1 1000 2017 MC ZJetsToNuNu_HT-400To600_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/ZJetsToNuNu_HT-600To800_00 ZJetsToNuNu_HT-600To800_00 -1 1000 2017 MC ZJetsToNuNu_HT-600To800_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/ZJetsToNuNu_HT-800To1200_00 ZJetsToNuNu_HT-800To1200_00 -1 1000 2017 MC ZJetsToNuNu_HT-800To1200_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/ZZTo2L2Q_00 ZZTo2L2Q_00 -1 1000 2017 MC ZZTo2L2Q_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/ZZTo4L_TuneCP5_00 ZZTo4L_TuneCP5_00 -1 1000 2017 MC ZZTo4L_TuneCP5_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/ZZZ_TuneCP5_00 ZZZ_TuneCP5_00 -1 1000 2017 MC ZZZ_TuneCP5_00 $outDir 
-./MakeCondorFiles.csh analyze_mutau /store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/mutau/ZZ_TuneCP5_00 ZZ_TuneCP5_00 -1 1000 2017 MC ZZ_TuneCP5_00 $outDir 
+./MakeCondorFiles.csh analyze_mutau DY1JetsToLL_M-50_TuneCP5_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DY1JetsToLL_M-50_TuneCP5_01_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DY1JetsToLL_M-50_TuneCP5_01_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DY1JetsToLL_M-50_TuneCP5_02_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DY1JetsToLL_M-50_TuneCP5_02_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DY1JetsToLL_M-50_TuneCP5_03_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DY1JetsToLL_M-50_TuneCP5_03_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DY1JetsToLL_M-50_TuneCP5_04_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DY1JetsToLL_M-50_TuneCP5_04_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DY1JetsToLL_M-50_TuneCP5_05_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DY2JetsToLL_M-50_TuneCP5_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DY2JetsToLL_M-50_TuneCP5_00_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DY3JetsToLL_M-50_TuneCP5_ext1_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DY3JetsToLL_M-50_TuneCP5_v1_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DY4JetsToLL_M-50_TuneCP5_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-10to50_TuneCP5_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-10to50_TuneCP5_00_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-10to50_TuneCP5_00_02 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-10to50_TuneCP5_00_03 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-10to50_TuneCP5_00_04 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-50_TuneCP5_ext1_v1_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-50_TuneCP5_ext1_v1_01_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-50_TuneCP5_ext1_v1_02_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-50_TuneCP5_ext1_v1_02_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-50_TuneCP5_ext1_v1_03_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-50_TuneCP5_ext1_v1_03_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-50_TuneCP5_ext1_v1_04_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-50_TuneCP5_ext1_v1_04_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-50_TuneCP5_ext1_v1_05_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-50_TuneCP5_ext1_v1_05_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-50_TuneCP5_ext1_v1_06_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-50_TuneCP5_ext1_v1_07_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-50_TuneCP5_ext1_v1_08_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-50_TuneCP5_ext1_v1_09_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-50_TuneCP5_v1_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-50_TuneCP5_v1_01_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-50_TuneCP5_v1_02_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-50_TuneCP5_v1_02_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-50_TuneCP5_v1_03_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-50_TuneCP5_v1_03_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-50_TuneCP5_v1_04_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-50_TuneCP5_v1_04_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-50_TuneCP5_v1_05_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-50_TuneCP5_v1_06_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-50_TuneCP5_v1_07_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-50_TuneCP5_v1_08_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_M-50_TuneCP5_v1_09_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-100To250_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-100To250_00_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-100To250_00_010 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-100To250_00_02 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-100To250_00_03 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-100To250_00_04 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-100To250_00_05 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-100To250_00_06 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-100To250_00_07 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-100To250_00_08 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-100To250_00_09 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-100To250_01_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-100To250_01_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-100To250_01_02 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-100To250_01_03 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-250To400_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-250To400_00_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-250To400_00_02 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-250To400_00_03 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-250To400_00_04 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-250To400_00_05 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-400To650_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-50To100_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-50To100_00_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-50To100_00_010 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-50To100_00_02 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-50To100_00_03 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-50To100_00_04 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-50To100_00_05 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-50To100_00_06 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-50To100_00_07 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-50To100_00_08 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-50To100_00_09 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-50To100_01_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-50To100_01_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-50To100_01_010 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-50To100_01_02 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-50To100_01_03 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-50To100_01_04 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-50To100_01_05 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-50To100_01_06 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-50To100_01_07 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-50To100_01_08 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-50To100_01_09 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-50To100_02_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-50To100_02_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-50To100_02_02 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-50To100_02_03 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau DYJetsToLL_Pt-650ToInf_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau EWKWMinus2Jets_WToLNu_M-50_TuneCP5_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau EWKWPlus2Jets_WToLNu_M-50_TuneCP5_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau EWKZ2Jets_ZToLL_M-50_TuneCP5_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau EWKZ2Jets_ZToNuNu_TuneCP5_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau GluGluHToTauTau_M125_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau GluGluHToWWTo2L2Nu_M125_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ST_t-channel_antitop_4f_inclusiveDecays_TuneCP5_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ST_t-channel_top_4f_inclusiveDecays_TuneCP5_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ST_t-channel_top_4f_inclusiveDecays_TuneCP5_00_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ST_tW_antitop_5f_inclusiveDecays_TuneCP5_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ST_tW_antitop_5f_inclusiveDecays_TuneCP5_00_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ST_tW_top_5f_inclusiveDecays_TuneCP5_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ST_tW_top_5f_inclusiveDecays_TuneCP5_00_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraB_00_00 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraB_00_01 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraB_00_02 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraB_00_03 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraB_00_04 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraB_00_05 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraB_01_00 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraB_01_01 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraB_01_02 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraB_01_03 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraB_02_00 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraB_02_01 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraB_03_00 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraB_03_01 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraB_04_00 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraB_04_01 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraB_05_00 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraB_05_01 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraB_06_00 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraB_06_01 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraB_07_00 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraB_08_00 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraB_08_01 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_00_00 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_00_01 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_00_010 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_00_02 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_00_03 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_00_04 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_00_05 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_00_06 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_00_07 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_00_08 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_00_09 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_01_00 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_01_01 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_01_010 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_01_02 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_01_03 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_01_04 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_01_05 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_01_06 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_01_07 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_01_08 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_01_09 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_02_00 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_02_01 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_02_010 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_02_02 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_02_03 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_02_04 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_02_05 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_02_06 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_02_07 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_02_08 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_02_09 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_03_00 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_03_01 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_03_02 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_03_03 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraC_03_04 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraD_00_00 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraD_00_01 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraD_00_010 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraD_00_02 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraD_00_03 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraD_00_04 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraD_00_05 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraD_00_06 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraD_00_07 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraD_00_08 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraD_00_09 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraD_01_00 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraD_01_01 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraD_01_02 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraD_01_03 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraD_01_04 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraD_01_05 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraD_01_06 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraD_01_07 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraD_01_08 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraE_00_00 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraE_00_01 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraE_00_010 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraE_00_02 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraE_00_03 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraE_00_04 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraE_00_05 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraE_00_06 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraE_00_07 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraE_00_08 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraE_00_09 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraE_01_00 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraE_01_01 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraE_01_010 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraE_01_02 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraE_01_03 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraE_01_04 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraE_01_05 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraE_01_06 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraE_01_07 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraE_01_08 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraE_01_09 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraE_02_00 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraE_02_01 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraE_02_02 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraE_02_03 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraE_02_04 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraE_02_05 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraE_02_06 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraE_02_07 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraE_02_08 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_00_00 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_00_01 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_00_010 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_00_02 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_00_03 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_00_04 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_00_05 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_00_06 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_00_07 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_00_08 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_00_09 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_01_00 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_01_01 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_01_010 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_01_02 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_01_03 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_01_04 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_01_05 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_01_06 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_01_07 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_01_08 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_01_09 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_02_00 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_02_01 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_02_010 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_02_02 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_02_03 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_02_04 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_02_05 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_02_06 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_02_07 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_02_08 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_02_09 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_03_00 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_03_01 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_03_02 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_03_03 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_03_04 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_03_05 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_03_06 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_03_07 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_03_08 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau SingleMuon_EraF_03_09 -1 1000 2017 DATA $outDir 
+./MakeCondorFiles.csh analyze_mutau TTTo2L2Nu_TuneCP5_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau TTTo2L2Nu_TuneCP5_00_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau TTToHadronic_TuneCP5_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau TTToHadronic_TuneCP5_00_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau TTToHadronic_TuneCP5_00_02 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau TTToHadronic_TuneCP5_00_03 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau TTToHadronic_TuneCP5_00_04 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau TTToHadronic_TuneCP5_00_05 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau TTToHadronic_TuneCP5_00_06 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau TTToSemiLeptonic_TuneCP5_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau TTToSemiLeptonic_TuneCP5_00_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau TTToSemiLeptonic_TuneCP5_00_02 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau TTToSemiLeptonic_TuneCP5_00_03 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau TTToSemiLeptonic_TuneCP5_00_04 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau TTToSemiLeptonic_TuneCP5_00_05 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau TTToSemiLeptonic_TuneCP5_00_06 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau TTToSemiLeptonic_TuneCP5_00_07 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau TTToSemiLeptonic_TuneCP5_00_08 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau VBFHToTauTau_M125_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau VBFHToWWTo2L2Nu_M125_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau VVTo2L2Nu_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau VVTo2L2Nu_00_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau VVTo2L2Nu_00_02 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau W1JetsToLNu_TuneCP5_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau W1JetsToLNu_TuneCP5_00_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau W1JetsToLNu_TuneCP5_00_02 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau W1JetsToLNu_TuneCP5_00_03 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau W1JetsToLNu_TuneCP5_00_04 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau W1JetsToLNu_TuneCP5_00_05 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau W1JetsToLNu_TuneCP5_00_06 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau W1JetsToLNu_TuneCP5_00_07 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau W2JetsToLNu_TuneCP5_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau W2JetsToLNu_TuneCP5_00_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau W3JetsToLNu_TuneCP5_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau W3JetsToLNu_TuneCP5_00_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau W3JetsToLNu_TuneCP5_00_02 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau W4JetsToLNu_TuneCP5_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau W4JetsToLNu_TuneCP5_00_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau WJetsToLNu_TuneCP5_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau WJetsToLNu_TuneCP5_00_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau WJetsToLNu_TuneCP5_00_02 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau WJetsToLNu_TuneCP5_00_03 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau WJetsToLNu_TuneCP5_00_04 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau WJetsToLNu_TuneCP5_00_05 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau WJetsToLNu_TuneCP5_00_06 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau WJetsToLNu_TuneCP5_00_07 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau WWTo1L1Nu2Q_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau WWToLNuQQ_NNPDF31_TuneCP5_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau WWToLNuQQ_NNPDF31_TuneCP5_00_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau WWW_4F_TuneCP5_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau WWZ_4F_TuneCP5_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau WW_TuneCP5_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau WZTo3LNu_TuneCP5_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau WZTo3LNu_TuneCP5_00_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau WZZ_TuneCP5_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau WZ_TuneCP5_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau WminusHToTauTau_M125_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau WplusHToTauTau_M125_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ZHToTauTau_M125_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ZJetsToNuNu_HT-100To200_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ZJetsToNuNu_HT-100To200_00_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ZJetsToNuNu_HT-100To200_00_02 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ZJetsToNuNu_HT-1200To2500_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ZJetsToNuNu_HT-200To400_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ZJetsToNuNu_HT-200To400_00_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ZJetsToNuNu_HT-200To400_00_02 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ZJetsToNuNu_HT-2500ToInf_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ZJetsToNuNu_HT-400To600_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ZJetsToNuNu_HT-400To600_00_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ZJetsToNuNu_HT-600To800_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ZJetsToNuNu_HT-800To1200_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ZZTo2L2Q_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ZZTo2L2Q_00_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ZZTo2L2Q_00_02 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ZZTo2L2Q_00_03 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ZZTo2L2Q_00_04 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ZZTo4L_TuneCP5_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ZZTo4L_TuneCP5_00_01 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ZZTo4L_TuneCP5_00_02 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ZZTo4L_TuneCP5_00_03 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ZZTo4L_TuneCP5_00_04 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ZZTo4L_TuneCP5_00_05 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ZZZ_TuneCP5_00_00 -1 1000 2017 MC $outDir 
+./MakeCondorFiles.csh analyze_mutau ZZ_TuneCP5_00_00 -1 1000 2017 MC $outDir 
