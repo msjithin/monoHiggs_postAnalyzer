@@ -271,7 +271,7 @@ legendNameList = {
   'TT_hist'    : 'ttabr',
   #'GluGluH_hist' : 'ggh, vbfH, ZH',
   'ST_t_hist' : 'SingleTop',
-  'VV_hist'    : 'SingleTop',
+  'VV_hist'    : 'Diboson',
   'otherMC_hist' : 'other MC',
   'ZJetsToNuNu_hist' : 'Z->nunu + jets'
 }

@@ -22,5 +22,11 @@ Workflow:
 - mu-tau dr > 0.5 ==> deeptau isolations are applied.  
 mu-tau dr < 0.5 ==> boostedTau isolations are applied.
 - `setMyEleTau()` function set the 4-vector of muon, tau, and related variables to be used for further selections. This function is in mutau_analyzer.h .
-- All applied functions are in `src/object_functions.h`.
+- All applied functions are in `src/object_functions.h`
 
+There is a processing step once all the root files are generated. 
+- Move all files to `output` directory.
+- execute  `bash execute_all.sh ` 
+- execute ` bash do_make_plots.sh ` to generate plots.
+
+[The plots can be viewd here : display_plots.html](https://htmlpreview.github.io/?https://github.com/msjithin/monoHiggs_postAnalyzer/blob/mutau_2017/display_plots.html)
