@@ -36,18 +36,18 @@ def getHistList(inFile, isblinded=False):
     for tdir in keyList:
         if "_fr" not in tdir: continue
         if "CMS_htt_boson" in tdir : continue
-        print ("\n "+tdir)
+        print("\n "+tdir)
 
-        data_dir  = tdir+'/'+'fullLumi_data_obs_'+tdir
+        data_dir  = tdir+'/'+'data_obs_'+tdir
         if isblinded:
-            data_dir  = tdir+'/'+'data_obs_'+tdir
-        print (" checking "+data_dir)
+            data_dir  = tdir+'/blinded_data_obs_'+tdir
+        print(" checking "+data_dir)
         if not inFile.Get(data_dir):
-            print ("################## No histogram for {} ".format(data_dir))
-            print ("################## check this please")
+            print("################## No histogram for {} ".format(data_dir))
+            print("################## check this please")
             continue
         jetFakes = inFile.Get(data_dir)
-        print (tdir+' integral  data_obs', jetFakes.Integral())
+        print(tdir+' integral  data_obs', jetFakes.Integral())
         for mc in mc_samples:
             tmppath = tdir+'/'+mc+'_'+tdir
             try:
@@ -55,7 +55,7 @@ def getHistList(inFile, isblinded=False):
                 jetFakes.Add(tmpHist, -1)
             except:
                 pass
-        print ('integral  jetFakes', jetFakes.Integral())
+        print('integral  jetFakes', jetFakes.Integral())
         tdir = tdir.replace('_fr', '')
         inFile.cd(tdir)
         jetFakes.SetName("jetFakes_"+tdir)
@@ -66,7 +66,7 @@ def getHistList(inFile, isblinded=False):
 
 def main(histogram, isblinded):
     if not path.exists("f_"+histogram+"_initial.root"):
-        print ("File doesnt exist for {} ".format(histogram))
+        print("File doesnt exist for {} ".format(histogram))
         exit()
 
     inFile_nominal= ROOT.TFile("f_"+histogram+"_initial.root","UPDATE")
@@ -85,15 +85,15 @@ if __name__=="__main__":
                     )
     args =  parser.parse_args()
     if args.hist is None:
-        print ("Specify histogram using --hist")
+        print("Specify histogram using --hist")
         exit()   
     else:
         histogram = args.hist
     if args.blinded:
-        print ("running blinded with 1/5th data")
+        print("running blinded with 1/5th data")
     else:
-        print ("running with full data")
-    print ('histogram = ' , histogram)
+        print("running with full data")
+    print('histogram = ' , histogram)
     isBlinded = False
     if args.blinded=='1' :
         isBlinded = True

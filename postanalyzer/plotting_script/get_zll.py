@@ -52,7 +52,7 @@ def getHistList(inFile):
         
         try:
             ZLL = inFile.Get(tdir+'/'+'ZTTjet_'+tdir)
-            print ('integral  ZLL', ZLL.Integral())
+            print('integral  ZLL', ZLL.Integral())
             #path = path.replace("_dyll", "")
             tdir = tdir.replace("_dyll", "")
             inFile.cd(tdir)
@@ -86,6 +86,6 @@ if __name__=="__main__":
         histogram = 'etau'
     else:
         histogram = args.hist
-    print ('histogram = ' , histogram)
+    print('histogram = ' , histogram)
     main(histogram)
 

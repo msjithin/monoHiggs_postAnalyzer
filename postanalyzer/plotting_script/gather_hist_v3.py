@@ -61,13 +61,13 @@ def getHistList(fname , channelName, idx):
             outFile.cd(channel)
             data.Write()
 
-            if inFile.Get(tdir+'/fullLumi_data_obs_'+tdir):
-                full_lumi_data = inFile.Get(tdir+'/fullLumi_data_obs_'+tdir)
-                full_lumi_data.SetName('fullLumi_data_obs')
+            if inFile.Get(tdir+'/blinded_data_obs_'+tdir):
+                full_lumi_data = inFile.Get(tdir+'/blinded_data_obs_'+tdir)
+                full_lumi_data.SetName('blinded_data_obs')
                 outFile.cd(channel)
                 full_lumi_data.Write()
             else:
-                print ("You didnt have full luminosity data")
+                print("You didnt have full luminosity data")
         for signal in signal_samples:
             if inFile.Get(tdir+'/'+signal+'_'+tdir) and '_fr' not in tdir:
                 signalhist = inFile.Get(tdir+'/'+signal+'_'+tdir)
@@ -91,7 +91,7 @@ def getHistList(fname , channelName, idx):
 
     inFile.Close()
     outFile.Close()
-    print ("Finished gathering from " + fname)
+    print("Finished gathering from " + fname)
 
 
 
@@ -116,4 +116,4 @@ else:
 for fname in file_list:
     getHistList(fname , channelName, idx )
     
-print ("Done")
+print("Done")

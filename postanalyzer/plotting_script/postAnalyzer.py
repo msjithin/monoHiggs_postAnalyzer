@@ -34,11 +34,11 @@ def getSaveName(histName):
 def getHistList(sampleName = "", hist_name="", idx=""):
     inFile= ROOT.TFile("../files_initial/"+sampleName,"r")
     keyList = inFile.GetKeyNames()
-    print ("{} histograms in file {}".format(sampleName, len(keyList)))
+    print("{} histograms in file {}".format(sampleName, len(keyList)))
     hist_mapping = { }
 
     search_str = hist_name+'_'+idx
-    print ('Searching for ',  search_str)
+    print('Searching for ',  search_str)
     
     for hist in keyList:
 
@@ -64,7 +64,7 @@ def make_files(sampleName = "", hist_name="", idx="", isBlinded=False):
     inFile= ROOT.TFile("../files_initial/"+sampleName,"r")
     nEventsHisto = inFile.Get("nEvents")
     if not isinstance(nEventsHisto, ROOT.TH1F):
-        print ('nEvents not found in ' "../files_initial/"+sampleName)
+        print('nEvents not found in ' "../files_initial/"+sampleName)
         return 
     nGeneratedEvents = nEventsHisto.GetBinContent(1)
     weight, saveName= lumi.get_lumiweight(sampleName[:-11], nGeneratedEvents, isBlinded)
@@ -95,11 +95,11 @@ def postAnalyzer(hist, idx, isBlinded):
     
     for infile in f_list:
         #check_integral(infile)
-        print (infile)
+        print(infile)
         if '.root' not in infile: continue
-        print ("Making root files for "+var_mapping[int(hist)])
+        print("Making root files for "+var_mapping[int(hist)])
         make_files(infile , var_mapping[int(hist)], idx, isBlinded)
-        print ('Done......................')
+        print('Done......................')
     
 
 if __name__=="__main__":
@@ -115,13 +115,13 @@ if __name__=="__main__":
                     )
     args =  parser.parse_args()
     if args.idx is None or args.hist is None:
-        print ("No index passed")
-        print ("USAGE : python postAnalyzer.py -hist 1 -idx 9 ")
+        print("No index passed")
+        print("USAGE : python postAnalyzer.py -hist 1 -idx 9 ")
         exit('No index passed..............')
     hist = args.hist
     idx = args.idx
     isBlinded = False
     if args.blinded=='1' :
         isBlinded = True
-    print (hist, idx, isBlinded)
+    print(hist, idx, isBlinded)
     postAnalyzer(hist, idx, isBlinded)

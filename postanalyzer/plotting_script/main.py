@@ -33,7 +33,7 @@ title_mapping= {
                 "metFull" : "MET", 
 }
 def get_idx():
-    print ("Choose index to select variable(s) to scale/plot ,  example -hist 4   or -hist 4,5,12,11")
+    print("Choose index to select variable(s) to scale/plot ,  example -hist 4   or -hist 4,5,12,11")
     for k, v in sorted(var_mapping.items(), key=lambda x : x[0]):
             print(" ##  hist {}  : {}".format(v, k))
 
@@ -43,7 +43,7 @@ def main(hist, idx, ch, isblinded):
     if hist >= 34 and hist<40 :
         for_combine = True
         hist = 32
-    print ('hist = ', hist, " : ", var_mapping[int(hist)])
+    print('hist = ', hist, " : ", var_mapping[int(hist)])
     bashCommandsA =  [ 
                     "echo running {} ".format(var_mapping[int(hist)]),
                     "bash remove_existingfiles.sh scaled_files {}".format(var_mapping[int(hist)]),
@@ -52,22 +52,22 @@ def main(hist, idx, ch, isblinded):
     bashCommandsB =  [      
                     "bash remove_existingfiles.sh agg_file {}".format(var_mapping[int(hist)]),
                     "hadd f_{i}_initial.root sample/*{i}.root".format(i=var_mapping[int(hist)]),
-                    "hadd f_{i}_up.root sample/*{i}_up.root".format(i=var_mapping[int(hist)]),
-                    "hadd f_{i}_down.root sample/*{i}_down.root".format(i=var_mapping[int(hist)]),             
+                    #"hadd f_{i}_up.root sample/*{i}_up.root".format(i=var_mapping[int(hist)]),
+                    #"hadd f_{i}_down.root sample/*{i}_down.root".format(i=var_mapping[int(hist)]),             
                     "python3 get_zll.py --hist {}".format(var_mapping[int(hist)]),
                     "python3 get_small_mc.py --hist {}".format(var_mapping[int(hist)]),
                     "python3 get_jetFakes.py --hist {} --blinded {}".format(var_mapping[int(hist)], isblinded),
-                    "python3 get_jetFakes_unc.py --hist {} --blinded {}".format(var_mapping[int(hist)], isblinded),
+                    #"python3 get_jetFakes_unc.py --hist {} --blinded {}".format(var_mapping[int(hist)], isblinded),
                      ]
     bashCommandsC =  [ 
                     "bash remove_existingfiles.sh agg_file {}".format(ch),
                     "hadd f_{}_initial.root sample/*tot_TMass_full.root".format(ch),
-                    "hadd f_{}_up.root sample/*tot_TMass_full_up.root".format(ch),
-                    "hadd f_{}_down.root sample/*tot_TMass_full_down.root".format(ch),                    
+                    #"hadd f_{}_up.root sample/*tot_TMass_full_up.root".format(ch),
+                    #"hadd f_{}_down.root sample/*tot_TMass_full_down.root".format(ch),                    
                     "python3 get_zll.py --hist {}".format(ch),
                     "python3 get_small_mc.py --hist {}".format(ch),
                     "python3 get_jetFakes.py --hist {} --blinded {}".format(ch, isblinded),
-                    "python3 get_jetFakes_unc.py --hist {} --blinded {}".format(ch, isblinded),
+                    #"python3 get_jetFakes_unc.py --hist {} --blinded {}".format(ch, isblinded),
                     "python3 gather_hist_v3.py",
                     "python3 gather_hist_v4.py"
                      ]
@@ -79,28 +79,29 @@ def main(hist, idx, ch, isblinded):
         bashCommands = bashCommandsA + bashCommandsB
     command = ' ; '.join(bashCommands)
     start = time.time()
-    print ("executing  |  " + command)
+    print("executing  |  " + command)
 
-    try:
-        process = subprocess.Popen(command , shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        while process.poll() is None:
-            print (process.stdout.readline())
-        process.communicate()
-    except KeyboardInterrupt:
-        print ("Got Keyboard interrupt"    )
-    # for command in bashCommands:
-    #     stream = popen(command)
-    #     print stream.communicate()
+    # try:
+    #     process = subprocess.Popen(command , shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    #     while process.poll() is None:
+    #         print(process.stdout.readline())
+    #     process.communicate()
+    # except KeyboardInterrupt:
+    #     print("Got Keyboard interrupt"    )
+    for cmd in bashCommands:
+        subprocess.check_call( cmd , shell=True)
+    
     end = time.time()
-    print ("Total time for executing = {} minutes ".format((end-start)//60))
-    print ("....Done.....")
+    print( 'Time for execution = ', round((end - start)/60, 1) ,'minutes' )
+    print("Total time for executing = {} minutes ".format((end-start)//60))
+    print("....Done.....")
 
 if __name__=="__main__":
 
     parser = argparse.ArgumentParser()
     get_idx()
-    print (" ")
-    print ("Usage : python main.py --hist 1 --idx 9 --ch etau --y 2017")
+    print(" ")
+    print("Usage : python main.py --hist 1 --idx 9 --ch etau --y 2017")
     parser.add_argument("-hist",
                     help="index of histogram to be plotted,  example -h 4   or -idx 4,5,12,11 ")       
     parser.add_argument("-idx",
@@ -118,10 +119,10 @@ if __name__=="__main__":
     args =  parser.parse_args()
     idx = ''
     if args.y is None:
-        print ("Specify year, 2016,2017,2018")
+        print("Specify year, 2016,2017,2018")
         exit()     
     if args.ch is None:
-        print ("Specify channel name etau, mutau or tautau")
+        print("Specify channel name etau, mutau or tautau")
         exit()    
     
     if args.idx is None:
@@ -129,12 +130,12 @@ if __name__=="__main__":
             idx = '9b'
         else:
             idx = '9'
-        print ("No index passed, Specify selection index " +idx)
+        print("No index passed, Specify selection index " +idx)
     else:
         idx = args.idx
 
     if args.hist is None:
-        print ("Specify histogram index ")
+        print("Specify histogram index ")
         exit()
     channel = args.ch
     #print int(args.hist), idx, channel, args.blinded

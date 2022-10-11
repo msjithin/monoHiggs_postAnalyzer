@@ -38,15 +38,15 @@ def getHistList(inFile, isblinded=False):
         #if "_9" not in tdir: continue
         if "CMS_htt_boson" in tdir : continue
         # if "tauh_ID" not in tdir : continue
-        print ('\n***************************     tdir  =  ', tdir)
-        data_dir  = tdir+'/'+'fullLumi_data_obs_'+tdir
+        print('\n***************************     tdir  =  ', tdir)
+        data_dir  = tdir+'/'+'data_obs_'+tdir
         if isblinded:
-            data_dir  = tdir+'/'+'data_obs_'+tdir
-        print (" checking "+data_dir)
+            data_dir  = tdir+'/blinded_data_obs_'+tdir
+        print(" checking "+data_dir)
 
         jetFakes = inFile.Get(data_dir).Clone()
         #jetFakes.Reset("ICES")
-        print ('data integral = ', jetFakes.Integral())
+        print('data integral = ', jetFakes.Integral())
         for mc in mc_samples:
             tmppath = tdir+'/'+mc+'_'+tdir
             tmpHist = inFile.Get(tmppath)
@@ -54,10 +54,10 @@ def getHistList(inFile, isblinded=False):
             #print '             intergal = ', tmpHist.Integral()
             jetFakes.Add(tmpHist, -1)
             
-        print ('integral  jetFakes', jetFakes.Integral())
+        print('integral  jetFakes', jetFakes.Integral())
         inFile.cd(tdir)
         jetFakes.SetName("jetFakes_"+tdir)
-        print ("hist written to ", tdir , "jetFakes_"+tdir)
+        print("hist written to ", tdir , "jetFakes_"+tdir)
         jetFakes.Write()
         # for plotting
         # tdir = tdir.replace('_fr', '')
@@ -89,15 +89,15 @@ if __name__=="__main__":
                     )
     args =  parser.parse_args()
     if args.hist is None:
-        print ("Specify histogram using --hist")
+        print("Specify histogram using --hist")
         exit()   
     else:
         histogram = args.hist
     if args.blinded:
-        print ("running blinded with 1/5th data")
+        print("running blinded with 1/5th data")
     else:
-        print ("running with full data")
-    print ('histogram = ' , histogram)
+        print("running with full data")
+    print('histogram = ' , histogram)
     isBlinded = False
     if args.blinded=='1' :
         isBlinded = True
