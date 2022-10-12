@@ -37,7 +37,8 @@ def getHistList(sampleName = "", hist_name="", idx=""):
     print("{} histograms in file {}".format(sampleName, len(keyList)))
     hist_mapping = { }
 
-    search_str = hist_name+'_'+idx
+    #search_str = hist_name+'_'+idx
+    search_str = hist_name
     print('Searching for ',  search_str)
     
     for hist in keyList:

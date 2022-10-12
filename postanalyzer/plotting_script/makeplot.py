@@ -290,6 +290,17 @@ l2.Draw("same")
 l3=add_Preliminary()
 l3.Draw("same")
 
+selection_mapping = {
+  "5" : ["preselection", "", "", ""], 
+  "6" : ["preselection", "", "", ""], 
+  "7" : ["preselection", "+ Higgs pT >65", "", ""],
+  "8" : ["preselection", "+ Higgs pT >65", "+ visible mass<125", ""],
+  "9" : ["preselection", "+ Higgs pT >65", "+ visible mass<125", "+ met > 105"],
+}
+selection_idx = histoname.split("_")[-1]
+selection_label = add_text(text=selection_mapping[selection_idx])
+selection_label.Draw("same")
+
 pad1.RedrawAxis()
 #print "Line 217 is okay"
 
@@ -307,7 +318,23 @@ h1.SetMarkerSize(2.0)
 h1.SetStats(0)
 h1.Divide(hwoE)
 h3.Divide(hwoE)
-h1.GetXaxis().SetTitle(xaxis_label)
+
+label_mapping = {
+  
+  "muPt" : "muon pT [GeV]",
+  "tauPt" : "tau pT [GeV]",
+  "met"   : "MET [GeV]" ,
+  "higgsPt" : "higgs pT [GeV]",
+  "mT_muMet" : "#mu-met transverse mass [GeV]",
+  "metLongXaxis" : "met [GeV]",
+  "visMass" : "#mu-#tau visible mass [GeV]",
+  "nJet" : "number of Jets",
+  
+  
+}
+
+
+h1.GetXaxis().SetTitle(label_mapping[xaxis_label])
 h1.SetMarkerColor(1)
 h1.SetLineColor(1)
 h1.SetTitle("")

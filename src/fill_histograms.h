@@ -35,7 +35,20 @@ void mutau_analyzer::fillHist( string histNumber , int muIndex, int tauIndex, bo
   // double mT_muMet = TMass_F( my_muP4.Pt(),my_muP4.Phi(), my_metP4.Pt(), my_metP4.Phi() );
   plotFill("mT_muMet_"+hNumber, mT_muMet , 20, 0, 200,event_weight);
 
+  //double visMass_mutau = (muP4+ tauP4).M();
+  plotFill("visMass_"+hNumber, visMass_mutau , 30, 50, 200,  event_weight);
+  
+  //double HiggsPt = (my_muP4 + my_tauP4).Pt();
+  plotFill("higgsPt_"+hNumber,HiggsPt ,  40, 0, 400,  event_weight);
 
+  //double delpta_phi_HptMet = (muP4+tauP4+MET_P4).DeltaPhi(MET_P4);
+  plotFill("delptaPhi_HptMet_"+hNumber, delpta_phi_HptMet , 30, -3.14, 3.14,  event_weight);
+  
+  //double tot_tr_mass = (muP4 + tauP4 + MET_P4 ).M();
+  plotFill("tot_TMass_"+hNumber, tot_tr_mass , 16, 40, 200,  event_weight);
+  if (tot_tr_mass >= 2000) tot_tr_mass = 1900;
+  float TrMassBins[13]={ 40, 60, 90, 120, 150, 180, 210, 235, 260, 285, 325, 400, 2000};
+  plotFill_customBinning("tot_TMass_full_"+hNumber, tot_tr_mass , 12, TrMassBins,  event_weight);
 }
 
 void mutau_analyzer::fillHist_nominal(string histNumber, float event_weight){

@@ -24,7 +24,7 @@ var_mapping = { 1: "elePt" ,     2:"eleEta",          3:"elePhi" ,
                 43: "muMass_new",44: "tauMass_new", 
                 45:"met_new",    46:"visMass_new",
                 47:"higgsPt_new" , 48:"visMass_met_new", 49:"higgsPt_met_new",
-                50: "muMetTMassFull",
+                50: "muMetTMassFull", 51 : "mT_muMet"
                 }
 
 title_mapping= {
@@ -46,7 +46,7 @@ def main(hist, idx, ch, isblinded):
     print('hist = ', hist, " : ", var_mapping[int(hist)])
     bashCommandsA =  [ 
                     "echo running {} ".format(var_mapping[int(hist)]),
-                    "bash remove_existingfiles.sh scaled_files {}".format(var_mapping[int(hist)]),
+                    #"bash remove_existingfiles.sh scaled_files {}".format(var_mapping[int(hist)]),
                     "python3 postAnalyzer.py --hist {} --idx {} --blinded {}".format(hist, idx, isblinded),
                      ]
     bashCommandsB =  [      

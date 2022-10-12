@@ -55,16 +55,16 @@ void mutau_analyzer::selections(float weight, int shift, string uncObject)
       fillHist("3", MuIndex, TauIndex, false, event_weight);
 
       applySf = 1.0;
-			if (is_MC)
-				applySf = getScaleFactors(my_muP4.Pt(),
-										  my_tauP4.Pt(),
-										  my_muP4.Eta(),
-										  my_tauP4.Eta(),
-										  tauDecayMode,
-										  my_genmatching_l2,
-										  false /// this is set to true for fake bakground
-				);
-			event_weight = event_weight * applySf;
+      if (is_MC)
+	applySf = getScaleFactors(my_muP4.Pt(),
+				  my_tauP4.Pt(),
+				  my_muP4.Eta(),
+				  my_tauP4.Eta(),
+				  tauDecayMode,
+				  my_genmatching_l2,
+				  false /// this is set to true for fake bakground
+				  );
+      event_weight = event_weight * applySf;
 
       fillHist("4", MuIndex, TauIndex, false, event_weight);
       if (thirdLeptonVeto())
@@ -116,32 +116,32 @@ void mutau_analyzer::selections(float weight, int shift, string uncObject)
     {
       setMyEleTau(mu_index, tau_index, metP4, shift, isBoostedtau);
       double frac_tt = 0.01;
-			double frac_qcd = 0.24;
-			double frac_w = 0.75;
-			int category = eventCategory(MuIndex, TauIndex, HiggsPt);
-			getFractions(category, visMass_mutau, frac_qcd, frac_w, frac_tt); /// this assigns right values for qcd, w and tt fractions
-			bool xtrg = false;
-			if (passCrossTrigger && my_muP4.Pt() <= 25.0)
-				xtrg = true;
-			else if (my_muP4.Pt() > 28.0)
-				xtrg = false;
-			double jetTau_FF = FF_weights_withlpt.get_ff(my_tauP4.Pt(), mT_muMet, visMass_mutau, 0, my_muP4.Pt(), my_metP4.Pt(), my_njets, xtrg, frac_tt, frac_qcd, frac_w, TString(" "));
+      double frac_qcd = 0.24;
+      double frac_w = 0.75;
+      int category = eventCategory(MuIndex, TauIndex, HiggsPt);
+      getFractions(category, visMass_mutau, frac_qcd, frac_w, frac_tt); /// this assigns right values for qcd, w and tt fractions
+      bool xtrg = false;
+      if (passCrossTrigger && my_muP4.Pt() <= 25.0)
+	xtrg = true;
+      else if (my_muP4.Pt() > 28.0)
+	xtrg = false;
+      double jetTau_FF = FF_weights_withlpt.get_ff(my_tauP4.Pt(), mT_muMet, visMass_mutau, 0, my_muP4.Pt(), my_metP4.Pt(), my_njets, xtrg, frac_tt, frac_qcd, frac_w, TString(" "));
 
-			event_weight = event_weight * jetTau_FF;
+      event_weight = event_weight * jetTau_FF;
 
       fillHist("3_fr", MuIndex, TauIndex, true, event_weight);
 
       applySf = 1.0;
-			if (is_MC)
-				applySf = getScaleFactors(my_muP4.Pt(),
-										  my_tauP4.Pt(),
-										  my_muP4.Eta(),
-										  my_tauP4.Eta(),
-										  tauDecayMode,
-										  my_genmatching_l2,
-										  true /// this is set to true for fake bakground
-				);
-			event_weight = event_weight * applySf;
+      if (is_MC)
+	applySf = getScaleFactors(my_muP4.Pt(),
+				  my_tauP4.Pt(),
+				  my_muP4.Eta(),
+				  my_tauP4.Eta(),
+				  tauDecayMode,
+				  my_genmatching_l2,
+				  true /// this is set to true for fake bakground
+				  );
+      event_weight = event_weight * applySf;
 
       fillHist("4_fr", MuIndex, TauIndex, true, event_weight);
       if (thirdLeptonVeto())
