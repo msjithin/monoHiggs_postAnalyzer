@@ -119,7 +119,25 @@ VV_hist      = OutFile.Get(dirname[0]+"VVT_"+histoname)
 otherMC_hist  = OutFile.Get(dirname[0]+"otherMC_"+histoname)
 jetFakes_hist = OutFile.Get(dirname[0]+"jetFakes_"+histoname)
 
+if 'deltaR' in histoname:
+  Data_hist = Data_hist.Rebin(5, dirname[0]+"data_obs_"+histoname)
+  Wjets_hist = Wjets_hist.Rebin(5, dirname[0]+"WJets_jets_"+histoname)
+  jetFakes_hist = jetFakes_hist.Rebin(5, dirname[0]+"jetFakes_"+histoname)
+  ZTT_hist = ZTT_hist.Rebin(5, dirname[0]+"ZTTjet_"+histoname)
+  TT_hist = TT_hist.Rebin(5, dirname[0]+"TT_"+histoname)
+  ST_t_hist = ST_t_hist.Rebin(5, dirname[0]+"STT_"+histoname)
+  VV_hist = VV_hist.Rebin(5, dirname[0]+"VVT_"+histoname)
+  otherMC_hist = otherMC_hist.Rebin(5, dirname[0]+"otherMC_"+histoname)
 
+  Data_hist.GetXaxis().SetRangeUser(0, 1.0) 
+  Wjets_hist.GetXaxis().SetRangeUser(0, 1.0) 
+  jetFakes_hist.GetXaxis().SetRangeUser(0, 1.0) 
+  ZTT_hist.GetXaxis().SetRangeUser(0, 1.0) 
+  TT_hist.GetXaxis().SetRangeUser(0, 1.0) 
+  ST_t_hist.GetXaxis().SetRangeUser(0, 1.0) 
+  VV_hist.GetXaxis().SetRangeUser(0, 1.0) 
+  otherMC_hist.GetXaxis().SetRangeUser(0, 1.0) 
+  
 sampleList    = [Data_hist,    ZTT_hist,  TT_hist,   ST_t_hist, VV_hist, otherMC_hist, jetFakes_hist ]
 sampleListRef = ['Data_hist', 'ZTT_hist',  'TT_hist', 'ST_t_hist', 'VV_hist', 'otherMC_hist', 'jetFakes_hist']
 
@@ -132,6 +150,8 @@ TT_hist.SetFillColor(ROOT.TColor.GetColor(color_tt))
 ST_t_hist.SetFillColor(ROOT.TColor.GetColor(color_ggh))
 VV_hist.SetFillColor(ROOT.TColor.GetColor(color_vv))
 otherMC_hist.SetFillColor(ROOT.TColor.GetColor(color_vv))
+
+
 
 
 for i in range(len(sampleList)):
@@ -329,7 +349,7 @@ label_mapping = {
   "metLongXaxis" : "met [GeV]",
   "visMass" : "#mu-#tau visible mass [GeV]",
   "nJet" : "number of Jets",
-  
+  "deltaR" : "#mu-#tau deltaR"
   
 }
 

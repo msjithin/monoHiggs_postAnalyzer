@@ -36,7 +36,7 @@ Requirements = ( OpSysAndVer == "CENTOS7" && TARGET.Arch == "X86_64" && (MY.Requ
 on_exit_remove       = (ExitBySignal == FALSE && (ExitCode == 0 || ExitCode == 42 || NumJobStarts>3))
 +IsFastQueueJob      = True
 getenv               = True
-request_memory       = 8G
+request_memory       = 2G
 request_disk         = 8G
 
 #OutputDestination = ${outdir}

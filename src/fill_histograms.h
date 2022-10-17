@@ -21,7 +21,7 @@ void mutau_analyzer::fillHist( string histNumber , int muIndex, int tauIndex, bo
   plotFill("tauAntiEle_"+hNumber, tauAntiEle, 8, -2, 2,  event_weight );
   plotFill("tauAntiMu_"+hNumber,  tauAntiMu, 8, -2, 2 ,  event_weight);
   // double deltaR = my_muP4.DeltaR(my_tauP4);
-  plotFill("deltaR_"+hNumber, deltaR , 40, 0, 6,  event_weight);
+  plotFill("deltaR_"+hNumber, deltaR , 10, 0, 1,  event_weight);
   // double deltaPhi = DeltaPhi(muPhi->at(muIndex), tau_Phi->at(tauIndex));
   // double deltaEta = fabs(muEta->at(muIndex) - tau_Eta->at(tauIndex));
   plotFill("deltaPhi_"+hNumber, deltaPhi , 30, -3.14, 3.14,  event_weight);
@@ -49,6 +49,10 @@ void mutau_analyzer::fillHist( string histNumber , int muIndex, int tauIndex, bo
   if (tot_tr_mass >= 2000) tot_tr_mass = 1900;
   float TrMassBins[13]={ 40, 60, 90, 120, 150, 180, 210, 235, 260, 285, 325, 400, 2000};
   plotFill_customBinning("tot_TMass_full_"+hNumber, tot_tr_mass , 12, TrMassBins,  event_weight);
+
+  plotFill("isBoosted_"+hNumber, isBoostedtau , 4, 0, 2,  event_weight);
+
+
 }
 
 void mutau_analyzer::fillHist_nominal(string histNumber, float event_weight){

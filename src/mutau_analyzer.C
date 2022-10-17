@@ -194,7 +194,7 @@ void mutau_analyzer::Loop(Long64_t maxEvents, int reportEvery, string SampleName
     double weight = 1.0;
     double pileup_sf = 1.0;
     double applySf = 1.0;
-    bool passSingleTriggerPaths = false;
+    bool passMetTrigger = false;
     bool passCrossTrigger = false;
     int report_i = 0;
     bool Ztt_selector = false;
@@ -215,10 +215,9 @@ void mutau_analyzer::Loop(Long64_t maxEvents, int reportEvery, string SampleName
     tbar_index = get_tbar_Cand();
 
     /////Trigger bit selection
-    if (HLTEleMuX >> 21 & 1 == 1 || HLTEleMuX >> 60 & 1 == 1)
-      passSingleTriggerPaths = true;
-    if (HLTTau >> 0 & 1 == 1)
-      passCrossTrigger = true;
+    if ( HLTMet >> 0 & 1 == 1 || HLTMet >> 1 & 1 == 1)
+      passMetTrigger = true;
+
     ////
 
     /////
@@ -238,7 +237,7 @@ void mutau_analyzer::Loop(Long64_t maxEvents, int reportEvery, string SampleName
     // if (found_ZprimeBaryonic==true )
     // 	plotFill("nEvents_ZpB", zprimeBaryonic_signal, 50, 0, 50,  1.0);
 
-    if (metFilters == 0 && (passSingleTriggerPaths || passCrossTrigger))
+    if (metFilters == 0 && (passMetTrigger))
     {
       eventNumber = jentry;
       nSingleTrgPassed += event_weight;

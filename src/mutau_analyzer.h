@@ -203,7 +203,7 @@ public:
   double HiggsPt;
   double delpta_phi_HptMet;
   double tot_tr_mass;
-
+  bool isBoostedtau;
   bool debug;
   bool check_unc;
   string stage;
@@ -1423,7 +1423,7 @@ void mutau_analyzer::Init(TChain *tree, string _isMC_, string sampleName)
   HiggsPt = 0 ;
   delpta_phi_HptMet = 0 ;
   tot_tr_mass = 0 ;
-
+  isBoostedtau = false;
 
   make_iso_plot = false;
    plot_boosted  = false;
