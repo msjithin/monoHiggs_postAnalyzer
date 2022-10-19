@@ -30,3 +30,18 @@ There is a processing step once all the root files are generated.
 - execute ` bash do_make_plots.sh ` to generate plots.
 
 [The plots can be viewd here : display_plots.html](https://htmlpreview.github.io/?https://github.com/msjithin/monoHiggs_postAnalyzer/blob/mutau_2017/display_plots.html)
+
+
+Selections:
+- Trigger : HLT_PFMET120_PFMHT120_IDTight_PFHT60_v, HLT_PFMET120_PFMHT120_IDTight_v
+- Muons : pt > 20 , eta < 2.4
+    - medium muon id
+- Taus :  pt> 30 , eta < 2.3 
+    - boosted Medium Isolation
+    - boosted Loose electron rejection
+    - boosted loose muon rejection
+- mu-tau opposite charge
+- mu-tau deltaR < 0.5
+- Higgs pt > 65
+- mu-tau visible mass < 125
+- MET > 105
