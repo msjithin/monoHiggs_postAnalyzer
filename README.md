@@ -6,7 +6,7 @@ All scripts are in directory `src`.
 
 I use `runAnalyzer.sh` for running interactively and locally.
 Use `python step1_makeSubmitFile.py` to genertae submit file for all MC and data.  
-This will generate `submit_condor.sh`
+This will generate `samples.txt` and `samples_signal.txt`. The file `submit_condor.sh` uses these scripts to submit to condor.
 
 To submit all jobs:  
 `bash submit_condor.sh`
