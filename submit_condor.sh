@@ -1,5 +1,6 @@
 #!/bin/sh
 
+./rootcom mutau_analyzer analyze_mutau
 
 currentDir=${PWD}
 outDir="Out_$(date +"%d-%m-%Y_%H-%M")"
@@ -23,7 +24,7 @@ request_disk         = 2G
 #OutputDestination = 
 #Initialdir = Out_         
 arguments = \$(my_executable) \$(sample) \$(year)
-Transfer_Input_Files = ${currentDir}/samples.txt , /nfs_scratch/jmadhusu/CMSSW_10_2_10/src/sf_files , ${currentDir}/analyze_mutau
+Transfer_Input_Files = ${currentDir}/samples.txt , /nfs_scratch/jmadhusu/CMSSW_10_2_10/src/sf_files , ${currentDir}/\$(my_executable)
 
 output               = $outDir/\$(Cluster)_\$(Process)_\$(sample).out
 error                = $outDir/\$(Cluster)_\$(Process)_\$(sample).err
@@ -33,3 +34,31 @@ EOF
 
 
 condor_submit condor_job
+
+cat > condor_job_signal<<EOF
+x509userproxy = /tmp/x509up_u4548
+universe = vanilla
+Executable = job_queue_signal.sh
+Notification         = never
+WhenToTransferOutput = On_Exit
+ShouldTransferFiles  = yes
+Requirements = ( OpSysAndVer == "CENTOS7" && TARGET.Arch == "X86_64" && (MY.RequiresSharedFS=!=true || TARGET.HasAFS_OSG) && (TARGET.HAS_OSG_WN_CLIENT =?= TRUE || TARGET.IS_GLIDEIN=?=true) && IsSlowSlot=!=true)
+on_exit_remove       = (ExitBySignal == FALSE && (ExitCode == 0 || ExitCode == 42 || NumJobStarts>3))
++IsFastQueueJob      = True
+getenv               = True
+request_memory       = 2G
+request_disk         = 2G
+
+#OutputDestination = 
+#Initialdir = Out_         
+arguments = \$(my_executable) \$(sample) \$(year)
+Transfer_Input_Files = ${currentDir}/samples.txt , /nfs_scratch/jmadhusu/CMSSW_10_2_10/src/sf_files , ${currentDir}/\$(my_executable)
+
+output               = $outDir/\$(Cluster)_\$(Process)_\$(sample).out
+error                = $outDir/\$(Cluster)_\$(Process)_\$(sample).err
+Log                  = $outDir/\$(Cluster)_\$(Process)_\$(sample).log
+Queue my_executable,sample,year from samples_signal.txt 
+EOF
+
+
+condor_submit condor_job_signal
