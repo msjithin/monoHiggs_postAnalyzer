@@ -3,28 +3,40 @@ import re
 
 
 samples = sorted(os.listdir('/hdfs/store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/hadd/'))
-outFile = open("submit_condor.sh", "w")
-outFile.write("""
-./rootcom mutau_analyzer analyze_mutau
-outDir="Out_$(date +"%d-%m-%Y_%H-%M")" 
-mkdir $outDir 
 
-""")
+# crate data and mc list in samples.txt
+outFile = open("samples.txt", "w")
 
 for line in samples:
     line = line.strip().replace('.root', '')
     # outFile.write('mkdir -p /hdfs/store/user/jmadhusu/with_boostedtau/2017_skimmed/analyzer/mutau/'+line+' \n')
-    if 'SingleMuon' in line:
-      line = "./MakeCondorFiles.csh analyze_mutau "+ line + " -1 1000 2017 DATA $outDir \n"
+    if 'SingleMuon' in line or 'blinded' in line:
+        continue
+    if 'MET' in line:
+      line = "analyze_mutau "+ line + " DATA \n"
     else:
-      line = "./MakeCondorFiles.csh analyze_mutau "+ line + " -1 1000 2017 MC $outDir \n"
+      line = "analyze_mutau "+ line + " MC \n"
   
     outFile.write(line)
-    
+   
 outFile.close()
-print """
-created submit_condor.sh
-do 
-  bash submit_condor.sh
 
-"""
+# crate signal list in sample_signal.txt
+outFile = open("samples_signal.txt", "w")
+samples = sorted(os.listdir('/hdfs/store/user/jmadhusu/with_boostedtau/2017_skimmed/with_boostedtaus/signal/'))
+
+for line in samples:
+    if '.root' not in line[-6:]:
+      continue
+    line = line.strip().replace('.root', '')
+    line = "analyze_mutau "+ line + " MC \n"
+  
+    outFile.write(line)
+     
+outFile.close()
+print ("""
+
+samples.txt created
+samples_signal.txt created
+
+""")
